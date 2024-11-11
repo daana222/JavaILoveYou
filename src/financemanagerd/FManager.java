@@ -409,7 +409,7 @@ public class FManager extends javax.swing.JFrame {
                 {null, null, null, null, null, null, null}
             },
             new String [] {
-                "Supplier ID", "P.O Number", "Units Sent", "Units Received", "Total Amount", "Status", "Due Date"
+                "Supplier ID", "P.O ID", "Units Sent", "Units Received", "Total Amount", "Status", "Due Date"
             }
         ));
         jTable4.addMouseListener(new java.awt.event.MouseAdapter() {
