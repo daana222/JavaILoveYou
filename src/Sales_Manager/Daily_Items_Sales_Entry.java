@@ -75,7 +75,7 @@ public class Daily_Items_Sales_Entry extends javax.swing.JFrame {
         });
 
         jButton1.setText("List of Items");
-        jButton1.setName("btnListofItems1"); // NOI18N
+        jButton1.setName("btnListofItems2"); // NOI18N
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
@@ -83,7 +83,7 @@ public class Daily_Items_Sales_Entry extends javax.swing.JFrame {
         });
 
         jButton2.setText("Daily Item Sales Entry");
-        jButton2.setName("btnDailyItemSalesEntry1"); // NOI18N
+        jButton2.setName("btnDailyItemSalesEntry2"); // NOI18N
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton2ActionPerformed(evt);
@@ -91,21 +91,21 @@ public class Daily_Items_Sales_Entry extends javax.swing.JFrame {
         });
 
         jButton3.setText("Sales Report");
-        jButton3.setName("btnSalesReport1"); // NOI18N
+        jButton3.setName("btnSalesReport2"); // NOI18N
 
         jButton4.setText("Stock Level");
-        jButton4.setName("btnStockLevel1"); // NOI18N
+        jButton4.setName("btnStockLevel2"); // NOI18N
         jButton4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton4ActionPerformed(evt);
             }
         });
 
-        jButton5.setText("Create Requisiiton");
-        jButton5.setName("btnCreateRequisition1"); // NOI18N
+        jButton5.setText("Create Requisiton");
+        jButton5.setName("btnCreateRequisition2"); // NOI18N
 
         jButton6.setText("List of PO");
-        jButton6.setName("btnListofPO1"); // NOI18N
+        jButton6.setName("btnListofPO2"); // NOI18N
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -174,10 +174,12 @@ public class Daily_Items_Sales_Entry extends javax.swing.JFrame {
 
         jLabel4.setText("Date:");
 
+        jTextPane3.setName("txtDate"); // NOI18N
         jScrollPane4.setViewportView(jTextPane3);
 
         jLabel5.setText("Quantity Sold:");
 
+        jTextPane4.setName("txtQuantitySold"); // NOI18N
         jScrollPane5.setViewportView(jTextPane4);
 
         jButton8.setText("Add");
