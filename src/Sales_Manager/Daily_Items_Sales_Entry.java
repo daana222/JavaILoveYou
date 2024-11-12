@@ -92,6 +92,11 @@ public class Daily_Items_Sales_Entry extends javax.swing.JFrame {
 
         jButton3.setText("Sales Report");
         jButton3.setName("btnSalesReport2"); // NOI18N
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         jButton4.setText("Stock Level");
         jButton4.setName("btnStockLevel2"); // NOI18N
@@ -103,9 +108,19 @@ public class Daily_Items_Sales_Entry extends javax.swing.JFrame {
 
         jButton5.setText("Create Requisiton");
         jButton5.setName("btnCreateRequisition2"); // NOI18N
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
 
         jButton6.setText("List of PO");
         jButton6.setName("btnListofPO2"); // NOI18N
+        jButton6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton6ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -292,20 +307,46 @@ public class Daily_Items_Sales_Entry extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
-        // TODO add your handling code here:
+        Main_Dashboard maindashboardFrame = new Main_Dashboard();
+        maindashboardFrame.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_jButton7ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
+        List_Of_Items listofitemsFrame = new List_Of_Items();
+        listofitemsFrame.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
+        Daily_Items_Sales_Entry dailyitemsalesentryFrame = new Daily_Items_Sales_Entry();
+        dailyitemsalesentryFrame.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        // TODO add your handling code here:
+        Stock_Level stocklevelFrame = new Stock_Level();
+        stocklevelFrame.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        Sales_Report salesreportFrame = new Sales_Report();
+        salesreportFrame.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        Create_Requisition createrequisitionFrame = new Create_Requisition();
+        createrequisitionFrame.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_jButton5ActionPerformed
+
+    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+        List_Po listpoFrame = new List_Po();
+        listpoFrame.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_jButton6ActionPerformed
 
     /**
      * @param args the command line arguments
