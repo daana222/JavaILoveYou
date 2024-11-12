@@ -280,6 +280,11 @@ public class Sales_Report extends javax.swing.JFrame {
 
         jButton12.setText("Sales Report");
         jButton12.setName("btnSalesReport5"); // NOI18N
+        jButton12.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton12ActionPerformed(evt);
+            }
+        });
 
         jButton13.setText("Stock Level");
         jButton13.setName("btnStockLevel5"); // NOI18N
@@ -291,9 +296,19 @@ public class Sales_Report extends javax.swing.JFrame {
 
         jButton14.setText("Create Requisiton");
         jButton14.setName("btnCreateRequisition5"); // NOI18N
+        jButton14.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton14ActionPerformed(evt);
+            }
+        });
 
         jButton15.setText("List of PO");
         jButton15.setName("btnListofPO5"); // NOI18N
+        jButton15.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton15ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -432,24 +447,50 @@ public class Sales_Report extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
-        // TODO add your handling code here:
+        Main_Dashboard maindashboardFrame = new Main_Dashboard();
+        maindashboardFrame.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_jButton9ActionPerformed
 
     private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
-        // TODO add your handling code here:
+        List_Of_Items listofitemsFrame = new List_Of_Items();
+        listofitemsFrame.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_jButton10ActionPerformed
 
     private void jButton11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton11ActionPerformed
-        // TODO add your handling code here:
+        Daily_Items_Sales_Entry dailyitemsalesentryFrame = new Daily_Items_Sales_Entry();
+        dailyitemsalesentryFrame.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_jButton11ActionPerformed
 
     private void jButton13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton13ActionPerformed
-        // TODO add your handling code here:
+        Stock_Level stocklevelFrame = new Stock_Level();
+        stocklevelFrame.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_jButton13ActionPerformed
 
     private void jButton16ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton16ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton16ActionPerformed
+
+    private void jButton12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton12ActionPerformed
+        Sales_Report salesreportFrame = new Sales_Report();
+        salesreportFrame.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_jButton12ActionPerformed
+
+    private void jButton14ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton14ActionPerformed
+        Create_Requisition createrequisitionFrame = new Create_Requisition();
+        createrequisitionFrame.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_jButton14ActionPerformed
+
+    private void jButton15ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton15ActionPerformed
+        List_Po listpoFrame = new List_Po();
+        listpoFrame.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_jButton15ActionPerformed
 
     /**
      * @param args the command line arguments
