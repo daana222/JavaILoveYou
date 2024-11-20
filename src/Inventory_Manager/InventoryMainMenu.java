@@ -4,9 +4,6 @@
  */
 package Inventory_Manager;
 
-import InventoryManager.ItemInventory;
-import InventoryManager.StocklevelInventory;
-import InventoryManager.SupplierInventory;
 
 /**
  *
