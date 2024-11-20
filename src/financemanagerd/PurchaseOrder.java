@@ -1,13 +1,11 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
+
 package financemanagerd;
 
-/**
- *
- * @author Mitsu
- */
+import javax.swing.table.DefaultTableModel;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+
 public class PurchaseOrder extends javax.swing.JFrame {
 
     /**
@@ -17,6 +15,7 @@ public class PurchaseOrder extends javax.swing.JFrame {
         initComponents();
         setSize(890, 500);
         setLocationRelativeTo(null); // Center the frame
+        
     }
 
     /**
@@ -199,6 +198,21 @@ public class PurchaseOrder extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+        private void loadDataFromFile(String filePath) {
+        DefaultTableModel model = (DefaultTableModel) POmaintable.getModel();
+        try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                // Assuming the file has data separated by commas
+                String[] rowData = line.split(",");
+                model.addRow(rowData);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            javax.swing.JOptionPane.showMessageDialog(this, "Error reading the file: " + e.getMessage());
+        }
+    }
+    
     private void DashboardbtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DashboardbtnActionPerformed
         // TODO add your handling code here:
         FManager dashboard = new FManager();

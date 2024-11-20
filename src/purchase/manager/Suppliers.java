@@ -174,8 +174,6 @@ public class Suppliers extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        label1.getAccessibleContext().setAccessibleName("List Of Suppliers");
-
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
