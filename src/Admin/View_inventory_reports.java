@@ -159,19 +159,23 @@ public class View_inventory_reports extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         Register registerFrame = new Register();
 
-        registerFrame.setVisible(true);        // TODO add your handling code here:
+        registerFrame.setVisible(true);  
+                this.dispose();
+// TODO add your handling code here:
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         View_user viewUserFrame = new View_user();
 
-        viewUserFrame.setVisible(true);        // TODO add your handling code here:
+        viewUserFrame.setVisible(true);
+        this.dispose();        // TODO add your handling code here:
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         Edit_Delete_user editDeleteUserFrame = new Edit_Delete_user();
 
-        editDeleteUserFrame.setVisible(true);        // TODO add your handling code here:
+        editDeleteUserFrame.setVisible(true);  
+                this.dispose();// TODO add your handling code here:
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
