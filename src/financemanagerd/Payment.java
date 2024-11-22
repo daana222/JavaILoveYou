@@ -4,6 +4,13 @@
  */
 package financemanagerd;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author Mitsu
@@ -32,7 +39,7 @@ public class Payment extends javax.swing.JFrame {
         jButton9 = new javax.swing.JButton();
         jTextField4 = new javax.swing.JTextField();
         jScrollPane4 = new javax.swing.JScrollPane();
-        jTable4 = new javax.swing.JTable();
+        paymentTable = new javax.swing.JTable();
         jButton10 = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         Dashboardbtn = new javax.swing.JButton();
@@ -51,7 +58,7 @@ public class Payment extends javax.swing.JFrame {
 
         jButton9.setText("Search");
 
-        jTable4.setModel(new javax.swing.table.DefaultTableModel(
+        paymentTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {"001", "001", "100", "100", "1200", "Not paid", "12/12/2024"},
                 {null, null, null, null, null, null, null},
@@ -62,14 +69,19 @@ public class Payment extends javax.swing.JFrame {
                 "Supplier ID", "P.O ID", "Units Sent", "Units Received", "Total Amount", "Status", "Due Date"
             }
         ));
-        jTable4.addMouseListener(new java.awt.event.MouseAdapter() {
+        paymentTable.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jTable4MouseClicked(evt);
+                paymentTableMouseClicked(evt);
             }
         });
-        jScrollPane4.setViewportView(jTable4);
+        jScrollPane4.setViewportView(paymentTable);
 
         jButton10.setText("Make Payment");
+        jButton10.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton10ActionPerformed(evt);
+            }
+        });
 
         jPanel1.setBackground(new java.awt.Color(0, 0, 102));
 
@@ -216,9 +228,9 @@ public class Payment extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jTable4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable4MouseClicked
+    private void paymentTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_paymentTableMouseClicked
 
-    }//GEN-LAST:event_jTable4MouseClicked
+    }//GEN-LAST:event_paymentTableMouseClicked
 
     private void DashboardbtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DashboardbtnActionPerformed
         // TODO add your handling code here:
@@ -259,6 +271,124 @@ public class Payment extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jComboBox1ActionPerformed
 
+    private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
+        int selectedRow = paymentTable.getSelectedRow();
+
+            if (selectedRow == -1) {
+                javax.swing.JOptionPane.showMessageDialog(this, "Please select a row to make a payment.");
+                return;
+            }
+
+            DefaultTableModel model = (DefaultTableModel) paymentTable.getModel();
+
+            // Retrieve row details
+            String supplierId = model.getValueAt(selectedRow, 0).toString();
+            String poNumber = model.getValueAt(selectedRow, 1).toString();
+            String totalAmount = model.getValueAt(selectedRow, 4).toString();
+            String dueDate = model.getValueAt(selectedRow, 6).toString();
+
+            // Update payment status in the table
+            model.setValueAt("Paid", selectedRow, 5);
+
+            // Update the file to mark this payment as "Paid"
+            updatePaymentStatus(poNumber, "Paid");
+
+            // Generate the text receipt
+            generateTextReceipt(supplierId, poNumber, totalAmount, dueDate);
+
+            javax.swing.JOptionPane.showMessageDialog(this, "Payment successful and receipt saved as text file.");
+    }//GEN-LAST:event_jButton10ActionPerformed
+    
+    
+    private void updatePaymentStatus(String poNumber, String newStatus) {
+        String filePath = "C:/Users/Mitsu/OneDrive - Asia Pacific University/Documents/NetBeansProjects/FinanceManagerD/file.txt"; // Update with your actual file path
+
+        try {
+            // Read all lines from the file
+            java.util.List<String> lines = new java.util.ArrayList<>();
+            try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    if (line.trim().isEmpty()) {
+                        continue; // Skip empty lines
+                    }
+
+                    String[] columns = line.split(",");
+                    if (columns.length > 1 && columns[1].trim().equals(poNumber)) {
+                        columns[5] = newStatus; // Update the payment status column
+                        lines.add(String.join(",", columns));
+                    } else {
+                        lines.add(line); // Add the original line
+                    }
+                }
+            }
+
+            // Write updated lines back to the file
+            try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
+                for (String line : lines) {
+                    writer.write(line);
+                    writer.newLine();
+                }
+            }
+
+        } catch (IOException e) {
+            javax.swing.JOptionPane.showMessageDialog(this, "Error updating payment status: " + e.getMessage());
+        }
+    }
+
+    private void generateTextReceipt(String supplierId, String poNumber, String totalAmount, String dueDate) {
+        String receiptFilePath = "C:/Users/Mitsu/OneDrive - Asia Pacific University/Documents/NetBeansProjects/FinanceManagerD/receipts/Receipt_" + poNumber + ".txt";
+
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(receiptFilePath))) {
+            writer.write("Payment Receipt");
+            writer.newLine();
+            writer.write("------------------------");
+            writer.newLine();
+            writer.write("Supplier ID: " + supplierId);
+            writer.newLine();
+            writer.write("P.O Number: " + poNumber);
+            writer.newLine();
+            writer.write("Total Amount: $" + totalAmount);
+            writer.newLine();
+            writer.write("Due Date: " + dueDate);
+            writer.newLine();
+            writer.write("Payment Status: Paid");
+            writer.newLine();
+
+            javax.swing.JOptionPane.showMessageDialog(this, "Receipt saved to: " + receiptFilePath);
+        } catch (IOException e) {
+            javax.swing.JOptionPane.showMessageDialog(this, "Error saving receipt: " + e.getMessage());
+        }
+    }
+
+    private void loadApprovedOrders() {
+        String filePath = "C:/Users/Mitsu/OneDrive - Asia Pacific University/Documents/NetBeansProjects/FinanceManagerD/file.txt"; // Update with actual file path
+        DefaultTableModel model = (DefaultTableModel) paymentTable.getModel();
+        model.setRowCount(0); // Clear existing rows
+
+        try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                String[] columns = line.split(",");
+                if (columns.length >= 6 && columns[4].trim().equalsIgnoreCase("Approve")) {
+                    model.addRow(new Object[]{
+                        columns[0], // Supplier ID
+                        columns[1], // P.O Number
+                        columns[2], // Units Sent
+                        columns[3], // Units Received
+                        columns[5], // Total Amount
+                        "Not paid", // Status
+                        columns[6]  // Due Date
+                    });
+                }
+            }
+        } catch (IOException e) {
+            javax.swing.JOptionPane.showMessageDialog(this, "Error loading approved orders: " + e.getMessage());
+        }
+    }
+
+    
+    
     /**
      * @param args the command line arguments
      */
@@ -308,7 +438,7 @@ public class Payment extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane4;
-    private javax.swing.JTable jTable4;
     private javax.swing.JTextField jTextField4;
+    private javax.swing.JTable paymentTable;
     // End of variables declaration//GEN-END:variables
 }

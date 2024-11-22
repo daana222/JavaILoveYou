@@ -71,7 +71,7 @@ public class PurchaseOrder extends javax.swing.JFrame {
                 {null, null, null, null, null, null}
             },
             new String [] {
-                "No.", "P.O Number", "Date", "Supplier ID", "Approve/Reject", "Total Amount"
+                "No.", "P.O ID", "Date", "Supplier ID", "Approve/Reject", "Total Amount"
             }
         ));
         POmaintable.addMouseListener(new java.awt.event.MouseAdapter() {
