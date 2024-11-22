@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package financemanagerd;
 
 import java.io.BufferedReader;
@@ -9,6 +5,7 @@ import java.io.BufferedWriter;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -32,6 +29,7 @@ public class Payment extends javax.swing.JFrame {
         loadDataFromFile(filePath, selectedColumns);
         storeOriginalTableData();
         storeOriginalTableData2();
+        addDueDateRenderer();
     }
 
     /**
@@ -397,6 +395,7 @@ public class Payment extends javax.swing.JFrame {
 
                 if (currentDate.after(dueDate)) {
                     model.setValueAt("Late", selectedRow, 5); // Set status to "Late"
+                    model.setValueAt(paymentDate, selectedRow, 7);
                     javax.swing.JOptionPane.showMessageDialog(this, "Late payment");
                 } else {
                     model.setValueAt("Paid", selectedRow, 5); // Set status to "Paid"
@@ -404,6 +403,7 @@ public class Payment extends javax.swing.JFrame {
 
                 // Update the file to reflect the new status
                 updatePaymentStatus(poNumber, model.getValueAt(selectedRow, 5).toString());
+                updatePaymentDate (poNumber,model.getValueAt(selectedRow, 7).toString());
 
                 // Generate the text receipt
                 generateTextReceipt(supplierId, poNumber, totalAmount, dueDateStr, paymentDate);
@@ -476,6 +476,36 @@ public class Payment extends javax.swing.JFrame {
             javax.swing.JOptionPane.showMessageDialog(this, "Error updating payment status: " + e.getMessage());
         }
     }
+    
+    
+    private void updatePaymentDate(String poNumber, String paymentDate) {
+        String filePath = "C:/Users/Mitsu/OneDrive - Asia Pacific University/Documents/NetBeansProjects/FinanceManagerD/file.txt";
+
+        try {
+            java.util.List<String> lines = new java.util.ArrayList<>();
+            try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    String[] columns = line.split(",");
+                    if (columns.length > 1 && columns[1].trim().equals(poNumber)) {
+                        columns[8] = paymentDate; // Update the "Payment Date" column
+                        lines.add(String.join(",", columns));
+                    } else {
+                        lines.add(line);
+                    }
+                }
+            }
+
+            try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
+                for (String line : lines) {
+                    writer.write(line);
+                    writer.newLine();
+                }
+            }
+        } catch (IOException e) {
+            javax.swing.JOptionPane.showMessageDialog(this, "Error updating payment status: " + e.getMessage());
+        }
+    }
 
 
     private void generateTextReceipt(String supplierId, String poNumber, String totalAmount, String dueDate, String paymentDate) {
@@ -516,6 +546,38 @@ public class Payment extends javax.swing.JFrame {
         }
     }
 
+    
+    private void addDueDateRenderer() {
+        paymentTable.getColumnModel().getColumn(6).setCellRenderer(new DefaultTableCellRenderer() {
+            private final java.text.SimpleDateFormat dateFormat = new java.text.SimpleDateFormat("dd/MM/yyyy");
+
+            @Override
+            public java.awt.Component getTableCellRendererComponent(
+                    javax.swing.JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+
+                java.awt.Component cell = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+
+                DefaultTableModel model = (DefaultTableModel) table.getModel();
+                String status = model.getValueAt(row, 5).toString();
+                String dueDateStr = value.toString();
+
+                try {
+                    java.util.Date dueDate = dateFormat.parse(dueDateStr);
+                    java.util.Date currentDate = new java.util.Date();
+
+                    if (status.equalsIgnoreCase("Pending") && currentDate.after(dueDate)) {
+                        cell.setForeground(java.awt.Color.RED);
+                    } else {
+                        cell.setForeground(java.awt.Color.BLACK);
+                    }
+
+                } catch (java.text.ParseException e) {
+                    cell.setForeground(java.awt.Color.BLACK);
+                }
+                return cell;
+            }
+        });
+    }
 
 
     
