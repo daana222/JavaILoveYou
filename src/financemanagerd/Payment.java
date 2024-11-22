@@ -24,6 +24,14 @@ public class Payment extends javax.swing.JFrame {
         initComponents();
         setSize(890, 500);
         setLocationRelativeTo(null); // Center the frame
+        
+        int[] selectedColumns = {5, 1, 3, 4, 7, 9, 10, 8}; // Map columns as per your table structure
+        String filePath = "C:/Users/Mitsu/OneDrive - Asia Pacific University/Documents/NetBeansProjects/FinanceManagerD/file.txt";
+
+        // Load data and store the original table for future filtering
+        loadDataFromFile(filePath, selectedColumns);
+        storeOriginalTableData();
+        storeOriginalTableData2();
     }
 
     /**
@@ -36,11 +44,11 @@ public class Payment extends javax.swing.JFrame {
     private void initComponents() {
 
         jLabel6 = new javax.swing.JLabel();
-        jButton9 = new javax.swing.JButton();
-        jTextField4 = new javax.swing.JTextField();
+        Searchbtn = new javax.swing.JButton();
+        searchtxtfield = new javax.swing.JTextField();
         jScrollPane4 = new javax.swing.JScrollPane();
         paymentTable = new javax.swing.JTable();
-        jButton10 = new javax.swing.JButton();
+        makePaymentbtn = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         Dashboardbtn = new javax.swing.JButton();
         PObtn = new javax.swing.JButton();
@@ -56,17 +64,21 @@ public class Payment extends javax.swing.JFrame {
         jLabel6.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel6.setText("Payment");
 
-        jButton9.setText("Search");
+        Searchbtn.setText("Search");
+        Searchbtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                SearchbtnActionPerformed(evt);
+            }
+        });
 
         paymentTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {"001", "001", "100", "100", "1200", "Not paid", "12/12/2024"},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null}
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "Supplier ID", "P.O ID", "Units Sent", "Units Received", "Total Amount", "Status", "Due Date"
+                "Supplier ID", "P.O ID", "Units Sent", "Units Received", "Total Amount", "Status", "Due Date", "Payment Date"
             }
         ));
         paymentTable.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -76,10 +88,10 @@ public class Payment extends javax.swing.JFrame {
         });
         jScrollPane4.setViewportView(paymentTable);
 
-        jButton10.setText("Make Payment");
-        jButton10.addActionListener(new java.awt.event.ActionListener() {
+        makePaymentbtn.setText("Make Payment");
+        makePaymentbtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton10ActionPerformed(evt);
+                makePaymentbtnActionPerformed(evt);
             }
         });
 
@@ -187,7 +199,7 @@ public class Payment extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(578, 578, 578)
-                        .addComponent(jButton10)
+                        .addComponent(makePaymentbtn)
                         .addGap(0, 45, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(18, 18, 18)
@@ -195,9 +207,9 @@ public class Payment extends javax.swing.JFrame {
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(76, 76, 76)
-                                .addComponent(jButton9)
+                                .addComponent(Searchbtn)
                                 .addGap(18, 18, 18)
-                                .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(searchtxtfield, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                 .addGroup(layout.createSequentialGroup()
                                     .addGap(13, 13, 13)
@@ -212,13 +224,13 @@ public class Payment extends javax.swing.JFrame {
                 .addComponent(jLabel6)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton9)
-                    .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(Searchbtn)
+                    .addComponent(searchtxtfield, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 256, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jButton10)
+                .addComponent(makePaymentbtn)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -269,9 +281,89 @@ public class Payment extends javax.swing.JFrame {
 
     private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
         // TODO add your handling code here:
+        String selectedStatus = jComboBox1.getSelectedItem().toString();
+        filterTableByStatus(selectedStatus);
     }//GEN-LAST:event_jComboBox1ActionPerformed
+    
+    
+    private void filterTableByStatus(String status) {
+        DefaultTableModel model = (DefaultTableModel) paymentTable.getModel();
+        model.setRowCount(0); // Clear the table
 
-    private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
+        // Reload data based on the filter
+        for (Object[] row : originalTableData) {
+            String rowStatus = row[5].toString(); // Assuming "Status" is in column 5
+
+            if (status.equalsIgnoreCase("All") || rowStatus.equalsIgnoreCase(status)) {
+                model.addRow(row); // Add the matching row
+            }
+        }
+    }
+    
+    
+    private void storeOriginalTableData() {
+        DefaultTableModel model = (DefaultTableModel) paymentTable.getModel();
+        originalTableData = new java.util.ArrayList<>();
+
+        for (int i = 0; i < model.getRowCount(); i++) {
+            Object[] row = new Object[model.getColumnCount()];
+            for (int j = 0; j < model.getColumnCount(); j++) {
+                row[j] = model.getValueAt(i, j);
+            }
+            originalTableData.add(row);
+        }
+    }
+
+    
+    
+    
+    private void loadDataFromFile(String filePath, int[] selectedColumns) {
+        DefaultTableModel model = (DefaultTableModel) paymentTable.getModel();
+        model.setRowCount(0); // Clear existing data
+
+        try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                String[] allColumns = line.split(",");
+                if (allColumns.length >= selectedColumns.length) {
+                    // Check if the row is "Approved"
+                    String status = allColumns[6].trim(); // Assuming "Status" is in column 6
+                    if (status.equalsIgnoreCase("Approved")) {
+                        Object[] rowData = new Object[selectedColumns.length];
+                        for (int i = 0; i < selectedColumns.length; i++) {
+                            rowData[i] = allColumns[selectedColumns[i]].trim();
+                        }
+                        model.addRow(rowData);
+                    }
+                }
+            }
+        } catch (IOException e) {
+            javax.swing.JOptionPane.showMessageDialog(this, "Error loading data: " + e.getMessage());
+        }
+    }
+
+        
+    private java.util.List<Object[]> originalTableData;
+
+    private void storeOriginalTableData2() {
+        DefaultTableModel model = (DefaultTableModel) paymentTable.getModel();
+        originalTableData = new java.util.ArrayList<>();
+
+        for (int i = 0; i < model.getRowCount(); i++) {
+            Object[] row = new Object[model.getColumnCount()];
+            for (int j = 0; j < model.getColumnCount(); j++) {
+                row[j] = model.getValueAt(i, j);
+            }
+            originalTableData.add(row);
+        }
+    }
+
+
+    
+    
+    
+    
+    private void makePaymentbtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_makePaymentbtnActionPerformed
         int selectedRow = paymentTable.getSelectedRow();
 
             if (selectedRow == -1) {
@@ -280,63 +372,113 @@ public class Payment extends javax.swing.JFrame {
             }
 
             DefaultTableModel model = (DefaultTableModel) paymentTable.getModel();
+            
+            String status = model.getValueAt(selectedRow, 5).toString(); // Assuming "Status" is in column 5
+
+            if (status.equalsIgnoreCase("Paid")|| status.equalsIgnoreCase("Late")) {
+                javax.swing.JOptionPane.showMessageDialog(this, "Payment is already made.");
+                return; // Exit the method since the payment is already made
+            }
 
             // Retrieve row details
             String supplierId = model.getValueAt(selectedRow, 0).toString();
             String poNumber = model.getValueAt(selectedRow, 1).toString();
             String totalAmount = model.getValueAt(selectedRow, 4).toString();
-            String dueDate = model.getValueAt(selectedRow, 6).toString();
+            String dueDateStr = model.getValueAt(selectedRow, 6).toString();
 
             // Update payment status in the table
-            model.setValueAt("Paid", selectedRow, 5);
+            // Compare current date with due date
+            java.text.SimpleDateFormat dateFormat = new java.text.SimpleDateFormat("dd/MM/yyyy");
+            String paymentDate = dateFormat.format(new java.util.Date());
+            model.setValueAt(paymentDate, selectedRow, 7); // Update "Payment Date" column in the table
+            try {
+                java.util.Date dueDate = dateFormat.parse(dueDateStr);
+                java.util.Date currentDate = new java.util.Date();
 
-            // Update the file to mark this payment as "Paid"
-            updatePaymentStatus(poNumber, "Paid");
+                if (currentDate.after(dueDate)) {
+                    model.setValueAt("Late", selectedRow, 5); // Set status to "Late"
+                    javax.swing.JOptionPane.showMessageDialog(this, "Late payment");
+                } else {
+                    model.setValueAt("Paid", selectedRow, 5); // Set status to "Paid"
+                }
 
-            // Generate the text receipt
-            generateTextReceipt(supplierId, poNumber, totalAmount, dueDate);
+                // Update the file to reflect the new status
+                updatePaymentStatus(poNumber, model.getValueAt(selectedRow, 5).toString());
 
-            javax.swing.JOptionPane.showMessageDialog(this, "Payment successful and receipt saved as text file.");
-    }//GEN-LAST:event_jButton10ActionPerformed
+                // Generate the text receipt
+                generateTextReceipt(supplierId, poNumber, totalAmount, dueDateStr, paymentDate);
+
+                javax.swing.JOptionPane.showMessageDialog(this, "Payment successful and receipt saved as text file.");
+
+            } catch (java.text.ParseException e) {
+                javax.swing.JOptionPane.showMessageDialog(this, "Error parsing due date: " + e.getMessage());
+            }
+    }//GEN-LAST:event_makePaymentbtnActionPerformed
+
+    private void SearchbtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SearchbtnActionPerformed
+        // TODO add your handling code here:
+        String query = searchtxtfield.getText().trim().toLowerCase();
+
+        if (query.isEmpty()) {
+            // If query is empty, reset the table to show all rows
+            DefaultTableModel model = (DefaultTableModel) paymentTable.getModel();
+            model.setRowCount(0);
+            for (Object[] row : originalTableData) {
+                model.addRow(row);
+            }
+            return;
+        }
+        
+        DefaultTableModel model = (DefaultTableModel) paymentTable.getModel();
+        model.setRowCount(0); // Clear the table
+
+        // Iterate through originalTableData and filter rows
+        for (Object[] row : originalTableData) {
+            for (Object cell : row) {
+                if (cell != null && cell.toString().toLowerCase().contains(query)) {
+                    model.addRow(row); // Add the matching row
+                    break; // Move to the next row once a match is found
+                }
+            }
+        }
+
+        if (model.getRowCount() == 0) {
+            javax.swing.JOptionPane.showMessageDialog(this, "No results found for: " + query);
+        }
+    }//GEN-LAST:event_SearchbtnActionPerformed
     
     
     private void updatePaymentStatus(String poNumber, String newStatus) {
-        String filePath = "C:/Users/Mitsu/OneDrive - Asia Pacific University/Documents/NetBeansProjects/FinanceManagerD/file.txt"; // Update with your actual file path
+        String filePath = "C:/Users/Mitsu/OneDrive - Asia Pacific University/Documents/NetBeansProjects/FinanceManagerD/file.txt";
 
         try {
-            // Read all lines from the file
             java.util.List<String> lines = new java.util.ArrayList<>();
             try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
                 String line;
                 while ((line = reader.readLine()) != null) {
-                    if (line.trim().isEmpty()) {
-                        continue; // Skip empty lines
-                    }
-
                     String[] columns = line.split(",");
                     if (columns.length > 1 && columns[1].trim().equals(poNumber)) {
-                        columns[5] = newStatus; // Update the payment status column
+                        columns[9] = newStatus; // Update the "Status" column
                         lines.add(String.join(",", columns));
                     } else {
-                        lines.add(line); // Add the original line
+                        lines.add(line);
                     }
                 }
             }
 
-            // Write updated lines back to the file
             try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
                 for (String line : lines) {
                     writer.write(line);
                     writer.newLine();
                 }
             }
-
         } catch (IOException e) {
             javax.swing.JOptionPane.showMessageDialog(this, "Error updating payment status: " + e.getMessage());
         }
     }
 
-    private void generateTextReceipt(String supplierId, String poNumber, String totalAmount, String dueDate) {
+
+    private void generateTextReceipt(String supplierId, String poNumber, String totalAmount, String dueDate, String paymentDate) {
         String receiptFilePath = "C:/Users/Mitsu/OneDrive - Asia Pacific University/Documents/NetBeansProjects/FinanceManagerD/receipts/Receipt_" + poNumber + ".txt";
 
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(receiptFilePath))) {
@@ -354,38 +496,27 @@ public class Payment extends javax.swing.JFrame {
             writer.newLine();
             writer.write("Payment Status: Paid");
             writer.newLine();
+            writer.write("Payment Date: " + paymentDate);
+            writer.newLine();
 
-            javax.swing.JOptionPane.showMessageDialog(this, "Receipt saved to: " + receiptFilePath);
+            
         } catch (IOException e) {
             javax.swing.JOptionPane.showMessageDialog(this, "Error saving receipt: " + e.getMessage());
         }
     }
 
     private void loadApprovedOrders() {
-        String filePath = "C:/Users/Mitsu/OneDrive - Asia Pacific University/Documents/NetBeansProjects/FinanceManagerD/file.txt"; // Update with actual file path
         DefaultTableModel model = (DefaultTableModel) paymentTable.getModel();
         model.setRowCount(0); // Clear existing rows
 
-        try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
-            String line;
-            while ((line = br.readLine()) != null) {
-                String[] columns = line.split(",");
-                if (columns.length >= 6 && columns[4].trim().equalsIgnoreCase("Approve")) {
-                    model.addRow(new Object[]{
-                        columns[0], // Supplier ID
-                        columns[1], // P.O Number
-                        columns[2], // Units Sent
-                        columns[3], // Units Received
-                        columns[5], // Total Amount
-                        "Not paid", // Status
-                        columns[6]  // Due Date
-                    });
-                }
+        for (Object[] row : originalTableData) {
+            if (row[5].toString().equalsIgnoreCase("Not paid")) { // Check "Not paid" status
+                model.addRow(row);
             }
-        } catch (IOException e) {
-            javax.swing.JOptionPane.showMessageDialog(this, "Error loading approved orders: " + e.getMessage());
         }
     }
+
+
 
     
     
@@ -428,17 +559,17 @@ public class Payment extends javax.swing.JFrame {
     private javax.swing.JButton Dashboardbtn;
     private javax.swing.JButton PObtn;
     private javax.swing.JButton Paymentbtn;
+    private javax.swing.JButton Searchbtn;
     private javax.swing.JButton Stockbtn;
     private javax.swing.JButton Supplierbtn;
-    private javax.swing.JButton jButton10;
-    private javax.swing.JButton jButton9;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane4;
-    private javax.swing.JTextField jTextField4;
+    private javax.swing.JButton makePaymentbtn;
     private javax.swing.JTable paymentTable;
+    private javax.swing.JTextField searchtxtfield;
     // End of variables declaration//GEN-END:variables
 }

@@ -1,0 +1,7 @@
+Payment Receipt
+------------------------
+Supplier ID: Paid
+P.O Number: PO001
+Total Amount: $1000
+Due Date: 11/11/2024
+Payment Status: Paid

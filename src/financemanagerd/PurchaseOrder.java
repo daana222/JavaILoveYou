@@ -16,7 +16,7 @@ public class PurchaseOrder extends javax.swing.JFrame {
         setSize(890, 500);
         setLocationRelativeTo(null); // Center the frame
         
-        int[] selectedColumns = {0, 1, 2, 4, 5, 6};
+        int[] selectedColumns = {0, 1, 8, 5, 6, 7};
         
         String filePath = "C:/Users/Mitsu/OneDrive - Asia Pacific University/Documents/NetBeansProjects/FinanceManagerD/file.txt";
         loadDataFromFile(filePath, selectedColumns);
@@ -71,7 +71,7 @@ public class PurchaseOrder extends javax.swing.JFrame {
                 {null, null, null, null, null, null}
             },
             new String [] {
-                "No.", "P.O ID", "Date", "Supplier ID", "Approve/Reject", "Total Amount"
+                "No.", "P.O ID", "Date", "Supplier ID", "Approved/Rejected", "Total Amount"
             }
         ));
         POmaintable.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -175,7 +175,7 @@ public class PurchaseOrder extends javax.swing.JFrame {
                 .addGap(28, 28, 28))
         );
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "All", "Approve", "Reject", "Pending", " " }));
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "All", "Approved", "Rejected", "Pending", " " }));
         jComboBox1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jComboBox1ActionPerformed(evt);
@@ -188,20 +188,23 @@ public class PurchaseOrder extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 61, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addGroup(layout.createSequentialGroup()
-                            .addComponent(jLabel3)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(49, 49, 49)
-                            .addComponent(jButton6)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 599, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jButton11, javax.swing.GroupLayout.Alignment.TRAILING))
-                .addGap(40, 40, 40))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel3)
+                                .addGap(99, 99, 99)
+                                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(49, 49, 49)
+                                .addComponent(jButton6)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jButton11, javax.swing.GroupLayout.Alignment.TRAILING))
+                        .addGap(40, 40, 40))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 646, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(26, 26, 26))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -329,7 +332,7 @@ public class PurchaseOrder extends javax.swing.JFrame {
         String selectedFilter = jComboBox1.getSelectedItem().toString(); // Get selected item
 
         // Create a new model for the filtered data
-        DefaultTableModel filteredModel = new DefaultTableModel(new Object[]{"No.", "P.O Number", "Date", "Supplier ID", "Approve/Reject", "Total Amount"}, 0);
+        DefaultTableModel filteredModel = new DefaultTableModel(new Object[]{"No.", "P.O Number", "Date", "Supplier ID", "Approved/Rejected", "Total Amount"}, 0);
 
         // Loop through the original table data
         for (int i = 0; i < originalModel.getRowCount(); i++) {
@@ -369,7 +372,7 @@ public class PurchaseOrder extends javax.swing.JFrame {
         }
 
         // Create a new model to hold search results
-        DefaultTableModel searchModel = new DefaultTableModel(new Object[]{"No.", "P.O Number", "Date", "Supplier ID", "Approve/Reject", "Total Amount"}, 0);
+        DefaultTableModel searchModel = new DefaultTableModel(new Object[]{"No.", "P.O Number", "Date", "Supplier ID", "Approved/Rejected", "Total Amount"}, 0);
 
         // Iterate through the table to find matching rows
         for (int i = 0; i < model.getRowCount(); i++) {
