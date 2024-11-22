@@ -7,7 +7,7 @@ import java.io.FileReader;
 import java.io.IOException;
 
 public class PurchaseOrder extends javax.swing.JFrame {
-
+    private int row = -1;
     /**
      * Creates new form PurchaseOrder
      */
@@ -15,6 +15,12 @@ public class PurchaseOrder extends javax.swing.JFrame {
         initComponents();
         setSize(890, 500);
         setLocationRelativeTo(null); // Center the frame
+        
+        int[] selectedColumns = {0, 1, 2, 4, 5, 6};
+        
+        String filePath = "C:/Users/Mitsu/OneDrive - Asia Pacific University/Documents/NetBeansProjects/FinanceManagerD/file.txt";
+        loadDataFromFile(filePath, selectedColumns);
+        storeOriginalTableData();
         
     }
 
@@ -41,6 +47,7 @@ public class PurchaseOrder extends javax.swing.JFrame {
         Supplierbtn = new javax.swing.JButton();
         jLabel7 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
+        jComboBox1 = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -48,24 +55,38 @@ public class PurchaseOrder extends javax.swing.JFrame {
         jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel3.setText("Purchase Order");
 
-        jButton6.setText("Search");
+        jButton6.setText("Search P.O Number");
+        jButton6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton6ActionPerformed(evt);
+            }
+        });
 
         jScrollPane1.setBackground(new java.awt.Color(255, 255, 255));
 
         POmaintable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {"1", "001", "29/11/2024", "001", null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null}
             },
             new String [] {
-                "No.", "P.O Number", "Date", "Supplier ID", "Approve/Reject"
+                "No.", "P.O Number", "Date", "Supplier ID", "Approve/Reject", "Total Amount"
             }
         ));
+        POmaintable.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                POmaintableMouseReleased(evt);
+            }
+        });
         jScrollPane1.setViewportView(POmaintable);
 
         jButton11.setText("View");
+        jButton11.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton11ActionPerformed(evt);
+            }
+        });
 
         jPanel1.setBackground(new java.awt.Color(0, 0, 102));
 
@@ -154,6 +175,13 @@ public class PurchaseOrder extends javax.swing.JFrame {
                 .addGap(28, 28, 28))
         );
 
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "All", "Approve", "Reject", "Pending", " " }));
+        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBox1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -166,8 +194,10 @@ public class PurchaseOrder extends javax.swing.JFrame {
                         .addGroup(layout.createSequentialGroup()
                             .addComponent(jLabel3)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(49, 49, 49)
                             .addComponent(jButton6)
-                            .addGap(18, 18, 18)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                             .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 599, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jButton11, javax.swing.GroupLayout.Alignment.TRAILING))
@@ -184,7 +214,8 @@ public class PurchaseOrder extends javax.swing.JFrame {
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jButton6)
-                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addGap(38, 38, 38)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 289, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
@@ -198,18 +229,26 @@ public class PurchaseOrder extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-        private void loadDataFromFile(String filePath) {
+        private void loadDataFromFile(String filePath, int[] selectedColumns) {
+        // Get the DefaultTableModel of the JTable
         DefaultTableModel model = (DefaultTableModel) POmaintable.getModel();
+        model.setRowCount(0); // Clear existing rows
+
         try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
             String line;
             while ((line = br.readLine()) != null) {
-                // Assuming the file has data separated by commas
-                String[] rowData = line.split(",");
-                model.addRow(rowData);
+                String[] allColumns = line.split(",");
+                if (allColumns.length >= selectedColumns.length) {
+                    String[] rowData = new String[selectedColumns.length];
+                    for (int i = 0; i < selectedColumns.length; i++) {
+                        rowData[i] = allColumns[selectedColumns[i]].trim();
+                    }
+                    model.addRow(rowData);
+                }
             }
         } catch (IOException e) {
-            e.printStackTrace();
-            javax.swing.JOptionPane.showMessageDialog(this, "Error reading the file: " + e.getMessage());
+            javax.swing.JOptionPane.showMessageDialog(this,
+                "Error reading the file: " + e.getMessage());
         }
     }
     
@@ -248,6 +287,118 @@ public class PurchaseOrder extends javax.swing.JFrame {
         supplier.setVisible(true);
         dispose();
     }//GEN-LAST:event_SupplierbtnActionPerformed
+
+    private void POmaintableMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_POmaintableMouseReleased
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_POmaintableMouseReleased
+
+    private void jButton11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton11ActionPerformed
+        // TODO add your handling code here:
+        int selectedRow = POmaintable.getSelectedRow();
+
+        if (selectedRow != -1) { // Ensure a row is selected
+            DefaultTableModel model = (DefaultTableModel) POmaintable.getModel();
+
+            // Get selected row data
+            String no = model.getValueAt(selectedRow, 0).toString();
+            String poNumber = model.getValueAt(selectedRow, 1).toString();
+            String date = model.getValueAt(selectedRow, 2).toString();
+            String supplierId = model.getValueAt(selectedRow, 3).toString();
+            String approveReject = model.getValueAt(selectedRow, 4).toString();
+            String totalAmount = model.getValueAt(selectedRow, 5).toString();
+
+            // Pass data to the second form
+            PurchaseOrder2 detailsForm = new PurchaseOrder2(no, poNumber, date, supplierId, approveReject,totalAmount);
+            detailsForm.setVisible(true);
+            this.dispose(); // Close the first form
+        } else {
+            javax.swing.JOptionPane.showMessageDialog(this, "Please select a row to make approval.");
+        }
+    }//GEN-LAST:event_jButton11ActionPerformed
+    
+    
+    private DefaultTableModel originalModel; // To store the original unfiltered data
+
+// Call this after loading the data into the table
+    private void storeOriginalTableData() {
+        originalModel = (DefaultTableModel) POmaintable.getModel(); // Keep a copy of the original model
+    }
+
+    private void filterTableByApproval() {
+        String selectedFilter = jComboBox1.getSelectedItem().toString(); // Get selected item
+
+        // Create a new model for the filtered data
+        DefaultTableModel filteredModel = new DefaultTableModel(new Object[]{"No.", "P.O Number", "Date", "Supplier ID", "Approve/Reject", "Total Amount"}, 0);
+
+        // Loop through the original table data
+        for (int i = 0; i < originalModel.getRowCount(); i++) {
+            String status = originalModel.getValueAt(i, 4).toString(); // Get Approve/Reject column value
+
+            if (selectedFilter.equals("All") || status.equalsIgnoreCase(selectedFilter)) {
+                // Add matching rows to the filtered model
+                Object[] rowData = {
+                    originalModel.getValueAt(i, 0), // "No."
+                    originalModel.getValueAt(i, 1), // "P.O Number"
+                    originalModel.getValueAt(i, 2), // "Date"
+                    originalModel.getValueAt(i, 3), // "Supplier ID"
+                    originalModel.getValueAt(i, 4),  // "Approve/Reject"
+                    originalModel.getValueAt(i, 5)  // "Approve/Reject"    
+                };
+                filteredModel.addRow(rowData);
+            }
+        }
+
+        // Set the filtered model to the table
+        POmaintable.setModel(filteredModel);
+    }
+
+
+    
+    
+    
+    
+    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+        // TODO add your handling code here:
+        String searchText = jTextField1.getText().trim(); // Get text from search field
+        DefaultTableModel model = (DefaultTableModel) POmaintable.getModel(); // Get table model
+
+        if (searchText.isEmpty()) {
+            javax.swing.JOptionPane.showMessageDialog(this, "Please enter a P.O Number to search.");
+            return;
+        }
+
+        // Create a new model to hold search results
+        DefaultTableModel searchModel = new DefaultTableModel(new Object[]{"No.", "P.O Number", "Date", "Supplier ID", "Approve/Reject", "Total Amount"}, 0);
+
+        // Iterate through the table to find matching rows
+        for (int i = 0; i < model.getRowCount(); i++) {
+            String poNumber = model.getValueAt(i, 1).toString(); // Get P.O Number column value
+
+            if (poNumber.equalsIgnoreCase(searchText)) { // Check if it matches the search text
+                Object[] rowData = {
+                    model.getValueAt(i, 0), // "No."
+                    model.getValueAt(i, 1), // "P.O Number"
+                    model.getValueAt(i, 2), // "Date"
+                    model.getValueAt(i, 3), // "Supplier ID"
+                    model.getValueAt(i, 4),  // "Approve/Reject"
+                    model.getValueAt(i, 5)  // "Total amount"
+                };
+                searchModel.addRow(rowData); // Add matching row to search model
+            }
+        }
+
+        if (searchModel.getRowCount() > 0) {
+            POmaintable.setModel(searchModel); // Update table with search results
+        } else {
+            javax.swing.JOptionPane.showMessageDialog(this, "No matching P.O Number found.");
+        }
+    }//GEN-LAST:event_jButton6ActionPerformed
+
+    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
+        // TODO add your handling code here:
+        filterTableByApproval();
+    }//GEN-LAST:event_jComboBox1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -293,6 +444,7 @@ public class PurchaseOrder extends javax.swing.JFrame {
     private javax.swing.JButton Supplierbtn;
     private javax.swing.JButton jButton11;
     private javax.swing.JButton jButton6;
+    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel7;

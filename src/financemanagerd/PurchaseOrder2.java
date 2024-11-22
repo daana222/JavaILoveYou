@@ -3,7 +3,13 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package financemanagerd;
-
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 /**
  *
  * @author Mitsu
@@ -13,10 +19,22 @@ public class PurchaseOrder2 extends javax.swing.JFrame {
     /**
      * Creates new form PurchaseOrder2
      */
-    public PurchaseOrder2() {
+    public PurchaseOrder2(String no, String poNumber, String date, String supplierId, String approveReject, String totalAmount) {
         initComponents();
         setSize(890, 500);
         setLocationRelativeTo(null); // Center the frame
+        
+        
+        poNumberlbl.setText(poNumber);
+        poDatelbl.setText(date);
+        supplierIDlbl.setText(supplierId);
+        totalAmountPolbl.setText(totalAmount);
+        
+        
+        // Add the row data to the Po2table
+        DefaultTableModel model = (DefaultTableModel) Po2table.getModel();
+        model.setRowCount(0); // Clear any existing rows
+        model.addRow(new Object[]{no, "Description here", "Unit ID here", "Quantity here", "Unit Price here", "Total Amount here"});
     }
 
     /**
@@ -29,16 +47,16 @@ public class PurchaseOrder2 extends javax.swing.JFrame {
     private void initComponents() {
 
         jLabel10 = new javax.swing.JLabel();
-        jLabel11 = new javax.swing.JLabel();
+        supplierIDlbl = new javax.swing.JLabel();
         jScrollPane5 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        Po2table = new javax.swing.JTable();
         jButton12 = new javax.swing.JButton();
         jButton13 = new javax.swing.JButton();
         jLabel8 = new javax.swing.JLabel();
         jLabel16 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
-        jLabel17 = new javax.swing.JLabel();
-        jLabel13 = new javax.swing.JLabel();
+        totalAmountPolbl = new javax.swing.JLabel();
+        poNumberlbl = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         Dashboardbtn = new javax.swing.JButton();
         PObtn = new javax.swing.JButton();
@@ -48,7 +66,7 @@ public class PurchaseOrder2 extends javax.swing.JFrame {
         jLabel7 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         jLabel14 = new javax.swing.JLabel();
-        jLabel15 = new javax.swing.JLabel();
+        poDatelbl = new javax.swing.JLabel();
         backPObtn = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -56,9 +74,9 @@ public class PurchaseOrder2 extends javax.swing.JFrame {
 
         jLabel10.setText("Supplier ID: ");
 
-        jLabel11.setText("001");
+        supplierIDlbl.setText("001");
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        Po2table.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null},
                 {null, null, null, null, null, null},
@@ -69,7 +87,7 @@ public class PurchaseOrder2 extends javax.swing.JFrame {
                 "No.", "Description", "Unit ID", "Quantity", "Unit Price", "Total Amount"
             }
         ));
-        jScrollPane5.setViewportView(jTable1);
+        jScrollPane5.setViewportView(Po2table);
 
         jButton12.setText("Approve");
         jButton12.addActionListener(new java.awt.event.ActionListener() {
@@ -79,6 +97,11 @@ public class PurchaseOrder2 extends javax.swing.JFrame {
         });
 
         jButton13.setText("Reject");
+        jButton13.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton13ActionPerformed(evt);
+            }
+        });
 
         jLabel8.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel8.setText("Purchase Order");
@@ -87,9 +110,9 @@ public class PurchaseOrder2 extends javax.swing.JFrame {
 
         jLabel12.setText("PO Number:");
 
-        jLabel17.setText("12000");
+        totalAmountPolbl.setText("12000");
 
-        jLabel13.setText("001");
+        poNumberlbl.setText("001");
 
         jPanel1.setBackground(new java.awt.Color(0, 0, 102));
 
@@ -180,7 +203,7 @@ public class PurchaseOrder2 extends javax.swing.JFrame {
 
         jLabel14.setText("PO Date:");
 
-        jLabel15.setText("29/11/2024");
+        poDatelbl.setText("29/11/2024");
 
         backPObtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/financemanagerd/Iconss/return.png"))); // NOI18N
         backPObtn.addActionListener(new java.awt.event.ActionListener() {
@@ -195,35 +218,38 @@ public class PurchaseOrder2 extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton12)
-                        .addGap(48, 48, 48)
-                        .addComponent(jButton13)
-                        .addGap(116, 116, 116)
-                        .addComponent(jLabel16)
-                        .addGap(18, 18, 18)
-                        .addComponent(jLabel17))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(63, 63, 63)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel14)
-                            .addComponent(jLabel12))
-                        .addGap(26, 26, 26)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel15)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel13)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jLabel10)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jLabel11))))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(28, 28, 28)
-                        .addComponent(jLabel8)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(backPObtn))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(jButton12)
+                            .addGap(48, 48, 48)
+                            .addComponent(jButton13)
+                            .addGap(116, 116, 116)
+                            .addComponent(jLabel16)
+                            .addGap(18, 18, 18)
+                            .addComponent(totalAmountPolbl))
+                        .addGroup(layout.createSequentialGroup()
+                            .addGap(63, 63, 63)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jLabel14)
+                                .addComponent(jLabel12))
+                            .addGap(26, 26, 26)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(layout.createSequentialGroup()
+                                    .addComponent(poNumberlbl)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 353, Short.MAX_VALUE)
+                                    .addComponent(jLabel10)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                    .addComponent(supplierIDlbl))
+                                .addGroup(layout.createSequentialGroup()
+                                    .addComponent(poDatelbl)
+                                    .addGap(0, 0, Short.MAX_VALUE))))
+                        .addGroup(layout.createSequentialGroup()
+                            .addGap(28, 28, 28)
+                            .addComponent(jLabel8)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(backPObtn)))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(51, 51, 51)
                         .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 568, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -241,22 +267,22 @@ public class PurchaseOrder2 extends javax.swing.JFrame {
                         .addGap(30, 30, 30)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel12)
-                            .addComponent(jLabel13)
+                            .addComponent(poNumberlbl)
                             .addComponent(jLabel10)
-                            .addComponent(jLabel11))
+                            .addComponent(supplierIDlbl))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel14)
-                            .addComponent(jLabel15))
-                        .addGap(18, 18, 18)
-                        .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 221, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(poDatelbl))
+                        .addGap(39, 39, 39)
+                        .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel16)
-                            .addComponent(jLabel17)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jButton12)
+                            .addComponent(jButton13)
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(jButton12)
-                                .addComponent(jButton13)))
+                                .addComponent(jLabel16)
+                                .addComponent(totalAmountPolbl)))
                         .addGap(39, 39, 39))
                     .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(0, 0, Short.MAX_VALUE))
@@ -265,8 +291,19 @@ public class PurchaseOrder2 extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    
+    public PurchaseOrder2() {
+        initComponents();
+        setLocationRelativeTo(null); // Center the frame
+        setSize(890, 500);
+        
+    }
+    
+    
+    
     private void jButton12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton12ActionPerformed
         // TODO add your handling code here:
+        updateApprovalStatus("Approve");
         
     }//GEN-LAST:event_jButton12ActionPerformed
 
@@ -312,6 +349,54 @@ public class PurchaseOrder2 extends javax.swing.JFrame {
         dispose();
     }//GEN-LAST:event_backPObtnActionPerformed
 
+    private void jButton13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton13ActionPerformed
+        // TODO add your handling code here:
+        updateApprovalStatus("Reject");
+    }//GEN-LAST:event_jButton13ActionPerformed
+    
+    
+    private void updateApprovalStatus(String newStatus) {
+        String filePath = "C:/Users/Mitsu/OneDrive - Asia Pacific University/Documents/NetBeansProjects/FinanceManagerD/file.txt";
+
+        try {
+            // Read all lines from the file
+            java.util.List<String> lines = new java.util.ArrayList<>();
+            try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    lines.add(line);
+                }
+            }
+
+            // Find and update the matching row
+            for (int i = 0; i < lines.size(); i++) {
+                String[] columns = lines.get(i).split(",");
+                if (columns.length >= 5 && columns[1].trim().equals(poNumberlbl.getText())) { // Match on P.O Number
+                    columns[5] = newStatus; // Update the Approve/Reject column
+                    lines.set(i, String.join(",", columns)); // Replace the updated line
+                    break;
+                }
+            }
+
+            // Write back the updated data to the file
+            try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
+                for (String line : lines) {
+                    writer.write(line);
+                    writer.newLine();
+                }
+            }
+
+            // Inform the user of success
+            javax.swing.JOptionPane.showMessageDialog(this, "Status updated to: " + newStatus);
+        } catch (IOException e) {
+            javax.swing.JOptionPane.showMessageDialog(this, "Error updating file: " + e.getMessage());
+        }
+    }
+
+    
+    
+    
+    
     /**
      * @param args the command line arguments
      */
@@ -338,7 +423,7 @@ public class PurchaseOrder2 extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(PurchaseOrder2.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
-
+        
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
@@ -351,6 +436,7 @@ public class PurchaseOrder2 extends javax.swing.JFrame {
     private javax.swing.JButton Dashboardbtn;
     private javax.swing.JButton PObtn;
     private javax.swing.JButton Paymentbtn;
+    private javax.swing.JTable Po2table;
     private javax.swing.JButton Stockbtn;
     private javax.swing.JButton Supplierbtn;
     private javax.swing.JButton backPObtn;
@@ -358,17 +444,16 @@ public class PurchaseOrder2 extends javax.swing.JFrame {
     private javax.swing.JButton jButton13;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
-    private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
-    private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
-    private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane5;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JLabel poDatelbl;
+    private javax.swing.JLabel poNumberlbl;
+    private javax.swing.JLabel supplierIDlbl;
+    private javax.swing.JLabel totalAmountPolbl;
     // End of variables declaration//GEN-END:variables
 }
