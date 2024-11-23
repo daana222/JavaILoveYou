@@ -388,6 +388,7 @@ public class PurchaseOrder extends javax.swing.JFrame {
                     model.getValueAt(i, 5)  // "Total amount"
                 };
                 searchModel.addRow(rowData); // Add matching row to search model
+                clearTextField();
             }
         }
 
@@ -403,6 +404,12 @@ public class PurchaseOrder extends javax.swing.JFrame {
         filterTableByApproval();
     }//GEN-LAST:event_jComboBox1ActionPerformed
 
+    
+    
+    public void clearTextField(){
+        jTextField1.setText("");
+        
+    }
     /**
      * @param args the command line arguments
      */
