@@ -1,1 +1,0 @@
-SupplierID, SupplierName , ItemID , PaymentID , POID , AmountPaid, PaymentDate , PaymentStatus , PaymentDueDate

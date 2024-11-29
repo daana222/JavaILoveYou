@@ -1,0 +1,3 @@
+ItemID,Item Name,Item Description,Supplier ID,Current Stock Level,Reorder Level,Quantity,Item Unit Price,P.O ID,Item on P.O
+IT001,Laptop,Acer,SP001,100,30,200,2000,PO001,200
+IT002,Computer,Lenovo(DESKTOP),SP002,200,50,300,3000,PO001,200

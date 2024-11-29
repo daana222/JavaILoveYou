@@ -16,7 +16,7 @@ public class PurchaseOrder extends javax.swing.JFrame {
         setSize(890, 500);
         setLocationRelativeTo(null); // Center the frame
         
-        int[] selectedColumns = {0, 1, 8, 5, 6, 7};
+        int[] selectedColumns = {0, 1, 7, 4, 5, 6};
         
         String filePath = "C:/Users/Mitsu/OneDrive - Asia Pacific University/Documents/NetBeansProjects/FinanceManagerD/file.txt";
         loadDataFromFile(filePath, selectedColumns);

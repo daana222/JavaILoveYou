@@ -22,7 +22,7 @@ public class Payment extends javax.swing.JFrame {
         setSize(890, 500);
         setLocationRelativeTo(null); // Center the frame
         
-        int[] selectedColumns = {5, 1, 3, 4, 7, 9, 10, 8, 11}; // Map columns as per your table structure
+        int[] selectedColumns = {4, 1, 3, 6, 8, 9, 7, 10};  // Map columns as per your table structure
         String filePath = "C:/Users/Mitsu/OneDrive - Asia Pacific University/Documents/NetBeansProjects/FinanceManagerD/file.txt";
 
         // Load data and store the original table for future filtering
@@ -75,12 +75,12 @@ public class Payment extends javax.swing.JFrame {
 
         paymentTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null}
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "Supplier ID", "P.O ID", "Units Sent", "Units Received", "Total Amount", "Status", "Due Date", "Payment Date", "Payment ID"
+                "Supplier ID", "P.O ID", "Total Items", "Total Amount", "Status", "Due Date", "Payment Date", "Payment ID"
             }
         ));
         paymentTable.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -323,14 +323,28 @@ public class Payment extends javax.swing.JFrame {
         DefaultTableModel model = (DefaultTableModel) paymentTable.getModel();
         model.setRowCount(0); // Clear existing data
 
+        // Use a Map to store the sum of "Units Received" for each PO ID
+        java.util.Map<String, Integer> poUnitsReceivedMap = new java.util.HashMap<>();
+
         try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
             String line;
             while ((line = br.readLine()) != null) {
                 String[] allColumns = line.split(",");
                 if (allColumns.length >= selectedColumns.length) {
                     // Check if the row is "Approved"
-                    String status = allColumns[6].trim(); // Assuming "Status" is in column 6
+                    String status = allColumns[5].trim(); // Assuming "Status" is in column 5
                     if (status.equalsIgnoreCase("Approved")) {
+                        // Extract PO ID and Units Received
+                        String poId = allColumns[1].trim(); // PO ID is column 1
+
+                        // Ensure the correct column is used for Units Received
+                        String unitsReceivedStr = allColumns[3].trim(); // Adjust this index to match "Units Received"
+                        int unitsReceived = Integer.parseInt(unitsReceivedStr); // Parse Units Received as an integer
+
+                        // Sum up Units Received for the same PO ID
+                        poUnitsReceivedMap.put(poId, poUnitsReceivedMap.getOrDefault(poId, 0) + unitsReceived);
+
+                        // Populate table row data for display
                         Object[] rowData = new Object[selectedColumns.length];
                         for (int i = 0; i < selectedColumns.length; i++) {
                             rowData[i] = allColumns[selectedColumns[i]].trim();
@@ -339,10 +353,19 @@ public class Payment extends javax.swing.JFrame {
                     }
                 }
             }
-        } catch (IOException e) {
+
+            // Update the "Units Received" column with the summed-up values for each PO ID
+            for (int row = 0; row < model.getRowCount(); row++) {
+                String poId = model.getValueAt(row, 1).toString(); // Assuming "P.O ID" is column 1
+                int totalUnitsReceived = poUnitsReceivedMap.getOrDefault(poId, 0);
+                model.setValueAt(totalUnitsReceived, row, 2); // Update "Units Received" column
+            }
+        } catch (IOException | NumberFormatException e) {
             javax.swing.JOptionPane.showMessageDialog(this, "Error loading data: " + e.getMessage());
         }
     }
+
+
 
         
     
@@ -375,7 +398,7 @@ public class Payment extends javax.swing.JFrame {
 
             DefaultTableModel model = (DefaultTableModel) paymentTable.getModel();
             
-            String status = model.getValueAt(selectedRow, 5).toString(); // Assuming "Status" is in column 5
+            String status = model.getValueAt(selectedRow, 4).toString(); // Assuming "Status" is in column 5
 
             if (status.equalsIgnoreCase("Paid")|| status.equalsIgnoreCase("Late")) {
                 javax.swing.JOptionPane.showMessageDialog(this, "Payment is already made.");
@@ -385,32 +408,32 @@ public class Payment extends javax.swing.JFrame {
             // Retrieve row details
             String supplierId = model.getValueAt(selectedRow, 0).toString();
             String poNumber = model.getValueAt(selectedRow, 1).toString();
-            String totalAmount = model.getValueAt(selectedRow, 4).toString();
-            String dueDateStr = model.getValueAt(selectedRow, 6).toString();
+            String totalAmount = model.getValueAt(selectedRow, 3).toString();
+            String dueDateStr = model.getValueAt(selectedRow, 5).toString();
             
-            String paymentId = generatePaymentId();
+            String paymentId = generatePaymentId(model);
 
 
             // Update payment status in the table
             // Compare current date with due date
             java.text.SimpleDateFormat dateFormat = new java.text.SimpleDateFormat("dd/MM/yyyy");
             String paymentDate = dateFormat.format(new java.util.Date());
-            model.setValueAt(paymentDate, selectedRow, 7); // Update "Payment Date" column in the table
-            model.setValueAt(paymentId, selectedRow, 8); // Update "Payment ID" column in the table
+            model.setValueAt(paymentDate, selectedRow, 6); // Update "Payment Date" column in the table
+            model.setValueAt(paymentId, selectedRow, 7); // Update "Payment ID" column in the table
             try {
                 java.util.Date dueDate = dateFormat.parse(dueDateStr);
                 java.util.Date currentDate = new java.util.Date();
 
                 if (currentDate.after(dueDate)) {
-                    model.setValueAt("Late", selectedRow, 5); // Set status to "Late"
-                    model.setValueAt(paymentDate, selectedRow, 7);
+                    model.setValueAt("Late", selectedRow, 4); // Set status to "Late"
+                    model.setValueAt(paymentDate, selectedRow, 6);
                     javax.swing.JOptionPane.showMessageDialog(this, "Late payment");
                 } else {
                     model.setValueAt("Paid", selectedRow, 5); // Set status to "Paid"
                 }
 
                 // Update the file to reflect the new status
-                updatePaymentDetails(poNumber, model.getValueAt(selectedRow, 5).toString(), paymentDate, paymentId);
+                updatePaymentDetails(poNumber, model.getValueAt(selectedRow, 4).toString(), paymentDate, paymentId);
 
                 // Generate the text receipt
                 generateTextReceipt(supplierId, poNumber, totalAmount, dueDateStr, paymentDate, paymentId );
@@ -429,11 +452,30 @@ public class Payment extends javax.swing.JFrame {
     }
     
     
-    private String generatePaymentId() {
-        String paymentId = "PAY" + String.format("%03d", paymentCounter);
-        paymentCounter++; // Increment after each Payment ID generation
-        return paymentId;
-}
+    private String generatePaymentId(DefaultTableModel model) {
+        int highestId = 0;
+
+        // Scan the table to find the highest Payment ID
+        for (int row = 0; row < model.getRowCount(); row++) {
+            Object paymentIdObj = model.getValueAt(row, 7); // Assuming "Payment ID" is column 7
+            if (paymentIdObj != null) {
+                String paymentId = paymentIdObj.toString();
+                if (paymentId.startsWith("PAY")) {
+                    try {
+                        int id = Integer.parseInt(paymentId.substring(3)); // Extract numeric part of "PAYXXX"
+                        highestId = Math.max(highestId, id); // Keep track of the highest ID
+                    } catch (NumberFormatException e) {
+                        // Ignore invalid Payment IDs
+                    }
+                }
+            }
+        }
+
+        // Generate the next unique Payment ID
+        String newPaymentId = "PAY" + String.format("%03d", highestId + 1);
+        return newPaymentId;
+    }
+
 
     
     private void SearchbtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SearchbtnActionPerformed
@@ -479,9 +521,9 @@ public class Payment extends javax.swing.JFrame {
                 while ((line = reader.readLine()) != null) {
                     String[] columns = line.split(",");
                     if (columns.length > 1 && columns[1].trim().equals(poNumber)) {
-                        columns[9] = newStatus; // Update "Status"
-                        columns[8] = paymentDate; // Update "Payment Date"
-                        columns[11] = paymentId; // Update "Payment ID"
+                        columns[8] = newStatus; // Update "Status"
+                        columns[7] = paymentDate; // Update "Payment Date"
+                        columns[10] = paymentId; // Update "Payment ID"
                         lines.add(String.join(",", columns));
                     } else {
                         lines.add(line);
@@ -543,7 +585,7 @@ public class Payment extends javax.swing.JFrame {
 
     
     private void addDueDateRenderer() {
-        paymentTable.getColumnModel().getColumn(6).setCellRenderer(new DefaultTableCellRenderer() {
+        paymentTable.getColumnModel().getColumn(5).setCellRenderer(new DefaultTableCellRenderer() {
             private final java.text.SimpleDateFormat dateFormat = new java.text.SimpleDateFormat("dd/MM/yyyy");
 
             @Override
@@ -553,7 +595,7 @@ public class Payment extends javax.swing.JFrame {
                 java.awt.Component cell = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
 
                 DefaultTableModel model = (DefaultTableModel) table.getModel();
-                String status = model.getValueAt(row, 5).toString();
+                String status = model.getValueAt(row, 4).toString();
                 String dueDateStr = value.toString();
 
                 try {

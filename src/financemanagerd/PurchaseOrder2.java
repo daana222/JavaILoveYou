@@ -4,6 +4,8 @@ import java.io.BufferedWriter;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.List;
+import java.util.Map;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 /**
@@ -19,7 +21,7 @@ public class PurchaseOrder2 extends javax.swing.JFrame {
         initComponents();
         setSize(890, 500);
         setLocationRelativeTo(null); // Center the frame
-        
+        loadTableData(poNumber);
         
         poNumberlbl.setText(poNumber);
         poDatelbl.setText(date);
@@ -28,10 +30,7 @@ public class PurchaseOrder2 extends javax.swing.JFrame {
         statuslbl.setText(approveReject);
         
         
-        // Add the row data to the Po2table
-        DefaultTableModel model = (DefaultTableModel) Po2table.getModel();
-        model.setRowCount(0); // Clear any existing rows
-        model.addRow(new Object[]{no, "Description here", "Unit ID here", "Quantity here", "Unit Price here", "Total Amount here"});
+        
     }
 
     /**
@@ -83,7 +82,7 @@ public class PurchaseOrder2 extends javax.swing.JFrame {
                 {null, null, null, null, null, null}
             },
             new String [] {
-                "No.", "Description", "Unit ID", "Quantity", "Unit Price", "Total Amount"
+                "Item ID", "Item Name", "Description", "Quantity", "Unit Price", "Total Amount"
             }
         ));
         jScrollPane5.setViewportView(Po2table);
@@ -391,7 +390,7 @@ public class PurchaseOrder2 extends javax.swing.JFrame {
             for (int i = 0; i < lines.size(); i++) {
                 String[] columns = lines.get(i).split(",");
                 if (columns.length >= 5 && columns[1].trim().equals(poNumberlbl.getText())) { // Match on P.O Number
-                    columns[6] = newStatus; // Update the Approve/Reject column
+                    columns[5] = newStatus; // Update the Approve/Reject column
                     lines.set(i, String.join(",", columns)); // Replace the updated line
                     break;
                 }
@@ -411,6 +410,92 @@ public class PurchaseOrder2 extends javax.swing.JFrame {
             javax.swing.JOptionPane.showMessageDialog(this, "Error updating file: " + e.getMessage());
         }
     }
+    
+    
+    
+    
+    private void loadTableData(String poNumber) {
+        String itemsFilePath = "C:/Users/Mitsu/OneDrive - Asia Pacific University/Documents/NetBeansProjects/FinanceManagerD/items.txt";
+        String filePath = "C:/Users/Mitsu/OneDrive - Asia Pacific University/Documents/NetBeansProjects/FinanceManagerD/file.txt";
+        DefaultTableModel model = (DefaultTableModel) Po2table.getModel();
+        model.setRowCount(0); // Clear any existing rows
+
+        double totalAmountSum = 0.0; // To calculate the sum of all Total Amounts
+        int totalItemsOnPO = 0; // To calculate the sum of "Item on PO"
+
+        try (BufferedReader itemsReader = new BufferedReader(new FileReader(itemsFilePath))) {
+            String line;
+
+            while ((line = itemsReader.readLine()) != null) {
+                String[] columns = line.split(",");
+                if (columns[8].trim().equals(poNumber)) { // Check if PO ID matches
+                    String itemId = columns[0].trim();
+                    String itemName = columns[1].trim();
+                    String description = columns[2].trim();
+                    int itemOnPO = Integer.parseInt(columns[9].trim());
+                    double unitPrice = Double.parseDouble(columns[7].trim());
+
+                    // Calculate totals
+                    double totalAmount = itemOnPO * unitPrice;
+                    totalAmountSum += totalAmount;
+                    totalItemsOnPO += itemOnPO;
+
+                    // Add row to the table
+                    model.addRow(new Object[] { itemId, itemName, description, itemOnPO, unitPrice, totalAmount });
+                }
+            }
+
+            // Update UI labels and save updates to the file
+            totalAmountPolbl.setText(String.format("%.2f", totalAmountSum));
+            updateQuantityInFile(poNumber, totalItemsOnPO, filePath);
+            updateTotalAmountInFile(poNumber, totalAmountSum, filePath);
+
+        } catch (IOException | NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "Error loading data: " + e.getMessage());
+        }
+    }
+    
+    private void updateQuantityInFile(String poNumber, int quantity, String filePath) {
+        updateFile(poNumber, 3, String.valueOf(quantity), filePath);
+    }
+
+    private void updateTotalAmountInFile(String poNumber, double totalAmount, String filePath) {
+        updateFile(poNumber, 6, String.format("%.2f", totalAmount), filePath);
+    }
+
+
+    private void updateFile(String poNumber, int columnIndex, String newValue, String filePath) {
+        try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
+            java.util.List<String> lines = new java.util.ArrayList<>();
+            String line;
+
+            while ((line = reader.readLine()) != null) {
+                String[] columns = line.split(",");
+                if (columns[1].trim().equals(poNumber)) { // Check if PO ID matches
+                    columns[columnIndex] = newValue; // Update the specified column
+                    line = String.join(",", columns);
+                }
+                lines.add(line); // Add the updated (or unchanged) line to the list
+            }
+
+            try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
+                for (String updatedLine : lines) {
+                    writer.write(updatedLine);
+                    writer.newLine();
+                }
+            }
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(this, "Error updating file: " + e.getMessage());
+        }
+    }
+
+
+
+
+
+
+
+
 
     
     
