@@ -132,7 +132,7 @@ public class Login extends javax.swing.JFrame {
                         .addGap(45, 45, 45))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(351, 351, 351))))
+                        .addGap(362, 362, 362))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -157,9 +157,9 @@ public class Login extends javax.swing.JFrame {
                     .addComponent(jButton2))
                 .addGap(14, 14, 14)
                 .addComponent(jCheckBox1)
-                .addGap(36, 36, 36)
+                .addGap(30, 30, 30)
                 .addComponent(jButton3)
-                .addGap(38, 38, 38))
+                .addGap(44, 44, 44))
         );
 
         pack();
