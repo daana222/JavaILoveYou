@@ -4,18 +4,53 @@
  */
 package Sales_Manager;
 
+import java.io.*;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.HashMap;
+import java.util.Map;
+import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
+
+
 /**
  *
  * @author Kaushaliya
  */
 public class Daily_Items_Sales_Entry extends javax.swing.JFrame {
+    private static final String DATE_FORMAT = "dd/MM/yyyy"; // Define expected date format
+
+
 
     /**
      * Creates new form Daily_Items_Sales_Entry
      */
     public Daily_Items_Sales_Entry() {
         initComponents();
+        
+        jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
+        public void mouseClicked(java.awt.event.MouseEvent evt) {
+            tableRowClicked(evt);
+        }
+    });
     }
+    
+    private void tableRowClicked(java.awt.event.MouseEvent evt) {
+    int selectedRow = jTable1.getSelectedRow(); // Get the index of the selected row
+
+    if (selectedRow != -1) { // Ensure a valid row is selected
+        jTextPane3.setText(jTable1.getValueAt(selectedRow, 0).toString()); // Date
+        jTextPane2.setText(jTable1.getValueAt(selectedRow, 1).toString()); // Item ID
+        jTextPane1.setText(jTable1.getValueAt(selectedRow, 2).toString()); // Item Name
+        jTextPane4.setText(jTable1.getValueAt(selectedRow, 3).toString()); // Quantity Sold
+        jTextField1.setText(jTable1.getValueAt(selectedRow, 4).toString()); // Unit Price
+        jTextField2.setText(jTable1.getValueAt(selectedRow, 6).toString()); // Current Stock
+        jTextField3.setText(jTable1.getValueAt(selectedRow, 7).toString()); // Reorder Level
+    }
+}
+
+    
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -53,8 +88,13 @@ public class Daily_Items_Sales_Entry extends javax.swing.JFrame {
         jButton8 = new javax.swing.JButton();
         jButton9 = new javax.swing.JButton();
         jButton10 = new javax.swing.JButton();
-        jButton11 = new javax.swing.JButton();
         jButton12 = new javax.swing.JButton();
+        jLabel6 = new javax.swing.JLabel();
+        jTextField1 = new javax.swing.JTextField();
+        jLabel7 = new javax.swing.JLabel();
+        jTextField2 = new javax.swing.JTextField();
+        jLabel8 = new javax.swing.JLabel();
+        jTextField3 = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -165,14 +205,14 @@ public class Daily_Items_Sales_Entry extends javax.swing.JFrame {
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "Date", "Item Code", "Item Name", "Quantity Sold"
+                "Date", "Item ID", "Item Name", "Quantity Sold", "Unit Price", "Total Sales", "Current Stock", "Reorder Level"
             }
         ));
         jScrollPane1.setViewportView(jTable1);
@@ -182,7 +222,7 @@ public class Daily_Items_Sales_Entry extends javax.swing.JFrame {
 
         jLabel1.setText("Item Name:");
 
-        jLabel3.setText("Item Code:");
+        jLabel3.setText("Item ID:");
 
         jTextPane2.setName("txtItemCode1"); // NOI18N
         jScrollPane3.setViewportView(jTextPane2);
@@ -199,18 +239,37 @@ public class Daily_Items_Sales_Entry extends javax.swing.JFrame {
 
         jButton8.setText("Add");
         jButton8.setName("btnAdd"); // NOI18N
+        jButton8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton8ActionPerformed(evt);
+            }
+        });
 
         jButton9.setLabel("Edit");
         jButton9.setName("btnEdit"); // NOI18N
+        jButton9.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton9ActionPerformed(evt);
+            }
+        });
 
         jButton10.setText("Delete");
         jButton10.setName("btnDlelete"); // NOI18N
-
-        jButton11.setText("Save");
-        jButton11.setName("btnSave"); // NOI18N
+        jButton10.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton10ActionPerformed(evt);
+            }
+        });
 
         jButton12.setText("Generate");
         jButton12.setName("btnGenerate2"); // NOI18N
+        jButton12.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton12ActionPerformed(evt);
+            }
+        });
+
+        jLabel6.setText("Unit Price:");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -221,22 +280,26 @@ public class Daily_Items_Sales_Entry extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(21, 21, 21)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 473, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jButton11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jButton10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jButton9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jButton8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jButton12, javax.swing.GroupLayout.DEFAULT_SIZE, 90, Short.MAX_VALUE))
-                        .addGap(0, 0, Short.MAX_VALUE))
+                        .addGap(0, 2, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel4)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel3)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel4)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLabel3))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel6)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -246,8 +309,7 @@ public class Daily_Items_Sales_Entry extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel5)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(19, 19, 19))))
+                        .addComponent(jScrollPane5))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -274,28 +336,51 @@ public class Daily_Items_Sales_Entry extends javax.swing.JFrame {
                         .addComponent(jButton9)
                         .addGap(32, 32, 32)
                         .addComponent(jButton10)
-                        .addGap(30, 30, 30)
-                        .addComponent(jButton11))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(41, 41, 41)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 338, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(53, 53, 53))
+                        .addGap(165, 165, 165))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel6)
+                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(23, 23, 23)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 338, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(24, 24, 24))))
         );
+
+        jLabel7.setText("Current Stock:");
+
+        jLabel8.setText("Reorder Level:");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 811, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(378, 378, 378)
+                .addComponent(jLabel7)
+                .addGap(18, 18, 18)
+                .addComponent(jTextField2, javax.swing.GroupLayout.DEFAULT_SIZE, 104, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(27, 27, 27))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
-                    .addGap(0, 0, Short.MAX_VALUE)
+                    .addGap(0, 11, Short.MAX_VALUE)
                     .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 0, Short.MAX_VALUE)))
+                    .addGap(0, 12, Short.MAX_VALUE)))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 499, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(93, 93, 93)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel7)
+                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel8)
+                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(384, Short.MAX_VALUE))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addGap(0, 0, Short.MAX_VALUE)
@@ -348,6 +433,276 @@ public class Daily_Items_Sales_Entry extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_jButton6ActionPerformed
 
+    private void jButton12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton12ActionPerformed
+        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+    model.setRowCount(0); // Clear the table
+
+    try (
+        BufferedReader salesReader = new BufferedReader(new FileReader("sales.txt"));
+        BufferedReader stockReader = new BufferedReader(new FileReader("stocklevel.txt"))
+    ) {
+        // Load stock data into a map for quick access
+        Map<String, String[]> stockDataMap = new HashMap<>();
+        String stockLine;
+
+        // Skip header in stocklevel.txt
+        stockReader.readLine(); // Skip the header
+        while ((stockLine = stockReader.readLine()) != null) {
+            String[] stockParts = stockLine.split(",");
+            if (stockParts.length >= 5) { // Ensure valid row
+                String itemId = stockParts[0];
+                stockDataMap.put(itemId, stockParts);
+            }
+        }
+
+        // Read sales data and match with stock data
+        String salesLine;
+
+        // Skip header in sales.txt
+        salesReader.readLine(); // Skip the header
+        while ((salesLine = salesReader.readLine()) != null) {
+            String[] salesParts = salesLine.split(",");
+            if (salesParts.length >= 6) { // Ensure valid row
+                String date = salesParts[0];
+                String itemId = salesParts[1];
+                String itemName = salesParts[2];
+                String quantitySold = salesParts[3];
+                String unitPrice = salesParts[4];
+                String totalSales = salesParts[5];
+
+                // Get stock data for the item
+                String[] stockData = stockDataMap.get(itemId);
+                String currentStock = (stockData != null) ? stockData[2] : "N/A"; // Default to "N/A" if not found
+                String reorderLevel = (stockData != null) ? stockData[3] : "N/A";
+
+                // Add row to table
+                model.insertRow(0, new Object[]{date, itemId, itemName, quantitySold, unitPrice, totalSales, currentStock, reorderLevel});
+            }
+        }
+    } catch (IOException e) {
+        JOptionPane.showMessageDialog(this, "Error reading files: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+    }
+    }//GEN-LAST:event_jButton12ActionPerformed
+
+    private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
+          String date = jTextPane3.getText().trim();
+    String itemId = jTextPane2.getText().trim();
+    String itemName = jTextPane1.getText().trim();
+    String quantitySold = jTextPane4.getText().trim();
+    String unitPrice = jTextField1.getText().trim();
+    String currentStock = jTextField2.getText().trim();
+    String reorderLevel = jTextField3.getText().trim();
+
+    if (date.isEmpty() || itemId.isEmpty() || itemName.isEmpty() || quantitySold.isEmpty() || unitPrice.isEmpty() || currentStock.isEmpty() || reorderLevel.isEmpty()) {
+        JOptionPane.showMessageDialog(this, "All fields must be filled.", "Input Error", JOptionPane.WARNING_MESSAGE);
+        return;
+    }
+
+    if (!isValidDate(date)) {
+        JOptionPane.showMessageDialog(this, "Invalid date format. Please use dd/MM/yyyy.", "Input Error", JOptionPane.ERROR_MESSAGE);
+        return;
+    }
+
+    try {
+        int qtySold = Integer.parseInt(quantitySold);
+        double price = Double.parseDouble(unitPrice.replace("RM", "").trim()); // Remove RM before parsing
+        int stock = Integer.parseInt(currentStock);
+        int reorder = Integer.parseInt(reorderLevel);
+        double totalSales = qtySold * price;
+
+        // Reduce the current stock by the quantity sold
+        int updatedStock = stock - qtySold;
+
+        if (updatedStock < 0) {
+            JOptionPane.showMessageDialog(this, "Quantity sold exceeds current stock.", "Input Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+
+        // Insert at the top of the table with RM formatting
+        model.insertRow(0, new Object[]{date, itemId, itemName, qtySold, "RM" + String.format("%.2f", price), "RM" + String.format("%.2f", totalSales), updatedStock, reorder});
+
+        saveDataToFiles();
+
+        // Clear the input fields after a successful entry
+        jTextPane3.setText(""); // Clear date
+        jTextPane2.setText(""); // Clear item ID
+        jTextPane1.setText(""); // Clear item name
+        jTextPane4.setText(""); // Clear quantity sold
+        jTextField1.setText(""); // Clear unit price
+        jTextField2.setText(""); // Clear current stock
+        jTextField3.setText(""); // Clear reorder level
+
+        JOptionPane.showMessageDialog(this, "Entry added successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
+    } catch (NumberFormatException e) {
+        JOptionPane.showMessageDialog(this, "Invalid number format for Quantity, Unit Price, Current Stock, or Reorder Level.", "Input Error", JOptionPane.ERROR_MESSAGE);
+    }
+    }//GEN-LAST:event_jButton8ActionPerformed
+
+    private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
+        int selectedRow = jTable1.getSelectedRow();
+
+    if (selectedRow == -1) {
+        JOptionPane.showMessageDialog(this, "Please select a row to edit.", "Error", JOptionPane.WARNING_MESSAGE);
+        return;
+    }
+
+    // Get existing values from the table
+    String originalQuantitySold = String.valueOf(jTable1.getValueAt(selectedRow, 3));
+    String originalCurrentStock = String.valueOf(jTable1.getValueAt(selectedRow, 6));
+
+    // Get new input values
+    String newDate = jTextPane3.getText().trim();
+    String newItemId = jTextPane2.getText().trim();
+    String newItemName = jTextPane1.getText().trim();
+    String newQuantitySold = jTextPane4.getText().trim();
+    String newUnitPrice = jTextField1.getText().trim();
+    String newCurrentStock = jTextField2.getText().trim();
+    String newReorderLevel = jTextField3.getText().trim();
+
+    // Validate input fields
+    if (newDate.isEmpty() || newItemId.isEmpty() || newItemName.isEmpty() || newQuantitySold.isEmpty() ||
+        newUnitPrice.isEmpty() || newCurrentStock.isEmpty() || newReorderLevel.isEmpty()) {
+        JOptionPane.showMessageDialog(this, "All fields must be filled.", "Input Error", JOptionPane.WARNING_MESSAGE);
+        return;
+    }
+
+    if (!isValidDate(newDate)) {
+        JOptionPane.showMessageDialog(this, "Invalid date format. Please use dd/MM/yyyy.", "Input Error", JOptionPane.ERROR_MESSAGE);
+        return;
+    }
+
+    try {
+        int qtySold = Integer.parseInt(newQuantitySold);
+        double price = Double.parseDouble(newUnitPrice.replace("RM", "").trim()); // Remove RM before parsing
+        int currentStock = Integer.parseInt(newCurrentStock);
+        int reorderLevel = Integer.parseInt(newReorderLevel);
+
+        // Check if Quantity Sold or Current Stock has been changed
+        boolean isQuantitySoldModified = !newQuantitySold.equals(originalQuantitySold);
+        boolean isCurrentStockModified = !newCurrentStock.equals(originalCurrentStock);
+
+        if (isQuantitySoldModified || isCurrentStockModified) {
+            // If Quantity Sold or Current Stock is modified, validate stock level
+            if (qtySold > currentStock) {
+                JOptionPane.showMessageDialog(this, "Quantity sold exceeds current stock.", "Input Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            // Adjust stock level only if these fields are modified
+            currentStock -= qtySold;
+        }
+
+        double totalSales = qtySold * price;
+
+        // Update table values with RM formatting
+        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+        model.setValueAt(newDate, selectedRow, 0);
+        model.setValueAt(newItemId, selectedRow, 1);
+        model.setValueAt(newItemName, selectedRow, 2);
+        model.setValueAt(qtySold, selectedRow, 3);
+        model.setValueAt("RM" + String.format("%.2f", price), selectedRow, 4); // Add RM format to unit price
+        model.setValueAt("RM" + String.format("%.2f", totalSales), selectedRow, 5); // Add RM format to total sales
+        model.setValueAt(currentStock, selectedRow, 6);
+        model.setValueAt(reorderLevel, selectedRow, 7);
+
+        // Save updated data to files
+        saveDataToFiles();
+        JOptionPane.showMessageDialog(this, "Entry edited successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
+
+        // Clear input fields
+        jTextPane3.setText("");
+        jTextPane2.setText("");
+        jTextPane1.setText("");
+        jTextPane4.setText("");
+        jTextField1.setText("");
+        jTextField2.setText("");
+        jTextField3.setText("");
+
+    } catch (NumberFormatException e) {
+        JOptionPane.showMessageDialog(this, "Invalid number format for Quantity Sold, Unit Price, Current Stock, or Reorder Level.", "Input Error", JOptionPane.ERROR_MESSAGE);
+    }
+    }//GEN-LAST:event_jButton9ActionPerformed
+
+    
+    private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
+        int selectedRow = jTable1.getSelectedRow();
+
+    if (selectedRow == -1) {
+        JOptionPane.showMessageDialog(this, "Please select a row to delete.", "Error", JOptionPane.WARNING_MESSAGE);
+        return;
+    }
+
+    DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+    model.removeRow(selectedRow);
+
+    // Save updated data to files
+    saveDataToFiles();
+    JOptionPane.showMessageDialog(this, "Entry deleted successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
+
+    // Clear input fields
+    jTextPane3.setText("");
+    jTextPane2.setText("");
+    jTextPane1.setText("");
+    jTextPane4.setText("");
+    jTextField1.setText("");
+    jTextField2.setText("");
+    jTextField3.setText("");
+    }//GEN-LAST:event_jButton10ActionPerformed
+
+    private void saveDataToFiles() {
+    DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+
+    try (
+        BufferedWriter salesWriter = new BufferedWriter(new FileWriter("sales.txt"));
+        BufferedWriter stockWriter = new BufferedWriter(new FileWriter("stocklevel.txt"))
+    ) {
+        // Write headers to both files
+        salesWriter.write("Date,ItemID,Item Name,Quantity Sold,Unit Price,Total Sales\n");
+        stockWriter.write("ItemID,Item Name,Current Stock Level,Reorder Level,Last Updated Date\n");
+
+        for (int i = 0; i < model.getRowCount(); i++) {
+            Object date = model.getValueAt(i, 0);
+            Object itemId = model.getValueAt(i, 1);
+            Object itemName = model.getValueAt(i, 2);
+            Object quantitySold = model.getValueAt(i, 3);
+            Object unitPrice = model.getValueAt(i, 4);
+            Object totalSales = model.getValueAt(i, 5);
+            Object currentStock = model.getValueAt(i, 6);
+            Object reorderLevel = model.getValueAt(i, 7);
+
+            // Ensure null values are not written
+            if (date != null && itemId != null && itemName != null && quantitySold != null && unitPrice != null && totalSales != null) {
+                String salesData = date + "," + itemId + "," + itemName + "," + quantitySold + "," + unitPrice + "," + totalSales;
+                salesWriter.write(salesData + "\n");
+            }
+
+            if (itemId != null && itemName != null && currentStock != null && reorderLevel != null) {
+                String stockData = itemId + "," + itemName + "," + currentStock + "," + reorderLevel + "," + date;
+                stockWriter.write(stockData + "\n");
+            }
+        }
+    } catch (IOException e) {
+        JOptionPane.showMessageDialog(this, "Error saving data to files: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+    }
+}
+
+    
+
+    
+    private boolean isValidDate(String date) {
+    SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT);
+    sdf.setLenient(false); // Ensures strict date parsing
+    try {
+        sdf.parse(date); // Attempt to parse the date
+        return true;
+    } catch (ParseException e) {
+        return false; // Return false if parsing fails
+    }
+}
+  
+
     /**
      * @param args the command line arguments
      */
@@ -386,7 +741,6 @@ public class Daily_Items_Sales_Entry extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton10;
-    private javax.swing.JButton jButton11;
     private javax.swing.JButton jButton12;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
@@ -401,6 +755,9 @@ public class Daily_Items_Sales_Entry extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
@@ -409,6 +766,9 @@ public class Daily_Items_Sales_Entry extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JTable jTable1;
+    private javax.swing.JTextField jTextField1;
+    private javax.swing.JTextField jTextField2;
+    private javax.swing.JTextField jTextField3;
     private javax.swing.JTextPane jTextPane1;
     private javax.swing.JTextPane jTextPane2;
     private javax.swing.JTextPane jTextPane3;

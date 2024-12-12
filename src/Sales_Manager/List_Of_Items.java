@@ -4,6 +4,14 @@
  */
 package Sales_Manager;
 
+import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  *
  * @author Kaushaliya
@@ -152,20 +160,28 @@ public class List_Of_Items extends javax.swing.JFrame {
                 .addComponent(jButton6)
                 .addGap(30, 30, 30)
                 .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(29, Short.MAX_VALUE))
+                .addContainerGap(42, Short.MAX_VALUE))
         );
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null}
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "Item Code", "Item Name", "Quantity in Stock", "Reorder Level", "Suppplier ID", "Reorder Alert"
+                "Item Code", "Item Name", "Item Description", "Quantity in Stock", "Reorder Level", "Suppplier ID", "Quantity", "Item Unit Price", "Reorder Alert"
             }
-        ));
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.String.class, java.lang.Integer.class, java.lang.Double.class, java.lang.String.class
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+        });
         jTable1.setEditingColumn(5);
         jTable1.setEnabled(false);
         jTable1.setFocusCycleRoot(true);
@@ -173,6 +189,11 @@ public class List_Of_Items extends javax.swing.JFrame {
 
         jButton8.setText("Search");
         jButton8.setName("btnSearch1"); // NOI18N
+        jButton8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton8ActionPerformed(evt);
+            }
+        });
 
         jTextPane1.setName("txtSearch"); // NOI18N
         jScrollPane2.setViewportView(jTextPane1);
@@ -182,6 +203,11 @@ public class List_Of_Items extends javax.swing.JFrame {
 
         jButton9.setText("Generate");
         jButton9.setName("btnGenerate"); // NOI18N
+        jButton9.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton9ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -229,21 +255,21 @@ public class List_Of_Items extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 890, Short.MAX_VALUE)
+            .addGap(0, 902, Short.MAX_VALUE)
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addGap(0, 0, Short.MAX_VALUE)
+                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 0, Short.MAX_VALUE)))
+                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 500, Short.MAX_VALUE)
+            .addGap(0, 525, Short.MAX_VALUE)
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addGap(0, 0, Short.MAX_VALUE)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 0, Short.MAX_VALUE)))
+                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 513, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
 
         pack();
@@ -290,6 +316,141 @@ public class List_Of_Items extends javax.swing.JFrame {
         listpoFrame.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jButton6ActionPerformed
+
+    private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
+        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+    model.setRowCount(0); // Clear existing rows
+
+    try (BufferedReader itemsReader = new BufferedReader(new FileReader("items.txt"));
+         BufferedReader supplierReader = new BufferedReader(new FileReader("supplier.txt"))) {
+
+        // Store supplier data for quick lookup
+        Map<String, String[]> supplierMap = new HashMap<>();
+        String supplierLine;
+
+        while ((supplierLine = supplierReader.readLine()) != null) {
+            String[] supplierParts = supplierLine.split(",");
+            supplierMap.put(supplierParts[0], supplierParts); // SupplierID -> Supplier Details
+        }
+
+        // Skip the header line in items.txt
+        String itemLine = itemsReader.readLine(); // Read and discard the first line (header)
+
+        // Read and process data rows
+        while ((itemLine = itemsReader.readLine()) != null) {
+            String[] itemParts = itemLine.split(",");
+            if (itemParts.length < 8) {
+                // Skip invalid rows
+                continue;
+            }
+
+            String itemId = itemParts[0];
+            String itemName = itemParts[1];
+            String itemDescription = itemParts[2];
+            String supplierId = itemParts[3];
+            int currentStock = Integer.parseInt(itemParts[4].trim());
+            int reorderLevel = Integer.parseInt(itemParts[5].trim());
+            int quantity = Integer.parseInt(itemParts[6].trim());
+            double unitPrice = Double.parseDouble(itemParts[7].trim());
+
+            // Fetch supplier details
+            String[] supplierDetails = supplierMap.get(supplierId);
+            String supplierInfo = (supplierDetails != null)
+                    ? supplierDetails[1] + " (" + supplierDetails[5] + ")"
+                    : "Unknown Supplier";
+
+            // Determine reorder alert
+            String reorderAlert = (currentStock < reorderLevel) ? "⚠️ Below Reorder Level" : "✅ Stock OK";
+
+            // Add row to the table
+            model.addRow(new Object[]{
+                    itemId, itemName, itemDescription, currentStock, reorderLevel,
+                    supplierId + " - " + supplierInfo, quantity, unitPrice, reorderAlert
+            });
+        }
+
+    } catch (IOException e) {
+        JOptionPane.showMessageDialog(this, "Error reading files: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+    } catch (NumberFormatException e) {
+        JOptionPane.showMessageDialog(this, "Error parsing numbers in file: " + e.getMessage(), "Parsing Error", JOptionPane.ERROR_MESSAGE);
+    }
+    }//GEN-LAST:event_jButton9ActionPerformed
+
+    private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
+        String searchId = jTextPane1.getText().trim();
+    if (searchId.isEmpty()) {
+        JOptionPane.showMessageDialog(this, "Please enter an Item ID to search.", "Input Error", JOptionPane.WARNING_MESSAGE);
+        return;
+    }
+
+    DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+    model.setRowCount(0); // Clear existing rows
+
+    try (BufferedReader itemsReader = new BufferedReader(new FileReader("items.txt"));
+         BufferedReader supplierReader = new BufferedReader(new FileReader("supplier.txt"))) {
+
+        // Store supplier data for quick lookup
+        Map<String, String[]> supplierMap = new HashMap<>();
+        String supplierLine;
+
+        while ((supplierLine = supplierReader.readLine()) != null) {
+            String[] supplierParts = supplierLine.split(",");
+            supplierMap.put(supplierParts[0], supplierParts); // SupplierID -> Supplier Details
+        }
+
+        // Skip the header line in items.txt
+        String itemLine = itemsReader.readLine(); // Read and discard the first line (header)
+
+        // Search for the item in items.txt
+        boolean found = false;
+
+        while ((itemLine = itemsReader.readLine()) != null) {
+            String[] itemParts = itemLine.split(",");
+            if (itemParts.length < 8) {
+                continue; // Skip invalid rows
+            }
+
+            String itemId = itemParts[0];
+
+            if (itemId.equalsIgnoreCase(searchId)) {
+                String itemName = itemParts[1];
+                String itemDescription = itemParts[2];
+                String supplierId = itemParts[3];
+                int currentStock = Integer.parseInt(itemParts[4].trim());
+                int reorderLevel = Integer.parseInt(itemParts[5].trim());
+                int quantity = Integer.parseInt(itemParts[6].trim());
+                double unitPrice = Double.parseDouble(itemParts[7].trim());
+
+                // Fetch supplier details
+                String[] supplierDetails = supplierMap.get(supplierId);
+                String supplierInfo = (supplierDetails != null)
+                        ? supplierDetails[1] + " (" + supplierDetails[5] + ")"
+                        : "Unknown Supplier";
+
+                // Determine reorder alert
+                String reorderAlert = (currentStock < reorderLevel) ? "⚠️ Below Reorder Level" : "✅ Stock OK";
+
+                // Add row to the table
+                model.addRow(new Object[]{
+                        itemId, itemName, itemDescription, currentStock, reorderLevel,
+                        supplierId + " - " + supplierInfo, quantity, unitPrice, reorderAlert
+                });
+
+                found = true;
+                break;
+            }
+        }
+
+        if (!found) {
+            JOptionPane.showMessageDialog(this, "Item ID not found.", "Search Result", JOptionPane.INFORMATION_MESSAGE);
+        }
+
+    } catch (IOException e) {
+        JOptionPane.showMessageDialog(this, "Error reading files: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+    } catch (NumberFormatException e) {
+        JOptionPane.showMessageDialog(this, "Error parsing numbers in file: " + e.getMessage(), "Parsing Error", JOptionPane.ERROR_MESSAGE);
+    }
+    }//GEN-LAST:event_jButton8ActionPerformed
 
     /**
      * @param args the command line arguments

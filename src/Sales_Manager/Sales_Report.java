@@ -4,6 +4,15 @@
  */
 package Sales_Manager;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author Kaushaliya
@@ -15,6 +24,33 @@ public class Sales_Report extends javax.swing.JFrame {
      */
     public Sales_Report() {
         initComponents();
+        configureTableModel();
+    }
+    
+    private void configureTableModel() {
+        // Re-define the table model to set Unit Price and Total Sales as Strings
+        DefaultTableModel model = new DefaultTableModel(
+            new Object[][]{},
+            new String[]{
+                "Date", "Item ID", "Item Name", "Quantity Sold", "Unit Price", "Total Sales"
+            }
+        ) {
+            // Override the column types
+            Class[] types = new Class[]{
+                java.lang.String.class, // Date
+                java.lang.String.class, // Item ID
+                java.lang.String.class, // Item Name
+                java.lang.Integer.class, // Quantity Sold
+                java.lang.String.class, // Unit Price (String for RM format)
+                java.lang.String.class  // Total Sales (String for RM format)
+            };
+
+            @Override
+            public Class getColumnClass(int columnIndex) {
+                return types[columnIndex];
+            }
+        };
+        jTable2.setModel(model); // Apply the updated model to the table
     }
 
     /**
@@ -374,15 +410,23 @@ public class Sales_Report extends javax.swing.JFrame {
 
         jTable2.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null}
             },
             new String [] {
-                "Date", "Item Code", "Item Name", "Quantity Sold", "Total Sales"
+                "Date", "Item ID", "Item Name", "Quantity Sold", "Unit Price", "Total Sales"
             }
-        ));
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.Double.class, java.lang.Double.class
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+        });
         jScrollPane6.setViewportView(jTable2);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -407,9 +451,9 @@ public class Sales_Report extends javax.swing.JFrame {
                                 .addGap(62, 62, 62)
                                 .addComponent(jButton16))))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(55, 55, 55)
-                        .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 490, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(0, 65, Short.MAX_VALUE))
+                        .addGap(36, 36, 36)
+                        .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 534, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(0, 40, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -427,7 +471,7 @@ public class Sales_Report extends javax.swing.JFrame {
                     .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton16))
                 .addGap(47, 47, 47)
-                .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 297, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 329, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -471,7 +515,89 @@ public class Sales_Report extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton13ActionPerformed
 
     private void jButton16ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton16ActionPerformed
-        // TODO add your handling code here:
+        // Clear the existing table data
+        DefaultTableModel model = (DefaultTableModel) jTable2.getModel();
+        model.setRowCount(0);
+
+        // Read the start and end dates from the input fields
+        String startDateText = jTextPane3.getText().trim();
+        String endDateText = jTextPane4.getText().trim();
+
+        // Date format to parse and compare dates
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        sdf.setLenient(false);
+
+        Date startDate = null;
+        Date endDate = null;
+
+        try {
+            // Validate and parse start and end dates
+            if (!startDateText.isEmpty()) startDate = sdf.parse(startDateText);
+            if (!endDateText.isEmpty()) endDate = sdf.parse(endDateText);
+
+            if ((startDateText.isEmpty() && !endDateText.isEmpty()) || (!startDateText.isEmpty() && endDateText.isEmpty())) {
+                JOptionPane.showMessageDialog(this, "Please provide both start and end dates.", "Validation Error", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+        } catch (ParseException e) {
+            JOptionPane.showMessageDialog(this, "Invalid date format. Please use dd/MM/yyyy.", "Input Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        // Read the sales.txt file
+        try (BufferedReader reader = new BufferedReader(new FileReader("sales.txt"))) {
+            String line;
+            boolean isFirstLine = true;
+
+            while ((line = reader.readLine()) != null) {
+                if (isFirstLine) {
+                    isFirstLine = false; // Skip the header row
+                    continue;
+                }
+
+                String[] parts = line.split(",");
+                if (parts.length >= 6) {
+                    // Parse the row data
+                    String date = parts[0];
+                    String itemId = parts[1];
+                    String itemName = parts[2];
+                    int quantitySold = Integer.parseInt(parts[3]);
+                    
+                    // Remove "RM" prefix from unit price and total sales
+                    double unitPrice = Double.parseDouble(parts[4].replace("RM", "").trim());
+                    double totalSales = Double.parseDouble(parts[5].replace("RM", "").trim());
+
+                    // Parse the date from the file
+                    Date transactionDate = sdf.parse(date);
+
+                    // Filter rows based on date range
+                    if ((startDate != null && transactionDate.before(startDate)) ||
+                        (endDate != null && transactionDate.after(endDate))) {
+                        continue;
+                    }
+
+                    // Add the row to the table with "RM" formatting
+                    model.addRow(new Object[]{
+                        date,
+                        itemId,
+                        itemName,
+                        quantitySold,
+                        String.format("RM%.2f", unitPrice),
+                        String.format("RM%.2f", totalSales)
+                    });
+                }
+            }
+
+            // If no data is found within the specified range
+            if (model.getRowCount() == 0) {
+                JOptionPane.showMessageDialog(this, "No sales records found for the specified date range.", "Information", JOptionPane.INFORMATION_MESSAGE);
+            }
+
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(this, "Error reading sales.txt file: " + e.getMessage(), "File Error", JOptionPane.ERROR_MESSAGE);
+        } catch (ParseException e) {
+            JOptionPane.showMessageDialog(this, "Error parsing dates: " + e.getMessage(), "Parse Error", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_jButton16ActionPerformed
 
     private void jButton12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton12ActionPerformed
@@ -491,6 +617,17 @@ public class Sales_Report extends javax.swing.JFrame {
         listpoFrame.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jButton15ActionPerformed
+
+    private boolean isValidDate(String date) {
+    SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+    sdf.setLenient(false); // Ensures strict date parsing
+    try {
+        sdf.parse(date); // Attempt to parse the date
+        return true; // Return true if parsing is successful
+    } catch (ParseException e) {
+        return false; // Return false if parsing fails
+    }
+}
 
     /**
      * @param args the command line arguments
