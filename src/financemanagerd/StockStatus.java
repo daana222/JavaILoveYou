@@ -4,6 +4,12 @@
  */
 package financemanagerd;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author Mitsu
@@ -17,6 +23,7 @@ public class StockStatus extends javax.swing.JFrame {
         initComponents();
         setSize(890, 500);
         setLocationRelativeTo(null); // Center the frame
+        loadStockData();
     }
 
     /**
@@ -30,7 +37,7 @@ public class StockStatus extends javax.swing.JFrame {
 
         jLabel4 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTable2 = new javax.swing.JTable();
+        stockStatusTable = new javax.swing.JTable();
         jButton7 = new javax.swing.JButton();
         jTextField2 = new javax.swing.JTextField();
         jPanel1 = new javax.swing.JPanel();
@@ -50,18 +57,18 @@ public class StockStatus extends javax.swing.JFrame {
 
         jScrollPane2.setBackground(new java.awt.Color(255, 255, 255));
 
-        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+        stockStatusTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null}
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null}
             },
             new String [] {
-                "Item ID", "Item Name", "Description", "Stock level", "Reorder", "Last Updated"
+                "Item ID", "Item Name", "Description", "Stock level", "Reorder", "Quantity", "Unit price"
             }
         ));
-        jScrollPane2.setViewportView(jTable2);
+        jScrollPane2.setViewportView(stockStatusTable);
 
         jButton7.setText("Search");
 
@@ -228,6 +235,50 @@ public class StockStatus extends javax.swing.JFrame {
         dispose();
     }//GEN-LAST:event_SupplierbtnActionPerformed
 
+    private void loadStockData() {
+        String itemsFilePath = "C:\\Users\\Mitsu\\OneDrive - Asia Pacific University\\Documents\\NetBeansProjects\\FinanceManagerD\\items.txt"; // Adjust the path to your file
+        DefaultTableModel model = (DefaultTableModel) stockStatusTable.getModel();
+    model.setRowCount(0); // Clear any existing rows in the table
+
+    try (BufferedReader reader = new BufferedReader(new FileReader(itemsFilePath))) {
+        String line;
+        boolean isFirstLine = true; // Flag to identify the first line (header)
+
+        while ((line = reader.readLine()) != null) {
+            if (isFirstLine) {
+                isFirstLine = false; // Skip the header line
+                continue;
+            }
+
+            String[] columns = line.split(","); // Split the line by comma
+            if (columns.length >= 7) { // Ensure there are enough columns
+                String itemId = columns[0].trim();        // Item ID
+                String itemName = columns[1].trim();      // Item Name
+                String description = columns[2].trim();   // Description
+                String stockLevel = columns[4].trim();    // Stock Level
+                String reorderLevel = columns[5].trim();  // Reorder Level
+                String quantity = columns[6].trim();      // Quantity
+                String unitPrice = columns[7].trim();     // Unit Price
+
+                // Add the row to the table
+                model.addRow(new Object[]{itemId, itemName, description, stockLevel, reorderLevel, quantity, unitPrice});
+            }
+        }
+    } catch (IOException e) {
+        JOptionPane.showMessageDialog(this, "Error loading stock data: " + e.getMessage());
+    }
+}
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     /**
      * @param args the command line arguments
      */
@@ -275,7 +326,7 @@ public class StockStatus extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTable jTable2;
     private javax.swing.JTextField jTextField2;
+    private javax.swing.JTable stockStatusTable;
     // End of variables declaration//GEN-END:variables
 }
