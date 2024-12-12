@@ -1,0 +1,5 @@
+sdfghjkSDF,0124539845,dvfgbnhyjtu,cfvrgetrbki,gvbhynjulo,SALES MANEGER
+John Doe,1234567890,Some Address,username1,password1,SALES MANEGER
+Jane Smith,0987654321,Other Address,username2,password2,SALES MANEGER
+SDv,0123456835,adfv,adfvrt,afvtyu,PURCHASE MANAGER
+SDv,0123456835,whynooooo,adfvrt,afvtyu,PURCHASE MANAGER
