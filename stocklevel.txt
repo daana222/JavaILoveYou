@@ -1,4 +1,4 @@
-ItemID,Item Name,Current stock level,Reorder level,last updated date
-IT001,Laptop,100,30,24/02/2024
-IT002,Computer,200,50,2/03/2024
-IT003,Lamp,250,100,30/4/2024
+ItemID,Item Name,Current Stock Level,Reorder Level,Last Updated Date
+IT003,Laptop,10,20,28/08/2024
+IT001,Mouse,10,40,22/02/2024
+IT002,Computer,180,60,30/08/2024

@@ -4,11 +4,23 @@
  */
 package Sales_Manager;
 
+import javax.swing.*;  // For JOptionPane, etc.
+import javax.swing.table.DefaultTableModel;  // For updating the table model
+import java.io.*;  // For BufferedReader, FileReader, etc.
+import java.text.SimpleDateFormat;  // For date formatting and parsing
+import java.util.Date;  // For the Date object
+import java.util.*;  // For ArrayList, List, etc.
+
+
+
 /**
  *
  * @author Kaushaliya
  */
 public class Stock_Level extends javax.swing.JFrame {
+    
+    
+   
 
     /**
      * Creates new form Stock_Level
@@ -16,6 +28,46 @@ public class Stock_Level extends javax.swing.JFrame {
     public Stock_Level() {
         initComponents();
     }
+    
+    public class StockItem {
+    private String itemId;
+    private String itemName;
+    private int currentStockLevel;
+    private int reorderLevel;
+    private String lastUpdatedDate;
+
+    public StockItem(String itemId, String itemName, int currentStockLevel, int reorderLevel, String lastUpdatedDate) {
+        this.itemId = itemId;
+        this.itemName = itemName;
+        this.currentStockLevel = currentStockLevel;
+        this.reorderLevel = reorderLevel;
+        this.lastUpdatedDate = lastUpdatedDate;
+    }
+
+    public String getItemId() {
+        return itemId;
+    }
+
+    public String getItemName() {
+        return itemName;
+    }
+
+    public int getCurrentStockLevel() {
+        return currentStockLevel;
+    }
+
+    public int getReorderLevel() {
+        return reorderLevel;
+    }
+
+    public String getLastUpdatedDate() {
+        return lastUpdatedDate;
+    }
+}
+    
+    // Form component initialization (Button, Table, etc.)
+    
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -38,8 +90,6 @@ public class Stock_Level extends javax.swing.JFrame {
         jButton6 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
-        jRadioButton1 = new javax.swing.JRadioButton();
-        jButton8 = new javax.swing.JButton();
         jButton9 = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jButton10 = new javax.swing.JButton();
@@ -121,13 +171,13 @@ public class Stock_Level extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jButton7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
-            .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, 193, Short.MAX_VALUE)
+            .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jButton5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jButton6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(52, Short.MAX_VALUE)
                 .addComponent(jLabel2)
                 .addGap(49, 49, 49))
         );
@@ -150,36 +200,48 @@ public class Stock_Level extends javax.swing.JFrame {
                 .addComponent(jButton6)
                 .addGap(30, 30, 30)
                 .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(52, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null}
             },
             new String [] {
-                "Item Code", "Item Name", "Quantity in Stock", "Reorder Level", "Reorder Alert"
+                "Item ID", "Item Name", "Current Stock Level", "Reorder Level", "Last Updated Date", "Reorder Alert"
             }
-        ));
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.String.class, java.lang.String.class
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+        });
         jScrollPane1.setViewportView(jTable1);
-
-        jRadioButton1.setText("Items below Reorder Level");
-        jRadioButton1.setName("RbtnReorderLevel"); // NOI18N
-
-        jButton8.setText("Refresh");
-        jButton8.setName("btnRefresh"); // NOI18N
 
         jButton9.setText("Create Requisition");
         jButton9.setName("btnCreate Requisition"); // NOI18N
+        jButton9.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton9ActionPerformed(evt);
+            }
+        });
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel1.setText("Stock Level");
 
         jButton10.setText("Display");
         jButton10.setName("btnDisplay"); // NOI18N
+        jButton10.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton10ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -188,41 +250,35 @@ public class Stock_Level extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
-                                .addGap(41, 41, 41)
-                                .addComponent(jLabel1))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(32, 32, 32)
-                                .addComponent(jRadioButton1)
-                                .addGap(45, 45, 45)
-                                .addComponent(jButton8)
-                                .addGap(18, 18, 18)
-                                .addComponent(jButton10)
-                                .addGap(150, 150, 150)))
-                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 41, Short.MAX_VALUE)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jButton9)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 530, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(36, 36, 36))))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton9)
+                        .addGap(36, 36, 36))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton10)
+                        .addGap(33, 33, 33))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 640, Short.MAX_VALUE)
+                                .addContainerGap())
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel1)
+                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(70, 70, 70)
                 .addComponent(jLabel1)
-                .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton8)
-                    .addComponent(jRadioButton1)
-                    .addComponent(jButton10))
-                .addGap(31, 31, 31)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 304, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(28, 28, 28)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 21, Short.MAX_VALUE)
+                .addComponent(jButton10)
+                .addGap(32, 32, 32)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 319, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(26, 26, 26)
                 .addComponent(jButton9)
                 .addGap(30, 30, 30))
         );
@@ -231,21 +287,21 @@ public class Stock_Level extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 800, Short.MAX_VALUE)
+            .addGap(0, 869, Short.MAX_VALUE)
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addGap(0, 0, Short.MAX_VALUE)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 0, Short.MAX_VALUE)))
+                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 857, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 523, Short.MAX_VALUE)
+            .addGap(0, 576, Short.MAX_VALUE)
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addGap(0, 0, Short.MAX_VALUE)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 0, Short.MAX_VALUE)))
+                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 564, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
 
         pack();
@@ -293,6 +349,104 @@ public class Stock_Level extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_jButton6ActionPerformed
 
+    private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
+        List<StockItem> stockItems = new ArrayList<>();
+
+    // File path for stocklevel.txt (adjust if needed)
+    String filePath = "stocklevel.txt";
+
+    // Try to read the file and load data into the table
+    try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
+        String line;
+        while ((line = br.readLine()) != null) {
+            // Skip the header line
+            if (line.startsWith("ItemID")) continue;
+
+            // Split line by commas (assuming CSV format)
+            String[] parts = line.split(",");
+            if (parts.length != 5) {
+                JOptionPane.showMessageDialog(this, "Invalid line format in stocklevel.txt.", "Error", JOptionPane.ERROR_MESSAGE);
+                continue; // Skip invalid lines
+            }
+
+            // Validate and parse data
+            String itemId = parts[0].trim();
+            String itemName = parts[1].trim();
+            int currentStockLevel = 0;
+            int reorderLevel = 0;
+            String lastUpdatedDate = parts[4].trim();
+
+            try {
+                currentStockLevel = Integer.parseInt(parts[2].trim());
+                reorderLevel = Integer.parseInt(parts[3].trim());
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(this, "Invalid number format for stock level or reorder level in line: " + line, "Error", JOptionPane.ERROR_MESSAGE);
+                continue; // Skip this line if numbers are invalid
+            }
+
+            // Validate last updated date format (DD/MM/YYYY)
+            SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+            dateFormat.setLenient(false); // Strict parsing
+            try {
+                Date parsedDate = dateFormat.parse(lastUpdatedDate);
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(this, "Invalid date format in line: " + line + " (Expected format: DD/MM/YYYY)", "Error", JOptionPane.ERROR_MESSAGE);
+                continue; // Skip this line if date is invalid
+            }
+
+            // Create StockItem object
+            StockItem item = new StockItem(itemId, itemName, currentStockLevel, reorderLevel, lastUpdatedDate);
+
+            // Add the item to the list
+            stockItems.add(item);
+        }
+    } catch (IOException e) {
+        JOptionPane.showMessageDialog(this, "Error reading stocklevel.txt file.", "Error", JOptionPane.ERROR_MESSAGE);
+        return;
+    }
+
+    // Update the table model to display data
+    DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+    model.setRowCount(0); // Clear the existing table data
+
+    // Loop through the stock items and add them to the table
+    for (StockItem item : stockItems) {
+        // Determine reorder alert icon (using visual signs)
+        String reorderAlert = item.getCurrentStockLevel() < item.getReorderLevel() ? "⚠️" : "✅";
+
+        // Add row to table
+        model.addRow(new Object[]{
+            item.getItemId(),
+            item.getItemName(),
+            item.getCurrentStockLevel(),
+            item.getReorderLevel(),
+            item.getLastUpdatedDate(),
+            reorderAlert
+        });
+    }
+
+    // Make sure to refresh the table view
+    jTable1.repaint();
+    }//GEN-LAST:event_jButton10ActionPerformed
+
+    private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
+        int selectedRow = jTable1.getSelectedRow();
+    
+    if (selectedRow != -1) {
+        // Get the Item ID and Item Name from the selected row
+        String itemId = (String) jTable1.getValueAt(selectedRow, 0); // Item ID is in the first column
+        String itemName = (String) jTable1.getValueAt(selectedRow, 1); // Item Name is in the second column
+        
+        // Pass the selected Item ID and Item Name to the Create Requisition form
+        Create_Requisition createRequisitionFrame = new Create_Requisition(itemId, itemName);
+        createRequisitionFrame.setVisible(true);
+        this.dispose(); // Close current Stock Level form
+    } else {
+        // Show an error message if no row is selected
+        JOptionPane.showMessageDialog(this, "Please select an item from the table.", "Error", JOptionPane.ERROR_MESSAGE);
+    }
+    }//GEN-LAST:event_jButton9ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -337,13 +491,11 @@ public class Stock_Level extends javax.swing.JFrame {
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton7;
-    private javax.swing.JButton jButton8;
     private javax.swing.JButton jButton9;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JRadioButton jRadioButton1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
     // End of variables declaration//GEN-END:variables
