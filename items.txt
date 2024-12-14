@@ -1,3 +1,11 @@
-ItemID,Item Name,Item Description,Supplier ID,Current Stock Level,Reorder Level,Quantity,Item Unit Price,P.O ID,Item on P.O
-IT001,Laptop,Acer,SP001,100,30,200,2000,PO001,200
-IT002,Computer,Lenovo(DESKTOP),SP002,200,50,300,3000,PO001,200
+Item ID,Item Name,Current Stock,Quantity,Supplier ID,Reorder Level,Cost per unit,Selling price per unit
+IT001,Laptop,200,460,SP001,10,2.50,20.50
+IT002,Phone,210,450,SP001,10,3.00,17.50
+IT003,Keyboard,150,100,SP001,15,5.00,25.00
+IT004,Headphones,120,80,SP001,12,8.00,40.00
+IT005,Tablet,100,90,SP002,20,60.00,500.00
+IT006,Monitor,150,100,SP001,30,36.00,250.00
+IT007,Camera,80,50,SP002,10,120.00,800.00
+IT008,Printer,50,70,SP002,15,150.00,800.00
+IT009,Mouse,120,60,SP002,5,10.00,30.00
+

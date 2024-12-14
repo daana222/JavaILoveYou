@@ -59,13 +59,13 @@ public class StockStatus extends javax.swing.JFrame {
 
         stockStatusTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null}
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null}
             },
             new String [] {
-                "Item ID", "Item Name", "Description", "Stock level", "Reorder", "Quantity", "Unit price"
+                "Item ID", "Item Name", "Stock level", "Reorder", "Quantity", "Unit price"
             }
         ));
         jScrollPane2.setViewportView(stockStatusTable);
