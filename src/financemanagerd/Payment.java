@@ -40,6 +40,7 @@ public class Payment extends javax.swing.JFrame {
         loadDataFromFile(filePath); // Load data into the table
         storeOriginalTableData();
         addDueDateRenderer();
+        updateItemsFromPO(poId);
 
         // Select the row with the specific PO ID
         preselectRowByPOID(poId);
@@ -424,17 +425,15 @@ public class Payment extends javax.swing.JFrame {
             // Update the table and file
             updatePaymentDetails(poNumber, model.getValueAt(selectedRow, 4).toString(), paymentDate, paymentId);
 
+            // Refresh table data
+            loadDataFromFile("C:\\Users\\Mitsu\\OneDrive - Asia Pacific University\\Documents\\NetBeansProjects\\FinanceManagerD\\Payment.txt");
+
             // Generate Receipt
             generateTextReceipt(supplierId, poNumber, totalAmount, dueDateStr, paymentDate, paymentId);
-
-            // Update Supplier Form (Refresh Data)
-            new Supplier_2(supplierId, 0).setVisible(true);
-            this.dispose();
 
         } catch (java.text.ParseException e) {
             javax.swing.JOptionPane.showMessageDialog(this, "Error parsing due date: " + e.getMessage());
         }
-
     }//GEN-LAST:event_makePaymentbtnActionPerformed
 
     

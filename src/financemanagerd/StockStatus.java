@@ -71,6 +71,11 @@ public class StockStatus extends javax.swing.JFrame {
         jScrollPane2.setViewportView(stockStatusTable);
 
         jButton7.setText("Search");
+        jButton7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton7ActionPerformed(evt);
+            }
+        });
 
         jPanel1.setBackground(new java.awt.Color(0, 0, 102));
 
@@ -235,39 +240,83 @@ public class StockStatus extends javax.swing.JFrame {
         dispose();
     }//GEN-LAST:event_SupplierbtnActionPerformed
 
+    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
+        searchStockTable();
+    }//GEN-LAST:event_jButton7ActionPerformed
+
     private void loadStockData() {
         String itemsFilePath = "C:\\Users\\Mitsu\\OneDrive - Asia Pacific University\\Documents\\NetBeansProjects\\FinanceManagerD\\items.txt"; // Adjust the path to your file
         DefaultTableModel model = (DefaultTableModel) stockStatusTable.getModel();
-    model.setRowCount(0); // Clear any existing rows in the table
+        model.setRowCount(0); // Clear any existing rows in the table
 
-    try (BufferedReader reader = new BufferedReader(new FileReader(itemsFilePath))) {
-        String line;
-        boolean isFirstLine = true; // Flag to identify the first line (header)
+        try (BufferedReader reader = new BufferedReader(new FileReader(itemsFilePath))) {
+            String line;
+            boolean isFirstLine = true; // Flag to identify the first line (header)
 
-        while ((line = reader.readLine()) != null) {
-            if (isFirstLine) {
-                isFirstLine = false; // Skip the header line
-                continue;
+            while ((line = reader.readLine()) != null) {
+                if (isFirstLine) {
+                    isFirstLine = false; // Skip the header line
+                    continue;
+                }
+
+                String[] columns = line.split(","); // Split the line by comma
+                if (columns.length >= 7) { // Ensure there are enough columns
+                    String itemId = columns[0].trim();        // Item ID
+                    String itemName = columns[1].trim();      // Item Name
+                    String stockLevel = columns[2].trim();    // Stock Level
+                    String reorderLevel = columns[5].trim();  // Reorder Level
+                    String quantity = columns[3].trim();      // Quantity
+                    String unitPrice = columns[6].trim();     // Unit Price
+
+                    // Add the row to the table
+                    model.addRow(new Object[]{itemId, itemName, stockLevel, reorderLevel, quantity, unitPrice});
+                }
             }
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(this, "Error loading stock data: " + e.getMessage());
+        }
+    }
+    
+    private void searchStockTable() {
+        String searchText = jTextField2.getText().trim().toLowerCase();
 
-            String[] columns = line.split(","); // Split the line by comma
-            if (columns.length >= 7) { // Ensure there are enough columns
-                String itemId = columns[0].trim();        // Item ID
-                String itemName = columns[1].trim();      // Item Name
-                String description = columns[2].trim();   // Description
-                String stockLevel = columns[4].trim();    // Stock Level
-                String reorderLevel = columns[5].trim();  // Reorder Level
-                String quantity = columns[6].trim();      // Quantity
-                String unitPrice = columns[7].trim();     // Unit Price
+        if (searchText.isEmpty()) {
+            loadStockData(); // Reload the original data
+            return;
+        }
 
-                // Add the row to the table
-                model.addRow(new Object[]{itemId, itemName, description, stockLevel, reorderLevel, quantity, unitPrice});
+        DefaultTableModel model = (DefaultTableModel) stockStatusTable.getModel();
+        DefaultTableModel filteredModel = new DefaultTableModel(
+            new String[]{"Item ID", "Item Name", "Stock level", "Reorder", "Quantity", "Unit price"}, 0
+        );
+
+        for (int i = 0; i < model.getRowCount(); i++) {
+            boolean match = false;
+            for (int j = 0; j < model.getColumnCount(); j++) {
+                Object value = model.getValueAt(i, j);
+                if (value != null && value.toString().toLowerCase().contains(searchText)) {
+                    match = true;
+                    break;
+                }
+            }
+            if (match) {
+                Object[] row = new Object[model.getColumnCount()];
+                for (int j = 0; j < model.getColumnCount(); j++) {
+                    row[j] = model.getValueAt(i, j);
+                }
+                filteredModel.addRow(row);
             }
         }
-    } catch (IOException e) {
-        JOptionPane.showMessageDialog(this, "Error loading stock data: " + e.getMessage());
+
+        if (filteredModel.getRowCount() == 0) {
+            JOptionPane.showMessageDialog(this, "No matching data found!", "Search Results", JOptionPane.INFORMATION_MESSAGE);
+            loadStockData(); // Reload the original data if no match is found
+        } else {
+            stockStatusTable.setModel(filteredModel); // Update the table with the filtered data
+        }
     }
-}
+
+
 
     
     

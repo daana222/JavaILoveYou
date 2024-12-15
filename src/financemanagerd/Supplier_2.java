@@ -364,8 +364,15 @@ public class Supplier_2 extends javax.swing.JFrame {
             }
         }
 
-        supplierPayment2table.setModel(filteredModel); // Set the filtered data to the table
+        if (filteredModel.getRowCount() == 0) {
+            // Show message if no matching data is found
+            javax.swing.JOptionPane.showMessageDialog(this, "No matching data found!", "Search Results", javax.swing.JOptionPane.INFORMATION_MESSAGE);
+            loadPurchaseOrders(supplierIdLabel.getText()); // Reload original data if no match is found
+        } else {
+            supplierPayment2table.setModel(filteredModel); // Set the filtered data to the table
+        }
     }
+
 
 
 
