@@ -1,14 +1,26 @@
 
 package financemanagerd;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import javax.swing.table.DefaultTableModel;
+import java.io.IOException;
+
 
 public class Supplier_2 extends javax.swing.JFrame {
 
     
-    public Supplier_2() {
+    public Supplier_2(String supplierId, double balancePayment) {
         initComponents();
         setSize(890, 500);
         setLocationRelativeTo(null); // Center the frame
+
+        supplierIdLabel.setText(supplierId); // Set Supplier ID
+
+        // Load purchase orders related to the supplier
+        double calculatedBalance = loadPurchaseOrders(supplierId);
+        balancePaymentLabel.setText(String.valueOf(calculatedBalance)); // Display the calculated balance
+
     }
 
     
@@ -28,12 +40,12 @@ public class Supplier_2 extends javax.swing.JFrame {
         jButton8 = new javax.swing.JButton();
         jTextField3 = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
+        balancePaymentLabel = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        supplierPayment2table = new javax.swing.JTable();
         jLabel4 = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        supplierIdLabel = new javax.swing.JLabel();
+        paymentbtn = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setPreferredSize(new java.awt.Dimension(890, 500));
@@ -130,12 +142,17 @@ public class Supplier_2 extends javax.swing.JFrame {
         jLabel5.setText("Supplier Payment Status");
 
         jButton8.setText("Search");
+        jButton8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton8ActionPerformed(evt);
+            }
+        });
 
         jLabel2.setText("Balance Payment:");
 
-        jLabel3.setText("4000");
+        balancePaymentLabel.setText("4000");
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        supplierPayment2table.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -146,13 +163,18 @@ public class Supplier_2 extends javax.swing.JFrame {
                 "PO ID", "Amount payable", "Total amount paid", "Due date"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(supplierPayment2table);
 
         jLabel4.setText("Supplier ID:");
 
-        jLabel6.setText("001");
+        supplierIdLabel.setText("001");
 
-        jButton1.setText("Payment");
+        paymentbtn.setText("Payment");
+        paymentbtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                paymentbtnActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -168,11 +190,11 @@ public class Supplier_2 extends javax.swing.JFrame {
                                 .addGap(0, 0, Short.MAX_VALUE)
                                 .addComponent(jLabel4)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jLabel6))
+                                .addComponent(supplierIdLabel))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel2)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jLabel3)
+                                .addComponent(balancePaymentLabel)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(jButton8)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -181,7 +203,7 @@ public class Supplier_2 extends javax.swing.JFrame {
                         .addGap(45, 45, 45))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton1)
+                        .addComponent(paymentbtn)
                         .addGap(65, 65, 65))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(40, 40, 40)
@@ -197,17 +219,17 @@ public class Supplier_2 extends javax.swing.JFrame {
                 .addGap(10, 10, 10)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
-                    .addComponent(jLabel6))
+                    .addComponent(supplierIdLabel))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(jLabel3)
+                    .addComponent(balancePaymentLabel)
                     .addComponent(jButton8)
                     .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(31, 31, 31)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 241, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jButton1))
+                .addComponent(paymentbtn))
         );
 
         pack();
@@ -248,9 +270,121 @@ public class Supplier_2 extends javax.swing.JFrame {
         dispose();
     }//GEN-LAST:event_SupplierbtnActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
+    private void paymentbtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_paymentbtnActionPerformed
+        int selectedRow = supplierPayment2table.getSelectedRow();
+
+        if (selectedRow == -1) {
+            javax.swing.JOptionPane.showMessageDialog(this, "Please select a row.");
+            return;
+        }
+
+        String poId = supplierPayment2table.getValueAt(selectedRow, 0).toString(); // PO ID column
+        Payment paymentForm = new Payment(poId); // Pass the PO ID
+        paymentForm.setVisible(true);
+        this.dispose(); // Optionally close the current form
+    }//GEN-LAST:event_paymentbtnActionPerformed
+
+    private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
+        searchSupplierTable();
+    }//GEN-LAST:event_jButton8ActionPerformed
+    
+    
+    private double loadPurchaseOrders(String supplierId) {
+        String filePath = "C:\\Users\\Mitsu\\OneDrive - Asia Pacific University\\Documents\\NetBeansProjects\\FinanceManagerD\\Payment.txt";
+
+        DefaultTableModel model = (DefaultTableModel) supplierPayment2table.getModel();
+        model.setRowCount(0); // Clear existing rows in the table
+
+        double totalPaid = 0.0; // Track total paid for the supplier
+        double totalDue = 0.0; // Track total due for the supplier
+
+        try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
+            String line;
+            boolean isFirstLine = true;
+
+            while ((line = br.readLine()) != null) {
+                if (isFirstLine) {
+                    isFirstLine = false; // Skip the header row
+                    continue;
+                }
+
+                String[] columns = line.split(",");
+                String poSupplierId = columns[5].trim(); // Supplier ID
+                String poId = columns[1].trim(); // PO ID
+                double amountPayable = Double.parseDouble(columns[7].trim()); // Amount payable
+                String dueDate = columns[4].trim(); // Due Date
+                String status = columns[2].trim(); // Payment Status
+
+                if (poSupplierId.equals(supplierId)) {
+                    totalDue += amountPayable;
+
+                    // Consider both Paid and Late as part of totalPaid
+                    if (status.equalsIgnoreCase("Paid") || status.equalsIgnoreCase("Late")) {
+                        totalPaid += amountPayable;
+                    }
+
+                    // Add row to the table
+                    model.addRow(new Object[]{poId, amountPayable, totalPaid, dueDate});
+                }
+            }
+        } catch (IOException e) {
+            javax.swing.JOptionPane.showMessageDialog(this, "Error reading Payment.txt: " + e.getMessage());
+        }
+
+        return totalDue - totalPaid; // Return the calculated balance
+    }
+    
+    
+    private void searchSupplierTable() {
+        String searchText = jTextField3.getText().trim().toLowerCase(); // Get the search text
+
+        if (searchText.isEmpty()) {
+            loadPurchaseOrders(supplierIdLabel.getText()); // Reload all rows
+            return;
+        }
+
+        DefaultTableModel model = (DefaultTableModel) supplierPayment2table.getModel();
+        DefaultTableModel filteredModel = new DefaultTableModel(new String[]{"PO ID", "Amount payable", "Total amount paid", "Due date"}, 0);
+
+        for (int i = 0; i < model.getRowCount(); i++) {
+            boolean match = false;
+            for (int j = 0; j < model.getColumnCount(); j++) {
+                Object value = model.getValueAt(i, j);
+                if (value != null && value.toString().toLowerCase().contains(searchText)) {
+                    match = true;
+                    break;
+                }
+            }
+            if (match) {
+                Object[] row = new Object[model.getColumnCount()];
+                for (int j = 0; j < model.getColumnCount(); j++) {
+                    row[j] = model.getValueAt(i, j);
+                }
+                filteredModel.addRow(row);
+            }
+        }
+
+        supplierPayment2table.setModel(filteredModel); // Set the filtered data to the table
+    }
+
+
+
+
+
+        
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -278,7 +412,7 @@ public class Supplier_2 extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Supplier_2().setVisible(true);
+                new Supplier_2("SupplierID", 4000).setVisible(true);
             }
         });
     }
@@ -289,18 +423,18 @@ public class Supplier_2 extends javax.swing.JFrame {
     private javax.swing.JButton Paymentbtn;
     private javax.swing.JButton Stockbtn;
     private javax.swing.JButton Supplierbtn;
-    private javax.swing.JButton jButton1;
+    private javax.swing.JLabel balancePaymentLabel;
     private javax.swing.JButton jButton8;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
     private javax.swing.JTextField jTextField3;
+    private javax.swing.JButton paymentbtn;
+    private javax.swing.JLabel supplierIdLabel;
+    private javax.swing.JTable supplierPayment2table;
     // End of variables declaration//GEN-END:variables
 }

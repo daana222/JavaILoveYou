@@ -25,8 +25,24 @@ public class Payment extends javax.swing.JFrame {
         storeOriginalTableData();
         storeOriginalTableData2();
         addDueDateRenderer();
+        // Select the row with the specific PO ID
         
         
+    }
+    
+    public Payment(String poId) {
+        initComponents();
+        setSize(890, 500);
+        setLocationRelativeTo(null);
+        
+        String filePath = "C:\\Users\\Mitsu\\OneDrive - Asia Pacific University\\Documents\\NetBeansProjects\\FinanceManagerD\\Payment.txt";
+
+        loadDataFromFile(filePath); // Load data into the table
+        storeOriginalTableData();
+        addDueDateRenderer();
+
+        // Select the row with the specific PO ID
+        preselectRowByPOID(poId);
     }
 
 
@@ -372,63 +388,52 @@ public class Payment extends javax.swing.JFrame {
     
     private void makePaymentbtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_makePaymentbtnActionPerformed
         int selectedRow = paymentTable.getSelectedRow();
+        if (selectedRow == -1) {
+            javax.swing.JOptionPane.showMessageDialog(this, "Please select a row to make a payment.");
+            return;
+        }
 
-            if (selectedRow == -1) {
-                javax.swing.JOptionPane.showMessageDialog(this, "Please select a row to make a payment.");
-                return;
+        DefaultTableModel model = (DefaultTableModel) paymentTable.getModel();
+        String status = model.getValueAt(selectedRow, 4).toString(); // Assuming "Payment Status" is in column 4
+
+        if (status.equalsIgnoreCase("Paid") || status.equalsIgnoreCase("Late")) {
+            javax.swing.JOptionPane.showMessageDialog(this, "Payment is already made.");
+            return;
+        }
+
+        // Retrieve row details
+        String poNumber = model.getValueAt(selectedRow, 0).toString(); // PO ID
+        String supplierId = model.getValueAt(selectedRow, 1).toString(); // Supplier ID
+        String totalAmount = model.getValueAt(selectedRow, 3).toString(); // Total Amount
+        String dueDateStr = model.getValueAt(selectedRow, 5).toString(); // Due Date
+
+        java.text.SimpleDateFormat dateFormat = new java.text.SimpleDateFormat("yyyy-MM-dd");
+        String paymentDate = dateFormat.format(new java.util.Date());
+        String paymentId = generatePaymentId(model);
+
+        try {
+            java.util.Date dueDate = dateFormat.parse(dueDateStr);
+            java.util.Date currentDate = new java.util.Date();
+
+            if (currentDate.after(dueDate)) {
+                model.setValueAt("Late", selectedRow, 4); // Set status to "Late"
+            } else {
+                model.setValueAt("Paid", selectedRow, 4); // Set status to "Paid"
             }
 
-            DefaultTableModel model = (DefaultTableModel) paymentTable.getModel();
-            
-            String status = model.getValueAt(selectedRow, 4).toString(); // Assuming "Status" is in column 5
+            // Update the table and file
+            updatePaymentDetails(poNumber, model.getValueAt(selectedRow, 4).toString(), paymentDate, paymentId);
 
-            if (status.equalsIgnoreCase("Paid")|| status.equalsIgnoreCase("Late")) {
-                javax.swing.JOptionPane.showMessageDialog(this, "Payment is already made.");
-                return; // Exit the method since the payment is already made
-            }
+            // Generate Receipt
+            generateTextReceipt(supplierId, poNumber, totalAmount, dueDateStr, paymentDate, paymentId);
 
-            // Retrieve row details
-            String supplierId = model.getValueAt(selectedRow, 1).toString();
-            String poNumber = model.getValueAt(selectedRow, 0).toString();
-            String totalAmount = model.getValueAt(selectedRow, 3).toString();
-            String dueDateStr = model.getValueAt(selectedRow, 5).toString();
-            
-            String paymentId = generatePaymentId(model);
+            // Update Supplier Form (Refresh Data)
+            new Supplier_2(supplierId, 0).setVisible(true);
+            this.dispose();
 
-
-            // Update payment status in the table
-            // Compare current date with due date
-            // Correct date format in SimpleDateFormat
-            java.text.SimpleDateFormat dateFormat = new java.text.SimpleDateFormat("yyyy-MM-dd"); // Match the format in Payment.txt
-            String paymentDate = dateFormat.format(new java.util.Date());
-            model.setValueAt(paymentDate, selectedRow, 6); // Update "Payment Date" column in the table
-            model.setValueAt(paymentId, selectedRow, 7); // Update "Payment ID" column in the table
-
-            try {
-                java.util.Date dueDate = dateFormat.parse(dueDateStr);
-                java.util.Date currentDate = new java.util.Date();
-
-                if (currentDate.after(dueDate)) {
-                    model.setValueAt("Late", selectedRow, 4); // Set status to "Late"
-                    javax.swing.JOptionPane.showMessageDialog(this, "Late payment");
-                } else {
-                    model.setValueAt("Paid", selectedRow, 4); // Set status to "Paid"
-                }
-                
-                updatePaymentDetails(poNumber, model.getValueAt(selectedRow, 4).toString(), paymentDate, paymentId);
-                System.out.println("Payment details updated for PO: " + poNumber);
-
-                // Generate Receipt
-                generateTextReceipt(supplierId, poNumber, totalAmount, dueDateStr, paymentDate, paymentId);
-                System.out.println("Receipt generated for PO: " + poNumber);
-                
-                // Update Items.txt
-                updateItemsFromPO(poNumber);
-
-
-            } catch (java.text.ParseException e) {
-                javax.swing.JOptionPane.showMessageDialog(this, "Error parsing due date: " + e.getMessage());
-            }
+        } catch (java.text.ParseException e) {
+            javax.swing.JOptionPane.showMessageDialog(this, "Error parsing due date: " + e.getMessage());
+        }
 
     }//GEN-LAST:event_makePaymentbtnActionPerformed
 
@@ -502,23 +507,22 @@ public class Payment extends javax.swing.JFrame {
         String filePath = "C:\\Users\\Mitsu\\OneDrive - Asia Pacific University\\Documents\\NetBeansProjects\\FinanceManagerD\\Payment.txt";
 
         try {
-            // Read all lines from the file and store updated lines
             java.util.List<String> lines = new java.util.ArrayList<>();
             try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
                 String line;
                 while ((line = reader.readLine()) != null) {
                     String[] columns = line.split(",");
-                    if (columns.length >= 8 && columns[1].trim().equals(poNumber)) { 
-                        // Match the PO ID and update the required columns
-                        columns[2] = newStatus; // Update Payment Status
-                        columns[3] = paymentDate; // Update Payment Date
-                        columns[0] = paymentId; // Update Payment ID
+                    if (columns.length >= 8 && columns[1].trim().equals(poNumber)) {
+                        // Match the PO ID and update columns
+                        columns[2] = newStatus; // Payment Status
+                        columns[3] = paymentDate; // Payment Date
+                        columns[0] = paymentId; // Payment ID
                     }
-                    lines.add(String.join(",", columns)); // Add the (updated or unchanged) line to the list
+                    lines.add(String.join(",", columns)); // Add the updated or unchanged line
                 }
             }
 
-            // Write all updated lines back to the file
+            // Write back updated lines to the file
             try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
                 for (String updatedLine : lines) {
                     writer.write(updatedLine);
@@ -530,6 +534,7 @@ public class Payment extends javax.swing.JFrame {
             javax.swing.JOptionPane.showMessageDialog(this, "Error updating Payment.txt: " + e.getMessage());
         }
     }
+
 
 
 
@@ -672,6 +677,17 @@ public class Payment extends javax.swing.JFrame {
         }
     }
 
+    private void preselectRowByPOID(String poId) {
+        DefaultTableModel model = (DefaultTableModel) paymentTable.getModel();
+        for (int i = 0; i < model.getRowCount(); i++) {
+            String tablePoId = model.getValueAt(i, 0).toString(); // Assuming PO ID is in column 0
+            if (tablePoId.equals(poId)) {
+                paymentTable.setRowSelectionInterval(i, i); // Select the matching row
+                paymentTable.scrollRectToVisible(paymentTable.getCellRect(i, 0, true)); // Scroll to the row
+                break;
+            }
+        }
+}
 
 
 
