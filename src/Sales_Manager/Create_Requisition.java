@@ -8,9 +8,6 @@ import java.io.*;
 import java.text.*;
 import java.util.*;
 import javax.swing.*;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-import java.lang.Double; // Optional, but may resolve some issues
 
 
 
@@ -35,105 +32,107 @@ public class Create_Requisition extends javax.swing.JFrame {
         initComponents();
         this.itemId = itemId;
         this.itemName = itemName;
-        
+
         // Pre-fill the Item ID and Item Name fields
         jTextField6.setText(itemId);  // jTextField6 for Item ID
         jTextField7.setText(itemName);  // jTextField7 for Item Name
+
+        // Fetch and populate Supplier ID and Cost Per Unit
+        populateSupplierAndCost();
+    }
+    
+    private void populateSupplierAndCost() {
+        try (BufferedReader reader = new BufferedReader(new FileReader("items.txt"))) {
+            String line;
+            reader.readLine(); // Skip the header
+            while ((line = reader.readLine()) != null) {
+                String[] parts = line.split(",");
+                if (parts.length >= 8 && parts[0].equals(itemId) && parts[1].equals(itemName)) {
+                    jTextField8.setText(parts[4]); // Supplier ID
+                    jTextField11.setText(parts[6].replace("RM", "").trim()); // Cost Per Unit (remove RM prefix)
+                    break;
+                }
+            }
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(this, "Error loading Supplier ID and Cost Per Unit: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }
     
     // Method to format currency as RM (Malaysian Ringgit)
     // Method to calculate total amount
 private void calculateTotalAmount() {
     try {
-        // Retrieve the input text from the fields and trim any leading/trailing spaces
-        String quantityText = jTextField10.getText().trim();
-        String unitPriceText = jTextField11.getText().trim();
+            String quantityText = jTextField10.getText().trim();
+            String unitPriceText = jTextField11.getText().trim();
 
-        // Remove RM if it exists for calculation purposes
-        if (unitPriceText.startsWith("RM")) {
-            unitPriceText = unitPriceText.substring(2).trim();  // Remove "RM" prefix
-        }
+            // Remove RM if it exists for calculation purposes
+            if (unitPriceText.startsWith("RM")) {
+                unitPriceText = unitPriceText.substring(2).trim();
+            }
 
-        // Debugging output
-        System.out.println("Quantity Text: " + quantityText);
-        System.out.println("Unit Price Text: " + unitPriceText);
+            if (quantityText.isEmpty() || unitPriceText.isEmpty() || !isValidNumericInput(quantityText) || !isValidNumericInput(unitPriceText)) {
+                jTextField12.setText("Invalid Input");
+                return;
+            }
 
-        // Check if either field is empty or contains non-numeric characters
-        if (quantityText.isEmpty() || unitPriceText.isEmpty()) {
+            double quantityRequired = Double.parseDouble(quantityText);
+            double unitPrice = Double.parseDouble(unitPriceText);
+
+            double totalAmount = quantityRequired * unitPrice;
+            jTextField12.setText(formatCurrency(totalAmount));
+            jTextField11.setText(formatCurrency(unitPrice)); // Update the Unit Price field with RM format
+
+        } catch (NumberFormatException e) {
             jTextField12.setText("Invalid Input");
-            return; // Stop further processing if either field is empty
         }
-
-        // Check if both fields are numeric
-        if (!isValidNumericInput(quantityText) || !isValidNumericInput(unitPriceText)) {
-            jTextField12.setText("Invalid Input");
-            return; // Stop processing if input is not numeric
-        }
-
-        // Try parsing the input fields as doubles
-        double quantityRequired = Double.parseDouble(quantityText);
-        double unitPrice = Double.parseDouble(unitPriceText);
-
-        // Perform the total amount calculation
-        double totalAmount = quantityRequired * unitPrice;
-
-        // Format the total amount in RM format
-        String formattedTotalAmount = formatCurrency(totalAmount);
-        
-        // Format the unit price in RM format as well (for display purpose)
-        String formattedUnitPrice = formatCurrency(unitPrice);
-
-        // Update the Total Amount and Unit Price fields with the formatted results
-        jTextField12.setText(formattedTotalAmount);
-        jTextField11.setText(formattedUnitPrice);  // Update the Unit Price field with RM format
-
-    } catch (NumberFormatException e) {
-        // If input is invalid, show an error message in the Total Amount field
-        jTextField12.setText("Invalid Input");
-    }
 }
 
 // Method to check if a string is a valid number
 private boolean isValidNumericInput(String input) {
     try {
-        Double.parseDouble(input);  // Check if the input is a valid number
-        return true;
-    } catch (NumberFormatException e) {
-        return false;  // If input is not numeric, return false
-    }
+            Double.parseDouble(input);
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
+        }
 }
 
 // Method to format currency as RM (Malaysian Ringgit)
 private String formatCurrency(double amount) {
     DecimalFormat df = new DecimalFormat("RM #,###.00");
-    return df.format(amount);
+        return df.format(amount);
 }
 
 
     private void addRequisitionEntry() {
         try {
-            // Write the new requisition entry to CreateRequisition.txt
             File file = new File("PurchaseRequisition.txt");
             BufferedWriter bw = new BufferedWriter(new FileWriter(file, true));
-            
-            // Check if header is already present, and if not, add it
+
+            // Write the header if the file is empty
             if (file.length() == 0) {
-                bw.write("PR ID, Item ID, Item Name, Quantity Required, Unit Price, Total Amount, Requisition Date, Supplier ID\n");
+                bw.write("PR ID, Item ID, Item Name, Quantity Required, Cost Per Unit, Total Amount, Requisition Date, Supplier ID, Status\n");
             }
-            
-            String prId = jTextField5.getText();  // jTextField5 for PR ID
-            String quantityRequired = jTextField10.getText();  // jTextField10 for Quantity Required
-            String unitPrice = jTextField11.getText();  // jTextField11 for Unit Price
-            String totalAmount = jTextField12.getText();  // jTextField12 for Total Amount
-            String requisitionDate = jTextField9.getText();  // jTextField9 for Requisition Date
-            String supplierId = jTextField8.getText();  // jTextField8 for Supplier ID
-            
-            String entry = String.format("%s, %s, %s, %s, %s, %s, %s, %s", prId, itemId, itemName, quantityRequired, unitPrice, totalAmount, requisitionDate, supplierId);
+
+            String prId = jTextField5.getText().trim();
+            String quantityRequired = jTextField10.getText().trim();
+            String unitPrice = jTextField11.getText().trim();
+            String totalAmount = jTextField12.getText().trim();
+            String requisitionDate = jTextField9.getText().trim();
+            String supplierId = jTextField8.getText().trim();
+
+            // Add a new "pending" status column
+            String status = "Pending";
+
+            // Format the entry
+            String entry = String.format("%s, %s, %s, %s, %s, %s, %s, %s, %s",
+                    prId, itemId, itemName, quantityRequired, unitPrice, totalAmount, requisitionDate, supplierId, status);
+
             bw.write(entry);
             bw.newLine();
             bw.close();
         } catch (IOException e) {
-            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Error writing to PurchaseRequisition.txt: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
     
@@ -315,7 +314,7 @@ private String formatCurrency(double amount) {
 
         jLabel9.setText("Supplier ID:");
 
-        jLabel10.setText("Unit Price:");
+        jLabel10.setText("Cost Per Unit:");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -365,7 +364,7 @@ private String formatCurrency(double amount) {
                                         .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(jTextField8, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addContainerGap(24, Short.MAX_VALUE))))
+                                .addContainerGap(21, Short.MAX_VALUE))))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jButton1)
@@ -457,20 +456,15 @@ private String formatCurrency(double amount) {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
          // Validate input fields
-        if (jTextField10.getText().isEmpty() || jTextField11.getText().isEmpty() || jTextField8.getText().isEmpty()) {
-            // Show an error message if any field is empty
-            System.out.println("All fields must be filled.");
+         if (jTextField10.getText().isEmpty() || jTextField11.getText().isEmpty() || jTextField8.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "All fields must be filled.", "Input Error", JOptionPane.WARNING_MESSAGE);
             return;
         }
-        
-        // Calculate total amount when Submit is clicked
+
         calculateTotalAmount();
-        
-        // Add the new requisition entry
         addRequisitionEntry();
-        
-        // Show success message
-        System.out.println("Requisition added successfully!");
+
+        JOptionPane.showMessageDialog(this, "Requisition added successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     

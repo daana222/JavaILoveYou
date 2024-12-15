@@ -336,10 +336,10 @@
                   </Group>
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace min="-2" pref="36" max="-2" attributes="0"/>
-                      <Component id="jScrollPane6" min="-2" pref="534" max="-2" attributes="0"/>
+                      <Component id="jScrollPane6" min="-2" pref="634" max="-2" attributes="0"/>
                   </Group>
               </Group>
-              <EmptySpace min="0" pref="40" max="32767" attributes="0"/>
+              <EmptySpace min="0" pref="34" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -574,7 +574,7 @@
                 <Column editable="true" title="Item ID" type="java.lang.String"/>
                 <Column editable="true" title="Item Name" type="java.lang.String"/>
                 <Column editable="true" title="Quantity Sold" type="java.lang.Integer"/>
-                <Column editable="true" title="Unit Price" type="java.lang.Double"/>
+                <Column editable="true" title="Selling Price Per Unit" type="java.lang.Double"/>
                 <Column editable="true" title="Total Sales" type="java.lang.Double"/>
               </Table>
             </Property>

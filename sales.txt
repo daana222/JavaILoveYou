@@ -1,4 +1,3 @@
-Date,ItemID,Item Name,Quantity Sold,Unit Price,Total Sales
-28/08/2024,IT003,Laptop,30,RM4500.00,RM135000.00
-22/02/2024,IT001,Mouse,50,RM80.00,RM4000.00
-30/08/2024,IT002,Computer,20,RM40000.00,RM800000.00
+Date,ItemID,Item Name,Quantity Sold,Selling Price Per Unit,Total Sales
+15/12/2024,IT002,Computer,110,RM3500.00,RM385000.00
+14/12/2024,IT001,Laptop,25,RM3000.00,RM75000.00

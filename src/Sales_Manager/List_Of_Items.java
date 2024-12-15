@@ -9,9 +9,6 @@ import javax.swing.table.DefaultTableModel;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
-
 /**
  *
  * @author Kaushaliya
@@ -171,11 +168,11 @@ public class List_Of_Items extends javax.swing.JFrame {
                 {null, null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "Item Code", "Item Name", "Item Description", "Quantity in Stock", "Reorder Level", "Suppplier ID", "Quantity", "Item Unit Price", "Reorder Alert"
+                "Item ID", "Item Name", "Current Stock Level", "Quantity", "Suppplier ID", "Reorder Level", "Reorder Alert", "Cost Per Unit", "Selling Price Per Unit"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.String.class, java.lang.Integer.class, java.lang.Double.class, java.lang.String.class
+                java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.String.class, java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -219,7 +216,7 @@ public class List_Of_Items extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 165, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jButton9)
                         .addGap(18, 18, 18)
                         .addComponent(jButton8)
@@ -227,8 +224,8 @@ public class List_Of_Items extends javax.swing.JFrame {
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(72, 72, 72))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 598, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 656, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(18, Short.MAX_VALUE))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -255,11 +252,11 @@ public class List_Of_Items extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 902, Short.MAX_VALUE)
+            .addGap(0, 936, Short.MAX_VALUE)
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                     .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 924, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
         layout.setVerticalGroup(
@@ -319,137 +316,102 @@ public class List_Of_Items extends javax.swing.JFrame {
 
     private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
         DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
-    model.setRowCount(0); // Clear existing rows
+        model.setRowCount(0);
 
-    try (BufferedReader itemsReader = new BufferedReader(new FileReader("items.txt"));
-         BufferedReader supplierReader = new BufferedReader(new FileReader("supplier.txt"))) {
+        try (BufferedReader reader = new BufferedReader(new FileReader("items.txt"))) {
+            String line;
+            boolean isFirstLine = true;
 
-        // Store supplier data for quick lookup
-        Map<String, String[]> supplierMap = new HashMap<>();
-        String supplierLine;
+            while ((line = reader.readLine()) != null) {
+                if (isFirstLine) {
+                    isFirstLine = false;
+                    continue; // Skip header line
+                }
 
-        while ((supplierLine = supplierReader.readLine()) != null) {
-            String[] supplierParts = supplierLine.split(",");
-            supplierMap.put(supplierParts[0], supplierParts); // SupplierID -> Supplier Details
-        }
+                String[] parts = line.split(",");
 
-        // Skip the header line in items.txt
-        String itemLine = itemsReader.readLine(); // Read and discard the first line (header)
+                if (parts.length < 8) {
+                    continue; // Skip invalid rows
+                }
 
-        // Read and process data rows
-        while ((itemLine = itemsReader.readLine()) != null) {
-            String[] itemParts = itemLine.split(",");
-            if (itemParts.length < 8) {
-                // Skip invalid rows
-                continue;
+                String itemId = parts[0];
+                String itemName = parts[1];
+                int currentStockLevel = Integer.parseInt(parts[2].trim());
+                int quantity = Integer.parseInt(parts[3].trim());
+                String supplierId = parts[4];
+                int reorderLevel = Integer.parseInt(parts[5].trim());
+                String costPerUnit = parts[6].trim();
+                String sellingPricePerUnit = parts[7].trim();
+
+                // Determine reorder alert
+                String reorderAlert = (currentStockLevel < reorderLevel) ? "⚠️ Below Reorder Level" : "✅ Stock OK";
+
+                // Add row to the table
+                model.addRow(new Object[]{
+                        itemId, itemName, currentStockLevel, quantity, supplierId, reorderLevel, reorderAlert, costPerUnit, sellingPricePerUnit
+                });
             }
 
-            String itemId = itemParts[0];
-            String itemName = itemParts[1];
-            String itemDescription = itemParts[2];
-            String supplierId = itemParts[3];
-            int currentStock = Integer.parseInt(itemParts[4].trim());
-            int reorderLevel = Integer.parseInt(itemParts[5].trim());
-            int quantity = Integer.parseInt(itemParts[6].trim());
-            double unitPrice = Double.parseDouble(itemParts[7].trim());
-
-            // Fetch supplier details
-            String[] supplierDetails = supplierMap.get(supplierId);
-            String supplierInfo = (supplierDetails != null)
-                    ? supplierDetails[1] + " (" + supplierDetails[5] + ")"
-                    : "Unknown Supplier";
-
-            // Determine reorder alert
-            String reorderAlert = (currentStock < reorderLevel) ? "⚠️ Below Reorder Level" : "✅ Stock OK";
-
-            // Add row to the table
-            model.addRow(new Object[]{
-                    itemId, itemName, itemDescription, currentStock, reorderLevel,
-                    supplierId + " - " + supplierInfo, quantity, unitPrice, reorderAlert
-            });
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(this, "Error reading items.txt file: " + e.getMessage(), "File Error", JOptionPane.ERROR_MESSAGE);
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "Error parsing number in items.txt: " + e.getMessage(), "Parsing Error", JOptionPane.ERROR_MESSAGE);
         }
-
-    } catch (IOException e) {
-        JOptionPane.showMessageDialog(this, "Error reading files: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-    } catch (NumberFormatException e) {
-        JOptionPane.showMessageDialog(this, "Error parsing numbers in file: " + e.getMessage(), "Parsing Error", JOptionPane.ERROR_MESSAGE);
-    }
     }//GEN-LAST:event_jButton9ActionPerformed
 
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
         String searchId = jTextPane1.getText().trim();
-    if (searchId.isEmpty()) {
-        JOptionPane.showMessageDialog(this, "Please enter an Item ID to search.", "Input Error", JOptionPane.WARNING_MESSAGE);
-        return;
-    }
 
-    DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
-    model.setRowCount(0); // Clear existing rows
-
-    try (BufferedReader itemsReader = new BufferedReader(new FileReader("items.txt"));
-         BufferedReader supplierReader = new BufferedReader(new FileReader("supplier.txt"))) {
-
-        // Store supplier data for quick lookup
-        Map<String, String[]> supplierMap = new HashMap<>();
-        String supplierLine;
-
-        while ((supplierLine = supplierReader.readLine()) != null) {
-            String[] supplierParts = supplierLine.split(",");
-            supplierMap.put(supplierParts[0], supplierParts); // SupplierID -> Supplier Details
+        if (searchId.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Please enter an Item ID to search.", "Input Error", JOptionPane.WARNING_MESSAGE);
+            return;
         }
 
-        // Skip the header line in items.txt
-        String itemLine = itemsReader.readLine(); // Read and discard the first line (header)
+        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+        model.setRowCount(0);
 
-        // Search for the item in items.txt
-        boolean found = false;
+        try (BufferedReader reader = new BufferedReader(new FileReader("items.txt"))) {
+            String line;
+            boolean isFirstLine = true;
 
-        while ((itemLine = itemsReader.readLine()) != null) {
-            String[] itemParts = itemLine.split(",");
-            if (itemParts.length < 8) {
-                continue; // Skip invalid rows
+            while ((line = reader.readLine()) != null) {
+                if (isFirstLine) {
+                    isFirstLine = false;
+                    continue; // Skip header line
+                }
+
+                String[] parts = line.split(",");
+
+                if (parts.length < 8) {
+                    continue; // Skip invalid rows
+                }
+
+                String itemId = parts[0];
+
+                if (itemId.equalsIgnoreCase(searchId)) {
+                    String itemName = parts[1];
+                    int currentStockLevel = Integer.parseInt(parts[2].trim());
+                    int quantity = Integer.parseInt(parts[3].trim());
+                    String supplierId = parts[4];
+                    int reorderLevel = Integer.parseInt(parts[5].trim());
+                    String costPerUnit = parts[6].trim();
+                    String sellingPricePerUnit = parts[7].trim();
+
+                    // Determine reorder alert
+                    String reorderAlert = (currentStockLevel < reorderLevel) ? "⚠️ Below Reorder Level" : "✅ Stock OK";
+
+                    // Add row to the table
+                    model.addRow(new Object[]{
+                            itemId, itemName, currentStockLevel, quantity, supplierId, reorderLevel, reorderAlert, costPerUnit, sellingPricePerUnit
+                    });
+                }
             }
 
-            String itemId = itemParts[0];
-
-            if (itemId.equalsIgnoreCase(searchId)) {
-                String itemName = itemParts[1];
-                String itemDescription = itemParts[2];
-                String supplierId = itemParts[3];
-                int currentStock = Integer.parseInt(itemParts[4].trim());
-                int reorderLevel = Integer.parseInt(itemParts[5].trim());
-                int quantity = Integer.parseInt(itemParts[6].trim());
-                double unitPrice = Double.parseDouble(itemParts[7].trim());
-
-                // Fetch supplier details
-                String[] supplierDetails = supplierMap.get(supplierId);
-                String supplierInfo = (supplierDetails != null)
-                        ? supplierDetails[1] + " (" + supplierDetails[5] + ")"
-                        : "Unknown Supplier";
-
-                // Determine reorder alert
-                String reorderAlert = (currentStock < reorderLevel) ? "⚠️ Below Reorder Level" : "✅ Stock OK";
-
-                // Add row to the table
-                model.addRow(new Object[]{
-                        itemId, itemName, itemDescription, currentStock, reorderLevel,
-                        supplierId + " - " + supplierInfo, quantity, unitPrice, reorderAlert
-                });
-
-                found = true;
-                break;
-            }
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(this, "Error reading items.txt file: " + e.getMessage(), "File Error", JOptionPane.ERROR_MESSAGE);
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "Error parsing number in items.txt: " + e.getMessage(), "Parsing Error", JOptionPane.ERROR_MESSAGE);
         }
-
-        if (!found) {
-            JOptionPane.showMessageDialog(this, "Item ID not found.", "Search Result", JOptionPane.INFORMATION_MESSAGE);
-        }
-
-    } catch (IOException e) {
-        JOptionPane.showMessageDialog(this, "Error reading files: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-    } catch (NumberFormatException e) {
-        JOptionPane.showMessageDialog(this, "Error parsing numbers in file: " + e.getMessage(), "Parsing Error", JOptionPane.ERROR_MESSAGE);
-    }
     }//GEN-LAST:event_jButton8ActionPerformed
 
     /**
