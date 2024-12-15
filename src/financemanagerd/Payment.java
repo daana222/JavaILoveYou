@@ -210,11 +210,11 @@ public class Payment extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(578, 578, 578)
                         .addComponent(makePaymentbtn)
-                        .addGap(0, 54, Short.MAX_VALUE))
+                        .addGap(0, 61, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(40, 40, 40)
                         .addComponent(jLabel6)
-                        .addContainerGap(632, Short.MAX_VALUE))
+                        .addContainerGap(639, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -601,22 +601,21 @@ public class Payment extends javax.swing.JFrame {
         String itemsFilePath = "C:\\Users\\Mitsu\\OneDrive - Asia Pacific University\\Documents\\NetBeansProjects\\FinanceManagerD\\items.txt";
 
         try {
-            // Step 1: Read the PO.txt file to find the matching PO ID and its item details
-            java.util.Map<String, Integer> itemsToUpdate = new java.util.HashMap<>(); // Map to store item IDs and quantities
+            // Step 1: Read PO.txt to find matching PO ID and its item details
+            java.util.Map<String, Integer> itemsToUpdate = new java.util.HashMap<>(); // Item ID and quantities
 
             try (BufferedReader poReader = new BufferedReader(new FileReader(poFilePath))) {
                 String line;
                 boolean isFirstLine = true;
                 while ((line = poReader.readLine()) != null) {
                     if (isFirstLine) {
-                        isFirstLine = false; // Skip the header row
+                        isFirstLine = false; // Skip header row
                         continue;
                     }
-
                     String[] columns = line.split(",");
-                    if (columns.length >= 4 && columns[0].trim().equals(poId)) { // Match the PO ID
-                        String itemId = columns[2].trim(); // Item ID (column 2)
-                        int quantity = Integer.parseInt(columns[3].trim()); // Quantity (column 3)
+                    if (columns.length >= 4 && columns[0].trim().equals(poId)) { // Match PO ID
+                        String itemId = columns[2].trim(); // Item ID (column 2 in PO.txt)
+                        int quantity = Integer.parseInt(columns[3].trim()); // Quantity (column 3 in PO.txt)
                         itemsToUpdate.put(itemId, quantity); // Store item ID and quantity
                     }
                 }
@@ -634,36 +633,35 @@ public class Payment extends javax.swing.JFrame {
                 boolean isFirstLine = true;
                 while ((line = itemsReader.readLine()) != null) {
                     if (isFirstLine) {
-                        isFirstLine = false; // Keep the header row unchanged
+                        isFirstLine = false; // Keep header row unchanged
                         updatedLines.add(line);
                         continue;
                     }
 
                     String[] columns = line.split(",");
-                    if (columns.length >= 8) {
-                        String itemId = columns[0].trim(); // Item ID (column 0)
+                    if (columns.length >= 7) { // Validate against new format
+                        String itemId = columns[0].trim(); // Item ID
                         if (itemsToUpdate.containsKey(itemId)) { // Check if this item needs to be updated
-                            int currentStock = Integer.parseInt(columns[3].trim()); // Current Stock (column 3)
-                            int reorderLevel = Integer.parseInt(columns[5].trim()); // Reorder Level (column 5)
-                            int quantityToSubtract = itemsToUpdate.get(itemId); // Quantity from PO.txt
+                            int currentStock = Integer.parseInt(columns[2].trim()); // Stock level
+                            int reorderLevel = Integer.parseInt(columns[4].trim()); // Reorder level
+                            int quantityToSubtract = itemsToUpdate.get(itemId);
 
-                            // Update the reorder level and current stock
+                            // Update stock level and reorder level
+                            int newStockLevel = currentStock - quantityToSubtract;
                             int newReorderLevel = reorderLevel - quantityToSubtract;
-                            if (newReorderLevel < 0) {
-                                newReorderLevel = 0; // Ensure reorder level does not go below 0
-                            }
-                            columns[5] = String.valueOf(newReorderLevel); // Update the reorder level
+                            if (newReorderLevel < 0) newReorderLevel = 0;
 
-                            columns[3] = String.valueOf(currentStock + quantityToSubtract); // Update the stock by adding the quantity
+                            columns[2] = String.valueOf(newStockLevel); // Update stock level
+                            columns[4] = String.valueOf(newReorderLevel); // Update reorder level
 
-                            System.out.println("Updated Item ID: " + itemId + ", New Stock: " + columns[3] + ", New Reorder Level: " + columns[5]);
+                            System.out.println("Updated Item ID: " + itemId + ", New Stock: " + newStockLevel + ", New Reorder Level: " + newReorderLevel);
                         }
                     }
-                    updatedLines.add(String.join(",", columns)); // Add the (updated or unchanged) line to the list
+                    updatedLines.add(String.join(",", columns)); // Add updated or unchanged line
                 }
             }
 
-            // Step 3: Write the updated lines back to items.txt
+            // Step 3: Write back updated lines to items.txt
             try (BufferedWriter writer = new BufferedWriter(new FileWriter(itemsFilePath))) {
                 for (String updatedLine : updatedLines) {
                     writer.write(updatedLine);
@@ -675,6 +673,7 @@ public class Payment extends javax.swing.JFrame {
             javax.swing.JOptionPane.showMessageDialog(this, "Error updating items.txt: " + e.getMessage());
         }
     }
+
 
     private void preselectRowByPOID(String poId) {
         DefaultTableModel model = (DefaultTableModel) paymentTable.getModel();

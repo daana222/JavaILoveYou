@@ -59,13 +59,13 @@ public class StockStatus extends javax.swing.JFrame {
 
         stockStatusTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null}
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
             },
             new String [] {
-                "Item ID", "Item Name", "Stock level", "Reorder", "Quantity", "Unit price"
+                "Item ID", "Item Name", "Stock level", "Reorder", "Unit price"
             }
         ));
         jScrollPane2.setViewportView(stockStatusTable);
@@ -264,12 +264,11 @@ public class StockStatus extends javax.swing.JFrame {
                     String itemId = columns[0].trim();        // Item ID
                     String itemName = columns[1].trim();      // Item Name
                     String stockLevel = columns[2].trim();    // Stock Level
-                    String reorderLevel = columns[5].trim();  // Reorder Level
-                    String quantity = columns[3].trim();      // Quantity
-                    String unitPrice = columns[6].trim();     // Unit Price
+                    String reorderLevel = columns[4].trim();  // Reorder Level
+                    String unitPrice = columns[5].trim();     // Unit Price
 
                     // Add the row to the table
-                    model.addRow(new Object[]{itemId, itemName, stockLevel, reorderLevel, quantity, unitPrice});
+                    model.addRow(new Object[]{itemId, itemName, stockLevel, reorderLevel, unitPrice});
                 }
             }
         } catch (IOException e) {
