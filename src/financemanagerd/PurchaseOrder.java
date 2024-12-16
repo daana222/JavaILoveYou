@@ -21,7 +21,7 @@ public class PurchaseOrder extends javax.swing.JFrame {
         int[] selectedColumns = {0, 9, 8, 10, 6};
         //int[] selectedColumns = {0, 8, 4, 7, 6};
         
-        String filePath = "C:\\Users\\Mitsu\\OneDrive - Asia Pacific University\\Documents\\NetBeansProjects\\FinanceManagerD\\PO.txt";
+        String filePath = "PO.txt";
         loadDataFromFile(filePath, selectedColumns);
         storeOriginalTableData();
         

@@ -308,7 +308,7 @@ public class Supplier_2 extends javax.swing.JFrame {
     
     
     private double loadPurchaseOrders(String supplierId) {
-        String filePath = "C:\\Users\\Mitsu\\OneDrive - Asia Pacific University\\Documents\\NetBeansProjects\\FinanceManagerD\\Payment.txt";
+        String filePath = "Payment.txt";
 
         DefaultTableModel model = (DefaultTableModel) supplierPayment2table.getModel();
         model.setRowCount(0); // Clear existing rows in the table

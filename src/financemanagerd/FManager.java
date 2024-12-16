@@ -278,7 +278,7 @@ public class FManager extends javax.swing.JFrame {
     }//GEN-LAST:event_SupplierbtnActionPerformed
 
     private JFreeChart createPaymentChart() {
-        String filePath = "C:\\Users\\Mitsu\\OneDrive - Asia Pacific University\\Documents\\NetBeansProjects\\FinanceManagerD\\Payment.txt";
+        String filePath = "Payment.txt";
 
         double paidTotal = 0;
         double notPaidTotal = 0;
@@ -332,7 +332,7 @@ public class FManager extends javax.swing.JFrame {
     }
 
     private JFreeChart createPOStatusChart() {
-        String filePath = "C:\\Users\\Mitsu\\OneDrive - Asia Pacific University\\Documents\\NetBeansProjects\\FinanceManagerD\\PO.txt";
+        String filePath = "PO.txt";
 
         int approvedCount = 0;
         int pendingCount = 0;

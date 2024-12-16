@@ -371,7 +371,7 @@ public class PurchaseOrder2 extends javax.swing.JFrame {
     
     
     private void updateApprovalStatus(String newStatus) {
-        String filePath = "C:\\Users\\Mitsu\\OneDrive - Asia Pacific University\\Documents\\NetBeansProjects\\FinanceManagerD\\PO.txt";
+        String filePath = "PO.txt";
 
         try {
             // Read all lines from the file
@@ -438,7 +438,7 @@ public class PurchaseOrder2 extends javax.swing.JFrame {
 
 
     private void loadTableData(String poNumber) {
-        String filePath = "C:\\Users\\Mitsu\\OneDrive - Asia Pacific University\\Documents\\NetBeansProjects\\FinanceManagerD\\PO.txt";
+        String filePath = "PO.txt";
         DefaultTableModel model = (DefaultTableModel) Po2table.getModel();
         model.setRowCount(0); // Clear any existing rows
 
@@ -506,7 +506,7 @@ public class PurchaseOrder2 extends javax.swing.JFrame {
     }
     
     private void writeToPaymentFile(String poID, String approvalDate) {
-        String filePath = "C:\\Users\\Mitsu\\OneDrive - Asia Pacific University\\Documents\\NetBeansProjects\\FinanceManagerD\\Payment.txt";
+        String filePath = "Payment.txt";
 
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath, true))) {
             String paymentID = ""; // Payment ID left blank
@@ -527,7 +527,7 @@ public class PurchaseOrder2 extends javax.swing.JFrame {
             LocalDate paymentDueDate = approvalLocalDate.plusDays(10);
 
             // Calculate total items by reading the PO.txt
-            String poFilePath = "C:\\Users\\Mitsu\\OneDrive - Asia Pacific University\\Documents\\NetBeansProjects\\FinanceManagerD\\PO.txt";
+            String poFilePath = "PO.txt";
             try (BufferedReader reader = new BufferedReader(new FileReader(poFilePath))) {
                 String line;
                 while ((line = reader.readLine()) != null) {

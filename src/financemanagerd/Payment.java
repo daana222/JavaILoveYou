@@ -18,7 +18,7 @@ public class Payment extends javax.swing.JFrame {
         setSize(890, 500);
         setLocationRelativeTo(null); // Center the frame
         
-        String filePath = "C:\\Users\\Mitsu\\OneDrive - Asia Pacific University\\Documents\\NetBeansProjects\\FinanceManagerD\\Payment.txt";
+        String filePath = "Payment.txt";
 
         // Load data and store the original table for future filtering
         loadDataFromFile(filePath);
@@ -35,7 +35,7 @@ public class Payment extends javax.swing.JFrame {
         setSize(890, 500);
         setLocationRelativeTo(null);
         
-        String filePath = "C:\\Users\\Mitsu\\OneDrive - Asia Pacific University\\Documents\\NetBeansProjects\\FinanceManagerD\\Payment.txt";
+        String filePath = "Payment.txt";
 
         loadDataFromFile(filePath); // Load data into the table
         storeOriginalTableData();
@@ -429,7 +429,7 @@ public class Payment extends javax.swing.JFrame {
             updateItemsFromPO(poNumber);
 
             // Refresh table data
-            loadDataFromFile("C:\\Users\\Mitsu\\OneDrive - Asia Pacific University\\Documents\\NetBeansProjects\\FinanceManagerD\\Payment.txt");
+            loadDataFromFile("Payment.txt");
 
             // Generate Receipt
             generateTextReceipt(supplierId, poNumber, totalAmount, dueDateStr, paymentDate, paymentId);
@@ -506,7 +506,7 @@ public class Payment extends javax.swing.JFrame {
     
     
     private void updatePaymentDetails(String poNumber, String newStatus, String paymentDate, String paymentId) {
-        String filePath = "C:\\Users\\Mitsu\\OneDrive - Asia Pacific University\\Documents\\NetBeansProjects\\FinanceManagerD\\Payment.txt";
+        String filePath = "Payment.txt";
 
         try {
             java.util.List<String> lines = new java.util.ArrayList<>();
@@ -544,7 +544,7 @@ public class Payment extends javax.swing.JFrame {
     
     
     private void generateTextReceipt(String supplierId, String poNumber, String totalAmount, String dueDate, String paymentDate, String paymentId) {
-        String receiptFilePath = "C:/Users/Mitsu/OneDrive - Asia Pacific University/Documents/NetBeansProjects/FinanceManagerD/receipts/Receipt_" + paymentId + ".txt";
+        String receiptFilePath = "receipts/Receipt_" + paymentId + ".txt";
 
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(receiptFilePath))) {
             writer.write("Payment Receipt");
@@ -600,8 +600,8 @@ public class Payment extends javax.swing.JFrame {
     }
     
     private void updateItemsFromPO(String poId) {
-        String poFilePath = "C:\\Users\\Mitsu\\OneDrive - Asia Pacific University\\Documents\\NetBeansProjects\\FinanceManagerD\\PO.txt";
-        String itemsFilePath = "C:\\Users\\Mitsu\\OneDrive - Asia Pacific University\\Documents\\NetBeansProjects\\FinanceManagerD\\items.txt";
+        String poFilePath = "PO.txt";
+        String itemsFilePath = "items.txt";
 
         try {
             // Step 1: Read PO.txt to find matching PO ID and item details

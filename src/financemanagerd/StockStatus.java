@@ -1,7 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
+
 package financemanagerd;
 
 import java.io.BufferedReader;
@@ -245,7 +242,7 @@ public class StockStatus extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton7ActionPerformed
 
     private void loadStockData() {
-        String itemsFilePath = "C:\\Users\\Mitsu\\OneDrive - Asia Pacific University\\Documents\\NetBeansProjects\\FinanceManagerD\\items.txt"; // Adjust the path to your file
+        String itemsFilePath = "items.txt"; // Adjust the path to your file
         DefaultTableModel model = (DefaultTableModel) stockStatusTable.getModel();
         model.setRowCount(0); // Clear any existing rows in the table
 
