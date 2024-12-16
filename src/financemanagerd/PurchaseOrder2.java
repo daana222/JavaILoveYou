@@ -389,9 +389,9 @@ public class PurchaseOrder2 extends javax.swing.JFrame {
             // Find the matching row to check the current status
             for (String line : lines) {
                 String[] columns = line.split(",");
-                if (columns.length >= 9 && columns[0].trim().equals(poNumberlbl.getText())) { // Match on P.O ID
-                    currentStatus = columns[7].trim(); // Current status (Approved/Rejected/Pending)
-                    approvalDate = columns[8].trim(); // OrderDate for due date calculation
+                if (columns.length >= 11 && columns[0].trim().equals(poNumberlbl.getText())) { // Match on P.O ID
+                    currentStatus = columns[10].trim(); // Current status (Approved/Rejected/Pending)
+                    approvalDate = columns[9].trim(); // OrderDate for due date calculation
                     break;
                 }
             }
@@ -408,8 +408,8 @@ public class PurchaseOrder2 extends javax.swing.JFrame {
             // Update the matching row's status
             for (int i = 0; i < lines.size(); i++) {
                 String[] columns = lines.get(i).split(",");
-                if (columns.length >= 9 && columns[0].trim().equals(poNumberlbl.getText())) { // Match on P.O ID
-                    columns[7] = newStatus; // Update the Approve/Reject column
+                if (columns.length >= 11 && columns[0].trim().equals(poNumberlbl.getText())) { // Match on P.O ID
+                    columns[10] = newStatus; // Update the Approve/Reject column
                     lines.set(i, String.join(",", columns)); // Replace the updated line
                     break;
                 }
@@ -452,7 +452,7 @@ public class PurchaseOrder2 extends javax.swing.JFrame {
                 String[] columns = line.split(",");
                 if (columns[0].trim().equals(poNumber)) { // Check if PO ID matches
                     String itemId = columns[2].trim();
-                    int quantity = Integer.parseInt(columns[3].trim());
+                    int quantity = Integer.parseInt(columns[4].trim());
                     double unitPrice = Double.parseDouble(columns[5].trim());
 
                     // Calculate total amount for this item
@@ -533,7 +533,7 @@ public class PurchaseOrder2 extends javax.swing.JFrame {
                 while ((line = reader.readLine()) != null) {
                     String[] columns = line.split(",");
                     if (columns[0].trim().equals(poID)) { // Match on PO ID
-                        int quantity = Integer.parseInt(columns[3].trim()); // Quantity column
+                        int quantity = Integer.parseInt(columns[4].trim()); // Quantity column
                         totalItems += quantity; // Add to the total items count
                     }
                 }

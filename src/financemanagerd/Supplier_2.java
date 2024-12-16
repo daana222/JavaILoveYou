@@ -313,8 +313,8 @@ public class Supplier_2 extends javax.swing.JFrame {
         DefaultTableModel model = (DefaultTableModel) supplierPayment2table.getModel();
         model.setRowCount(0); // Clear existing rows in the table
 
-        double totalPaid = 0.0; // Track total paid for the supplier
-        double totalDue = 0.0; // Track total due for the supplier
+        double totalPaidOverall = 0.0; // Track total paid for the supplier
+        double totalDueOverall = 0.0; // Track total amount payable for the supplier
 
         try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
             String line;
@@ -327,30 +327,34 @@ public class Supplier_2 extends javax.swing.JFrame {
                 }
 
                 String[] columns = line.split(",");
+
                 String poSupplierId = columns[5].trim(); // Supplier ID
                 String poId = columns[1].trim(); // PO ID
-                double amountPayable = Double.parseDouble(columns[7].trim()); // Amount payable
-                String dueDate = columns[4].trim(); // Due Date
                 String status = columns[2].trim(); // Payment Status
+                String dueDate = columns[4].trim(); // Due Date
+                double totalAmount = Double.parseDouble(columns[7].trim()); // Total Amount Payable
+
+                // Treat "Paid" and "Late" statuses as amounts that have been paid
+                double amountPaid = (status.equalsIgnoreCase("Paid") || status.equalsIgnoreCase("Late")) ? totalAmount : 0.0;
 
                 if (poSupplierId.equals(supplierId)) {
-                    totalDue += amountPayable;
-
-                    // Consider both Paid and Late as part of totalPaid
-                    if (status.equalsIgnoreCase("Paid") || status.equalsIgnoreCase("Late")) {
-                        totalPaid += amountPayable;
-                    }
+                    totalDueOverall += totalAmount; // Add to total due
+                    totalPaidOverall += amountPaid; // Add to total paid if "Paid" or "Late"
 
                     // Add row to the table
-                    model.addRow(new Object[]{poId, amountPayable, totalPaid, dueDate});
+                    model.addRow(new Object[]{poId, totalAmount, amountPaid, dueDate});
                 }
             }
-        } catch (IOException e) {
+        } catch (IOException | NumberFormatException e) {
             javax.swing.JOptionPane.showMessageDialog(this, "Error reading Payment.txt: " + e.getMessage());
         }
 
-        return totalDue - totalPaid; // Return the calculated balance
+        return totalDueOverall - totalPaidOverall; // Return the calculated balance
     }
+
+
+
+
     
     
     private void searchSupplierTable() {

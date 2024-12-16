@@ -616,9 +616,9 @@ public class Payment extends javax.swing.JFrame {
                         continue;
                     }
                     String[] columns = line.split(",");
-                    if (columns.length >= 4 && columns[0].trim().equals(poId)) { // Match PO ID
+                    if (columns.length >= 5 && columns[0].trim().equals(poId)) { // Match PO ID
                         String itemId = columns[2].trim(); // Item ID (column 3 in PO.txt)
-                        int quantity = Integer.parseInt(columns[3].trim()); // Quantity (column 4 in PO.txt)
+                        int quantity = Integer.parseInt(columns[4].trim()); // Quantity (column 4 in PO.txt)
                         itemsToUpdate.put(itemId, itemsToUpdate.getOrDefault(itemId, 0) + quantity); // Add quantity
                         System.out.println("PO ID: " + poId + " | Item ID: " + itemId + " | Quantity to Add: " + quantity);
                     }

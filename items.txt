@@ -1,5 +1,5 @@
 Item ID,Item Name,Stock level,Supplier ID,Reorder Level,Cost per unit,Selling price per unit
-IT001,Laptop,460,SP001,80,2.50,20.50
+IT001,Laptop,540,SP001,0,2.50,20.50
 IT002,Phone,450,SP001,80,3.00,17.50
 IT003,Keyboard,190,SP001,0,5.00,25.00
 IT004,Headphones,200,SP001,0,8.00,40.00
