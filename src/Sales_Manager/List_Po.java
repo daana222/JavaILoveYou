@@ -169,7 +169,7 @@ public class List_Po extends javax.swing.JFrame {
                 {null, null, null, null, null}
             },
             new String [] {
-                "PO Number", "Item Code", "Quantity", "Status", "Issue Date"
+                "PO ID", "PR ID", "Item ID", "Quantity", "Issue Date"
             }
         ));
         jScrollPane1.setViewportView(jTable1);

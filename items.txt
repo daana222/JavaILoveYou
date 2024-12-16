@@ -1,3 +1,4 @@
-ItemID,Item Name,Current Stock Level,Quantity,SupplierID,Reorder Level,Cost Per Unit, Selling Price Per Unit
-IT001,Laptop,100,200,SP001,130,RM2000.00,RM3000.00
-IT002,Computer,200,300,SP002,50,RM3000.00,RM3500.00
+itemID,item Name,Supplier ID,Current Stock Level,Reorder Level,Cost perunit,Selling Price Unit,Last Updated Date
+IT003,tag,Sp001,34,27,6.0,6.0,2024-12-16
+IT002,tag,Sp001,34,27,3.0,3.0,16/12/2024
+IT001,car,Sp001,24,27,3.0,3.0,11/12/2024

@@ -168,11 +168,11 @@ public class List_Of_Items extends javax.swing.JFrame {
                 {null, null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "Item ID", "Item Name", "Current Stock Level", "Quantity", "Suppplier ID", "Reorder Level", "Reorder Alert", "Cost Per Unit", "Selling Price Per Unit"
+                "Item ID", "Item Name", "Current Stock Level", "Suppplier ID", "Reorder Level", "Reorder Alert", "Cost Per Unit", "Selling Price Per Unit", "Last Updated Date"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.String.class, java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+                java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.String.class, java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -314,104 +314,118 @@ public class List_Of_Items extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_jButton6ActionPerformed
 
+    private String formatCurrency(String value) {
+    try {
+        double amount = Double.parseDouble(value);
+        return String.format("RM %.2f", amount);
+    } catch (NumberFormatException e) {
+        return "RM 0.00"; // Return default RM value if parsing fails
+    }
+}
+    
     private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
-        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
-        model.setRowCount(0);
+         DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+    model.setRowCount(0); // Clear the table before populating
 
-        try (BufferedReader reader = new BufferedReader(new FileReader("items.txt"))) {
-            String line;
-            boolean isFirstLine = true;
+    try (BufferedReader reader = new BufferedReader(new FileReader("items.txt"))) {
+        String line;
+        boolean isFirstLine = true;
 
-            while ((line = reader.readLine()) != null) {
-                if (isFirstLine) {
-                    isFirstLine = false;
-                    continue; // Skip header line
-                }
-
-                String[] parts = line.split(",");
-
-                if (parts.length < 8) {
-                    continue; // Skip invalid rows
-                }
-
-                String itemId = parts[0];
-                String itemName = parts[1];
-                int currentStockLevel = Integer.parseInt(parts[2].trim());
-                int quantity = Integer.parseInt(parts[3].trim());
-                String supplierId = parts[4];
-                int reorderLevel = Integer.parseInt(parts[5].trim());
-                String costPerUnit = parts[6].trim();
-                String sellingPricePerUnit = parts[7].trim();
-
-                // Determine reorder alert
-                String reorderAlert = (currentStockLevel < reorderLevel) ? "⚠️ Below Reorder Level" : "✅ Stock OK";
-
-                // Add row to the table
-                model.addRow(new Object[]{
-                        itemId, itemName, currentStockLevel, quantity, supplierId, reorderLevel, reorderAlert, costPerUnit, sellingPricePerUnit
-                });
+        while ((line = reader.readLine()) != null) {
+            if (isFirstLine) {
+                isFirstLine = false; // Skip the header line
+                continue;
             }
 
-        } catch (IOException e) {
-            JOptionPane.showMessageDialog(this, "Error reading items.txt file: " + e.getMessage(), "File Error", JOptionPane.ERROR_MESSAGE);
-        } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(this, "Error parsing number in items.txt: " + e.getMessage(), "Parsing Error", JOptionPane.ERROR_MESSAGE);
+            String[] parts = line.split(",");
+
+            if (parts.length < 8) {
+                continue; // Skip invalid rows
+            }
+
+            // Correct column mapping from items.txt
+            String itemId = parts[0].trim();                // Item ID
+            String itemName = parts[1].trim();              // Item Name
+            String supplierId = parts[2].trim();            // Supplier ID
+            int currentStockLevel = Integer.parseInt(parts[3].trim()); // Current Stock Level
+            int reorderLevel = Integer.parseInt(parts[4].trim());      // Reorder Level
+            String costPerUnit = formatCurrency(parts[5].trim());      // Cost Per Unit (formatted)
+            String sellingPricePerUnit = formatCurrency(parts[6].trim()); // Selling Price Per Unit (formatted)
+            String lastUpdatedDate = parts[7].trim();       // Last Updated Date
+
+            // Determine reorder alert
+            String reorderAlert = (currentStockLevel < reorderLevel) ? "⚠️ Below Reorder Level" : "✅ Stock OK";
+
+            // Add data to the table
+            model.addRow(new Object[]{
+                itemId, itemName, currentStockLevel, supplierId,
+                reorderLevel, reorderAlert, costPerUnit,
+                sellingPricePerUnit, lastUpdatedDate
+            });
         }
+
+    } catch (IOException e) {
+        JOptionPane.showMessageDialog(this, "Error reading items.txt file: " + e.getMessage(), "File Error", JOptionPane.ERROR_MESSAGE);
+    } catch (NumberFormatException e) {
+        JOptionPane.showMessageDialog(this, "Error parsing number in items.txt: " + e.getMessage(), "Parsing Error", JOptionPane.ERROR_MESSAGE);
+    }
     }//GEN-LAST:event_jButton9ActionPerformed
 
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
         String searchId = jTextPane1.getText().trim();
 
-        if (searchId.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Please enter an Item ID to search.", "Input Error", JOptionPane.WARNING_MESSAGE);
-            return;
-        }
+    if (searchId.isEmpty()) {
+        JOptionPane.showMessageDialog(this, "Please enter an Item ID to search.", "Input Error", JOptionPane.WARNING_MESSAGE);
+        return;
+    }
 
-        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
-        model.setRowCount(0);
+    DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+    model.setRowCount(0); // Clear the table before populating
 
-        try (BufferedReader reader = new BufferedReader(new FileReader("items.txt"))) {
-            String line;
-            boolean isFirstLine = true;
+    try (BufferedReader reader = new BufferedReader(new FileReader("items.txt"))) {
+        String line;
+        boolean isFirstLine = true;
 
-            while ((line = reader.readLine()) != null) {
-                if (isFirstLine) {
-                    isFirstLine = false;
-                    continue; // Skip header line
-                }
-
-                String[] parts = line.split(",");
-
-                if (parts.length < 8) {
-                    continue; // Skip invalid rows
-                }
-
-                String itemId = parts[0];
-
-                if (itemId.equalsIgnoreCase(searchId)) {
-                    String itemName = parts[1];
-                    int currentStockLevel = Integer.parseInt(parts[2].trim());
-                    int quantity = Integer.parseInt(parts[3].trim());
-                    String supplierId = parts[4];
-                    int reorderLevel = Integer.parseInt(parts[5].trim());
-                    String costPerUnit = parts[6].trim();
-                    String sellingPricePerUnit = parts[7].trim();
-
-                    // Determine reorder alert
-                    String reorderAlert = (currentStockLevel < reorderLevel) ? "⚠️ Below Reorder Level" : "✅ Stock OK";
-
-                    // Add row to the table
-                    model.addRow(new Object[]{
-                            itemId, itemName, currentStockLevel, quantity, supplierId, reorderLevel, reorderAlert, costPerUnit, sellingPricePerUnit
-                    });
-                }
+        while ((line = reader.readLine()) != null) {
+            if (isFirstLine) {
+                isFirstLine = false; // Skip header line
+                continue;
             }
 
-        } catch (IOException e) {
-            JOptionPane.showMessageDialog(this, "Error reading items.txt file: " + e.getMessage(), "File Error", JOptionPane.ERROR_MESSAGE);
-        } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(this, "Error parsing number in items.txt: " + e.getMessage(), "Parsing Error", JOptionPane.ERROR_MESSAGE);
+            String[] parts = line.split(",");
+
+            if (parts.length < 8) {
+                continue; // Skip invalid rows
+            }
+
+            // Correct column mapping from items.txt
+            String itemId = parts[0].trim();                // Item ID
+            String itemName = parts[1].trim();              // Item Name
+            String supplierId = parts[2].trim();            // Supplier ID
+            int currentStockLevel = Integer.parseInt(parts[3].trim()); // Current Stock Level
+            int reorderLevel = Integer.parseInt(parts[4].trim());      // Reorder Level
+            String costPerUnit = formatCurrency(parts[5].trim());      // Cost Per Unit (formatted)
+            String sellingPricePerUnit = formatCurrency(parts[6].trim()); // Selling Price Per Unit (formatted)
+            String lastUpdatedDate = parts[7].trim();       // Last Updated Date
+
+            if (itemId.equalsIgnoreCase(searchId)) {
+                // Determine reorder alert
+                String reorderAlert = (currentStockLevel < reorderLevel) ? "⚠️ Below Reorder Level" : "✅ Stock OK";
+
+                // Add matching row to the table
+                model.addRow(new Object[]{
+                    itemId, itemName, currentStockLevel, supplierId,
+                    reorderLevel, reorderAlert, costPerUnit,
+                    sellingPricePerUnit, lastUpdatedDate
+                });
+            }
         }
+
+    } catch (IOException e) {
+        JOptionPane.showMessageDialog(this, "Error reading items.txt file: " + e.getMessage(), "File Error", JOptionPane.ERROR_MESSAGE);
+    } catch (NumberFormatException e) {
+        JOptionPane.showMessageDialog(this, "Error parsing number in items.txt: " + e.getMessage(), "Parsing Error", JOptionPane.ERROR_MESSAGE);
+    }
     }//GEN-LAST:event_jButton8ActionPerformed
 
     /**

@@ -550,55 +550,77 @@ public class Daily_Items_Sales_Entry extends javax.swing.JFrame {
     // Recalculate the stock level
     int updatedStock = currentStock + quantitySold;
 
-    // Update stocklevel.txt to reflect the change
-    try (BufferedReader stockReader = new BufferedReader(new FileReader("stocklevel.txt"))) {
+    // Update items.txt to reflect the change
+    try (BufferedReader itemsReader = new BufferedReader(new FileReader("items.txt"))) {
         StringBuilder updatedContent = new StringBuilder();
-        String line = stockReader.readLine(); // Read and retain the header
+        String line = itemsReader.readLine(); // Read and retain the header
         updatedContent.append(line).append("\n");
 
-        while ((line = stockReader.readLine()) != null) {
+        while ((line = itemsReader.readLine()) != null) {
             String[] parts = line.split(",");
             if (parts[0].equals(itemId)) {
-                parts[2] = String.valueOf(updatedStock); // Update Current Stock Level
+                parts[3] = String.valueOf(updatedStock); // Update Current Stock Level
+                parts[7] = new SimpleDateFormat("dd/MM/yyyy").format(new java.util.Date()); // Update Last Updated Date
             }
             updatedContent.append(String.join(",", parts)).append("\n");
         }
 
-        try (BufferedWriter stockWriter = new BufferedWriter(new FileWriter("stocklevel.txt"))) {
-            stockWriter.write(updatedContent.toString());
+        try (BufferedWriter itemsWriter = new BufferedWriter(new FileWriter("items.txt"))) {
+            itemsWriter.write(updatedContent.toString());
         }
     } catch (IOException e) {
-        JOptionPane.showMessageDialog(this, "Error updating stocklevel.txt: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        JOptionPane.showMessageDialog(this, "Error updating items.txt: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         return;
     }
 
-    // Remove the row from the table and save changes
+    // Remove the row from the table
     model.removeRow(selectedRow);
-    saveDataToFiles();
+    saveSalesDataToFile();
     clearFields();
     JOptionPane.showMessageDialog(this, "Entry deleted successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
+}
 
+private void saveSalesDataToFile() {
+    DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+
+    try (BufferedWriter salesWriter = new BufferedWriter(new FileWriter("sales.txt", false))) {
+        salesWriter.write("Date,ItemID,Item Name,Quantity Sold,Selling Price Per Unit,Total Sales\n");
+
+        for (int i = 0; i < model.getRowCount(); i++) {
+            String date = model.getValueAt(i, 0).toString();
+            String itemId = model.getValueAt(i, 1).toString();
+            String itemName = model.getValueAt(i, 2).toString();
+            String quantitySold = model.getValueAt(i, 3).toString();
+            String unitPrice = model.getValueAt(i, 4).toString();
+            String totalSales = model.getValueAt(i, 5).toString();
+
+            salesWriter.write(String.join(",", date, itemId, itemName, quantitySold, unitPrice, totalSales));
+            salesWriter.write("\n");
+        }
+    } catch (IOException e) {
+        JOptionPane.showMessageDialog(this, "Error saving to sales.txt: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+    }
     }//GEN-LAST:event_jButton10ActionPerformed
 
     private void jButton12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton12ActionPerformed
-          DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+           DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
     model.setRowCount(0); // Clear the table to avoid duplicate entries
 
     try (
         BufferedReader salesReader = new BufferedReader(new FileReader("sales.txt"));
-        BufferedReader stockReader = new BufferedReader(new FileReader("stocklevel.txt"))
+        BufferedReader itemsReader = new BufferedReader(new FileReader("items.txt"))
     ) {
-        // Load stock data into a map for quick access
-        Map<String, String[]> stockDataMap = new HashMap<>();
-        String stockLine;
+        // Load items.txt data into a map for quick access
+        Map<String, String[]> itemsDataMap = new HashMap<>();
+        String itemsLine;
 
-        // Read and process stocklevel.txt
-        stockReader.readLine(); // Skip the header
-        while ((stockLine = stockReader.readLine()) != null) {
-            String[] stockParts = stockLine.split(",");
-            if (stockParts.length >= 5) { // Ensure valid row
-                String itemId = stockParts[0];
-                stockDataMap.put(itemId, stockParts); // Map itemId to its stock data
+        // Read and process items.txt
+        itemsReader.readLine(); // Skip the header
+        while ((itemsLine = itemsReader.readLine()) != null) {
+            String[] itemsParts = itemsLine.split(",");
+            if (itemsParts.length >= 8) { // Ensure valid row
+                String itemId = itemsParts[0];
+                itemsDataMap.put(itemId, itemsParts); // Map ItemID to its row data
             }
         }
 
@@ -607,7 +629,7 @@ public class Daily_Items_Sales_Entry extends javax.swing.JFrame {
         salesReader.readLine(); // Skip the header
         while ((salesLine = salesReader.readLine()) != null) {
             String[] salesParts = salesLine.split(",");
-            if (salesParts.length >= 6) {
+            if (salesParts.length >= 6) { // Ensure valid sales row
                 String date = salesParts[0];
                 String itemId = salesParts[1];
                 String itemName = salesParts[2];
@@ -615,11 +637,11 @@ public class Daily_Items_Sales_Entry extends javax.swing.JFrame {
                 String unitPrice = salesParts[4];
                 String totalSales = salesParts[5];
 
-                // Check if itemId exists in stocklevel.txt
-                if (stockDataMap.containsKey(itemId)) {
-                    String[] stockData = stockDataMap.get(itemId);
-                    String currentStock = stockData[2];
-                    String reorderLevel = stockData[3];
+                // Fetch Current Stock Level and Reorder Level from items.txt
+                String[] itemsData = itemsDataMap.get(itemId);
+                if (itemsData != null) {
+                    String currentStock = itemsData[3]; // Current Stock Level
+                    String reorderLevel = itemsData[4]; // Reorder Level
 
                     // Add row to the table
                     model.addRow(new Object[]{
@@ -629,10 +651,11 @@ public class Daily_Items_Sales_Entry extends javax.swing.JFrame {
             }
         }
 
-        // If table remains empty, show a message
+        // Show a message if no data is loaded
         if (model.getRowCount() == 0) {
-            JOptionPane.showMessageDialog(this, "No data available in sales.txt and stocklevel.txt.", "No Data", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(this, "No data available in sales.txt or items.txt.", "No Data", JOptionPane.INFORMATION_MESSAGE);
         }
+
     } catch (IOException e) {
         JOptionPane.showMessageDialog(this, "Error generating data: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
     }
@@ -648,8 +671,8 @@ public class Daily_Items_Sales_Entry extends javax.swing.JFrame {
                 String[] parts = line.split(",");
                 if (parts.length >= 8 && parts[0].trim().equals(selectedItemId.trim())) {
                     jTextPane1.setText(parts[1]); // Set Item Name
-                    jTextField1.setText(parts[7]); // Set Selling Price Per Unit
-                    jTextField2.setText(parts[2]); // Set Current Stock Level
+                    jTextField1.setText("RM" + parts[6]); // Add RM format for Selling Price
+                    jTextField2.setText(parts[3]); // Set Current Stock Level
                     break;
                 }
             }
@@ -657,7 +680,6 @@ public class Daily_Items_Sales_Entry extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Error loading item details: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
     } else {
-        // Clear fields if no valid selection is made
         jTextPane1.setText("");
         jTextField1.setText("");
         jTextField2.setText("");
@@ -676,30 +698,30 @@ public class Daily_Items_Sales_Entry extends javax.swing.JFrame {
     
     private void saveDataToFiles() {
          DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
-    Map<String, String[]> stockDataMap = new HashMap<>();
+    Map<String, String[]> itemsDataMap = new HashMap<>();
 
-    // Load stocklevel.txt into a map
-    try (BufferedReader stockReader = new BufferedReader(new FileReader("stocklevel.txt"))) {
+    // Load items.txt into a map
+    try (BufferedReader itemsReader = new BufferedReader(new FileReader("items.txt"))) {
         String line;
-        stockReader.readLine(); // Skip header
-        while ((line = stockReader.readLine()) != null) {
+        itemsReader.readLine(); // Skip header
+        while ((line = itemsReader.readLine()) != null) {
             String[] parts = line.split(",");
-            if (parts.length >= 5) { // Ensure valid stock row
-                stockDataMap.put(parts[0], parts); // Map ItemID to its full row
+            if (parts.length >= 8) { // Ensure valid item row
+                itemsDataMap.put(parts[0], parts); // Map ItemID to its full row
             }
         }
     } catch (IOException e) {
-        JOptionPane.showMessageDialog(this, "Error reading stocklevel.txt: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        JOptionPane.showMessageDialog(this, "Error reading items.txt: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         return;
     }
 
-    try (
-        BufferedWriter salesWriter = new BufferedWriter(new FileWriter("sales.txt", false)); // Overwrite mode for sales.txt
-        BufferedWriter stockWriter = new BufferedWriter(new FileWriter("stocklevel.txt", false)) // Overwrite stocklevel.txt
-    ) {
-        // Write headers to both files
+    // Save data back to sales.txt and items.txt
+    try (BufferedWriter salesWriter = new BufferedWriter(new FileWriter("sales.txt", false));
+         BufferedWriter itemsWriter = new BufferedWriter(new FileWriter("items.txt", false))) {
+
+        // Write headers
         salesWriter.write("Date,ItemID,Item Name,Quantity Sold,Selling Price Per Unit,Total Sales\n");
-        stockWriter.write("ItemID,Item Name,Current Stock Level,Reorder Level,Last Updated Date\n");
+        itemsWriter.write("itemID,item Name,Supplier ID,Current Stock Level,Reorder Level,Cost perunit,Selling Price Unit,Last Updated Date\n");
 
         // Iterate over table rows to save data
         for (int i = 0; i < model.getRowCount(); i++) {
@@ -707,25 +729,26 @@ public class Daily_Items_Sales_Entry extends javax.swing.JFrame {
             String itemId = model.getValueAt(i, 1).toString();
             String itemName = model.getValueAt(i, 2).toString();
             String quantitySold = model.getValueAt(i, 3).toString();
-            String unitPrice = model.getValueAt(i, 4).toString();
+            String unitPrice = model.getValueAt(i, 4).toString().replace("RM", "").trim();
             String totalSales = model.getValueAt(i, 5).toString();
             String updatedStock = model.getValueAt(i, 7).toString();
 
-            // Write entries to sales.txt
-            salesWriter.write(date + "," + itemId + "," + itemName + "," + quantitySold + "," + unitPrice + "," + totalSales + "\n");
+            // Write to sales.txt
+            salesWriter.write(date + "," + itemId + "," + itemName + "," + quantitySold + ",RM" + unitPrice + "," + totalSales + "\n");
 
-            // Update stock data in stocklevel.txt
-            if (stockDataMap.containsKey(itemId)) {
-                String[] stockData = stockDataMap.get(itemId);
-                stockData[2] = updatedStock; // Update current stock level
-                stockData[4] = date; // Update last updated date
+            // Update items.txt data
+            if (itemsDataMap.containsKey(itemId)) {
+                String[] itemData = itemsDataMap.get(itemId);
+                itemData[3] = updatedStock; // Update current stock level
+                itemData[7] = date;         // Update last updated date
             }
         }
 
-        // Write all updated stock data back to stocklevel.txt
-        for (String[] stockData : stockDataMap.values()) {
-            stockWriter.write(String.join(",", stockData) + "\n");
+        // Write updated items data back to items.txt
+        for (String[] itemData : itemsDataMap.values()) {
+            itemsWriter.write(String.join(",", itemData) + "\n");
         }
+
     } catch (IOException e) {
         JOptionPane.showMessageDialog(this, "Error saving data to files: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
     }

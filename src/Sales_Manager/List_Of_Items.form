@@ -261,12 +261,12 @@
                     <Column editable="true" title="Item ID" type="java.lang.String"/>
                     <Column editable="true" title="Item Name" type="java.lang.String"/>
                     <Column editable="true" title="Current Stock Level" type="java.lang.Integer"/>
-                    <Column editable="true" title="Quantity" type="java.lang.Integer"/>
                     <Column editable="true" title="Suppplier ID" type="java.lang.String"/>
                     <Column editable="true" title="Reorder Level" type="java.lang.Integer"/>
                     <Column editable="true" title="Reorder Alert" type="java.lang.String"/>
                     <Column editable="true" title="Cost Per Unit" type="java.lang.String"/>
                     <Column editable="true" title="Selling Price Per Unit" type="java.lang.String"/>
+                    <Column editable="true" title="Last Updated Date" type="java.lang.String"/>
                   </Table>
                 </Property>
                 <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">

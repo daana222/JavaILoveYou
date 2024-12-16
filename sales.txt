@@ -1,3 +1,2 @@
 Date,ItemID,Item Name,Quantity Sold,Selling Price Per Unit,Total Sales
-15/12/2024,IT002,Computer,110,RM3500.00,RM385000.00
-14/12/2024,IT001,Laptop,25,RM3000.00,RM75000.00
+11/12/2024,IT001,car,10,RM3.00,RM30.00
