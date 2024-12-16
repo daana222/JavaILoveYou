@@ -45,7 +45,7 @@ public class Supplier_2 extends javax.swing.JFrame {
         supplierPayment2table = new javax.swing.JTable();
         jLabel4 = new javax.swing.JLabel();
         supplierIdLabel = new javax.swing.JLabel();
-        paymentbtn = new javax.swing.JButton();
+        supplierPaymentbtn = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -170,10 +170,10 @@ public class Supplier_2 extends javax.swing.JFrame {
 
         supplierIdLabel.setText("001");
 
-        paymentbtn.setText("Payment");
-        paymentbtn.addActionListener(new java.awt.event.ActionListener() {
+        supplierPaymentbtn.setText("Payment");
+        supplierPaymentbtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                paymentbtnActionPerformed(evt);
+                supplierPaymentbtnActionPerformed(evt);
             }
         });
 
@@ -193,7 +193,7 @@ public class Supplier_2 extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGap(570, 570, 570)
-                        .addComponent(paymentbtn)
+                        .addComponent(supplierPaymentbtn)
                         .addGap(20, 20, 20))
                     .addGroup(layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -240,7 +240,7 @@ public class Supplier_2 extends javax.swing.JFrame {
                 .addGap(31, 31, 31)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 241, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(paymentbtn))
+                .addComponent(supplierPaymentbtn))
         );
 
         pack();
@@ -281,7 +281,7 @@ public class Supplier_2 extends javax.swing.JFrame {
         dispose();
     }//GEN-LAST:event_SupplierbtnActionPerformed
 
-    private void paymentbtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_paymentbtnActionPerformed
+    private void supplierPaymentbtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_supplierPaymentbtnActionPerformed
         int selectedRow = supplierPayment2table.getSelectedRow();
 
         if (selectedRow == -1) {
@@ -293,7 +293,7 @@ public class Supplier_2 extends javax.swing.JFrame {
         Payment paymentForm = new Payment(poId); // Pass the PO ID
         paymentForm.setVisible(true);
         this.dispose(); // Optionally close the current form
-    }//GEN-LAST:event_paymentbtnActionPerformed
+    }//GEN-LAST:event_supplierPaymentbtnActionPerformed
 
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
         searchSupplierTable();
@@ -463,8 +463,8 @@ public class Supplier_2 extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextField jTextField3;
-    private javax.swing.JButton paymentbtn;
     private javax.swing.JLabel supplierIdLabel;
     private javax.swing.JTable supplierPayment2table;
+    private javax.swing.JButton supplierPaymentbtn;
     // End of variables declaration//GEN-END:variables
 }

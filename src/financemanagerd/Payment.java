@@ -40,7 +40,7 @@ public class Payment extends javax.swing.JFrame {
         loadDataFromFile(filePath); // Load data into the table
         storeOriginalTableData();
         addDueDateRenderer();
-        updateItemsFromPO(poId);
+        //updateItemsFromPO(poId);
 
         // Select the row with the specific PO ID
         preselectRowByPOID(poId);

@@ -370,7 +370,7 @@ public class PurchaseOrder2 extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton13ActionPerformed
     
     
-     private void updateApprovalStatus(String newStatus) {
+    private void updateApprovalStatus(String newStatus) {
         String filePath = "C:\\Users\\Mitsu\\OneDrive - Asia Pacific University\\Documents\\NetBeansProjects\\FinanceManagerD\\PO.txt";
 
         try {
@@ -386,13 +386,13 @@ public class PurchaseOrder2 extends javax.swing.JFrame {
                 }
             }
 
-            // Find the matching row to check the current status
+            // Find the first matching row to check the current status
             for (String line : lines) {
                 String[] columns = line.split(",");
                 if (columns.length >= 11 && columns[0].trim().equals(poNumberlbl.getText())) { // Match on P.O ID
                     currentStatus = columns[10].trim(); // Current status (Approved/Rejected/Pending)
                     approvalDate = columns[9].trim(); // OrderDate for due date calculation
-                    break;
+                    break; // Check only the first occurrence
                 }
             }
 
@@ -405,13 +405,12 @@ public class PurchaseOrder2 extends javax.swing.JFrame {
                 return;
             }
 
-            // Update the matching row's status
+            // Update all rows with the same PO ID
             for (int i = 0; i < lines.size(); i++) {
                 String[] columns = lines.get(i).split(",");
                 if (columns.length >= 11 && columns[0].trim().equals(poNumberlbl.getText())) { // Match on P.O ID
                     columns[10] = newStatus; // Update the Approve/Reject column
                     lines.set(i, String.join(",", columns)); // Replace the updated line
-                    break;
                 }
             }
 
@@ -434,6 +433,7 @@ public class PurchaseOrder2 extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Error updating file: " + e.getMessage());
         }
     }
+
 
 
 
