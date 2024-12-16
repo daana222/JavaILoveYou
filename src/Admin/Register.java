@@ -29,7 +29,7 @@ public class Register extends javax.swing.JFrame {
      * Creates new form Register
      */
     public Register() {
-        checkAndCreateFile(); // Ensure the file exists
+        //checkAndCreateFile(); // Ensure the file exists
         model.setColumnIdentifiers(columnName);// assignet name for table
         initComponents();
         loadFromFile(); // Load data from file when the application starts
@@ -381,21 +381,20 @@ public class Register extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-   public final void checkAndCreateFile() {
-    try {
-        File file = new File("User.txt");
-        System.out.println("File absolute path: " + file.getAbsolutePath()); // Prints the full path
-        if (!file.exists()) {
-            if (file.createNewFile()) {
-                System.out.println("User.txt file created successfully.");
-            } else {
-                System.out.println("Failed to create User.txt file.");
-            }
-        }
-    } catch (IOException e) {
-        JOptionPane.showMessageDialog(this, "Error creating file: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-    }
-}
+ //  public final void checkAndCreateFile() {
+  //  try {
+   //     File file = new File("User.txt");
+    //    System.out.println("File absolute path: " + file.getAbsolutePath()); // Prints the full path
+      //  if (!file.exists()) {
+      //      if (file.createNewFile()) {
+       //         System.out.println("User.txt file created successfully.");
+       //         System.out.println("Failed to create User.txt file.");
+       //     }
+       // }
+   // } catch (IOException e) {
+   //     JOptionPane.showMessageDialog(this, "Error creating file: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+   // }
+//}
     
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         Register registerFrame = new Register();

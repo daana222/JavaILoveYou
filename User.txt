@@ -1,11 +1,10 @@
-John Admin,0123456789,123 Admin Street,admin,admin123,ADMIN
-Jane Doe,0987654321,456 Sales Lane,sales1,sales123,SALES MANAGER
-Mike Johnson,0112233445,789 Inventory Road,inventory1,inventory123,INVENTORY MANAGER
-Sarah Lee,0223344556,321 Purchase Avenue,purchase1,purchase123,PURCHASE MANAGER
-Emma Brown,0334455667,567 Finance Boulevard,finance1,finance123,FINANCE MANAGER
-Robert Smith,0445566778,999 Admin Street,admin2,admin456,ADMIN
-Lisa Sales,0556677889,111 Sales Lane,sales2,sales456,SALES MANAGER
-Tom Harris,0667788990,222 Inventory Road,inventory2,inventory456,INVENTORY MANAGER
-Nancy Green,0778899001,333 Purchase Avenue,purchase2,purchase456,PURCHASE MANAGER
-Chris White,0889900112,444 Finance Boulevard,finance2,finance456,FINANCE MANAGER
-
+1,John Doe,0123456789,john.doe@example.com,johndoe,password123,ADMIN
+2,Jane Smith,0112233445,jane.smith@example.com,janesmith,password456,SALES MANAGER
+3,Robert Brown,0133344556,robert.brown@example.com,robertb,password789,INVENTORY MANAGER
+4,Emily Davis,0144455667,emily.davis@example.com,emilyd,password101,PURCHASE MANAGER
+5,Michael Wilson,0155566778,michael.wilson@example.com,michaelw,password202,FINANCE MANAGER
+6,Lisa Johnson,0166677889,lisa.johnson@example.com,lisaj,password303,SALES MANAGER
+7,David Clark,0177788990,david.clark@example.com,davidc,password404,INVENTORY MANAGER
+8,Sophia Lopez,0188899001,sophia.lopez@example.com,sophial,password505,PURCHASE MANAGER
+9,Daniel Moore,0199900112,daniel.moore@example.com,danielm,password606,FINANCE MANAGER
+10,Emma White,0121112233,emma.white@example.com,emmaw,password707,ADMIN

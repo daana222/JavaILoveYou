@@ -4,9 +4,12 @@
  */
 package Admin;
 
+import java.awt.GridLayout;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 /**
@@ -177,53 +180,102 @@ public class Login extends javax.swing.JFrame {
             return;
         }
         boolean loginSuccessful = false;
-        String role = "";
-        try (BufferedReader reader = new BufferedReader(new FileReader("User.txt"))) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                String[] userDetails = line.split(",");
-                if (userDetails.length == 6) {
-                    if (username.equals(userDetails[3]) && password.equals(userDetails[4])) {
-                        loginSuccessful = true;
-                        role = userDetails[5].trim();
-                        break;
-                    }
+    String role = "";
+
+    try (BufferedReader reader = new BufferedReader(new FileReader("User.txt"))) {
+        String line;
+        while ((line = reader.readLine()) != null) {
+            String[] userDetails = line.split(",");
+            if (userDetails.length >= 7) { // Ensure there are enough details
+                if (username.equals(userDetails[3]) && password.equals(userDetails[4])) {
+                    loginSuccessful = true;
+                    role = userDetails[6].trim(); // Role is in the 6th column
+                    break;
                 }
             }
-        } catch (IOException e) {
-            JOptionPane.showMessageDialog(this, "Error reading user data: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-            return;
         }
+        
+    } catch (IOException e) {
+        JOptionPane.showMessageDialog(this, "Error reading user data: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        return;
+    }
          if (loginSuccessful) {
             JOptionPane.showMessageDialog(this, "Login Successful!");
-            redirectToMainMenu(role);
-            this.dispose();
+             if (role.equalsIgnoreCase("ADMIN")) {
+            new RoleSelection().setVisible(true); // Display RoleSelection for Admin
         } else {
-            JOptionPane.showMessageDialog(this, "Invalid Username or Password", "Login Failed", JOptionPane.ERROR_MESSAGE);
+            redirectToMainMenu(role); // Redirect normal users based on role
         }
+        this.dispose();
+    } else {
+        JOptionPane.showMessageDialog(this, "Invalid Username or Password", "Login Failed", JOptionPane.ERROR_MESSAGE);
+         }
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void redirectToMainMenu(String role) {
-        switch (role) {
-            case "ADMIN":
-                new Main_Menu().setVisible(true);
-                break;
-            case "SALES MANAGER":
-                new Sales_Manager.Main_Dashboard().setVisible(true);
-                break;
-            case "INVENTORY MANAGER":
-                //new Inventory_Manager.InventoryMainMenu().setVisible(true);
-                break;
-            case "PURCHASE MANAGER":
-                new Purchase_Manager.PM().setVisible(true);
-                break;
-            case "FINANCE MANAGER":
-                new financemanagerd.FManager().setVisible(true);
-                break;
-            default:
-                JOptionPane.showMessageDialog(this, "Unknown role: " + role);
-        }
+    switch (role.toUpperCase()) { // Convert to uppercase for case-insensitive matching
+        case "ADMIN":
+            JOptionPane.showMessageDialog(this, "Redirecting to Admin Panel...");
+            new RoleSelection().setVisible(true); // Replace with your actual Admin class
+            break;
+        case "SALES MANAGER":
+            JOptionPane.showMessageDialog(this, "Redirecting to Sales Manager Dashboard...");
+            new Sales_Manager.Main_Dashboard().setVisible(true); // Replace with your Sales Manager class
+            break;
+        case "INVENTORY MANAGER":
+            JOptionPane.showMessageDialog(this, "Redirecting to Inventory Manager Dashboard...");
+            //new Inventory_Manager.InventoryMainMenu().setVisible(true); // Replace with your Inventory class
+            break;
+        case "PURCHASE MANAGER":
+            JOptionPane.showMessageDialog(this, "Redirecting to Purchase Manager Dashboard...");
+            new Purchase_Manager.PM().setVisible(true); // Replace with your Purchase Manager class
+            break;
+        case "FINANCE MANAGER":
+            JOptionPane.showMessageDialog(this, "Redirecting to Finance Manager Dashboard...");
+            new financemanagerd.FManager().setVisible(true); // Replace with your Finance Manager class
+            break;
+        default:
+            JOptionPane.showMessageDialog(this, "Unknown role: " + role, "Error", JOptionPane.ERROR_MESSAGE);
+            break;
     }
+}
+
+    
+    public class RoleSelection extends JFrame {
+
+    public RoleSelection() {
+        setTitle("Select Role");
+        setSize(400, 300);
+        setLayout(new GridLayout(5, 1, 10, 10)); // GridLayout for buttons
+
+        // Buttons for roles
+        JButton btnSalesManager = new JButton("Enter as SALES MANAGER");
+        JButton btnInventoryManager = new JButton("Enter as INVENTORY MANAGER");
+        JButton btnPurchaseManager = new JButton("Enter as PURCHASE MANAGER");
+        JButton btnFinanceManager = new JButton("Enter as FINANCE MANAGER");
+        JButton btnAdminPanel = new JButton("Enter as ADMIN PANEL");
+
+        // Add buttons to the frame
+        add(btnSalesManager);
+        add(btnInventoryManager);
+        add(btnPurchaseManager);
+        add(btnFinanceManager);
+        add(btnAdminPanel);
+
+        // Button Actions
+        btnSalesManager.addActionListener(e -> new Sales_Manager.Main_Dashboard().setVisible(true));
+       // btnInventoryManager.addActionListener(e -> new Inventory_Manager.InventoryMainMenu().setVisible(true));
+        btnPurchaseManager.addActionListener(e -> new Purchase_Manager.PM().setVisible(true));
+        btnFinanceManager.addActionListener(e -> new financemanagerd.FManager().setVisible(true));
+        btnAdminPanel.addActionListener(e -> JOptionPane.showMessageDialog(this, "Admin Panel Opened!"));
+
+        setLocationRelativeTo(null);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        setVisible(true);
+    }
+}
+   
+    
 
 
     
