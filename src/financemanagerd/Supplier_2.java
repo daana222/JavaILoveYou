@@ -45,7 +45,7 @@ public class Supplier_2 extends javax.swing.JFrame {
         supplierPayment2table = new javax.swing.JTable();
         jLabel4 = new javax.swing.JLabel();
         supplierIdLabel = new javax.swing.JLabel();
-        paymentbtn = new javax.swing.JButton();
+        supplierPaymentbtn = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -170,10 +170,10 @@ public class Supplier_2 extends javax.swing.JFrame {
 
         supplierIdLabel.setText("001");
 
-        paymentbtn.setText("Payment");
-        paymentbtn.addActionListener(new java.awt.event.ActionListener() {
+        supplierPaymentbtn.setText("Payment");
+        supplierPaymentbtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                paymentbtnActionPerformed(evt);
+                supplierPaymentbtnActionPerformed(evt);
             }
         });
 
@@ -193,7 +193,7 @@ public class Supplier_2 extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGap(570, 570, 570)
-                        .addComponent(paymentbtn)
+                        .addComponent(supplierPaymentbtn)
                         .addGap(20, 20, 20))
                     .addGroup(layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -240,7 +240,7 @@ public class Supplier_2 extends javax.swing.JFrame {
                 .addGap(31, 31, 31)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 241, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(paymentbtn))
+                .addComponent(supplierPaymentbtn))
         );
 
         pack();
@@ -281,7 +281,7 @@ public class Supplier_2 extends javax.swing.JFrame {
         dispose();
     }//GEN-LAST:event_SupplierbtnActionPerformed
 
-    private void paymentbtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_paymentbtnActionPerformed
+    private void supplierPaymentbtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_supplierPaymentbtnActionPerformed
         int selectedRow = supplierPayment2table.getSelectedRow();
 
         if (selectedRow == -1) {
@@ -293,7 +293,7 @@ public class Supplier_2 extends javax.swing.JFrame {
         Payment paymentForm = new Payment(poId); // Pass the PO ID
         paymentForm.setVisible(true);
         this.dispose(); // Optionally close the current form
-    }//GEN-LAST:event_paymentbtnActionPerformed
+    }//GEN-LAST:event_supplierPaymentbtnActionPerformed
 
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
         searchSupplierTable();
@@ -308,13 +308,13 @@ public class Supplier_2 extends javax.swing.JFrame {
     
     
     private double loadPurchaseOrders(String supplierId) {
-        String filePath = "C:\\Users\\Mitsu\\OneDrive - Asia Pacific University\\Documents\\NetBeansProjects\\FinanceManagerD\\Payment.txt";
+        String filePath = "Payment.txt";
 
         DefaultTableModel model = (DefaultTableModel) supplierPayment2table.getModel();
         model.setRowCount(0); // Clear existing rows in the table
 
-        double totalPaid = 0.0; // Track total paid for the supplier
-        double totalDue = 0.0; // Track total due for the supplier
+        double totalPaidOverall = 0.0; // Track total paid for the supplier
+        double totalDueOverall = 0.0; // Track total amount payable for the supplier
 
         try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
             String line;
@@ -327,30 +327,34 @@ public class Supplier_2 extends javax.swing.JFrame {
                 }
 
                 String[] columns = line.split(",");
+
                 String poSupplierId = columns[5].trim(); // Supplier ID
                 String poId = columns[1].trim(); // PO ID
-                double amountPayable = Double.parseDouble(columns[7].trim()); // Amount payable
-                String dueDate = columns[4].trim(); // Due Date
                 String status = columns[2].trim(); // Payment Status
+                String dueDate = columns[4].trim(); // Due Date
+                double totalAmount = Double.parseDouble(columns[7].trim()); // Total Amount Payable
+
+                // Treat "Paid" and "Late" statuses as amounts that have been paid
+                double amountPaid = (status.equalsIgnoreCase("Paid") || status.equalsIgnoreCase("Late")) ? totalAmount : 0.0;
 
                 if (poSupplierId.equals(supplierId)) {
-                    totalDue += amountPayable;
-
-                    // Consider both Paid and Late as part of totalPaid
-                    if (status.equalsIgnoreCase("Paid") || status.equalsIgnoreCase("Late")) {
-                        totalPaid += amountPayable;
-                    }
+                    totalDueOverall += totalAmount; // Add to total due
+                    totalPaidOverall += amountPaid; // Add to total paid if "Paid" or "Late"
 
                     // Add row to the table
-                    model.addRow(new Object[]{poId, amountPayable, totalPaid, dueDate});
+                    model.addRow(new Object[]{poId, totalAmount, amountPaid, dueDate});
                 }
             }
-        } catch (IOException e) {
+        } catch (IOException | NumberFormatException e) {
             javax.swing.JOptionPane.showMessageDialog(this, "Error reading Payment.txt: " + e.getMessage());
         }
 
-        return totalDue - totalPaid; // Return the calculated balance
+        return totalDueOverall - totalPaidOverall; // Return the calculated balance
     }
+
+
+
+
     
     
     private void searchSupplierTable() {
@@ -459,8 +463,8 @@ public class Supplier_2 extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextField jTextField3;
-    private javax.swing.JButton paymentbtn;
     private javax.swing.JLabel supplierIdLabel;
     private javax.swing.JTable supplierPayment2table;
+    private javax.swing.JButton supplierPaymentbtn;
     // End of variables declaration//GEN-END:variables
 }

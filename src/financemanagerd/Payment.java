@@ -18,7 +18,7 @@ public class Payment extends javax.swing.JFrame {
         setSize(890, 500);
         setLocationRelativeTo(null); // Center the frame
         
-        String filePath = "C:\\Users\\Mitsu\\OneDrive - Asia Pacific University\\Documents\\NetBeansProjects\\FinanceManagerD\\Payment.txt";
+        String filePath = "Payment.txt";
 
         // Load data and store the original table for future filtering
         loadDataFromFile(filePath);
@@ -35,12 +35,12 @@ public class Payment extends javax.swing.JFrame {
         setSize(890, 500);
         setLocationRelativeTo(null);
         
-        String filePath = "C:\\Users\\Mitsu\\OneDrive - Asia Pacific University\\Documents\\NetBeansProjects\\FinanceManagerD\\Payment.txt";
+        String filePath = "Payment.txt";
 
         loadDataFromFile(filePath); // Load data into the table
         storeOriginalTableData();
         addDueDateRenderer();
-        updateItemsFromPO(poId);
+        //updateItemsFromPO(poId);
 
         // Select the row with the specific PO ID
         preselectRowByPOID(poId);
@@ -429,7 +429,7 @@ public class Payment extends javax.swing.JFrame {
             updateItemsFromPO(poNumber);
 
             // Refresh table data
-            loadDataFromFile("C:\\Users\\Mitsu\\OneDrive - Asia Pacific University\\Documents\\NetBeansProjects\\FinanceManagerD\\Payment.txt");
+            loadDataFromFile("Payment.txt");
 
             // Generate Receipt
             generateTextReceipt(supplierId, poNumber, totalAmount, dueDateStr, paymentDate, paymentId);
@@ -506,7 +506,7 @@ public class Payment extends javax.swing.JFrame {
     
     
     private void updatePaymentDetails(String poNumber, String newStatus, String paymentDate, String paymentId) {
-        String filePath = "C:\\Users\\Mitsu\\OneDrive - Asia Pacific University\\Documents\\NetBeansProjects\\FinanceManagerD\\Payment.txt";
+        String filePath = "Payment.txt";
 
         try {
             java.util.List<String> lines = new java.util.ArrayList<>();
@@ -544,7 +544,7 @@ public class Payment extends javax.swing.JFrame {
     
     
     private void generateTextReceipt(String supplierId, String poNumber, String totalAmount, String dueDate, String paymentDate, String paymentId) {
-        String receiptFilePath = "C:/Users/Mitsu/OneDrive - Asia Pacific University/Documents/NetBeansProjects/FinanceManagerD/receipts/Receipt_" + paymentId + ".txt";
+        String receiptFilePath = "receipts/Receipt_" + paymentId + ".txt";
 
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(receiptFilePath))) {
             writer.write("Payment Receipt");
@@ -600,8 +600,8 @@ public class Payment extends javax.swing.JFrame {
     }
     
     private void updateItemsFromPO(String poId) {
-        String poFilePath = "C:\\Users\\Mitsu\\OneDrive - Asia Pacific University\\Documents\\NetBeansProjects\\FinanceManagerD\\PO.txt";
-        String itemsFilePath = "C:\\Users\\Mitsu\\OneDrive - Asia Pacific University\\Documents\\NetBeansProjects\\FinanceManagerD\\items.txt";
+        String poFilePath = "PO.txt";
+        String itemsFilePath = "items.txt";
 
         try {
             // Step 1: Read PO.txt to find matching PO ID and item details
@@ -616,9 +616,9 @@ public class Payment extends javax.swing.JFrame {
                         continue;
                     }
                     String[] columns = line.split(",");
-                    if (columns.length >= 4 && columns[0].trim().equals(poId)) { // Match PO ID
+                    if (columns.length >= 5 && columns[0].trim().equals(poId)) { // Match PO ID
                         String itemId = columns[2].trim(); // Item ID (column 3 in PO.txt)
-                        int quantity = Integer.parseInt(columns[3].trim()); // Quantity (column 4 in PO.txt)
+                        int quantity = Integer.parseInt(columns[4].trim()); // Quantity (column 4 in PO.txt)
                         itemsToUpdate.put(itemId, itemsToUpdate.getOrDefault(itemId, 0) + quantity); // Add quantity
                         System.out.println("PO ID: " + poId + " | Item ID: " + itemId + " | Quantity to Add: " + quantity);
                     }

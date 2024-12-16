@@ -1,8 +1,8 @@
 Payment Receipt
 ------------------------
-Supplier ID: SP002
-P.O Number: PO009
-Total Amount: $9800.0
-Due Date: 2024-12-23
+Supplier ID: SP003
+P.O Number: PO006
+Total Amount: $2700.0
+Due Date: 2024-12-26
 Payment Status: Paid
 Payment Date: 2024-12-16

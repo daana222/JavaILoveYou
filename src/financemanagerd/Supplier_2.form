@@ -31,7 +31,7 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="1" attributes="0">
                       <EmptySpace min="-2" pref="570" max="-2" attributes="0"/>
-                      <Component id="paymentbtn" min="-2" max="-2" attributes="0"/>
+                      <Component id="supplierPaymentbtn" min="-2" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
                   </Group>
                   <Group type="102" attributes="0">
@@ -91,7 +91,7 @@
               <EmptySpace min="-2" pref="31" max="-2" attributes="0"/>
               <Component id="jScrollPane1" min="-2" pref="241" max="-2" attributes="0"/>
               <EmptySpace type="separate" max="-2" attributes="0"/>
-              <Component id="paymentbtn" min="-2" max="-2" attributes="0"/>
+              <Component id="supplierPaymentbtn" min="-2" max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -312,12 +312,12 @@
         <Property name="text" type="java.lang.String" value="001"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JButton" name="paymentbtn">
+    <Component class="javax.swing.JButton" name="supplierPaymentbtn">
       <Properties>
         <Property name="text" type="java.lang.String" value="Payment"/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="paymentbtnActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="supplierPaymentbtnActionPerformed"/>
       </Events>
     </Component>
     <Component class="javax.swing.JButton" name="jButton1">

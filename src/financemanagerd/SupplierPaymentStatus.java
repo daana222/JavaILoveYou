@@ -294,7 +294,7 @@ public class SupplierPaymentStatus extends javax.swing.JFrame {
 
     
     private void populateSupplierComboBox() {
-        String filePath = "C:\\Users\\Mitsu\\OneDrive - Asia Pacific University\\Documents\\NetBeansProjects\\FinanceManagerD\\Payment.txt";
+        String filePath = "Payment.txt";
 
         Set<String> supplierIds = new HashSet<>();
         try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
@@ -336,7 +336,7 @@ public class SupplierPaymentStatus extends javax.swing.JFrame {
             selectedSupplierId = "All"; // Default to "All" if no supplier is selected
         }
 
-        String filePath = "C:\\Users\\Mitsu\\OneDrive - Asia Pacific University\\Documents\\NetBeansProjects\\FinanceManagerD\\Payment.txt";
+        String filePath = "Payment.txt";
 
         DefaultTableModel model = (DefaultTableModel) supplierPaymentTable.getModel();
         model.setRowCount(0); // Clear existing rows
