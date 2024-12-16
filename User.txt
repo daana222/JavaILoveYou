@@ -1,10 +1,2 @@
-1,John Doe,0123456789,john.doe@example.com,johndoe,password123,ADMIN
-2,Jane Smith,0112233445,jane.smith@example.com,janesmith,password456,SALES MANAGER
-3,Robert Brown,0133344556,robert.brown@example.com,robertb,password789,INVENTORY MANAGER
-4,Emily Davis,0144455667,emily.davis@example.com,emilyd,password101,PURCHASE MANAGER
-5,Michael Wilson,0155566778,michael.wilson@example.com,michaelw,password202,FINANCE MANAGER
-6,Lisa Johnson,0166677889,lisa.johnson@example.com,lisaj,password303,SALES MANAGER
-7,David Clark,0177788990,david.clark@example.com,davidc,password404,INVENTORY MANAGER
-8,Sophia Lopez,0188899001,sophia.lopez@example.com,sophial,password505,PURCHASE MANAGER
-9,Daniel Moore,0199900112,daniel.moore@example.com,danielm,password606,FINANCE MANAGER
-10,Emma White,0121112233,emma.white@example.com,emmaw,password707,ADMIN
+U001,Shareen,0124539844,Shareen@gmail.com,Sha12,Ad1234,ADMIN
+P002,Daana,0124539844,Daana@gmail.com,Daa12,Daa122,PURCHASE MANAGER

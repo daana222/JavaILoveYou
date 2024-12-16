@@ -11,7 +11,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
-import java.io.File;
 import java.util.HashSet;
 
 
@@ -114,7 +113,7 @@ public class Register extends javax.swing.JFrame {
         });
 
         jComboBox3.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jComboBox3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "VIEW ITEM ", "VIEW PAYMENT", "VIEW STOCK LEVEL", "VIEW SUPPLIERS", "VIEW SALES REPORTS", " " }));
+        jComboBox3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "VIEW ITEM ", "VIEW PAYMENT", "VIEW STOCK LEVEL", "VIEW SUPPLIERS", "VIEW SALES REPORTS" }));
         jComboBox3.setToolTipText("");
         jComboBox3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -225,7 +224,7 @@ public class Register extends javax.swing.JFrame {
             }
         });
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "SALES MANEGER", "INVENTORY MANAGER", "PURCHASE MANAGER", "FINANCE MANAGER" }));
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "SALES MANEGER", "INVENTORY MANAGER", "PURCHASE MANAGER", "ADMIN", "FINANCE MANAGER" }));
         jComboBox1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jComboBox1ActionPerformed(evt);
@@ -399,13 +398,13 @@ public class Register extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         Register registerFrame = new Register();
 
-        registerFrame.setVisible(true);        // TODO add your handling code here:
+        registerFrame.setVisible(true);        
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         View_user viewUserFrame = new View_user();
 
-        viewUserFrame.setVisible(true);        // TODO add your handling code here:
+        viewUserFrame.setVisible(true);        
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
@@ -413,25 +412,25 @@ public class Register extends javax.swing.JFrame {
         loginPage.setVisible(true);    // Show the login frame
 
         // Close the current frame (Main Menu frame)
-        this.dispose();        // TODO add your handling code here:
+        this.dispose();        
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jFormattedTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jFormattedTextField1ActionPerformed
-        // TODO add your handling code here:
+       
         String phoneNumber = jFormattedTextField1.getText();
         
         if (phoneNumber.isEmpty()) {
-        JOptionPane.showMessageDialog(this, "Phone Number box cannot be empty.", "Validation Error", JOptionPane.ERROR_MESSAGE);
+        JOptionPane.showMessageDialog(this, "The Phone Number text box cannot be empty.", "Validation Error", JOptionPane.ERROR_MESSAGE);
         jFormattedTextField1.requestFocus();
         return;
     }
        if (!phoneNumber.matches("\\d+")) {
-        JOptionPane.showMessageDialog(this, "Phone Number box must contain only digits.", "Validation Error", JOptionPane.ERROR_MESSAGE);
+        JOptionPane.showMessageDialog(this, "Phone Number text box must contain only digits.", "Validation Error", JOptionPane.ERROR_MESSAGE);
         jFormattedTextField1.requestFocus();
         return;
     }  
        if (phoneNumber.length() != 10) {
-        JOptionPane.showMessageDialog(this, "Phone Number box must be exactly 10 digits.", "Validation Error", JOptionPane.ERROR_MESSAGE);
+        JOptionPane.showMessageDialog(this, "Phone Number text box must be exactly 10 digits.", "Validation Error", JOptionPane.ERROR_MESSAGE);
         jFormattedTextField1.requestFocus();
         return;
     }
@@ -449,82 +448,82 @@ public class Register extends javax.swing.JFrame {
      model.removeRow(row);
      clearTextField();
       row = -1; 
-      JOptionPane.showMessageDialog(this, "User deleted successfully!"); 
+      JOptionPane.showMessageDialog(this, "User deleted successfully!!! "); 
       saveToFile(); 
      }
     
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-        String ID = jTextField3.getText(); // User ID field
-        String name = jTextField6.getText();
-        String phoneNumber = jFormattedTextField1.getText();
-        String address = jTextField1.getText();
-        String username = jTextField2.getText();
-        String password = jTextField4.getText();
-        String roles = jComboBox1.getSelectedItem().toString(); // Use getSelectedItem()
+    String ID = jTextField3.getText().trim();
+    String name = jTextField6.getText().trim();
+    String phoneNumber = jFormattedTextField1.getText().trim();
+    String address = jTextField1.getText().trim();
+    String username = jTextField2.getText().trim();
+    String password = jTextField4.getText().trim();
+    String roles = jComboBox1.getSelectedItem().toString();
         
         // Validate
         if (ID.isEmpty()){
-            JOptionPane.showMessageDialog(this, "ID is required to enter in ", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "ID is required to enter in the text box", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
          if (uniqueIds.contains(ID)) {
-            JOptionPane.showMessageDialog(this, "User ID must be unique.", "Validation Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "The ID MUST be unique.Please change the ID to something else.", "Validation Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
         
         if (name.isEmpty()) {
-        JOptionPane.showMessageDialog(this, "Full Name cannot be empty.", "Validation Error", JOptionPane.ERROR_MESSAGE);
+        JOptionPane.showMessageDialog(this, "Full Name text box cannot be empty.", "Validation Error", JOptionPane.ERROR_MESSAGE);
         jTextField6.requestFocus();
         return;
     }
         
         // Validate Phone Number
     if (phoneNumber.isEmpty()) {
-        JOptionPane.showMessageDialog(this, "Phone Number cannot be empty.", "Validation Error", JOptionPane.ERROR_MESSAGE);
+        JOptionPane.showMessageDialog(this, "Phone Number text box cannot be empty.", "Validation Error", JOptionPane.ERROR_MESSAGE);
         jFormattedTextField1.requestFocus();
         return;
     }
     if (!phoneNumber.matches("\\d+")) {
-        JOptionPane.showMessageDialog(this, "Phone Number must contain only digits.", "Validation Error", JOptionPane.ERROR_MESSAGE);
+        JOptionPane.showMessageDialog(this, "Phone Number text box MUST contain only digits.", "Validation Error", JOptionPane.ERROR_MESSAGE);
         jFormattedTextField1.requestFocus();
         return;
     }
     
      if (phoneNumber.length() != 10) {
-        JOptionPane.showMessageDialog(this, "Phone Number must be exactly 10 digits.", "Validation Error", JOptionPane.ERROR_MESSAGE);
+        JOptionPane.showMessageDialog(this, "Phone Number text box MUST be exactly 10 digits.", "Validation Error", JOptionPane.ERROR_MESSAGE);
         jFormattedTextField1.requestFocus();
         return;
     }
      
       // Validate Address
     if (address.isEmpty()) {
-        JOptionPane.showMessageDialog(this, "Address cannot be empty.", "Validation Error", JOptionPane.ERROR_MESSAGE);
+        JOptionPane.showMessageDialog(this, "Address text box cannot be empty.", "Validation Error", JOptionPane.ERROR_MESSAGE);
         jTextField1.requestFocus();
         return;
     }
     
      // Validate Username
     if (username.isEmpty()) {
-        JOptionPane.showMessageDialog(this, "Username cannot be empty.", "Validation Error", JOptionPane.ERROR_MESSAGE);
+        JOptionPane.showMessageDialog(this, "Username text box cannot be empty.", "Validation Error", JOptionPane.ERROR_MESSAGE);
         jTextField2.requestFocus();
         return;
     }
     if (username.length() < 5) {
-        JOptionPane.showMessageDialog(this, "Username must be at least 5 characters long.", "Validation Error", JOptionPane.ERROR_MESSAGE);
+        JOptionPane.showMessageDialog(this, "Username text box MUST be at least 5 characters long.", "Validation Error", JOptionPane.ERROR_MESSAGE);
         jTextField2.requestFocus();
         return;
     }
     
     // Validate Password
     if (password.isEmpty()) {
-        JOptionPane.showMessageDialog(this, "Password cannot be empty.", "Validation Error", JOptionPane.ERROR_MESSAGE);
+        JOptionPane.showMessageDialog(this, "Password text box cannot be empty.", "Validation Error", JOptionPane.ERROR_MESSAGE);
         jTextField4.requestFocus();
         return;
     }
     if (password.length() < 6) {
-        JOptionPane.showMessageDialog(this, "Password must be at least 6 characters long.", "Validation Error", JOptionPane.ERROR_MESSAGE);
+        JOptionPane.showMessageDialog(this, "Password text box MUST be at least 6 characters long.", "Validation Error", JOptionPane.ERROR_MESSAGE);
         jTextField4.requestFocus();
         return;
     }
@@ -532,21 +531,23 @@ public class Register extends javax.swing.JFrame {
         
         model.addRow(newRow);
         uniqueIds.add(ID); 
+        
         clearTextField();
         saveToFile();
-        JOptionPane.showMessageDialog(this, "User registered successfully!"); 
+        JOptionPane.showMessageDialog(this, "User have registered successfully!"); 
          
 
     }//GEN-LAST:event_jButton5ActionPerformed
 
     public void clearTextField(){
         
-        jTextField3.setText("");
-        jTextField6.setText("");
-         jFormattedTextField1.setText("");
-         jTextField1.setText("");
-         jTextField2.setText("");
-         jTextField4.setText("");
+    jTextField3.setText(""); // User ID
+    jTextField6.setText(""); // Full Name
+    jFormattedTextField1.setText(""); // Phone Number
+    jTextField1.setText(""); // Address
+    jTextField2.setText(""); // Username
+    jTextField4.setText(""); // Password
+    jComboBox1.setSelectedIndex(0); // Reset roles selection
    }
     
     private void jTextField3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField3ActionPerformed
@@ -563,45 +564,58 @@ public class Register extends javax.swing.JFrame {
     }//GEN-LAST:event_jTextField4ActionPerformed
 
     private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
-        // TODO add your handling code here:
+       
     }//GEN-LAST:event_jComboBox1ActionPerformed
 
     private void jTable2MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable2MouseReleased
         row = jTable2.getSelectedRow();
+         if (row != -1) {
+        String ID = String.valueOf(model.getValueAt(row, 0));
+        String name = String.valueOf(model.getValueAt(row, 1));
+        String phoneNumber = String.valueOf(model.getValueAt(row, 2));
+        String address = String.valueOf(model.getValueAt(row, 3));
+        String username = String.valueOf(model.getValueAt(row, 4));
+        String password = String.valueOf(model.getValueAt(row, 5));
+        String roles = String.valueOf(model.getValueAt(row, 6));
         
-        String name = String.valueOf(model.getValueAt(row, 0));
-        String phoneNumber = String.valueOf(model.getValueAt(row, 1));
-        String address = String.valueOf(model.getValueAt(row, 2));
-        String username = String.valueOf(model.getValueAt(row, 3));
-        String password = String.valueOf(model.getValueAt(row, 4));
-        String roles = String.valueOf(model.getValueAt(row, 5));
-        
+        jTextField3.setText(ID);
         jTextField6.setText(name);
         jFormattedTextField1.setText(phoneNumber);
         jTextField1.setText(address);
         jTextField2.setText(username);
         jTextField4.setText(password);
         jComboBox1.setSelectedItem(roles);
+         }
     }//GEN-LAST:event_jTable2MouseReleased
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
-        String name = jTextField6.getText();
-        String phoneNumber = jFormattedTextField1.getText();
-        String address = jTextField1.getText();
-        String username = jTextField2.getText();
-        String password = jTextField4.getText();
-        String roles = jComboBox1.getSelectedItem().toString(); // Use getSelectedItem()     
         
-        model.setValueAt(name, row, 0);
-        model.setValueAt(phoneNumber, row, 1);
-        model.setValueAt(address, row, 2);
-        model.setValueAt(username, row, 3);
-        model.setValueAt(password, row, 4);
-        model.setValueAt(roles, row, 5);
+        String ID = jTextField3.getText().trim();
+        String name = jTextField6.getText().trim();
+        String phoneNumber = jFormattedTextField1.getText().trim();
+        String address = jTextField1.getText().trim();
+        String username = jTextField2.getText().trim();
+        String password = jTextField4.getText().trim();
+        String roles = jComboBox1.getSelectedItem().toString(); // Use getSelectedItem()
         
-        clearTextField();
-        JOptionPane.showMessageDialog(this, "User edited successfully!"); 
-         saveToFile(); 
+        if (ID.isEmpty() || name.isEmpty() || phoneNumber.isEmpty() || address.isEmpty()
+            || username.isEmpty() || password.isEmpty()) {
+        JOptionPane.showMessageDialog(this, "All the text box MUST be filled in . THANK YOU .", "Validation Error", JOptionPane.ERROR_MESSAGE);
+        return;
+    }
+        
+        model.setValueAt(ID, row, 0);
+        model.setValueAt(name, row, 1);
+        model.setValueAt(phoneNumber, row, 2);
+        model.setValueAt(address, row, 3);
+        model.setValueAt(username, row, 4);
+        model.setValueAt(password, row, 5);
+        model.setValueAt(roles, row, 6);
+        
+    JOptionPane.showMessageDialog(this, "User has been edited successfully!");
+    saveToFile();
+    clearTextField();
+    row = -1; // Reset row selection 
     }//GEN-LAST:event_jButton6ActionPerformed
 
     private void jTextField6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField6ActionPerformed
@@ -617,7 +631,7 @@ public class Register extends javax.swing.JFrame {
     boolean found = false;
     
     if (searchID.isEmpty()) {
-        JOptionPane.showMessageDialog(this, "Please enter a User ID to search.", "Error", JOptionPane.ERROR_MESSAGE);
+        JOptionPane.showMessageDialog(this, "Please enter a valid ID to search in the table.", "Error", JOptionPane.ERROR_MESSAGE);
         return;
     }
     // Search for the User ID in the table
@@ -634,38 +648,58 @@ public class Register extends javax.swing.JFrame {
             jComboBox1.setSelectedItem(model.getValueAt(i, 6).toString()); // Role
 
             row = i; // Set the selected row for later editing
-            JOptionPane.showMessageDialog(this, "User found and ready for editing.", "Success", JOptionPane.INFORMATION_MESSAGE);
             break;
         }
     }
       if (!found) {
-        JOptionPane.showMessageDialog(this, "User ID not found.", "Error", JOptionPane.ERROR_MESSAGE);
+        JOptionPane.showMessageDialog(this, "ID does not exits . Please enter a valid ID. THANK YOU.", "Error", JOptionPane.ERROR_MESSAGE);
         clearTextField(); // Clear fields if no match is found
     }      
     }//GEN-LAST:event_jButton7ActionPerformed
 
     private void jComboBox3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox3ActionPerformed
-         String selectedItem = jComboBox3.getSelectedItem().toString();
-    
-    switch (selectedItem) {
-        case "VIEW ITEM":
-            JOptionPane.showMessageDialog(this, "Viewing Items...");
-            break;
-        case "VIEW PAYMENT":
-            JOptionPane.showMessageDialog(this, "Viewing Payments...");
-            break;
-        case "VIEW STOCK LEVEL":
-            JOptionPane.showMessageDialog(this, "Viewing Stock Levels...");
-            break;
-        case "VIEW SUPPLIERS":
-            JOptionPane.showMessageDialog(this, "Viewing Suppliers...");
-            break;
-        case "VIEW SALES REPORTS":
-            JOptionPane.showMessageDialog(this, "Viewing Sales Reports...");
-            break;
-        default:
-            JOptionPane.showMessageDialog(this, "Invalid selection.");
-    }
+        
+        String selectedItem = (String) jComboBox3.getSelectedItem();
+        
+        switch (selectedItem) {
+            case "VIEW ITEM":
+                jComboBox3.setSelectedItem("VIEW ITEM");
+                View_Items viewItemFrame = new View_Items(); 
+                viewItemFrame.setVisible(true);
+                this.dispose(); 
+                break;
+                
+            case "VIEW PAYMENT":
+                jComboBox3.setSelectedItem("VIEW PAYMENT");
+                View_Payment viewPaymentFrame = new View_Payment(); 
+                viewPaymentFrame.setVisible(true);
+                this.dispose();
+                break;
+                
+            case "VIEW STOCK LEVEL":
+                jComboBox3.setSelectedItem("VIEW STOCK LEVEL");
+                View_Stock_Level viewStockFrame = new View_Stock_Level(); 
+                viewStockFrame.setVisible(true);
+                this.dispose();
+                break;
+                
+            case "VIEW SUPPLIERS":
+                jComboBox3.setSelectedItem("VIEW SUPPLIERS");
+                View_Suppliers viewSuppliersFrame = new View_Suppliers(); 
+                viewSuppliersFrame.setVisible(true);
+                this.dispose();
+                break;
+                
+            case "VIEW SALES REPORTS":
+                jComboBox3.setSelectedItem("VIEW SALES REPORTS");
+                View_sales_report viewSalesReportFrame = new View_sales_report(); 
+                viewSalesReportFrame.setVisible(true);
+                this.dispose();
+                break;
+            default:
+                break;
+        }
+
     }//GEN-LAST:event_jComboBox3ActionPerformed
 
     public void saveToFile() {
@@ -689,15 +723,18 @@ public class Register extends javax.swing.JFrame {
    public final void loadFromFile() {
     try (BufferedReader reader = new BufferedReader(new FileReader("User.txt"))) {
         String line;
-        model.setRowCount(0); 
-        uniqueIds.clear();// Clear existing rows in the table
+        model.setRowCount(0); // Clear the table before loading
+        uniqueIds.clear();
+
         while ((line = reader.readLine()) != null) {
-            String[] rowData = line.split(","); // Split using the delimiter
-            model.addRow(rowData);
-             uniqueIds.add(rowData[0]);
+            String[] rowData = line.split(","); // Ensure proper splitting
+            if (rowData.length == columnName.length) {
+                model.addRow(rowData);
+                uniqueIds.add(rowData[0]); // Track unique IDs
+            }
         }
-        JOptionPane.showMessageDialog(this, "Data loaded successfully!");
-    } catch (IOException e) {
+
+   } catch (IOException e) {
         JOptionPane.showMessageDialog(this, "Error loading data: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
     }
 }
