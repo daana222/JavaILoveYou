@@ -286,7 +286,7 @@ public class StockStatus extends javax.swing.JFrame {
 
         DefaultTableModel model = (DefaultTableModel) stockStatusTable.getModel();
         DefaultTableModel filteredModel = new DefaultTableModel(
-            new String[]{"Item ID", "Item Name", "Stock level", "Reorder", "Quantity", "Unit price"}, 0
+            new String[]{"Item ID", "Item Name", "Stock level", "Reorder", "Unit price"}, 0
         );
 
         for (int i = 0; i < model.getRowCount(); i++) {

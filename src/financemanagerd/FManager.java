@@ -347,8 +347,8 @@ public class FManager extends javax.swing.JFrame {
                     continue;
                 }
                 String[] columns = line.split(",");
-                if (columns.length >= 8) { // Ensure there are enough columns
-                    String status = columns[7].trim(); // Status is in the 8th column
+                if (columns.length >= 11) { // Ensure there are enough columns
+                    String status = columns[10].trim(); // Status is in the 8th column
                     switch (status.toLowerCase()) {
                         case "approved":
                             approvedCount++;
