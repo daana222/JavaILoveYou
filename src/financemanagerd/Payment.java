@@ -425,6 +425,9 @@ public class Payment extends javax.swing.JFrame {
             // Update the table and file
             updatePaymentDetails(poNumber, model.getValueAt(selectedRow, 4).toString(), paymentDate, paymentId);
 
+            // Call updateItemsFromPO here to update stock and reorder levels
+            updateItemsFromPO(poNumber);
+
             // Refresh table data
             loadDataFromFile("C:\\Users\\Mitsu\\OneDrive - Asia Pacific University\\Documents\\NetBeansProjects\\FinanceManagerD\\Payment.txt");
 
@@ -601,22 +604,23 @@ public class Payment extends javax.swing.JFrame {
         String itemsFilePath = "C:\\Users\\Mitsu\\OneDrive - Asia Pacific University\\Documents\\NetBeansProjects\\FinanceManagerD\\items.txt";
 
         try {
-            // Step 1: Read PO.txt to find matching PO ID and its item details
-            java.util.Map<String, Integer> itemsToUpdate = new java.util.HashMap<>(); // Item ID and quantities
+            // Step 1: Read PO.txt to find matching PO ID and item details
+            java.util.Map<String, Integer> itemsToUpdate = new java.util.HashMap<>(); // Map of Item ID -> Quantity
 
             try (BufferedReader poReader = new BufferedReader(new FileReader(poFilePath))) {
                 String line;
                 boolean isFirstLine = true;
                 while ((line = poReader.readLine()) != null) {
                     if (isFirstLine) {
-                        isFirstLine = false; // Skip header row
+                        isFirstLine = false; // Skip the header row
                         continue;
                     }
                     String[] columns = line.split(",");
                     if (columns.length >= 4 && columns[0].trim().equals(poId)) { // Match PO ID
-                        String itemId = columns[2].trim(); // Item ID (column 2 in PO.txt)
-                        int quantity = Integer.parseInt(columns[3].trim()); // Quantity (column 3 in PO.txt)
-                        itemsToUpdate.put(itemId, quantity); // Store item ID and quantity
+                        String itemId = columns[2].trim(); // Item ID (column 3 in PO.txt)
+                        int quantity = Integer.parseInt(columns[3].trim()); // Quantity (column 4 in PO.txt)
+                        itemsToUpdate.put(itemId, itemsToUpdate.getOrDefault(itemId, 0) + quantity); // Add quantity
+                        System.out.println("PO ID: " + poId + " | Item ID: " + itemId + " | Quantity to Add: " + quantity);
                     }
                 }
             }
@@ -633,28 +637,30 @@ public class Payment extends javax.swing.JFrame {
                 boolean isFirstLine = true;
                 while ((line = itemsReader.readLine()) != null) {
                     if (isFirstLine) {
-                        isFirstLine = false; // Keep header row unchanged
+                        isFirstLine = false; // Keep the header row unchanged
                         updatedLines.add(line);
                         continue;
                     }
 
                     String[] columns = line.split(",");
-                    if (columns.length >= 7) { // Validate against new format
+                    if (columns.length >= 7) { // Ensure correct structure
                         String itemId = columns[0].trim(); // Item ID
                         if (itemsToUpdate.containsKey(itemId)) { // Check if this item needs to be updated
                             int currentStock = Integer.parseInt(columns[2].trim()); // Stock level
                             int reorderLevel = Integer.parseInt(columns[4].trim()); // Reorder level
-                            int quantityToSubtract = itemsToUpdate.get(itemId);
+                            int quantityToAdd = itemsToUpdate.get(itemId);
 
                             // Update stock level and reorder level
-                            int newStockLevel = currentStock - quantityToSubtract;
-                            int newReorderLevel = reorderLevel - quantityToSubtract;
-                            if (newReorderLevel < 0) newReorderLevel = 0;
+                            int newStockLevel = currentStock + quantityToAdd; // Increase stock level
+                            int newReorderLevel = reorderLevel - quantityToAdd; // Decrease reorder level
+                            if (newReorderLevel < 0) newReorderLevel = 0; // Avoid negative reorder level
 
+                            // Apply updates
                             columns[2] = String.valueOf(newStockLevel); // Update stock level
                             columns[4] = String.valueOf(newReorderLevel); // Update reorder level
 
-                            System.out.println("Updated Item ID: " + itemId + ", New Stock: " + newStockLevel + ", New Reorder Level: " + newReorderLevel);
+                            // Debugging: Log updates
+                            System.out.println("Updated Item ID: " + itemId + " | New Stock: " + newStockLevel + " | New Reorder Level: " + newReorderLevel);
                         }
                     }
                     updatedLines.add(String.join(",", columns)); // Add updated or unchanged line
@@ -668,11 +674,16 @@ public class Payment extends javax.swing.JFrame {
                     writer.newLine();
                 }
             }
+
             javax.swing.JOptionPane.showMessageDialog(this, "Items successfully updated in items.txt!");
         } catch (IOException | NumberFormatException e) {
             javax.swing.JOptionPane.showMessageDialog(this, "Error updating items.txt: " + e.getMessage());
+            e.printStackTrace(); // Log the error for debugging
         }
     }
+
+
+
 
 
     private void preselectRowByPOID(String poId) {
