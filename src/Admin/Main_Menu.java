@@ -4,6 +4,8 @@
  */
 package Admin;
 
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author HP
@@ -170,7 +172,27 @@ public class Main_Menu extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
-        // TODO add your handling code here:
+         String selectedItem = jComboBox1.getSelectedItem().toString();
+    
+    switch (selectedItem) {
+        case "VIEW ITEM":
+            JOptionPane.showMessageDialog(this, "Viewing Items...");
+            break;
+        case "VIEW PAYMENT":
+            JOptionPane.showMessageDialog(this, "Viewing Payments...");
+            break;
+        case "VIEW STOCK LEVEL":
+            JOptionPane.showMessageDialog(this, "Viewing Stock Levels...");
+            break;
+        case "VIEW SUPPLIERS":
+            JOptionPane.showMessageDialog(this, "Viewing Suppliers...");
+            break;
+        case "VIEW SALES REPORTS":
+            JOptionPane.showMessageDialog(this, "Viewing Sales Reports...");
+            break;
+        default:
+            JOptionPane.showMessageDialog(this, "Invalid selection.");
+    }
     }//GEN-LAST:event_jComboBox1ActionPerformed
 
     /**

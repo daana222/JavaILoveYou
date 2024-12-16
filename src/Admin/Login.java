@@ -212,7 +212,7 @@ public class Login extends javax.swing.JFrame {
                 new Sales_Manager.Main_Dashboard().setVisible(true);
                 break;
             case "INVENTORY MANAGER":
-                new Inventory_Manager.InventoryMainMenu().setVisible(true);
+                //new Inventory_Manager.InventoryMainMenu().setVisible(true);
                 break;
             case "PURCHASE MANAGER":
                 new Purchase_Manager.PM().setVisible(true);

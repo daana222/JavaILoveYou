@@ -646,7 +646,27 @@ public class Register extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton7ActionPerformed
 
     private void jComboBox3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox3ActionPerformed
-        // TODO add your handling code here:
+         String selectedItem = jComboBox3.getSelectedItem().toString();
+    
+    switch (selectedItem) {
+        case "VIEW ITEM":
+            JOptionPane.showMessageDialog(this, "Viewing Items...");
+            break;
+        case "VIEW PAYMENT":
+            JOptionPane.showMessageDialog(this, "Viewing Payments...");
+            break;
+        case "VIEW STOCK LEVEL":
+            JOptionPane.showMessageDialog(this, "Viewing Stock Levels...");
+            break;
+        case "VIEW SUPPLIERS":
+            JOptionPane.showMessageDialog(this, "Viewing Suppliers...");
+            break;
+        case "VIEW SALES REPORTS":
+            JOptionPane.showMessageDialog(this, "Viewing Sales Reports...");
+            break;
+        default:
+            JOptionPane.showMessageDialog(this, "Invalid selection.");
+    }
     }//GEN-LAST:event_jComboBox3ActionPerformed
 
     public void saveToFile() {

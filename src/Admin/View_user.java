@@ -137,7 +137,7 @@ public class View_user extends javax.swing.JFrame {
                         .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 273, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(212, 212, 212))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(65, 65, 65)
+                        .addGap(41, 41, 41)
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 560, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
@@ -147,9 +147,9 @@ public class View_user extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(16, 16, 16)
                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(33, 33, 33)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 319, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(114, Short.MAX_VALUE))
+                .addContainerGap(93, Short.MAX_VALUE))
         );
 
         pack();
@@ -176,7 +176,28 @@ public class View_user extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jComboBox3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox3ActionPerformed
-        // TODO add your handling code here:
+         String selectedItem = jComboBox3.getSelectedItem().toString();
+    
+    switch (selectedItem) {
+        case "VIEW ITEM":
+            JOptionPane.showMessageDialog(this, "Viewing Items...");
+            break;
+        case "VIEW PAYMENT":
+            JOptionPane.showMessageDialog(this, "Viewing Payments...");
+            break;
+        case "VIEW STOCK LEVEL":
+            JOptionPane.showMessageDialog(this, "Viewing Stock Levels...");
+            break;
+        case "VIEW SUPPLIERS":
+            JOptionPane.showMessageDialog(this, "Viewing Suppliers...");
+            break;
+        case "VIEW SALES REPORTS":
+            JOptionPane.showMessageDialog(this, "Viewing Sales Reports...");
+            break;
+        default:
+            JOptionPane.showMessageDialog(this, "Invalid selection.");
+    }
+    
     }//GEN-LAST:event_jComboBox3ActionPerformed
 
    public void loadFromFile() {
