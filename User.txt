@@ -1,11 +1,3 @@
-John Admin,0123456789,123 Admin Street,admin,admin123,ADMIN
-Jane Doe,0987654321,456 Sales Lane,sales1,sales123,SALES MANAGER
-Mike Johnson,0112233445,789 Inventory Road,inventory1,inventory123,INVENTORY MANAGER
-Sarah Lee,0223344556,321 Purchase Avenue,purchase1,purchase123,PURCHASE MANAGER
-Emma Brown,0334455667,567 Finance Boulevard,finance1,finance123,FINANCE MANAGER
-Robert Smith,0445566778,999 Admin Street,admin2,admin456,ADMIN
-Lisa Sales,0556677889,111 Sales Lane,sales2,sales456,SALES MANAGER
-Tom Harris,0667788990,222 Inventory Road,inventory2,inventory456,INVENTORY MANAGER
-Nancy Green,0778899001,333 Purchase Avenue,purchase2,purchase456,PURCHASE MANAGER
-Chris White,0889900112,444 Finance Boulevard,finance2,finance456,FINANCE MANAGER
-
+U001,Shareen,0124539844,Shareen@gmail.com,Sha12,Ad1234,ADMIN
+P002,Daana,0124539844,Daana@gmail.com,Da12,Daa122,PURCHASE MANAGER
+F002,Why,0123456755,why@gmail.com,noo03,sexy12,FINANCE MANAGER

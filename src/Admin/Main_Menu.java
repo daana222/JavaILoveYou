@@ -4,8 +4,6 @@
  */
 package Admin;
 
-import javax.swing.JOptionPane;
-
 /**
  *
  * @author HP
@@ -68,7 +66,7 @@ public class Main_Menu extends javax.swing.JFrame {
         });
 
         jComboBox1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "VIEW ITEM ", "VIEW PAYMENT", "VIEW STOCK LEVEL", "VIEW SUPPLIERS", "VIEW SALES REPORTS", " " }));
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "VIEW ITEM ", "VIEW PAYMENT", "VIEW STOCK LEVEL", "VIEW SUPPLIERS", "VIEW SALES REPORTS" }));
         jComboBox1.setToolTipText("");
         jComboBox1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -153,12 +151,14 @@ public class Main_Menu extends javax.swing.JFrame {
         Register registerFrame = new Register();
 
         registerFrame.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         View_user viewUserFrame = new View_user();
 
         viewUserFrame.setVisible(true);
+        this.dispose();
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton2ActionPerformed
 
@@ -172,27 +172,46 @@ public class Main_Menu extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
-         String selectedItem = jComboBox1.getSelectedItem().toString();
-    
-    switch (selectedItem) {
-        case "VIEW ITEM":
-            JOptionPane.showMessageDialog(this, "Viewing Items...");
-            break;
-        case "VIEW PAYMENT":
-            JOptionPane.showMessageDialog(this, "Viewing Payments...");
-            break;
-        case "VIEW STOCK LEVEL":
-            JOptionPane.showMessageDialog(this, "Viewing Stock Levels...");
-            break;
-        case "VIEW SUPPLIERS":
-            JOptionPane.showMessageDialog(this, "Viewing Suppliers...");
-            break;
-        case "VIEW SALES REPORTS":
-            JOptionPane.showMessageDialog(this, "Viewing Sales Reports...");
-            break;
-        default:
-            JOptionPane.showMessageDialog(this, "Invalid selection.");
-    }
+    String selectedItem = (String) jComboBox1.getSelectedItem();
+        
+        switch (selectedItem) {
+            case "VIEW ITEM":
+                jComboBox1.setSelectedItem("VIEW ITEM");
+                View_Items viewItemFrame = new View_Items(); 
+                viewItemFrame.setVisible(true);
+                this.dispose(); 
+                break;
+                
+            case "VIEW PAYMENT":
+                jComboBox1.setSelectedItem("VIEW PAYMENT");
+                View_Payment viewPaymentFrame = new View_Payment(); 
+                viewPaymentFrame.setVisible(true);
+                this.dispose();
+                break;
+                
+            case "VIEW STOCK LEVEL":
+                jComboBox1.setSelectedItem("VIEW STOCK LEVEL");
+                View_Stock_Level viewStockFrame = new View_Stock_Level(); 
+                viewStockFrame.setVisible(true);
+                this.dispose();
+                break;
+                
+            case "VIEW SUPPLIERS":
+                jComboBox1.setSelectedItem("VIEW SUPPLIERS");
+                View_Suppliers viewSuppliersFrame = new View_Suppliers(); 
+                viewSuppliersFrame.setVisible(true);
+                this.dispose();
+                break;
+                
+            case "VIEW SALES REPORTS":
+                jComboBox1.setSelectedItem("VIEW SALES REPORTS");
+                View_sales_report viewSalesReportFrame = new View_sales_report(); 
+                viewSalesReportFrame.setVisible(true);
+                this.dispose();
+                break;
+            default:
+                break;
+        }
     }//GEN-LAST:event_jComboBox1ActionPerformed
 
     /**
