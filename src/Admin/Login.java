@@ -4,6 +4,9 @@
  */
 package Admin;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import javax.swing.JOptionPane;
 
 /**
@@ -166,9 +169,64 @@ public class Login extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        // TODO add your handling code here:
+        String username = jTextField1.getText().trim();
+        String password = new String(jPasswordField1.getPassword()).trim();
+        
+        if (username.isEmpty() || password.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Username and Password cannot be empty", "Validation Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        boolean loginSuccessful = false;
+        String role = "";
+        try (BufferedReader reader = new BufferedReader(new FileReader("User.txt"))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                String[] userDetails = line.split(",");
+                if (userDetails.length == 6) {
+                    if (username.equals(userDetails[3]) && password.equals(userDetails[4])) {
+                        loginSuccessful = true;
+                        role = userDetails[5].trim();
+                        break;
+                    }
+                }
+            }
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(this, "Error reading user data: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+         if (loginSuccessful) {
+            JOptionPane.showMessageDialog(this, "Login Successful!");
+            redirectToMainMenu(role);
+            this.dispose();
+        } else {
+            JOptionPane.showMessageDialog(this, "Invalid Username or Password", "Login Failed", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_jButton3ActionPerformed
 
+    private void redirectToMainMenu(String role) {
+        switch (role) {
+            case "ADMIN":
+                new Main_Menu().setVisible(true);
+                break;
+            case "SALES MANAGER":
+                new Sales_Manager.Main_Dashboard().setVisible(true);
+                break;
+            case "INVENTORY MANAGER":
+                new Inventory_Manager.InventoryMainMenu().setVisible(true);
+                break;
+            case "PURCHASE MANAGER":
+                new Purchase_Manager.PM().setVisible(true);
+                break;
+            case "FINANCE MANAGER":
+                new financemanagerd.FManager().setVisible(true);
+                break;
+            default:
+                JOptionPane.showMessageDialog(this, "Unknown role: " + role);
+        }
+    }
+
+
+    
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
                 jTextField1.setText("");
