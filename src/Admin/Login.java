@@ -176,7 +176,7 @@ public class Login extends javax.swing.JFrame {
         String password = new String(jPasswordField1.getPassword()).trim();
         
         if (username.isEmpty() || password.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Username and Password cannot be empty", "Validation Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Username and Password text box cannot be empty.", "Validation Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
         boolean loginSuccessful = false;
@@ -185,18 +185,18 @@ public class Login extends javax.swing.JFrame {
 try (BufferedReader reader = new BufferedReader(new FileReader("User.txt"))) {
     String line;
     while ((line = reader.readLine()) != null) {
-        System.out.println("File Line: " + line); // Debugging: Print each line
+        System.out.println("File Line: " + line); // this is for Debugging: Print each line
+        
         String[] userDetails = line.split(",");
-
         if (userDetails.length >= 7) {
-            String fileUsername = userDetails[3].trim();
-            String filePassword = userDetails[4].trim();
+            String fileUsername = userDetails[4].trim();
+            String filePassword = userDetails[5].trim();
 
             System.out.println("Username: " + fileUsername + ", Password: " + filePassword); // Debugging
 
             if (username.equals(fileUsername) && password.equals(filePassword)) {
                 loginSuccessful = true;
-                role = userDetails[6].trim();
+                role = userDetails[6].trim().toUpperCase();
                 break;
             }
         } else {
@@ -204,7 +204,7 @@ try (BufferedReader reader = new BufferedReader(new FileReader("User.txt"))) {
         }
     }
 } catch (IOException e) {
-    JOptionPane.showMessageDialog(this, "Error reading user data: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+    JOptionPane.showMessageDialog(this, "Error in reading user data: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
     return;
 }
          if (loginSuccessful) {

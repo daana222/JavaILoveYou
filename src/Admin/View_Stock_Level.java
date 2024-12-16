@@ -103,7 +103,7 @@ public class View_Stock_Level extends javax.swing.JFrame {
         );
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 36)); // NOI18N
-        jLabel2.setText("    VIEW SUPPLIERS");
+        jLabel2.setText("  VIEW STOCK LEVEL");
         jLabel2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
@@ -151,13 +151,15 @@ public class View_Stock_Level extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         Register registerFrame = new Register();
 
-        registerFrame.setVisible(true);        // TODO add your handling code here:
+        registerFrame.setVisible(true); 
+        this.dispose();// TODO add your handling code here:
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         View_user viewUserFrame = new View_user();
 
-        viewUserFrame.setVisible(true);        // TODO add your handling code here:
+        viewUserFrame.setVisible(true);
+        this.dispose();        // TODO add your handling code here:
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed

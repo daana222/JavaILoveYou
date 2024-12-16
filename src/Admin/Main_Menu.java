@@ -4,8 +4,6 @@
  */
 package Admin;
 
-import javax.swing.JOptionPane;
-
 /**
  *
  * @author HP
@@ -153,12 +151,14 @@ public class Main_Menu extends javax.swing.JFrame {
         Register registerFrame = new Register();
 
         registerFrame.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         View_user viewUserFrame = new View_user();
 
         viewUserFrame.setVisible(true);
+        this.dispose();
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton2ActionPerformed
 
