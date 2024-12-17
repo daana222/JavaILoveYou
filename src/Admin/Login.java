@@ -264,7 +264,7 @@ try (BufferedReader reader = new BufferedReader(new FileReader("User.txt"))) {
             new Purchase_Manager.PM().setVisible(true); 
             break;
         case "FINANCE MANAGER":
-            JOptionPane.showMessageDialog(this, "Redirecting to Finance Manager Dashboard...");
+            JOptionPane.showMessageDialog(this, "Finance Manager Dashboard...");
             new financemanagerd.FManager().setVisible(true);
             break;
         default:

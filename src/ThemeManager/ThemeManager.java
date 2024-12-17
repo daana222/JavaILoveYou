@@ -58,7 +58,7 @@ public class ThemeManager {
 
     // Colours for Light Mode
     Color lightModeForeground = Color.BLACK;
-    Color lightModeBackground = Color.WHITE;
+    Color lightModeBackground = Color.LIGHT_GRAY;
 
     // Check mode and apply colours
     if (isDarkMode) {
