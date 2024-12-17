@@ -53,7 +53,7 @@ public class ThemeManager {
         if (table == null) return;
 
         // Colours for Dark Mode
-        Color darkModeForeground = Color.WHITE;
+        Color darkModeForeground = Color.BLUE;
         Color darkModeBackground = Color.DARK_GRAY;
 
         // Colours for Light Mode

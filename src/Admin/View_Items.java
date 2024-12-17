@@ -33,9 +33,10 @@ public class View_Items extends javax.swing.JFrame {
         };
         
         initComponents();
+        jPanel1.setName("sidePanel");
         ThemeManager.applyTheme(this);
         ThemeManager.updateTableTheme(jTable1);
-        jPanel1.setName("sidePanel");
+        
         loadItemsFromFile();
     }
     
@@ -102,7 +103,7 @@ public class View_Items extends javax.swing.JFrame {
         jTable1.setModel(model);
         jScrollPane1.setViewportView(jTable1);
 
-        jPanel1.setBackground(new java.awt.Color(0, 0, 102));
+        jPanel1.setBackground(new java.awt.Color(153, 153, 255));
         jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         jPanel1.setPreferredSize(new java.awt.Dimension(890, 500));
 
@@ -198,11 +199,12 @@ public class View_Items extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(181, 181, 181)
-                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 273, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(59, 59, 59)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 527, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(862, Short.MAX_VALUE))
+                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 273, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 48, Short.MAX_VALUE)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 527, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(19, 19, 19))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -243,39 +245,34 @@ public class View_Items extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
-        String selectedItem = (String) jComboBox1.getSelectedItem();
+        String selectedItem = ((String) jComboBox1.getSelectedItem()).trim();
 
-        switch (selectedItem) {
-            case "VIEW ITEM" -> {
-                jComboBox1.setSelectedItem("VIEW ITEM");
-                View_Items viewItemFrame = new View_Items();
-                viewItemFrame.setVisible(true);
-                this.dispose();
-            }
-
-            case "VIEW PAYMENT" -> {
-                jComboBox1.setSelectedItem("VIEW PAYMENT");
-                View_Payment viewPaymentFrame = new View_Payment();
-                viewPaymentFrame.setVisible(true);
-                this.dispose();
-            }
-
-            case "VIEW SUPPLIERS" -> {
-                jComboBox1.setSelectedItem("VIEW SUPPLIERS");
-                View_Suppliers viewSuppliersFrame = new View_Suppliers();
-                viewSuppliersFrame.setVisible(true);
-                this.dispose();
-            }
-
-            case "VIEW SALES REPORTS" -> {
-                jComboBox1.setSelectedItem("VIEW SALES REPORTS");
-                View_sales_report viewSalesReportFrame = new View_sales_report();
-                viewSalesReportFrame.setVisible(true);
-                this.dispose();
-            }
-            default -> {
-            }
+    if ("VIEW ITEM".equalsIgnoreCase(selectedItem)) {
+        if (!(this instanceof View_Items)) { // Avoid reopening the same frame
+            View_Items viewItemFrame = new View_Items();
+            viewItemFrame.setVisible(true);
+            this.dispose();
         }
+    } 
+    else if ("VIEW PAYMENT".equalsIgnoreCase(selectedItem)) {
+        View_Payment viewPaymentFrame = new View_Payment();
+        viewPaymentFrame.setVisible(true);
+        this.dispose();
+    } 
+    else if ("VIEW SUPPLIERS".equalsIgnoreCase(selectedItem)) {
+        View_Suppliers viewSuppliersFrame = new View_Suppliers();
+        viewSuppliersFrame.setVisible(true);
+        this.dispose();
+    } 
+    else if ("VIEW SALES REPORTS".equalsIgnoreCase(selectedItem)) {
+        View_sales_report viewSalesReportFrame = new View_sales_report();
+        viewSalesReportFrame.setVisible(true);
+        this.dispose();
+    } 
+    else {
+        JOptionPane.showMessageDialog(this, "Invalid selection!", "Error", JOptionPane.ERROR_MESSAGE);
+    }
+ 
     }//GEN-LAST:event_jComboBox1ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed

@@ -33,8 +33,8 @@ public class View_Payment extends javax.swing.JFrame {
         };
          
         initComponents();
-         ThemeManager.applyTheme(this);
          jPanel1.setName("sidePanel");
+         ThemeManager.applyTheme(this);
          ThemeManager.updateTableTheme(jTable1);
          jTable1.setModel(model);
           loadFromFile();
@@ -104,7 +104,7 @@ public class View_Payment extends javax.swing.JFrame {
         jTable1.setModel(model);
         jScrollPane1.setViewportView(jTable1);
 
-        jPanel1.setBackground(new java.awt.Color(0, 0, 102));
+        jPanel1.setBackground(new java.awt.Color(153, 153, 255));
         jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         jPanel1.setPreferredSize(new java.awt.Dimension(890, 500));
 
@@ -200,12 +200,12 @@ public class View_Payment extends javax.swing.JFrame {
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
+                        .addGap(35, 35, 35)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(57, 57, 57)
+                        .addGap(75, 75, 75)
                         .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 371, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(72, Short.MAX_VALUE))
+                .addContainerGap(55, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -246,39 +246,37 @@ public class View_Payment extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
-        String selectedItem = (String) jComboBox1.getSelectedItem();
+        
+           String selectedItem = ((String) jComboBox1.getSelectedItem()).trim();
+        
+        
 
-        switch (selectedItem) {
-            case "VIEW ITEM" -> {
-                jComboBox1.setSelectedItem("VIEW ITEM");
-                View_Items viewItemFrame = new View_Items();
-                viewItemFrame.setVisible(true);
-                this.dispose();
-            }
+    if ("VIEW ITEM".equalsIgnoreCase(selectedItem)) {
+        //if (!(this instanceof View_Items)) { // Avoid reopening the same frame
+            View_Items viewItemFrame = new View_Items();
+            viewItemFrame.setVisible(true);
+            this.dispose();
+        
+    } 
+    else if ("VIEW PAYMENT".equalsIgnoreCase(selectedItem)) {
+        View_Payment viewPaymentFrame = new View_Payment();
+        viewPaymentFrame.setVisible(true);
+        this.dispose();
+    } 
+    else if ("VIEW SUPPLIERS".equalsIgnoreCase(selectedItem)) {
+        View_Suppliers viewSuppliersFrame = new View_Suppliers();
+        viewSuppliersFrame.setVisible(true);
+        this.dispose();
+    } 
+    else if ("VIEW SALES REPORTS".equalsIgnoreCase(selectedItem)) {
+        View_sales_report viewSalesReportFrame = new View_sales_report();
+        viewSalesReportFrame.setVisible(true);
+        this.dispose();
+    } 
+    else {
+        JOptionPane.showMessageDialog(this, "Invalid selection!", "Error", JOptionPane.ERROR_MESSAGE);
+    }
 
-            case "VIEW PAYMENT" -> {
-                jComboBox1.setSelectedItem("VIEW PAYMENT");
-                View_Payment viewPaymentFrame = new View_Payment();
-                viewPaymentFrame.setVisible(true);
-                this.dispose();
-            }
-
-            case "VIEW SUPPLIERS" -> {
-                jComboBox1.setSelectedItem("VIEW SUPPLIERS");
-                View_Suppliers viewSuppliersFrame = new View_Suppliers();
-                viewSuppliersFrame.setVisible(true);
-                this.dispose();
-            }
-
-            case "VIEW SALES REPORTS" -> {
-                jComboBox1.setSelectedItem("VIEW SALES REPORTS");
-                View_sales_report viewSalesReportFrame = new View_sales_report();
-                viewSalesReportFrame.setVisible(true);
-                this.dispose();
-            }
-            default -> {
-            }
-        }
     }//GEN-LAST:event_jComboBox1ActionPerformed
 
     private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
