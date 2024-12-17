@@ -25,6 +25,7 @@ public class Login extends javax.swing.JFrame {
     public Login() {
         initComponents(); 
         ThemeManager.applyTheme(this);
+        
 
     }
 
@@ -304,6 +305,7 @@ try (BufferedReader reader = new BufferedReader(new FileReader("User.txt"))) {
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setVisible(true);
+        this.dispose(); 
     }
 }
    
@@ -364,7 +366,7 @@ try (BufferedReader reader = new BufferedReader(new FileReader("User.txt"))) {
        
     ThemeManager.toggleDarkMode(); // Toggle the theme state
     ThemeManager.applyTheme(this); // Apply the updated theme to the current frame
-     
+    
     //if (jToggleButton1.isSelected()) {
         // Enable Dark Mode
       //  jToggleButton1.setText("LIGHT MODE"); // Change button text

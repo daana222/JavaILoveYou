@@ -32,7 +32,9 @@ public class Register extends javax.swing.JFrame {
         //checkAndCreateFile(); // Ensure the file exists
         model.setColumnIdentifiers(columnName);// assignet name for table
         initComponents();
+        jPanel1.setName("sidePanel");
         ThemeManager.applyTheme(this);
+        ThemeManager.updateTableTheme(jTable2);
         loadFromFile(); // Load data from file when the application starts
     }
 
@@ -400,13 +402,15 @@ public class Register extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         Register registerFrame = new Register();
 
-        registerFrame.setVisible(true);        
+        registerFrame.setVisible(true); 
+        this.dispose(); 
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         View_user viewUserFrame = new View_user();
 
-        viewUserFrame.setVisible(true);        
+        viewUserFrame.setVisible(true);
+this.dispose();         
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
