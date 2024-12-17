@@ -4,6 +4,13 @@
  */
 package Sales_Manager;
 
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+
+
 /**
  *
  * @author Kaushaliya
@@ -37,12 +44,11 @@ public class List_Po extends javax.swing.JFrame {
         jButton5 = new javax.swing.JButton();
         jButton6 = new javax.swing.JButton();
         jComboBox1 = new javax.swing.JComboBox<>();
-        jLabel1 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         jLabel3 = new javax.swing.JLabel();
         jButton8 = new javax.swing.JButton();
-        jButton9 = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -151,7 +157,7 @@ public class List_Po extends javax.swing.JFrame {
                 .addContainerGap(26, Short.MAX_VALUE))
         );
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Approved", "Pending", "Rejected", " " }));
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "All", "Approved", "Pending", "Rejected", " " }));
         jComboBox1.setName("cbStatus"); // NOI18N
         jComboBox1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -159,17 +165,15 @@ public class List_Po extends javax.swing.JFrame {
             }
         });
 
-        jLabel1.setText("Status:");
-
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "PO Number", "Item Code", "Quantity", "Status", "Issue Date"
+                "PO ID", "PR ID", "Item ID", "Item Name", "Quantity", "Cost per unit", "Total Amount", "Requisition Date", "Supplier ID", "Order Date", "Status"
             }
         ));
         jScrollPane1.setViewportView(jTable1);
@@ -179,9 +183,13 @@ public class List_Po extends javax.swing.JFrame {
 
         jButton8.setText("Refresh");
         jButton8.setName("btnRefresh1"); // NOI18N
+        jButton8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton8ActionPerformed(evt);
+            }
+        });
 
-        jButton9.setText("View Details");
-        jButton9.setName("btnViewDetails"); // NOI18N
+        jLabel1.setText("Status:");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -191,23 +199,22 @@ public class List_Po extends javax.swing.JFrame {
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addComponent(jLabel3))
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addGroup(jPanel1Layout.createSequentialGroup()
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButton8)
-                            .addGap(23, 23, 23)
-                            .addComponent(jButton9))
-                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
-                            .addGap(39, 39, 39)
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 530, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGroup(jPanel1Layout.createSequentialGroup()
-                                    .addComponent(jLabel1)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))))
-                .addGap(0, 44, Short.MAX_VALUE))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(18, 18, 18)
+                                .addComponent(jLabel3))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(39, 39, 39)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jButton8)
+                                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 530, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGap(0, 44, Short.MAX_VALUE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(55, 55, 55)
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -215,17 +222,15 @@ public class List_Po extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(34, 34, 34)
                 .addComponent(jLabel3)
-                .addGap(28, 28, 28)
+                .addGap(38, 38, 38)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(28, 28, 28)
+                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1))
+                .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 268, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton8)
-                    .addComponent(jButton9))
-                .addGap(34, 34, 34))
+                .addComponent(jButton8)
+                .addGap(35, 35, 35))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -298,6 +303,76 @@ public class List_Po extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jComboBox1ActionPerformed
 
+    private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
+        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+    model.setRowCount(0); // Clear the table before populating
+
+    String selectedStatus = jComboBox1.getSelectedItem().toString(); // Get selected value from combo box
+    String filePath = "po1.txt";
+
+    try {
+        // Validate file existence
+        java.io.File file = new java.io.File(filePath);
+        if (!file.exists() || file.length() == 0) {
+            JOptionPane.showMessageDialog(this, "File not found or empty: " + filePath, "File Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        BufferedReader reader = new BufferedReader(new FileReader(filePath));
+        String line;
+        boolean isFirstLine = true;
+        boolean hasData = false; // Flag to track if data rows exist
+
+        while ((line = reader.readLine()) != null) {
+            if (isFirstLine) {
+                isFirstLine = false; // Skip header line
+                continue;
+            }
+
+            String[] parts = line.split(",");
+            // Validate row integrity (11 columns required)
+            if (parts.length < 11) {
+                JOptionPane.showMessageDialog(this, "Invalid row detected. Skipping malformed data.", "Data Error", JOptionPane.WARNING_MESSAGE);
+                continue;
+            }
+
+            String poId = parts[0].trim();          // PO ID
+            String prId = parts[1].trim();          // PR ID
+            String itemId = parts[2].trim();        // Item ID
+            String itemName = parts[3].trim();      // Item Name
+            String quantity = parts[4].trim();      // Quantity
+            String costPerUnit = "RM " + parts[5].trim(); // Cost Per Unit in RM format
+            String totalAmount = "RM " + parts[6].trim(); // Total Amount in RM format
+            String requisitionDate = parts[7].trim();     // Requisition Date
+            String supplierId = parts[8].trim();          // Supplier ID
+            String orderDate = parts[9].trim();           // Order Date
+            String status = parts[10].trim();             // Status
+
+            // Filter data based on combo box selection
+            if (selectedStatus.equals("All") || status.equalsIgnoreCase(selectedStatus)) {
+                model.addRow(new Object[]{
+                    poId, prId, itemId, itemName, quantity, costPerUnit, 
+                    totalAmount, requisitionDate, supplierId, orderDate, status
+                });
+                hasData = true; // At least one row added
+            }
+        }
+
+        // Validation: No records matching the selected filter
+        if (!hasData) {
+            JOptionPane.showMessageDialog(this, "No records found for the selected status: " + selectedStatus, 
+                                          "No Data", JOptionPane.INFORMATION_MESSAGE);
+        }
+
+        reader.close();
+
+    } catch (IOException e) {
+        JOptionPane.showMessageDialog(this, "Error reading po1.txt file: " + e.getMessage(), "File Error", JOptionPane.ERROR_MESSAGE);
+    } catch (NumberFormatException e) {
+        JOptionPane.showMessageDialog(this, "Invalid number format detected: " + e.getMessage(), "Parsing Error", JOptionPane.ERROR_MESSAGE);
+    }
+    }//GEN-LAST:event_jButton8ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -342,7 +417,6 @@ public class List_Po extends javax.swing.JFrame {
     private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton7;
     private javax.swing.JButton jButton8;
-    private javax.swing.JButton jButton9;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
