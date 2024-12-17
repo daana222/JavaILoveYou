@@ -4,19 +4,90 @@
  */
 package Purchase_Manager;
 
+import Purchase_Manager.Suppliers;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author Jiannaa
  */
 public class Suppliers extends javax.swing.JFrame {
-
+private DefaultTableModel model= new DefaultTableModel();//to create model object to be placed in jtable
+   private String[]columnName={"SupplierID","Supplier Name","Item Name"," Item Decription", "Supplier Date","Supplier Contact","Quantity","Supplier Email"};
+   private int row=-1;
+    private static final Logger LOGGER = Logger.getLogger(Suppliers.class.getName());
     /**
      * Creates new form Suppliers
      */
     public Suppliers() {
         initComponents();
+   model.setColumnIdentifiers(columnName);
+        loadDataFromFile();
+        populateComboBox();
+
     }
 
+    private void loadDataFromFile() {
+   String filePath = "C:\\Users\\Jiannaa\\Desktop\\supplier.txt";
+   File file = new File(filePath);
+   if (!file.exists()) {
+       System.out.println("Data file not found. Starting with an empty table.");
+       return; // Exit if the file does not exist
+   }
+   try {
+       FileReader fr = new FileReader(file);
+       BufferedReader br = new BufferedReader(fr);
+       // Clear existing data from the model
+       model.setRowCount(0);
+       // Skip the column headers line
+       String line = br.readLine();
+       // Read and add rows to the table
+       while ((line = br.readLine()) != null) {
+           String[] rowData = line.split(",");
+           model.addRow(rowData);
+       }
+       br.close();
+       fr.close();
+       System.out.println("Data loaded successfully from: " + filePath);
+   } catch (Exception ex) {
+       LOGGER.log(Level.SEVERE, "Error loading data from file", ex);
+       JOptionPane.showMessageDialog(this, "Error loading data: " + ex.getMessage());
+   }
+}
+
+    private void populateComboBox() {
+    String filePath = "C:\\Users\\Jiannaa\\Desktop\\supplier.txt"; // Path to your file
+    File file = new File(filePath);
+    if (!file.exists()) {
+        System.out.println("Data file not found.");
+        return;
+    }
+
+    try (BufferedReader br = new BufferedReader(new FileReader(file))) {
+        String line = br.readLine(); // Skip the header line
+        jComboBox1.removeAllItems(); // Clear the combo box
+        jComboBox1.addItem("All"); // Add a default option to show all items
+        while ((line = br.readLine()) != null) {
+            String[] rowData = line.split(",");
+            if (rowData.length > 0) {
+                String SupplierID = rowData[0]; // Assuming Item ID is in the first column
+                jComboBox1.addItem(SupplierID); // Add Item ID to combo box
+            }
+        }
+    } catch (Exception ex) {
+        LOGGER.log(Level.SEVERE, "Error loading Item IDs", ex);
+        JOptionPane.showMessageDialog(this, "Error loading Item IDs: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+    }
+}
+
+
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -37,24 +108,21 @@ public class Suppliers extends javax.swing.JFrame {
         label2 = new java.awt.Label();
         jComboBox2 = new javax.swing.JComboBox<>();
         jComboBox3 = new javax.swing.JComboBox<>();
+        jButton5 = new javax.swing.JButton();
+        jButton4 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         label1.setFont(new java.awt.Font("Franklin Gothic Medium", 0, 12)); // NOI18N
         label1.setText("List Of Suppliers");
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "SupplierID", "Supplier Name", "Contact Info", "Item Associations"
-            }
-        ));
+        jTable1.setModel(model);
         jTable1.setPreferredSize(new java.awt.Dimension(890, 500));
+        jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                jTable1MouseReleased(evt);
+            }
+        });
         jScrollPane1.setViewportView(jTable1);
 
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Supplier ID" }));
@@ -99,16 +167,12 @@ public class Suppliers extends javax.swing.JFrame {
             }
         });
 
+        jButton5.setText("LogOut");
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(77, 77, 77)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jButton2)
-                    .addComponent(jButton1))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addGap(0, 38, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -118,6 +182,17 @@ public class Suppliers extends javax.swing.JFrame {
                         .addComponent(label2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jButton3)))
                 .addGap(35, 35, 35))
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(77, 77, 77)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jButton2)
+                            .addComponent(jButton1)))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(74, 74, 74)
+                        .addComponent(jButton5)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -132,10 +207,19 @@ public class Suppliers extends javax.swing.JFrame {
                 .addComponent(jButton3)
                 .addGap(32, 32, 32)
                 .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(30, 30, 30)
+                .addGap(18, 18, 18)
                 .addComponent(jComboBox3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(24, 24, 24)
+                .addComponent(jButton5)
+                .addContainerGap(19, Short.MAX_VALUE))
         );
+
+        jButton4.setText("Search");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -155,6 +239,8 @@ public class Suppliers extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(69, 69, 69)
                         .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(120, 120, 120)
+                        .addComponent(jButton4)
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
@@ -167,8 +253,10 @@ public class Suppliers extends javax.swing.JFrame {
                 .addGap(34, 34, 34)
                 .addComponent(label1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(19, 19, 19)
-                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(30, 30, 30)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton4))
+                .addGap(29, 29, 29)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 227, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -212,6 +300,59 @@ public class Suppliers extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jComboBox3ActionPerformed
 
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        // TODO add your handling code here:
+              // TODO add your handling code here:
+        String selectedItemID = (String) jComboBox1.getSelectedItem(); // Get selected Item ID
+
+    // If "All" is selected, reload all data
+    if ("All".equals(selectedItemID)) {
+        loadDataFromFile(); // Reload all data
+        return;
+    }
+
+    // Clear the table
+    model.setRowCount(0);
+
+    String filePath = "C:\\Users\\Jiannaa\\Desktop\\supplier.txt"; // Path to your file
+    File file = new File(filePath);
+    if (!file.exists()) {
+        System.out.println("Data file not found.");
+        return;
+    }
+
+    try (BufferedReader br = new BufferedReader(new FileReader(file))) {
+        String line = br.readLine(); // Skip the header line
+        while ((line = br.readLine()) != null) {
+            String[] rowData = line.split(",");
+            if (rowData.length > 0 && rowData[0].equals(selectedItemID)) {
+                model.addRow(rowData); // Add row if Item ID matches
+            }
+        }
+    } catch (Exception ex) {
+        LOGGER.log(Level.SEVERE, "Error filtering data", ex);
+        JOptionPane.showMessageDialog(this, "Error filtering data: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+    }
+
+      
+    }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jTable1MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseReleased
+        // TODO add your handling code here:
+        
+         row= jTable1.getSelectedRow();
+    String SupplierID= String.valueOf(model.getValueAt(row,0));
+    String SupplierName= String.valueOf(model.getValueAt(row,1));
+    String ItemName= String.valueOf(model.getValueAt(row,2));
+    String ItemDescription= String.valueOf(model.getValueAt(row,3));
+    String SupplierDate= String.valueOf(model.getValueAt(row,4));
+    String SupplierContact= String.valueOf(model.getValueAt(row,5));
+    String SupplierEmail= String.valueOf(model.getValueAt(row,6));
+    String Quantity= String.valueOf(model.getValueAt(row,7));
+    
+    
+    }//GEN-LAST:event_jTable1MouseReleased
+
     /**
      * @param args the command line arguments
      */
@@ -251,6 +392,8 @@ public class Suppliers extends javax.swing.JFrame {
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton4;
+    private javax.swing.JButton jButton5;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JComboBox<String> jComboBox2;
     private javax.swing.JComboBox<String> jComboBox3;
