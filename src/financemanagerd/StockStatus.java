@@ -1,6 +1,7 @@
 
 package financemanagerd;
 
+import ThemeManager.ThemeManager;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -18,6 +19,7 @@ public class StockStatus extends javax.swing.JFrame {
      */
     public StockStatus() {
         initComponents();
+        ThemeManager.applyTheme(this);
         setSize(890, 500);
         setLocationRelativeTo(null); // Center the frame
         loadStockData();
