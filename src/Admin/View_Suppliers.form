@@ -159,12 +159,11 @@
               <Font name="Segoe UI" size="18" style="1"/>
             </Property>
             <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-              <StringArray count="5">
+              <StringArray count="4">
                 <StringItem index="0" value="VIEW ITEM "/>
                 <StringItem index="1" value="VIEW PAYMENT"/>
-                <StringItem index="2" value="VIEW STOCK LEVEL"/>
-                <StringItem index="3" value="VIEW SUPPLIERS"/>
-                <StringItem index="4" value="VIEW SALES REPORTS"/>
+                <StringItem index="2" value="VIEW SUPPLIERS"/>
+                <StringItem index="3" value="VIEW SALES REPORTS"/>
               </StringArray>
             </Property>
             <Property name="toolTipText" type="java.lang.String" value=""/>

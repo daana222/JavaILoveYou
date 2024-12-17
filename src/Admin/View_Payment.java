@@ -5,21 +5,74 @@
 package Admin;
 
 import ThemeManager.ThemeManager;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
  * @author HP
  */
 public class View_Payment extends javax.swing.JFrame {
-
+    
+    private final DefaultTableModel model;
     /**
      * Creates new form View_Payment
      */
     public View_Payment() {
+         model = new DefaultTableModel(new String[]{
+            "P.O ID", "Supplier ID", "Total Items", "Total Amount", 
+            "Payment Status", "Due Date", "Payment Date", "Payment ID"
+        }, 0) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false; // Disable editing for all cells
+            }
+        };
+         
         initComponents();
-        ThemeManager.applyTheme(this);
+         ThemeManager.applyTheme(this);
+         jTable1.setModel(model);
+          loadFromFile();
     }
 
+    
+    private void loadFromFile() {
+        try (BufferedReader reader = new BufferedReader(new FileReader("Payment.txt"))) {
+            String line;
+            boolean skipHeader = true;
+
+            while ((line = reader.readLine()) != null) {
+                if (skipHeader) {
+                    skipHeader = false; // Skip the header row
+                    continue;
+                }
+
+                String[] rowData = line.split(",");
+                if (rowData.length == 8) {
+                    // Add rows to the table
+                    model.addRow(new Object[]{
+                        rowData[1], // P.O ID
+                        rowData[5], // Supplier ID
+                        rowData[6], // Total Items
+                        rowData[7], // Total Amount
+                        rowData[2], // Payment Status
+                        rowData[4], // Due Date
+                        rowData[3], // Payment Date
+                        rowData[0]  // Payment ID
+                    });
+                } else {
+                    System.out.println("Invalid data format: " + line);
+                }
+            }
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(this, 
+                "Error loading data: " + e.getMessage(), 
+                "File Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -70,7 +123,7 @@ public class View_Payment extends javax.swing.JFrame {
         });
 
         jComboBox3.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jComboBox3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "VIEW ITEM ", "VIEW PAYMENT", "VIEW STOCK LEVEL", "VIEW SUPPLIERS", "VIEW SALES REPORTS" }));
+        jComboBox3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "VIEW ITEM ", "VIEW PAYMENT", "VIEW SUPPLIERS", "VIEW SALES REPORTS" }));
         jComboBox3.setToolTipText("");
         jComboBox3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -121,17 +174,7 @@ public class View_Payment extends javax.swing.JFrame {
         jLabel2.setText("    VIEW PAYMENT");
         jLabel2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
+        jTable1.setModel(model);
         jScrollPane1.setViewportView(jTable1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -256,7 +299,9 @@ public class View_Payment extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
+        java.awt.EventQueue.invokeLater(() -> new View_Payment().setVisible(true));
         java.awt.EventQueue.invokeLater(new Runnable() {
+            
             public void run() {
                 new View_Payment().setVisible(true);
             }

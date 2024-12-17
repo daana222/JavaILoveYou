@@ -5,6 +5,11 @@
 package Admin;
 
 import ThemeManager.ThemeManager;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -12,13 +17,59 @@ import ThemeManager.ThemeManager;
  */
 public class View_Items extends javax.swing.JFrame {
 
+    private final DefaultTableModel model;
     /**
      * Creates new form View_Items
      */
     public View_Items() {
+        model = new DefaultTableModel(new String[]{
+            "Item ID", "Item Name", "Supplier ID", "Stock Level", 
+            "Reorder Level", "Cost per Unit", "Selling Price", "Last Updated"
+        }, 0) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false; // Disable editing for all cells
+            }
+        };
+        
         initComponents();
         ThemeManager.applyTheme(this);
         ThemeManager.updateTableTheme(jTable1);
+        loadItemsFromFile();
+    }
+    
+    private void loadItemsFromFile() {
+        try (BufferedReader reader = new BufferedReader(new FileReader("items.txt"))) {
+            String line;
+            boolean skipHeader = true;
+
+            while ((line = reader.readLine()) != null) {
+                if (skipHeader) { 
+                    skipHeader = false; // Skip the first line (header)
+                    continue;
+                }
+
+                String[] rowData = line.split(",");
+                if (rowData.length >= 7) { // Ensure correct format
+                    model.addRow(new Object[]{
+                        rowData[0].trim(), // Item ID
+                        rowData[1].trim(), // Item Name
+                        rowData[2].trim(), // Supplier ID
+                        rowData[3].trim(), // Current Stock Level
+                        rowData[4].trim(), // Reorder Level
+                        rowData[5].trim(), // Cost per Unit
+                        rowData[6].trim(), // Selling Price
+                        rowData.length > 7 ? rowData[7].trim() : "-" // Optional Last Updated
+                    });
+                } else {
+                    System.out.println("Invalid data: " + line); // Debug invalid rows
+                }
+            }
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(this,
+                    "Error loading items: " + e.getMessage(),
+                    "File Error", JOptionPane.ERROR_MESSAGE);
+        }
     }
 
     /**
@@ -71,7 +122,7 @@ public class View_Items extends javax.swing.JFrame {
         });
 
         jComboBox3.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jComboBox3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "VIEW ITEM ", "VIEW PAYMENT", "VIEW STOCK LEVEL", "VIEW SUPPLIERS", "VIEW SALES REPORTS" }));
+        jComboBox3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "VIEW ITEM ", "VIEW PAYMENT", "VIEW SUPPLIERS", "VIEW SALES REPORTS" }));
         jComboBox3.setToolTipText("");
         jComboBox3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -122,17 +173,7 @@ public class View_Items extends javax.swing.JFrame {
         jLabel2.setText("    VIEW ITEM");
         jLabel2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
+        jTable1.setModel(model);
         jScrollPane1.setViewportView(jTable1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -159,7 +200,7 @@ public class View_Items extends javax.swing.JFrame {
                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(12, Short.MAX_VALUE))
+                .addContainerGap(37, Short.MAX_VALUE))
         );
 
         pack();
@@ -205,7 +246,6 @@ public class View_Items extends javax.swing.JFrame {
                 this.dispose();
                 break;
                 
-
                 
             case "VIEW SUPPLIERS":
                 jComboBox3.setSelectedItem("VIEW SUPPLIERS");
@@ -223,6 +263,7 @@ public class View_Items extends javax.swing.JFrame {
             default:
                 break;
         }
+        this.dispose();
     }//GEN-LAST:event_jComboBox3ActionPerformed
 
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
@@ -233,6 +274,7 @@ public class View_Items extends javax.swing.JFrame {
      * @param args the command line arguments
      */
     public static void main(String args[]) {
+        java.awt.EventQueue.invokeLater(() -> new View_Items().setVisible(true));
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
