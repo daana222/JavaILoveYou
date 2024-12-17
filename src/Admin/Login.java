@@ -19,6 +19,8 @@ import javax.swing.JOptionPane;
  */
 public class Login extends javax.swing.JFrame {
 
+        private Object Admin;
+
     /**
      * Creates new form Login
      */
@@ -206,6 +208,7 @@ public class Login extends javax.swing.JFrame {
         }
         boolean loginSuccessful = false;
     String role = "";
+    String ID = "";
 
 try (BufferedReader reader = new BufferedReader(new FileReader("User.txt"))) {
     String line;
@@ -222,6 +225,7 @@ try (BufferedReader reader = new BufferedReader(new FileReader("User.txt"))) {
             if (username.equals(fileUsername) && password.equals(filePassword)) {
                 loginSuccessful = true;
                 role = userDetails[6].trim().toUpperCase();
+                ID = userDetails[0].trim();
                 break;
             }
         } else {
@@ -237,7 +241,7 @@ try (BufferedReader reader = new BufferedReader(new FileReader("User.txt"))) {
              if (role.equalsIgnoreCase("ADMIN")) {
             new RoleSelection().setVisible(true); // Display RoleSelection for Admin
         } else {
-            redirectToMainMenu(role); // Redirect normal users based on role
+            redirectToMainMenu(role, ID); // Redirect normal users based on role
         }
         this.dispose();
     } else {
@@ -245,41 +249,34 @@ try (BufferedReader reader = new BufferedReader(new FileReader("User.txt"))) {
          }
     }//GEN-LAST:event_jButton3ActionPerformed
 
-    private void redirectToMainMenu(String role) {
-    switch (role.toUpperCase()) { // Convert to uppercase for case-insensitive matching
+    private void redirectToMainMenu(String role, String ID) {
+    switch (role.toUpperCase()) {
         case "ADMIN":
-            JOptionPane.showMessageDialog(this, "Admin Panel...");
-            new Admin.Main_Menu().setVisible(true); 
+            new Admin.Main_Menu(ID).setVisible(true);
             break;
         case "SALES MANAGER":
-            JOptionPane.showMessageDialog(this, "Sales Manager Dashboard...");
-            new Sales_Manager.Main_Dashboard().setVisible(true); 
-            break;
-        case "INVENTORY MANAGER":
-            JOptionPane.showMessageDialog(this, "Inventory Manager Dashboard...");
-            //new Inventory_Manager.InventoryMainMenu().setVisible(true); 
+          //  new Sales_Manager.Main_Dashboard(ID).setVisible(true);
             break;
         case "PURCHASE MANAGER":
-            JOptionPane.showMessageDialog(this, "Purchase Manager Dashboard...");
-            new Purchase_Manager.PM().setVisible(true); 
+            new Purchase_Manager.PM(ID).setVisible(true);
             break;
         case "FINANCE MANAGER":
-            JOptionPane.showMessageDialog(this, "Finance Manager Dashboard...");
-            new financemanagerd.FManager().setVisible(true);
+         //   new financemanagerd.FManager(ID).setVisible(true);
             break;
         default:
-            JOptionPane.showMessageDialog(this, "Unknown role is been choosen: " + role, "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Unknown role selected: " + role, "Error", JOptionPane.ERROR_MESSAGE);
             break;
     }
+    this.dispose(); // Close the Login window
 }
 
     
     public class RoleSelection extends JFrame {
 
     public RoleSelection() {
-        setTitle("Select Role");
+        setTitle("Select a Role");
         setSize(400, 300);
-        setLayout(new GridLayout(5, 1, 10, 10)); 
+        setLayout(new GridLayout(5, 1, 10, 10));
 
         // Buttons for roles
         JButton btnSalesManager = new JButton("SALES MANAGER");
@@ -295,20 +292,42 @@ try (BufferedReader reader = new BufferedReader(new FileReader("User.txt"))) {
         add(btnFinanceManager);
         add(btnAdmin);
 
-        // Button Actions
-        btnSalesManager.addActionListener(e -> new Sales_Manager.Main_Dashboard().setVisible(true));
-       // btnInventoryManager.addActionListener(e -> new Inventory_Manager.InventoryMainMenu().setVisible(true));
-        btnPurchaseManager.addActionListener(e -> new Purchase_Manager.PM().setVisible(true));
-        btnFinanceManager.addActionListener(e -> new financemanagerd.FManager().setVisible(true));
-        btnAdmin.addActionListener(e -> new Admin.Main_Menu().setVisible(true));
+       
+         // Button Actions with window close logic
+        btnSalesManager.addActionListener(e -> {
+            //new Sales_Manager.Main_Dashboard("S004").setVisible(true);
+            this.dispose(); // Close RoleSelection window
+        });
+
+        btnInventoryManager.addActionListener(e -> {
+            //JOptionPane.showMessageDialog(this, "Inventory Manager not implemented!", "Error", JOptionPane.ERROR_MESSAGE);
+            this.dispose(); // Close RoleSelection window even if not implemented
+        });
+
+        btnPurchaseManager.addActionListener(e -> {
+           // new Purchase_Manager.PM("P002").setVisible(true);
+            this.dispose(); // Close RoleSelection window
+        });
+
+        btnFinanceManager.addActionListener(e -> {
+          //  new financemanagerd.FManager("F002").setVisible(true);
+            this.dispose(); // Close RoleSelection window
+        });
+
+        btnAdmin.addActionListener(e -> {
+            new Admin.Main_Menu("U001").setVisible(true);
+            this.dispose(); // Close RoleSelection window
+        });
+
+     
+
 
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setVisible(true);
-        this.dispose(); 
     }
 }
-   
+ 
     
 
 

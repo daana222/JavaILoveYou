@@ -55,6 +55,7 @@ public class Register extends javax.swing.JFrame {
         jButton2 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
         jComboBox3 = new javax.swing.JComboBox<>();
+        jButton8 = new javax.swing.JButton();
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         jButton5 = new javax.swing.JButton();
@@ -125,25 +126,37 @@ public class Register extends javax.swing.JFrame {
             }
         });
 
+        jButton8.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jButton8.setText("GENERATE REPORTS");
+        jButton8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton8ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(jComboBox3, 0, 0, Short.MAX_VALUE)
-                    .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
-                    .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(jComboBox3, 0, 0, Short.MAX_VALUE)
+                        .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
+                        .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
+                        .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE))
+                    .addComponent(jButton8, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(12, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButton8, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jComboBox3, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -328,11 +341,11 @@ public class Register extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 488, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 522, Short.MAX_VALUE)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(0, 25, Short.MAX_VALUE)
+                        .addGap(0, 59, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                 .addComponent(jLabel8)
@@ -467,7 +480,7 @@ this.dispose();
     String address = jTextField1.getText().trim();
     String username = jTextField2.getText().trim();
     String password = jTextField4.getText().trim();
-    String roles = jComboBox1.getSelectedItem().toString();
+    String role = jComboBox1.getSelectedItem().toString();
         
         // Validate
         if (ID.isEmpty()){
@@ -533,7 +546,7 @@ this.dispose();
         jTextField4.requestFocus();
         return;
     }
-        String newRow[] = {ID, name, phoneNumber, address, username, password, roles};
+        String newRow[] = {ID, name, phoneNumber, address, username, password, role};
         
         model.addRow(newRow);
         uniqueIds.add(ID); 
@@ -582,7 +595,7 @@ this.dispose();
         String address = String.valueOf(model.getValueAt(row, 3));
         String username = String.valueOf(model.getValueAt(row, 4));
         String password = String.valueOf(model.getValueAt(row, 5));
-        String roles = String.valueOf(model.getValueAt(row, 6));
+        String role = String.valueOf(model.getValueAt(row, 6));
         
         jTextField3.setText(ID);
         jTextField6.setText(name);
@@ -590,7 +603,7 @@ this.dispose();
         jTextField1.setText(address);
         jTextField2.setText(username);
         jTextField4.setText(password);
-        jComboBox1.setSelectedItem(roles);
+        jComboBox1.setSelectedItem(role);
          }
     }//GEN-LAST:event_jTable2MouseReleased
 
@@ -602,7 +615,7 @@ this.dispose();
         String address = jTextField1.getText().trim();
         String username = jTextField2.getText().trim();
         String password = jTextField4.getText().trim();
-        String roles = jComboBox1.getSelectedItem().toString(); // Use getSelectedItem()
+        String role = jComboBox1.getSelectedItem().toString(); // Use getSelectedItem()
         
         if (ID.isEmpty() || name.isEmpty() || phoneNumber.isEmpty() || address.isEmpty()
             || username.isEmpty() || password.isEmpty()) {
@@ -616,7 +629,7 @@ this.dispose();
         model.setValueAt(address, row, 3);
         model.setValueAt(username, row, 4);
         model.setValueAt(password, row, 5);
-        model.setValueAt(roles, row, 6);
+        model.setValueAt(role, row, 6);
         
     JOptionPane.showMessageDialog(this, "User has been edited successfully!");
     saveToFile();
@@ -682,12 +695,7 @@ this.dispose();
                 this.dispose();
                 break;
                 
-            case "VIEW STOCK LEVEL":
-                jComboBox3.setSelectedItem("VIEW STOCK LEVEL");
-                View_Stock_Level viewStockFrame = new View_Stock_Level(); 
-                viewStockFrame.setVisible(true);
-                this.dispose();
-                break;
+
                 
             case "VIEW SUPPLIERS":
                 jComboBox3.setSelectedItem("VIEW SUPPLIERS");
@@ -707,6 +715,10 @@ this.dispose();
         }
 
     }//GEN-LAST:event_jComboBox3ActionPerformed
+
+    private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton8ActionPerformed
 
     public void saveToFile() {
     try (BufferedWriter writer = new BufferedWriter(new FileWriter("User.txt"))) {
@@ -790,6 +802,7 @@ this.dispose();
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton7;
+    private javax.swing.JButton jButton8;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JComboBox<String> jComboBox3;
     private javax.swing.JFormattedTextField jFormattedTextField1;
