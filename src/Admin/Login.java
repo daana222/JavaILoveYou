@@ -4,6 +4,7 @@
  */
 package Admin;
 
+import ThemeManager.ThemeManager;
 import java.awt.GridLayout;
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -23,6 +24,7 @@ public class Login extends javax.swing.JFrame {
      */
     public Login() {
         initComponents(); 
+        ThemeManager.applyTheme(this);
 
     }
 
@@ -360,33 +362,34 @@ try (BufferedReader reader = new BufferedReader(new FileReader("User.txt"))) {
 
     private void jToggleButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton1ActionPerformed
        
-    if (jToggleButton1.isSelected()) {
+    ThemeManager.toggleDarkMode(); // Toggle the theme state
+    ThemeManager.applyTheme(this); // Apply the updated theme to the current frame
+     
+    //if (jToggleButton1.isSelected()) {
         // Enable Dark Mode
-        jToggleButton1.setText("LIGHT MODE"); // Change button text
-        getContentPane().setBackground(java.awt.Color.DARK_GRAY); // Background for the frame
-        jLabel1.setForeground(java.awt.Color.WHITE);
-        jLabel2.setForeground(java.awt.Color.WHITE);
-        jLabel3.setForeground(java.awt.Color.WHITE);
-        jTextField1.setBackground(java.awt.Color.LIGHT_GRAY);
-        jTextField1.setForeground(java.awt.Color.WHITE);
-        jPasswordField1.setBackground(java.awt.Color.LIGHT_GRAY);
-        jPasswordField1.setForeground(java.awt.Color.WHITE);
-        jButton3.setBackground(java.awt.Color.BLACK);
-        jButton3.setForeground(java.awt.Color.WHITE);
-    } else {
+      //  jToggleButton1.setText("LIGHT MODE"); // Change button text
+      //  getContentPane().setBackground(java.awt.Color.DARK_GRAY); // Background for the frame
+      //  jLabel2.setForeground(java.awt.Color.WHITE);
+       // jLabel3.setForeground(java.awt.Color.WHITE);
+       // jTextField1.setBackground(java.awt.Color.LIGHT_GRAY);
+       // jTextField1.setForeground(java.awt.Color.BLACK);
+       // jPasswordField1.setBackground(java.awt.Color.LIGHT_GRAY);
+       // jPasswordField1.setForeground(java.awt.Color.BLACK);
+       // jButton3.setBackground(java.awt.Color.BLACK);
+     //   jButton3.setForeground(java.awt.Color.WHITE);
+    //} else {
         // Enable Light Mode
-        jToggleButton1.setText("DARK MODE"); // Change button text
-        getContentPane().setBackground(java.awt.Color.WHITE);
-        jLabel1.setForeground(java.awt.Color.BLACK);
-        jLabel2.setForeground(java.awt.Color.BLACK);
-        jLabel3.setForeground(java.awt.Color.BLACK);
-        jTextField1.setBackground(java.awt.Color.WHITE);
-        jTextField1.setForeground(java.awt.Color.BLACK);
-        jPasswordField1.setBackground(java.awt.Color.WHITE);
-        jPasswordField1.setForeground(java.awt.Color.BLACK);
-        jButton3.setBackground(java.awt.Color.WHITE);
-        jButton3.setForeground(java.awt.Color.BLACK);
-    }
+     //   jToggleButton1.setText("DARK MODE"); // Change button text
+      //  getContentPane().setBackground(java.awt.Color.WHITE);
+      //  jLabel1.setForeground(java.awt.Color.BLACK);
+      //  jLabel2.setForeground(java.awt.Color.BLACK);
+     //   jLabel3.setForeground(java.awt.Color.BLACK);
+      //  jTextField1.setForeground(java.awt.Color.BLACK);
+      //  jPasswordField1.setBackground(java.awt.Color.WHITE);
+      //  jPasswordField1.setForeground(java.awt.Color.BLACK);
+       // jButton3.setBackground(java.awt.Color.WHITE);
+       // jButton3.setForeground(java.awt.Color.BLACK);
+   // }
  
     }//GEN-LAST:event_jToggleButton1ActionPerformed
 

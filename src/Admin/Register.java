@@ -4,6 +4,7 @@
  */
 package Admin;
 
+import ThemeManager.ThemeManager;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileReader;
@@ -31,6 +32,7 @@ public class Register extends javax.swing.JFrame {
         //checkAndCreateFile(); // Ensure the file exists
         model.setColumnIdentifiers(columnName);// assignet name for table
         initComponents();
+        ThemeManager.applyTheme(this);
         loadFromFile(); // Load data from file when the application starts
     }
 
