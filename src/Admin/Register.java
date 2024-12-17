@@ -20,6 +20,7 @@ import java.util.HashSet;
  * @author HP
  */
 public class Register extends javax.swing.JFrame {
+    
     private final DefaultTableModel model = new DefaultTableModel();// to create model obj to placed in table
     private final String[] columnName = {"ID","Full Name","Phone Number","Address","Username","Password","Job Roles"};// an array / colum name
     private int row = -1;
@@ -30,13 +31,17 @@ public class Register extends javax.swing.JFrame {
      */
     public Register() {
         
+        
         model.setColumnIdentifiers(columnName);
         initComponents();
+       
         jPanel1.setName("sidePanel");
         ThemeManager.applyTheme(this);
         ThemeManager.updateTableTheme(jTable2);
         loadFromFile(); 
     }
+
+ 
 
     /**
      * This method is called from within the constructor to initialize the form.

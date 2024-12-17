@@ -23,8 +23,7 @@ public class Main_Menu extends javax.swing.JFrame {
     public Main_Menu(String ID) {
         this.ID = ID;
         initComponents();
-       
-     
+         
     setTitle("Admin Main Menu - User ID: " + ID);
         
     JLabel welcomeLabel = new JLabel("Welcome Admin", SwingConstants.CENTER);
@@ -58,10 +57,7 @@ public class Main_Menu extends javax.swing.JFrame {
     jPanel1.setName("sidePanel");
     ThemeManager.applyTheme(this);
     setVisible(true);
-}
-    
-    
-    
+}   
      public Main_Menu() {
         this("Unknown"); // Default to "Unknown" ID if no ID is provided
     }
@@ -224,10 +220,11 @@ public class Main_Menu extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        //
-        Register registerFrame = new Register();
-
+      
+       Register registerFrame = new Register();
+        
         registerFrame.setVisible(true);
+        
         this.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -235,6 +232,7 @@ public class Main_Menu extends javax.swing.JFrame {
         View_user viewUserFrame = new View_user();
 
         viewUserFrame.setVisible(true);
+        
         this.dispose();
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton2ActionPerformed
@@ -242,6 +240,7 @@ public class Main_Menu extends javax.swing.JFrame {
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         // TODO add your handling code here:
         Login loginPage = new Login(); 
+        
         loginPage.setVisible(true);    
 
       
@@ -258,22 +257,26 @@ public class Main_Menu extends javax.swing.JFrame {
         //if (!(this instanceof View_Items)) { // Avoid reopening the same frame
             View_Items viewItemFrame = new View_Items();
             viewItemFrame.setVisible(true);
+            
             this.dispose();
         
     } 
     else if ("VIEW PAYMENT".equalsIgnoreCase(selectedItem)) {
-        View_Payment viewPaymentFrame = new View_Payment();
+       View_Payment viewPaymentFrame = new View_Payment();
         viewPaymentFrame.setVisible(true);
+       
         this.dispose();
     } 
     else if ("VIEW SUPPLIERS".equalsIgnoreCase(selectedItem)) {
-        View_Suppliers viewSuppliersFrame = new View_Suppliers();
-        viewSuppliersFrame.setVisible(true);
+       View_Suppliers viewSuppliersFrame = new View_Suppliers();
+       viewSuppliersFrame.setVisible(true);
+        
         this.dispose();
     } 
     else if ("VIEW SALES REPORTS".equalsIgnoreCase(selectedItem)) {
-        View_sales_report viewSalesReportFrame = new View_sales_report();
+       View_sales_report viewSalesReportFrame = new View_sales_report();
         viewSalesReportFrame.setVisible(true);
+        
         this.dispose();
     } 
     else {
@@ -291,9 +294,10 @@ Generate_Reports generateReportsFrame = new Generate_Reports();
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-     Main_Menu mainMenuFrame = new Main_Menu();
+    // Main_Menu mainMenuFrame = new Main_Menu();
 
-        mainMenuFrame.setVisible(true);
+       // mainMenuFrame.setVisible(true);
+        new Main_Menu(ID).setVisible(true);
         this.dispose();        
     }//GEN-LAST:event_jButton5ActionPerformed
 
