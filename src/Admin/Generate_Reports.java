@@ -4,6 +4,16 @@
  */
 package Admin;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import javax.swing.JOptionPane;
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartPanel;
+import org.jfree.chart.JFreeChart;
+import org.jfree.data.category.DefaultCategoryDataset;
+import org.jfree.data.general.DefaultPieDataset;
+
 /**
  *
  * @author HP
@@ -15,8 +25,74 @@ public class Generate_Reports extends javax.swing.JFrame {
      */
     public Generate_Reports() {
         initComponents();
+        displayPieChart();
+        displayBarChart();
+        
+    }
+    private javax.swing.JPanel jPanelPie;
+private javax.swing.JPanel jPanelBar;
+
+    private void displayPieChart() {
+    DefaultPieDataset dataset = new DefaultPieDataset();
+
+        try (BufferedReader salesReader = new BufferedReader(new FileReader("sales.txt"))) {
+            String line;
+            while ((line = salesReader.readLine()) != null) {
+                String[] salesData = line.split(",");
+                if (salesData.length >= 6) {
+                    String itemName = salesData[2]; // Item Name
+                    double totalSales = Double.parseDouble(salesData[5].replace("RM", ""));
+                    dataset.setValue(itemName, totalSales);
+                }
+            }
+        } catch (IOException | NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "Error loading pie chart: " + e.getMessage(),
+                    "Error", JOptionPane.ERROR_MESSAGE);
+        }
+
+        JFreeChart pieChart = ChartFactory.createPieChart(
+                "Sales Distribution by Item", dataset, true, true, false);
+
+        ChartPanel pieChartPanel = new ChartPanel(pieChart);
+        pieChartPanel.setPreferredSize(new java.awt.Dimension(350, 300));
+        jPanelPie.removeAll();
+        jPanelPie.add(pieChartPanel);
+        jPanelPie.revalidate();
+        jPanelPie.repaint();
+    }
+    
+    private void displayBarChart() {
+        DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+
+        try (BufferedReader paymentReader = new BufferedReader(new FileReader("Payment.txt"))) {
+            String line;
+            while ((line = paymentReader.readLine()) != null) {
+                String[] paymentData = line.split(",");
+                if (paymentData.length >= 4) {
+                    String supplierID = paymentData[5];   // Supplier ID
+                    String paymentStatus = paymentData[2]; // Payment Status
+                    int totalItems = Integer.parseInt(paymentData[6]); // Total Items
+                    dataset.addValue(totalItems, paymentStatus, supplierID);
+                }
+            }
+        } catch (IOException | NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "Error loading bar chart: " + e.getMessage(),
+                    "Error", JOptionPane.ERROR_MESSAGE);
+        }
+
+        JFreeChart barChart = ChartFactory.createBarChart(
+                "Payment Status by Supplier", "Supplier ID", "Total Items", dataset);
+
+        ChartPanel barChartPanel = new ChartPanel(barChart);
+        barChartPanel.setPreferredSize(new java.awt.Dimension(350, 300));
+        jPanelBar.removeAll();
+        jPanelBar.add(barChartPanel);
+        jPanelBar.revalidate();
+        jPanelBar.repaint();
     }
 
+
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -32,6 +108,7 @@ public class Generate_Reports extends javax.swing.JFrame {
         jButton4 = new javax.swing.JButton();
         jComboBox3 = new javax.swing.JComboBox<>();
         jButton8 = new javax.swing.JButton();
+        jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -98,7 +175,7 @@ public class Generate_Reports extends javax.swing.JFrame {
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(254, Short.MAX_VALUE)
                 .addComponent(jButton8, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -111,17 +188,27 @@ public class Generate_Reports extends javax.swing.JFrame {
                 .addGap(19, 19, 19))
         );
 
+        jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 36)); // NOI18N
+        jLabel2.setText("    REPORTS");
+        jLabel2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 670, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 229, Short.MAX_VALUE)
+                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 228, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(213, 213, 213))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 600, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(20, 20, 20)
+                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -187,13 +274,17 @@ public class Generate_Reports extends javax.swing.JFrame {
     }//GEN-LAST:event_jComboBox3ActionPerformed
 
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
-        // TODO add your handling code here:
+        Generate_Reports generateReportsFrame = new Generate_Reports();
+
+        generateReportsFrame.setVisible(true);
+        this.dispose(); // TODO add your handling code here:
     }//GEN-LAST:event_jButton8ActionPerformed
 
     /**
      * @param args the command line arguments
      */
     public static void main(String args[]) {
+          java.awt.EventQueue.invokeLater(() -> new Generate_Reports().setVisible(true));
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
@@ -231,6 +322,7 @@ public class Generate_Reports extends javax.swing.JFrame {
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton8;
     private javax.swing.JComboBox<String> jComboBox3;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     // End of variables declaration//GEN-END:variables
 }

@@ -291,7 +291,10 @@ public class View_sales_report extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton9ActionPerformed
 
     private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
-        // TODO add your handling code here:
+Generate_Reports generateReportsFrame = new Generate_Reports();
+
+        generateReportsFrame.setVisible(true);
+        this.dispose();        // TODO add your handling code here:
     }//GEN-LAST:event_jButton10ActionPerformed
 
     /**

@@ -717,7 +717,10 @@ this.dispose();
     }//GEN-LAST:event_jComboBox3ActionPerformed
 
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
-        // TODO add your handling code here:
+Generate_Reports generateReportsFrame = new Generate_Reports();
+
+        generateReportsFrame.setVisible(true);
+        this.dispose();        // TODO add your handling code here:
     }//GEN-LAST:event_jButton8ActionPerformed
 
     public void saveToFile() {
