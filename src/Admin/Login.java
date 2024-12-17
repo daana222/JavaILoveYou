@@ -23,6 +23,7 @@ public class Login extends javax.swing.JFrame {
      */
     public Login() {
         initComponents(); 
+
     }
 
     /**
@@ -44,6 +45,8 @@ public class Login extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         jTextField1 = new javax.swing.JTextField();
         jCheckBox1 = new javax.swing.JCheckBox();
+        jLabel4 = new javax.swing.JLabel();
+        jToggleButton1 = new javax.swing.JToggleButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -104,6 +107,15 @@ public class Login extends javax.swing.JFrame {
             }
         });
 
+        jLabel4.setText("DARK MODE :");
+
+        jToggleButton1.setText("DARK MODE");
+        jToggleButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jToggleButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -139,6 +151,12 @@ public class Login extends javax.swing.JFrame {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(362, 362, 362))))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(23, 23, 23)
+                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jToggleButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -147,7 +165,7 @@ public class Login extends javax.swing.JFrame {
                 .addComponent(jLabel5)
                 .addGap(18, 18, 18)
                 .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 44, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 42, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -165,7 +183,11 @@ public class Login extends javax.swing.JFrame {
                 .addComponent(jCheckBox1)
                 .addGap(30, 30, 30)
                 .addComponent(jButton3)
-                .addGap(44, 44, 44))
+                .addGap(1, 1, 1)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel4)
+                    .addComponent(jToggleButton1))
+                .addGap(22, 22, 22))
         );
 
         pack();
@@ -223,27 +245,27 @@ try (BufferedReader reader = new BufferedReader(new FileReader("User.txt"))) {
     private void redirectToMainMenu(String role) {
     switch (role.toUpperCase()) { // Convert to uppercase for case-insensitive matching
         case "ADMIN":
-            JOptionPane.showMessageDialog(this, "Redirecting to Admin Panel...");
-            new Admin.Main_Menu().setVisible(true); // Replace with your actual Admin class
+            JOptionPane.showMessageDialog(this, "Admin Panel...");
+            new Admin.Main_Menu().setVisible(true); 
             break;
         case "SALES MANAGER":
-            JOptionPane.showMessageDialog(this, "Redirecting to Sales Manager Dashboard...");
-            new Sales_Manager.Main_Dashboard().setVisible(true); // Replace with your Sales Manager class
+            JOptionPane.showMessageDialog(this, "Sales Manager Dashboard...");
+            new Sales_Manager.Main_Dashboard().setVisible(true); 
             break;
         case "INVENTORY MANAGER":
-            JOptionPane.showMessageDialog(this, "Redirecting to Inventory Manager Dashboard...");
-            //new Inventory_Manager.InventoryMainMenu().setVisible(true); // Replace with your Inventory class
+            JOptionPane.showMessageDialog(this, "Inventory Manager Dashboard...");
+            //new Inventory_Manager.InventoryMainMenu().setVisible(true); 
             break;
         case "PURCHASE MANAGER":
-            JOptionPane.showMessageDialog(this, "Redirecting to Purchase Manager Dashboard...");
-            new Purchase_Manager.PM().setVisible(true); // Replace with your Purchase Manager class
+            JOptionPane.showMessageDialog(this, "Purchase Manager Dashboard...");
+            new Purchase_Manager.PM().setVisible(true); 
             break;
         case "FINANCE MANAGER":
             JOptionPane.showMessageDialog(this, "Redirecting to Finance Manager Dashboard...");
-            new financemanagerd.FManager().setVisible(true); // Replace with your Finance Manager class
+            new financemanagerd.FManager().setVisible(true);
             break;
         default:
-            JOptionPane.showMessageDialog(this, "Unknown role: " + role, "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Unknown role is been choosen: " + role, "Error", JOptionPane.ERROR_MESSAGE);
             break;
     }
 }
@@ -254,7 +276,7 @@ try (BufferedReader reader = new BufferedReader(new FileReader("User.txt"))) {
     public RoleSelection() {
         setTitle("Select Role");
         setSize(400, 300);
-        setLayout(new GridLayout(5, 1, 10, 10)); // GridLayout for buttons
+        setLayout(new GridLayout(5, 1, 10, 10)); 
 
         // Buttons for roles
         JButton btnSalesManager = new JButton("SALES MANAGER");
@@ -288,13 +310,13 @@ try (BufferedReader reader = new BufferedReader(new FileReader("User.txt"))) {
 
     
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
+       
                 jTextField1.setText("");
 
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jPasswordField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jPasswordField1ActionPerformed
-        // TODO add your handling code here:
+        
          String password = new String(jPasswordField1.getPassword());
          
          if (password.isEmpty()) {
@@ -331,10 +353,42 @@ try (BufferedReader reader = new BufferedReader(new FileReader("User.txt"))) {
     }//GEN-LAST:event_jCheckBox1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
+        
                 jPasswordField1.setText("");
 
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jToggleButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton1ActionPerformed
+       
+    if (jToggleButton1.isSelected()) {
+        // Enable Dark Mode
+        jToggleButton1.setText("LIGHT MODE"); // Change button text
+        getContentPane().setBackground(java.awt.Color.DARK_GRAY); // Background for the frame
+        jLabel1.setForeground(java.awt.Color.WHITE);
+        jLabel2.setForeground(java.awt.Color.WHITE);
+        jLabel3.setForeground(java.awt.Color.WHITE);
+        jTextField1.setBackground(java.awt.Color.LIGHT_GRAY);
+        jTextField1.setForeground(java.awt.Color.WHITE);
+        jPasswordField1.setBackground(java.awt.Color.LIGHT_GRAY);
+        jPasswordField1.setForeground(java.awt.Color.WHITE);
+        jButton3.setBackground(java.awt.Color.BLACK);
+        jButton3.setForeground(java.awt.Color.WHITE);
+    } else {
+        // Enable Light Mode
+        jToggleButton1.setText("DARK MODE"); // Change button text
+        getContentPane().setBackground(java.awt.Color.WHITE);
+        jLabel1.setForeground(java.awt.Color.BLACK);
+        jLabel2.setForeground(java.awt.Color.BLACK);
+        jLabel3.setForeground(java.awt.Color.BLACK);
+        jTextField1.setBackground(java.awt.Color.WHITE);
+        jTextField1.setForeground(java.awt.Color.BLACK);
+        jPasswordField1.setBackground(java.awt.Color.WHITE);
+        jPasswordField1.setForeground(java.awt.Color.BLACK);
+        jButton3.setBackground(java.awt.Color.WHITE);
+        jButton3.setForeground(java.awt.Color.BLACK);
+    }
+ 
+    }//GEN-LAST:event_jToggleButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -379,8 +433,10 @@ try (BufferedReader reader = new BufferedReader(new FileReader("User.txt"))) {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JPasswordField jPasswordField1;
     private javax.swing.JTextField jTextField1;
+    private javax.swing.JToggleButton jToggleButton1;
     // End of variables declaration//GEN-END:variables
 }

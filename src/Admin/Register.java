@@ -224,7 +224,7 @@ public class Register extends javax.swing.JFrame {
             }
         });
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "SALES MANEGER", "INVENTORY MANAGER", "PURCHASE MANAGER", "ADMIN", "FINANCE MANAGER" }));
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "SALES MANAGER", "INVENTORY MANAGER", "PURCHASE MANAGER", "ADMIN", "FINANCE MANAGER" }));
         jComboBox1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jComboBox1ActionPerformed(evt);
