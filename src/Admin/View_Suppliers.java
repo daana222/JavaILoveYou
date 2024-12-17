@@ -4,6 +4,8 @@
  */
 package Admin;
 
+import ThemeManager.ThemeManager;
+
 /**
  *
  * @author HP
@@ -15,6 +17,7 @@ public class View_Suppliers extends javax.swing.JFrame {
      */
     public View_Suppliers() {
         initComponents();
+        ThemeManager.applyTheme(this);
     }
 
     /**

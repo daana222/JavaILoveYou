@@ -4,6 +4,7 @@
  */
 package Admin;
 
+import ThemeManager.ThemeManager;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -32,6 +33,7 @@ public class View_user extends javax.swing.JFrame {
         };
         
         initComponents();
+        ThemeManager.applyTheme(this);
         jTable2.setModel(model); // Attach the model to the table      
         loadFromFile();
     }

@@ -4,6 +4,8 @@
  */
 package Admin;
 
+import ThemeManager.ThemeManager;
+
 /**
  *
  * @author HP
@@ -15,6 +17,7 @@ public class View_Payment extends javax.swing.JFrame {
      */
     public View_Payment() {
         initComponents();
+        ThemeManager.applyTheme(this);
     }
 
     /**

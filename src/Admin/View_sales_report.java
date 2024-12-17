@@ -4,6 +4,7 @@
  */
 package Admin;
 
+import ThemeManager.ThemeManager;
 import javax.swing.JOptionPane;
 
 /**
@@ -17,6 +18,7 @@ public class View_sales_report extends javax.swing.JFrame {
      */
     public View_sales_report() {
         initComponents();
+        ThemeManager.applyTheme(this);
     }
 
     /**
