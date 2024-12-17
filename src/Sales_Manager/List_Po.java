@@ -308,7 +308,7 @@ public class List_Po extends javax.swing.JFrame {
     model.setRowCount(0); // Clear the table before populating
 
     String selectedStatus = jComboBox1.getSelectedItem().toString(); // Get selected value from combo box
-    String filePath = "po1.txt";
+    String filePath = "PO.txt";
 
     try {
         // Validate file existence
