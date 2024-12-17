@@ -239,9 +239,9 @@ try (BufferedReader reader = new BufferedReader(new FileReader("User.txt"))) {
          if (loginSuccessful) {
             JOptionPane.showMessageDialog(this, "Login Successful!");
              if (role.equalsIgnoreCase("ADMIN")) {
-            new RoleSelection().setVisible(true); // Display RoleSelection for Admin
+            new RoleSelection().setVisible(true); 
         } else {
-            redirectToMainMenu(role, ID); // Redirect normal users based on role
+            redirectToMainMenu(role, ID); 
         }
         this.dispose();
     } else {
@@ -293,7 +293,7 @@ try (BufferedReader reader = new BufferedReader(new FileReader("User.txt"))) {
         add(btnAdmin);
 
        
-         // Button Actions with window close logic
+        
         btnSalesManager.addActionListener(e -> {
             //new Sales_Manager.Main_Dashboard("S004").setVisible(true);
             this.dispose(); // Close RoleSelection window

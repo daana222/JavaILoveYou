@@ -263,7 +263,7 @@ public class View_Items extends javax.swing.JFrame {
             default:
                 break;
         }
-        this.dispose();
+        
     }//GEN-LAST:event_jComboBox3ActionPerformed
 
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed

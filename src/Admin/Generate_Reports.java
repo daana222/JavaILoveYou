@@ -4,75 +4,19 @@
  */
 package Admin;
 
-import ThemeManager.ThemeManager;
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
-import javax.swing.JOptionPane;
-import javax.swing.table.DefaultTableModel;
-
 /**
  *
  * @author HP
  */
-public class View_Payment extends javax.swing.JFrame {
-    
-    private final DefaultTableModel model;
+public class Generate_Reports extends javax.swing.JFrame {
+
     /**
-     * Creates new form View_Payment
+     * Creates new form Generate_Reports
      */
-    public View_Payment() {
-         model = new DefaultTableModel(new String[]{
-            "P.O ID", "Supplier ID", "Total Items", "Total Amount", 
-            "Payment Status", "Due Date", "Payment Date", "Payment ID"
-        }, 0) {
-            @Override
-            public boolean isCellEditable(int row, int column) {
-                return false; 
-            }
-        };
-         
+    public Generate_Reports() {
         initComponents();
-         ThemeManager.applyTheme(this);
-         jTable1.setModel(model);
-          loadFromFile();
     }
 
-    
-    private void loadFromFile() {
-        try (BufferedReader reader = new BufferedReader(new FileReader("Payment.txt"))) {
-            String line;
-            boolean skipHeader = true;
-
-            while ((line = reader.readLine()) != null) {
-                if (skipHeader) {
-                    skipHeader = false; 
-                    continue;
-                }
-
-                String[] rowData = line.split(",");
-                if (rowData.length == 8) {
-                    // Add rows to the table
-                    model.addRow(new Object[]{
-                        rowData[1], // P.O ID
-                        rowData[5], // Supplier ID
-                        rowData[6], // Total Items
-                        rowData[7], // Total Amount
-                        rowData[2], // Payment Status
-                        rowData[4], // Due Date
-                        rowData[3], // Payment Date
-                        rowData[0]  // Payment ID
-                    });
-                } else {
-                    System.out.println("Invalid data format: " + line);
-                }
-            }
-        } catch (IOException e) {
-            JOptionPane.showMessageDialog(this, 
-                "Error loading data: " + e.getMessage(), 
-                "File Error", JOptionPane.ERROR_MESSAGE);
-        }
-    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -88,9 +32,6 @@ public class View_Payment extends javax.swing.JFrame {
         jButton4 = new javax.swing.JButton();
         jComboBox3 = new javax.swing.JComboBox<>();
         jButton8 = new javax.swing.JButton();
-        jLabel2 = new javax.swing.JLabel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -146,11 +87,11 @@ public class View_Payment extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
-                        .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addComponent(jComboBox3, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(jComboBox3, 0, 200, Short.MAX_VALUE)
+                        .addComponent(jButton2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
+                        .addComponent(jButton1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
+                        .addComponent(jButton4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addComponent(jButton8, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(12, Short.MAX_VALUE))
         );
@@ -170,38 +111,17 @@ public class View_Payment extends javax.swing.JFrame {
                 .addGap(19, 19, 19))
         );
 
-        jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 36)); // NOI18N
-        jLabel2.setText("    VIEW PAYMENT");
-        jLabel2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
-
-        jTable1.setModel(model);
-        jScrollPane1.setViewportView(jTable1);
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 371, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(128, 128, 128))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(90, 90, 90)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(100, Short.MAX_VALUE))))
+                .addGap(0, 670, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 520, Short.MAX_VALUE)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(19, 19, 19)
-                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 390, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(43, Short.MAX_VALUE))
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 600, Short.MAX_VALUE)
         );
 
         pack();
@@ -210,61 +130,60 @@ public class View_Payment extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         Register registerFrame = new Register();
 
-        registerFrame.setVisible(true); 
-        this.dispose();// TODO add your handling code here:
+        registerFrame.setVisible(true);
+        this.dispose();        // TODO add your handling code here:
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         View_user viewUserFrame = new View_user();
 
         viewUserFrame.setVisible(true);
-        this.dispose();        
+        this.dispose();// TODO add your handling code here:
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        Login loginPage = new Login(); 
-        loginPage.setVisible(true);   
+        Login loginPage = new Login(); // Replace "Login" with the actual class name of your login frame
+        loginPage.setVisible(true);    // Show the login frame
 
-      
-        this.dispose();        
+        // Close the current frame (Main Menu frame)
+        this.dispose();        // TODO add your handling code here:
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jComboBox3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox3ActionPerformed
-      String selectedItem = (String) jComboBox3.getSelectedItem();
-        
+        String selectedItem = (String) jComboBox3.getSelectedItem();
+
         switch (selectedItem) {
             case "VIEW ITEM":
-                jComboBox3.setSelectedItem("VIEW ITEM");
-                View_Items viewItemFrame = new View_Items(); 
-                viewItemFrame.setVisible(true);
-                this.dispose(); 
-                break;
-                
-            case "VIEW PAYMENT":
-                jComboBox3.setSelectedItem("VIEW PAYMENT");
-                View_Payment viewPaymentFrame = new View_Payment(); 
-                viewPaymentFrame.setVisible(true);
-                this.dispose();
-                break;
-                
+            jComboBox3.setSelectedItem("VIEW ITEM");
+            View_Items viewItemFrame = new View_Items();
+            viewItemFrame.setVisible(true);
+            this.dispose();
+            break;
 
-                
+            case "VIEW PAYMENT":
+            jComboBox3.setSelectedItem("VIEW PAYMENT");
+            View_Payment viewPaymentFrame = new View_Payment();
+            viewPaymentFrame.setVisible(true);
+            this.dispose();
+            break;
+
             case "VIEW SUPPLIERS":
-                jComboBox3.setSelectedItem("VIEW SUPPLIERS");
-                View_Suppliers viewSuppliersFrame = new View_Suppliers(); 
-                viewSuppliersFrame.setVisible(true);
-                this.dispose();
-                break;
-                
+            jComboBox3.setSelectedItem("VIEW SUPPLIERS");
+            View_Suppliers viewSuppliersFrame = new View_Suppliers();
+            viewSuppliersFrame.setVisible(true);
+            this.dispose();
+            break;
+
             case "VIEW SALES REPORTS":
-                jComboBox3.setSelectedItem("VIEW SALES REPORTS");
-                View_sales_report viewSalesReportFrame = new View_sales_report(); 
-                viewSalesReportFrame.setVisible(true);
-                this.dispose();
-                break;
+            jComboBox3.setSelectedItem("VIEW SALES REPORTS");
+            View_sales_report viewSalesReportFrame = new View_sales_report();
+            viewSalesReportFrame.setVisible(true);
+            this.dispose();
+            break;
             default:
-                break;
+            break;
         }
+
     }//GEN-LAST:event_jComboBox3ActionPerformed
 
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
@@ -288,22 +207,20 @@ public class View_Payment extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(View_Payment.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Generate_Reports.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(View_Payment.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Generate_Reports.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(View_Payment.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Generate_Reports.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(View_Payment.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Generate_Reports.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() -> new View_Payment().setVisible(true));
         java.awt.EventQueue.invokeLater(new Runnable() {
-            
             public void run() {
-                new View_Payment().setVisible(true);
+                new Generate_Reports().setVisible(true);
             }
         });
     }
@@ -314,9 +231,6 @@ public class View_Payment extends javax.swing.JFrame {
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton8;
     private javax.swing.JComboBox<String> jComboBox3;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
     // End of variables declaration//GEN-END:variables
 }

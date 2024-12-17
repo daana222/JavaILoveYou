@@ -5,22 +5,73 @@
 package Admin;
 
 import ThemeManager.ThemeManager;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
  * @author HP
  */
 public class View_sales_report extends javax.swing.JFrame {
-
+   private final DefaultTableModel model;
     /**
      * Creates new form View_sales_report
      */
     public View_sales_report() {
+        
+        model = new DefaultTableModel(new String[]{
+            "Date", "Item ID", "Item Name", "Quantity Sold", 
+            "Selling Price Per Unit", "Total Sales"
+        }, 0) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false; 
+            }
+        };
+        
         initComponents();
         ThemeManager.applyTheme(this);
+        jTable1.setModel(model);
+        loadSalesDataFromFile(); 
     }
 
+    private void loadSalesDataFromFile() {
+        try (BufferedReader reader = new BufferedReader(new FileReader("sales.txt"))) {
+            String line;
+            boolean skipHeader = true;
+
+            while ((line = reader.readLine()) != null) {
+                if (skipHeader) {
+                    skipHeader = false; 
+                    continue;
+                }
+
+                String[] rowData = line.split(",");
+                if (rowData.length == 6) { 
+                    model.addRow(new Object[]{
+                        rowData[0].trim(), // Date
+                        rowData[1].trim(), // Item ID
+                        rowData[2].trim(), // Item Name
+                        rowData[3].trim(), // Quantity Sold
+                        rowData[4].trim(), // Selling Price Per Unit
+                        rowData[5].trim()  // Total Sales
+                    });
+                } else {
+                    System.out.println("Invalid data: " + line); 
+                }
+            }
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(this,
+                    "Error loading sales data: " + e.getMessage(),
+                    "File Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+    
+    
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -123,17 +174,7 @@ public class View_sales_report extends javax.swing.JFrame {
         jLabel2.setText("    VIEW SALES REPORTS");
         jLabel2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
+        jTable1.setModel(model);
         jScrollPane1.setViewportView(jTable1);
 
         jButton9.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
@@ -172,7 +213,7 @@ public class View_sales_report extends javax.swing.JFrame {
                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(18, Short.MAX_VALUE))
+                .addContainerGap(43, Short.MAX_VALUE))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addGap(233, 233, 233)
@@ -186,44 +227,62 @@ public class View_sales_report extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         Register registerFrame = new Register();
 
-        registerFrame.setVisible(true);        // TODO add your handling code here:
+        registerFrame.setVisible(true);     
+        this.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         View_user viewUserFrame = new View_user();
 
-        viewUserFrame.setVisible(true);        // TODO add your handling code here:
+        viewUserFrame.setVisible(true);  
+        this.dispose();
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        Login loginPage = new Login(); // Replace "Login" with the actual class name of your login frame
-        loginPage.setVisible(true);    // Show the login frame
+        Login loginPage = new Login(); 
+        loginPage.setVisible(true);    
 
-        // Close the current frame (Main Menu frame)
-        this.dispose();        // TODO add your handling code here:
+        
+        this.dispose();        
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jComboBox3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox3ActionPerformed
-        String selectedItem = jComboBox3.getSelectedItem().toString();
-    
-    switch (selectedItem) {
-        case "VIEW ITEM":
-            JOptionPane.showMessageDialog(this, "Viewing Items...");
-            break;
-        case "VIEW PAYMENT":
-            JOptionPane.showMessageDialog(this, "Viewing Payments...");
-            break;
-        case "VIEW STOCK LEVEL":
-            JOptionPane.showMessageDialog(this, "Viewing Stock Levels...");
-            break;
-        case "VIEW SUPPLIERS":
-            JOptionPane.showMessageDialog(this, "Viewing Suppliers...");
-            break;
-        case "VIEW SALES REPORTS":
-            JOptionPane.showMessageDialog(this, "Viewing Sales Reports...");
-            break;
-        default:
-            JOptionPane.showMessageDialog(this, "Invalid selection.");
+ 
+     String selectedItem = (String) jComboBox3.getSelectedItem();
+        
+        switch (selectedItem) {
+            case "VIEW ITEM":
+                jComboBox3.setSelectedItem("VIEW ITEM");
+                View_Items viewItemFrame = new View_Items(); 
+                viewItemFrame.setVisible(true);
+                this.dispose(); 
+                break;
+                
+            case "VIEW PAYMENT":
+                jComboBox3.setSelectedItem("VIEW PAYMENT");
+                View_Payment viewPaymentFrame = new View_Payment(); 
+                viewPaymentFrame.setVisible(true);
+                this.dispose();
+                break;
+                
+
+                
+            case "VIEW SUPPLIERS":
+                jComboBox3.setSelectedItem("VIEW SUPPLIERS");
+                View_Suppliers viewSuppliersFrame = new View_Suppliers(); 
+                viewSuppliersFrame.setVisible(true);
+                this.dispose();
+                break;
+                
+            case "VIEW SALES REPORTS":
+                jComboBox3.setSelectedItem("VIEW SALES REPORTS");
+                View_sales_report viewSalesReportFrame = new View_sales_report(); 
+                viewSalesReportFrame.setVisible(true);
+                this.dispose();
+                break;
+            default:
+                break;
+          
     }
     }//GEN-LAST:event_jComboBox3ActionPerformed
 
@@ -239,6 +298,7 @@ public class View_sales_report extends javax.swing.JFrame {
      * @param args the command line arguments
      */
     public static void main(String args[]) {
+        java.awt.EventQueue.invokeLater(() -> new View_sales_report().setVisible(true));
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.

@@ -29,13 +29,13 @@ public class Register extends javax.swing.JFrame {
      * Creates new form Register
      */
     public Register() {
-        //checkAndCreateFile(); // Ensure the file exists
-        model.setColumnIdentifiers(columnName);// assignet name for table
+        
+        model.setColumnIdentifiers(columnName);
         initComponents();
         jPanel1.setName("sidePanel");
         ThemeManager.applyTheme(this);
         ThemeManager.updateTableTheme(jTable2);
-        loadFromFile(); // Load data from file when the application starts
+        loadFromFile(); 
     }
 
     /**
@@ -427,10 +427,10 @@ this.dispose();
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        Login loginPage = new Login(); // Replace "Login" with the actual class name of your login frame
-        loginPage.setVisible(true);    // Show the login frame
+        Login loginPage = new Login(); 
+        loginPage.setVisible(true);    
 
-        // Close the current frame (Main Menu frame)
+        
         this.dispose();        
     }//GEN-LAST:event_jButton4ActionPerformed
 
@@ -560,7 +560,7 @@ this.dispose();
 
     public void clearTextField(){
         
-    jTextField3.setText(""); // User ID
+    jTextField3.setText(""); // ID
     jTextField6.setText(""); // Full Name
     jFormattedTextField1.setText(""); // Phone Number
     jTextField1.setText(""); // Address
@@ -615,7 +615,7 @@ this.dispose();
         String address = jTextField1.getText().trim();
         String username = jTextField2.getText().trim();
         String password = jTextField4.getText().trim();
-        String role = jComboBox1.getSelectedItem().toString(); // Use getSelectedItem()
+        String role = jComboBox1.getSelectedItem().toString(); 
         
         if (ID.isEmpty() || name.isEmpty() || phoneNumber.isEmpty() || address.isEmpty()
             || username.isEmpty() || password.isEmpty()) {
@@ -646,7 +646,7 @@ this.dispose();
     }//GEN-LAST:event_jTextField5ActionPerformed
 
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
-    String searchID = jTextField5.getText().trim(); // User ID to search
+    String searchID = jTextField5.getText().trim(); 
     boolean found = false;
     
     if (searchID.isEmpty()) {
@@ -655,18 +655,18 @@ this.dispose();
     }
     // Search for the User ID in the table
     for (int i = 0; i < model.getRowCount(); i++) {
-        if (model.getValueAt(i, 0).toString().equals(searchID)) { // Compare User ID
+        if (model.getValueAt(i, 0).toString().equals(searchID)) { // Compare ID with beloww
             found = true;
        // Populate the fields with the found user's data
-            jTextField3.setText(model.getValueAt(i, 0).toString()); // User ID
-            jTextField6.setText(model.getValueAt(i, 1).toString()); // Full Name
-            jFormattedTextField1.setText(model.getValueAt(i, 2).toString()); // Phone Number
+            jTextField3.setText(model.getValueAt(i, 0).toString()); // ID
+            jTextField6.setText(model.getValueAt(i, 1).toString()); // Name
+            jFormattedTextField1.setText(model.getValueAt(i, 2).toString()); // Number
             jTextField1.setText(model.getValueAt(i, 3).toString()); // Email
             jTextField2.setText(model.getValueAt(i, 4).toString()); // Username
             jTextField4.setText(model.getValueAt(i, 5).toString()); // Password
             jComboBox1.setSelectedItem(model.getValueAt(i, 6).toString()); // Role
 
-            row = i; // Set the selected row for later editing
+            row = i; //  editing
             break;
         }
     }
@@ -726,7 +726,7 @@ this.dispose();
             for (int j = 0; j < model.getColumnCount(); j++) {
                 writer.write(model.getValueAt(i, j).toString());
                 if (j < model.getColumnCount() - 1) {
-                    writer.write(","); // Use comma as delimiter
+                    writer.write(","); 
                 }
             }
             writer.newLine();
@@ -741,14 +741,14 @@ this.dispose();
    public final void loadFromFile() {
     try (BufferedReader reader = new BufferedReader(new FileReader("User.txt"))) {
         String line;
-        model.setRowCount(0); // Clear the table before loading
+        model.setRowCount(0); 
         uniqueIds.clear();
 
         while ((line = reader.readLine()) != null) {
             String[] rowData = line.split(","); // Ensure proper splitting
             if (rowData.length == columnName.length) {
                 model.addRow(rowData);
-                uniqueIds.add(rowData[0]); // Track unique IDs
+                uniqueIds.add(rowData[0]); 
             }
         }
 

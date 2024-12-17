@@ -23,8 +23,8 @@ public class Main_Menu extends javax.swing.JFrame {
         this.ID = ID;
         initComponents();
        
-         // Set up JFrame properties
-        setTitle("Admin Main Menu - User ID: " + ID);
+     
+    setTitle("Admin Main Menu - User ID: " + ID);
         
     JLabel welcomeLabel = new JLabel("Welcome Admin", SwingConstants.CENTER);
     welcomeLabel.setFont(new java.awt.Font("Segoe UI", java.awt.Font.BOLD, 20));
@@ -51,12 +51,14 @@ public class Main_Menu extends javax.swing.JFrame {
     jPanel1.setComponentZOrder(idLabel, 0);
 
     // Frame settings
-    setSize(890, 600); // Set frame size
+    setSize(890, 600); 
     setLocationRelativeTo(null); // Center the frame on the screen
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     ThemeManager.applyTheme(this);
     setVisible(true);
 }
+    
+    
     
      public Main_Menu() {
         this("Unknown"); // Default to "Unknown" ID if no ID is provided
@@ -225,10 +227,10 @@ public class Main_Menu extends javax.swing.JFrame {
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         // TODO add your handling code here:
-        Login loginPage = new Login(); // Replace "Login" with the actual class name of your login frame
-        loginPage.setVisible(true);    // Show the login frame
+        Login loginPage = new Login(); 
+        loginPage.setVisible(true);    
 
-        // Close the current frame (Main Menu frame)
+      
         this.dispose();
     }//GEN-LAST:event_jButton4ActionPerformed
 

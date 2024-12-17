@@ -5,6 +5,11 @@
 package Admin;
 
 import ThemeManager.ThemeManager;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -12,12 +17,59 @@ import ThemeManager.ThemeManager;
  */
 public class View_Suppliers extends javax.swing.JFrame {
 
+    private final DefaultTableModel model;
     /**
      * Creates new form View_Suppliers
      */
     public View_Suppliers() {
+         model = new DefaultTableModel(new String[]{
+            "Supplier ID", "Supplier Name", "Item Name", "Item Description", 
+            "Supplier Date", "Supplier Contact", "Quantity", "Supplier Email"
+        }, 0) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false; 
+            }
+        };
+         
         initComponents();
         ThemeManager.applyTheme(this);
+        jTable1.setModel(model);
+        loadSupplierData();
+    }
+    
+    private void loadSupplierData() {
+      try (BufferedReader reader = new BufferedReader(new FileReader("supplier.txt"))) {
+            String line;
+            boolean skipHeader = true;
+
+            while ((line = reader.readLine()) != null) {
+                if (skipHeader) {
+                    skipHeader = false; 
+                    continue;
+                }
+
+                String[] rowData = line.split(",");
+                if (rowData.length == 8) { 
+                    model.addRow(new Object[]{
+                        rowData[0].trim(), // Supplier ID
+                        rowData[1].trim(), // Supplier Name
+                        rowData[2].trim(), // Item Name
+                        rowData[3].trim(), // Item Description
+                        rowData[4].trim(), // Supplier Date
+                        rowData[5].trim(), // Supplier Contact
+                        rowData[6].trim(), // Quantity
+                        rowData[7].trim()  // Supplier Email
+                    });
+                } else {
+                    System.out.println("Invalid data format: " + line);
+                }
+            }
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(this, 
+                    "Error loading supplier data: " + e.getMessage(),
+                    "File Error", JOptionPane.ERROR_MESSAGE);
+        }
     }
 
     /**
@@ -38,7 +90,6 @@ public class View_Suppliers extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
-        jButton8 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -122,26 +173,8 @@ public class View_Suppliers extends javax.swing.JFrame {
         jLabel2.setText("    VIEW SUPPLIERS");
         jLabel2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
+        jTable1.setModel(model);
         jScrollPane1.setViewportView(jTable1);
-
-        jButton8.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jButton8.setText("GENERATE REPORTS");
-        jButton8.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton8ActionPerformed(evt);
-            }
-        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -158,11 +191,6 @@ public class View_Suppliers extends javax.swing.JFrame {
                         .addGap(81, 81, 81)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap(109, Short.MAX_VALUE))))
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addGap(331, 331, 331)
-                    .addComponent(jButton8, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(331, Short.MAX_VALUE)))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -173,11 +201,6 @@ public class View_Suppliers extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addGap(234, 234, 234)
-                    .addComponent(jButton8, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(235, Short.MAX_VALUE)))
         );
 
         pack();
@@ -187,22 +210,22 @@ public class View_Suppliers extends javax.swing.JFrame {
         Register registerFrame = new Register();
 
         registerFrame.setVisible(true);  
-        this.dispose();// TODO add your handling code here:
+        this.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         View_user viewUserFrame = new View_user();
 
         viewUserFrame.setVisible(true);
-        this.dispose();        // TODO add your handling code here:
+        this.dispose();        
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        Login loginPage = new Login(); // Replace "Login" with the actual class name of your login frame
-        loginPage.setVisible(true);    // Show the login frame
+        Login loginPage = new Login(); 
+        loginPage.setVisible(true);    
 
-        // Close the current frame (Main Menu frame)
-        this.dispose();        // TODO add your handling code here:
+        
+        this.dispose();       
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jComboBox3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox3ActionPerformed
@@ -243,10 +266,6 @@ public class View_Suppliers extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jComboBox3ActionPerformed
 
-    private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton8ActionPerformed
-
     private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton9ActionPerformed
@@ -255,6 +274,7 @@ public class View_Suppliers extends javax.swing.JFrame {
      * @param args the command line arguments
      */
     public static void main(String args[]) {
+        java.awt.EventQueue.invokeLater(() -> new View_Suppliers().setVisible(true));
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
@@ -290,7 +310,6 @@ public class View_Suppliers extends javax.swing.JFrame {
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton8;
     private javax.swing.JButton jButton9;
     private javax.swing.JComboBox<String> jComboBox3;
     private javax.swing.JLabel jLabel2;

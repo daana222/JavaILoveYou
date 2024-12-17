@@ -28,13 +28,13 @@ public class View_user extends javax.swing.JFrame {
         }, 0) {
             @Override
             public boolean isCellEditable(int row, int column) {
-                return false; // Disable editing for all cells
+                return false; 
             }
         };
         
         initComponents();
         ThemeManager.applyTheme(this);
-        jTable2.setModel(model); // Attach the model to the table      
+        jTable2.setModel(model);      
         loadFromFile();
     }
 
@@ -176,22 +176,22 @@ public class View_user extends javax.swing.JFrame {
         Register registerFrame = new Register();
 
         registerFrame.setVisible(true); 
-        this.dispose();// TODO add your handling code here:
+        this.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         View_user viewUserFrame = new View_user();
 
         viewUserFrame.setVisible(true);  
-        this.dispose();// TODO add your handling code here:
+        this.dispose();
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        Login loginPage = new Login(); // Replace "Login" with the actual class name of your login frame
-        loginPage.setVisible(true);    // Show the login frame
+        Login loginPage = new Login(); 
+        loginPage.setVisible(true);    
 
-        // Close the current frame (Main Menu frame)
-        this.dispose();        // TODO add your handling code here:
+        
+        this.dispose();        
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jComboBox3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox3ActionPerformed
@@ -236,7 +236,7 @@ public class View_user extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton10ActionPerformed
 
    public final void loadFromFile() {
-    model.setRowCount(0); // Clear existing rows
+    model.setRowCount(0); 
 
         try (BufferedReader reader = new BufferedReader(new FileReader("User.txt"))) {
             String line;
