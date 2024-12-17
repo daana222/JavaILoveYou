@@ -19,7 +19,7 @@ import javax.swing.table.DefaultTableModel;
  */
 public class Suppliers extends javax.swing.JFrame {
 private DefaultTableModel model= new DefaultTableModel();//to create model object to be placed in jtable
-   private String[]columnName={"SupplierID","Supplier Name","Item Name"," Item Decription", "Supplier Date","Supplier Contact","Quantity","Supplier Email"};
+   private String[]columnName={"Supplier ID","Supplier Name","Supplier Registration Date","Supplier Contact","Supplier Email"};
    private int row=-1;
     private static final Logger LOGGER = Logger.getLogger(Suppliers.class.getName());
     /**
@@ -343,13 +343,11 @@ private DefaultTableModel model= new DefaultTableModel();//to create model objec
          row= jTable1.getSelectedRow();
     String SupplierID= String.valueOf(model.getValueAt(row,0));
     String SupplierName= String.valueOf(model.getValueAt(row,1));
-    String ItemName= String.valueOf(model.getValueAt(row,2));
-    String ItemDescription= String.valueOf(model.getValueAt(row,3));
-    String SupplierDate= String.valueOf(model.getValueAt(row,4));
-    String SupplierContact= String.valueOf(model.getValueAt(row,5));
-    String SupplierEmail= String.valueOf(model.getValueAt(row,6));
-    String Quantity= String.valueOf(model.getValueAt(row,7));
+    String SupplierRegistrationDate= String.valueOf(model.getValueAt(row,2));
+    String SupplierContact= String.valueOf(model.getValueAt(row,3));
+    String SupplierEmail = String.valueOf(model.getValueAt(row,4));
     
+
     
     }//GEN-LAST:event_jTable1MouseReleased
 
