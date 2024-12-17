@@ -1,8 +1,0 @@
-Payment Receipt
-------------------------
-Supplier ID: S002
-P.O Number: PO002
-Total Amount: $600000.00
-Due Date: 18/11/2024
-Payment Status: Paid
-Payment Date: 30/11/2024

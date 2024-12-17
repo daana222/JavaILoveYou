@@ -4,6 +4,12 @@
  */
 package Admin;
 
+import java.awt.GridLayout;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 /**
@@ -166,9 +172,121 @@ public class Login extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        // TODO add your handling code here:
+        String username = jTextField1.getText().trim();
+        String password = new String(jPasswordField1.getPassword()).trim();
+        
+        if (username.isEmpty() || password.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Username and Password text box cannot be empty.", "Validation Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        boolean loginSuccessful = false;
+    String role = "";
+
+try (BufferedReader reader = new BufferedReader(new FileReader("User.txt"))) {
+    String line;
+    while ((line = reader.readLine()) != null) {
+        System.out.println("File Line: " + line); // this is for Debugging: Print each line
+        
+        String[] userDetails = line.split(",");
+        if (userDetails.length >= 7) {
+            String fileUsername = userDetails[4].trim();
+            String filePassword = userDetails[5].trim();
+
+            System.out.println("Username: " + fileUsername + ", Password: " + filePassword); // Debugging
+
+            if (username.equals(fileUsername) && password.equals(filePassword)) {
+                loginSuccessful = true;
+                role = userDetails[6].trim().toUpperCase();
+                break;
+            }
+        } else {
+            System.out.println("Invalid Line Format: " + line); // Debugging: Invalid line
+        }
+    }
+} catch (IOException e) {
+    JOptionPane.showMessageDialog(this, "Error in reading user data: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+    return;
+}
+         if (loginSuccessful) {
+            JOptionPane.showMessageDialog(this, "Login Successful!");
+             if (role.equalsIgnoreCase("ADMIN")) {
+            new RoleSelection().setVisible(true); // Display RoleSelection for Admin
+        } else {
+            redirectToMainMenu(role); // Redirect normal users based on role
+        }
+        this.dispose();
+    } else {
+        JOptionPane.showMessageDialog(this, "Invalid Username or Password", "Login Failed", JOptionPane.ERROR_MESSAGE);
+         }
     }//GEN-LAST:event_jButton3ActionPerformed
 
+    private void redirectToMainMenu(String role) {
+    switch (role.toUpperCase()) { // Convert to uppercase for case-insensitive matching
+        case "ADMIN":
+            JOptionPane.showMessageDialog(this, "Redirecting to Admin Panel...");
+            new Admin.Main_Menu().setVisible(true); // Replace with your actual Admin class
+            break;
+        case "SALES MANAGER":
+            JOptionPane.showMessageDialog(this, "Redirecting to Sales Manager Dashboard...");
+            new Sales_Manager.Main_Dashboard().setVisible(true); // Replace with your Sales Manager class
+            break;
+        case "INVENTORY MANAGER":
+            JOptionPane.showMessageDialog(this, "Redirecting to Inventory Manager Dashboard...");
+            //new Inventory_Manager.InventoryMainMenu().setVisible(true); // Replace with your Inventory class
+            break;
+        case "PURCHASE MANAGER":
+            JOptionPane.showMessageDialog(this, "Redirecting to Purchase Manager Dashboard...");
+            new Purchase_Manager.PM().setVisible(true); // Replace with your Purchase Manager class
+            break;
+        case "FINANCE MANAGER":
+            JOptionPane.showMessageDialog(this, "Redirecting to Finance Manager Dashboard...");
+            new financemanagerd.FManager().setVisible(true); // Replace with your Finance Manager class
+            break;
+        default:
+            JOptionPane.showMessageDialog(this, "Unknown role: " + role, "Error", JOptionPane.ERROR_MESSAGE);
+            break;
+    }
+}
+
+    
+    public class RoleSelection extends JFrame {
+
+    public RoleSelection() {
+        setTitle("Select Role");
+        setSize(400, 300);
+        setLayout(new GridLayout(5, 1, 10, 10)); // GridLayout for buttons
+
+        // Buttons for roles
+        JButton btnSalesManager = new JButton("SALES MANAGER");
+        JButton btnInventoryManager = new JButton("INVENTORY MANAGER");
+        JButton btnPurchaseManager = new JButton("PURCHASE MANAGER");
+        JButton btnFinanceManager = new JButton("FINANCE MANAGER");
+        JButton btnAdmin = new JButton("ADMIN");
+
+        // Add buttons to the frame
+        add(btnSalesManager);
+        add(btnInventoryManager);
+        add(btnPurchaseManager);
+        add(btnFinanceManager);
+        add(btnAdmin);
+
+        // Button Actions
+        btnSalesManager.addActionListener(e -> new Sales_Manager.Main_Dashboard().setVisible(true));
+       // btnInventoryManager.addActionListener(e -> new Inventory_Manager.InventoryMainMenu().setVisible(true));
+        btnPurchaseManager.addActionListener(e -> new Purchase_Manager.PM().setVisible(true));
+        btnFinanceManager.addActionListener(e -> new financemanagerd.FManager().setVisible(true));
+        btnAdmin.addActionListener(e -> new Admin.Main_Menu().setVisible(true));
+
+        setLocationRelativeTo(null);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        setVisible(true);
+    }
+}
+   
+    
+
+
+    
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
                 jTextField1.setText("");

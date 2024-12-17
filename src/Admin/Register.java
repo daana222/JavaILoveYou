@@ -11,7 +11,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
-import java.io.File;
+import java.util.HashSet;
 
 
 /**
@@ -19,15 +19,16 @@ import java.io.File;
  * @author HP
  */
 public class Register extends javax.swing.JFrame {
-    private DefaultTableModel model = new DefaultTableModel();// to create model obj to placed in table
-    private String[] columnName = {"Full Name","Phone Number","Address","Username","Password","Job Roles"};// an array / colum name
+    private final DefaultTableModel model = new DefaultTableModel();// to create model obj to placed in table
+    private final String[] columnName = {"ID","Full Name","Phone Number","Address","Username","Password","Job Roles"};// an array / colum name
     private int row = -1;
+    private final HashSet<String> uniqueIds = new HashSet<>(); // Track unique IDs
 
     /**
      * Creates new form Register
      */
     public Register() {
-        checkAndCreateFile(); // Ensure the file exists
+        //checkAndCreateFile(); // Ensure the file exists
         model.setColumnIdentifiers(columnName);// assignet name for table
         initComponents();
         loadFromFile(); // Load data from file when the application starts
@@ -49,6 +50,7 @@ public class Register extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
+        jComboBox3 = new javax.swing.JComboBox<>();
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         jButton5 = new javax.swing.JButton();
@@ -66,6 +68,12 @@ public class Register extends javax.swing.JFrame {
         jTextField4 = new javax.swing.JTextField();
         jComboBox1 = new javax.swing.JComboBox<>();
         jLabel8 = new javax.swing.JLabel();
+        jTextField5 = new javax.swing.JTextField();
+        jLabel9 = new javax.swing.JLabel();
+        jLabel10 = new javax.swing.JLabel();
+        jTextField6 = new javax.swing.JTextField();
+        jLabel11 = new javax.swing.JLabel();
+        jButton7 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -104,16 +112,26 @@ public class Register extends javax.swing.JFrame {
             }
         });
 
+        jComboBox3.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jComboBox3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "VIEW ITEM ", "VIEW PAYMENT", "VIEW STOCK LEVEL", "VIEW SUPPLIERS", "VIEW SALES REPORTS" }));
+        jComboBox3.setToolTipText("");
+        jComboBox3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBox3ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(jComboBox3, 0, 0, Short.MAX_VALUE)
+                    .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
+                    .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
+                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE))
                 .addContainerGap(12, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -124,8 +142,10 @@ public class Register extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
+                .addComponent(jComboBox3, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(7, 7, 7)
                 .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(80, 80, 80))
+                .addGap(17, 17, 17))
         );
 
         jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
@@ -204,14 +224,39 @@ public class Register extends javax.swing.JFrame {
             }
         });
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "SALES MANEGER", "INVENTORY MANAGER", "PURCHASE MANAGER", "FINANCE MANAGER" }));
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "SALES MANEGER", "INVENTORY MANAGER", "PURCHASE MANAGER", "ADMIN", "FINANCE MANAGER" }));
         jComboBox1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jComboBox1ActionPerformed(evt);
             }
         });
 
-        jLabel8.setText("                     USERS");
+        jLabel8.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel8.setText("     USERS");
+
+        jTextField5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField5ActionPerformed(evt);
+            }
+        });
+
+        jLabel10.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel10.setText("USERS ID:");
+
+        jTextField6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField6ActionPerformed(evt);
+            }
+        });
+
+        jLabel11.setText("Users ID :");
+
+        jButton7.setText("SEARCH");
+        jButton7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton7ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -221,130 +266,145 @@ public class Register extends javax.swing.JFrame {
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addComponent(jButton6, javax.swing.GroupLayout.DEFAULT_SIZE, 137, Short.MAX_VALUE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(242, 242, 242))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(350, 350, 350)
+                        .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
+                        .addGap(49, 49, 49)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(47, 47, 47)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jLabel3)
-                                            .addComponent(jLabel2))
-                                        .addGap(18, 18, 18)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                            .addComponent(jFormattedTextField1, javax.swing.GroupLayout.DEFAULT_SIZE, 268, Short.MAX_VALUE)
-                                            .addComponent(jTextField3)))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jLabel4)
-                                            .addComponent(jLabel5)
-                                            .addComponent(jLabel6)
-                                            .addComponent(jLabel7))
-                                        .addGap(23, 23, 23)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jTextField2)
-                                            .addComponent(jTextField4)
-                                            .addComponent(jTextField1)
-                                            .addComponent(jComboBox1, 0, 268, Short.MAX_VALUE)))))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel7)
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                        .addComponent(jLabel5)
+                                        .addComponent(jLabel6))
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(jButton6, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGroup(layout.createSequentialGroup()
+                                            .addGap(2, 2, 2)
+                                            .addComponent(jLabel4))))
+                                .addGap(18, 18, 18)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addComponent(jTextField4, javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jTextField2, javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jButton3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jTextField1, javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jComboBox1, 0, 240, Short.MAX_VALUE)))
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(161, 161, 161)
-                                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 337, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGap(114, 114, 114)
+                                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 337, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(2, 2, 2)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel3)
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                        .addComponent(jLabel10)
+                                        .addComponent(jLabel2)))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(jTextField6, javax.swing.GroupLayout.DEFAULT_SIZE, 235, Short.MAX_VALUE)
+                                    .addComponent(jFormattedTextField1)
+                                    .addComponent(jTextField3))))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 476, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(147, 147, 147)
-                        .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(36, 36, 36))
+                        .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(246, 246, 246)
+                                .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(105, 105, 105)
+                                .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jButton7)))))
+                .addContainerGap(30, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(20, 20, 20)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 488, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(35, 35, 35)
-                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(0, 25, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(jLabel8)
+                                .addComponent(jLabel11)
+                                .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jButton7))
+                            .addComponent(jLabel9))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)))
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(jFormattedTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel4)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel5)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel6)
-                    .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel7)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 416, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(15, 15, 15))
-                    .addComponent(jButton5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel8)
-                .addGap(9, 9, 9)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 416, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(53, Short.MAX_VALUE))
+                            .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel10))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel3)
+                            .addComponent(jFormattedTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel4)
+                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel5)
+                            .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel6)
+                            .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel7))
+                        .addGap(27, 27, 27)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(14, 14, 14))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-   public void checkAndCreateFile() {
-    try {
-        File file = new File("User.txt");
-        System.out.println("File absolute path: " + file.getAbsolutePath()); // Prints the full path
-        if (!file.exists()) {
-            if (file.createNewFile()) {
-                System.out.println("User.txt file created successfully.");
-            } else {
-                System.out.println("Failed to create User.txt file.");
-            }
-        }
-    } catch (IOException e) {
-        JOptionPane.showMessageDialog(this, "Error creating file: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-    }
-}
+ //  public final void checkAndCreateFile() {
+  //  try {
+   //     File file = new File("User.txt");
+    //    System.out.println("File absolute path: " + file.getAbsolutePath()); // Prints the full path
+      //  if (!file.exists()) {
+      //      if (file.createNewFile()) {
+       //         System.out.println("User.txt file created successfully.");
+       //         System.out.println("Failed to create User.txt file.");
+       //     }
+       // }
+   // } catch (IOException e) {
+   //     JOptionPane.showMessageDialog(this, "Error creating file: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+   // }
+//}
     
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         Register registerFrame = new Register();
 
-        registerFrame.setVisible(true);        // TODO add your handling code here:
+        registerFrame.setVisible(true);        
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         View_user viewUserFrame = new View_user();
 
-        viewUserFrame.setVisible(true);        // TODO add your handling code here:
+        viewUserFrame.setVisible(true);        
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
@@ -352,25 +412,25 @@ public class Register extends javax.swing.JFrame {
         loginPage.setVisible(true);    // Show the login frame
 
         // Close the current frame (Main Menu frame)
-        this.dispose();        // TODO add your handling code here:
+        this.dispose();        
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jFormattedTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jFormattedTextField1ActionPerformed
-        // TODO add your handling code here:
+       
         String phoneNumber = jFormattedTextField1.getText();
         
         if (phoneNumber.isEmpty()) {
-        JOptionPane.showMessageDialog(this, "Phone Number box cannot be empty.", "Validation Error", JOptionPane.ERROR_MESSAGE);
+        JOptionPane.showMessageDialog(this, "The Phone Number text box cannot be empty.", "Validation Error", JOptionPane.ERROR_MESSAGE);
         jFormattedTextField1.requestFocus();
         return;
     }
        if (!phoneNumber.matches("\\d+")) {
-        JOptionPane.showMessageDialog(this, "Phone Number box must contain only digits.", "Validation Error", JOptionPane.ERROR_MESSAGE);
+        JOptionPane.showMessageDialog(this, "Phone Number text box must contain only digits.", "Validation Error", JOptionPane.ERROR_MESSAGE);
         jFormattedTextField1.requestFocus();
         return;
     }  
        if (phoneNumber.length() != 10) {
-        JOptionPane.showMessageDialog(this, "Phone Number box must be exactly 10 digits.", "Validation Error", JOptionPane.ERROR_MESSAGE);
+        JOptionPane.showMessageDialog(this, "Phone Number text box must be exactly 10 digits.", "Validation Error", JOptionPane.ERROR_MESSAGE);
         jFormattedTextField1.requestFocus();
         return;
     }
@@ -388,90 +448,106 @@ public class Register extends javax.swing.JFrame {
      model.removeRow(row);
      clearTextField();
       row = -1; 
-      JOptionPane.showMessageDialog(this, "User deleted successfully!"); 
+      JOptionPane.showMessageDialog(this, "User deleted successfully!!! "); 
       saveToFile(); 
      }
     
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-        String name = jTextField3.getText();
-        String phoneNumber = jFormattedTextField1.getText();
-        String address = jTextField1.getText();
-        String username = jTextField2.getText();
-        String password = jTextField4.getText();
-        String roles = jComboBox1.getSelectedItem().toString(); // Use getSelectedItem()
+    String ID = jTextField3.getText().trim();
+    String name = jTextField6.getText().trim();
+    String phoneNumber = jFormattedTextField1.getText().trim();
+    String address = jTextField1.getText().trim();
+    String username = jTextField2.getText().trim();
+    String password = jTextField4.getText().trim();
+    String roles = jComboBox1.getSelectedItem().toString();
         
         // Validate
+        if (ID.isEmpty()){
+            JOptionPane.showMessageDialog(this, "ID is required to enter in the text box", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+         if (uniqueIds.contains(ID)) {
+            JOptionPane.showMessageDialog(this, "The ID MUST be unique.Please change the ID to something else.", "Validation Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        
         if (name.isEmpty()) {
-        JOptionPane.showMessageDialog(this, "Full Name cannot be empty.", "Validation Error", JOptionPane.ERROR_MESSAGE);
-        jTextField3.requestFocus();
+        JOptionPane.showMessageDialog(this, "Full Name text box cannot be empty.", "Validation Error", JOptionPane.ERROR_MESSAGE);
+        jTextField6.requestFocus();
         return;
     }
         
         // Validate Phone Number
     if (phoneNumber.isEmpty()) {
-        JOptionPane.showMessageDialog(this, "Phone Number cannot be empty.", "Validation Error", JOptionPane.ERROR_MESSAGE);
+        JOptionPane.showMessageDialog(this, "Phone Number text box cannot be empty.", "Validation Error", JOptionPane.ERROR_MESSAGE);
         jFormattedTextField1.requestFocus();
         return;
     }
     if (!phoneNumber.matches("\\d+")) {
-        JOptionPane.showMessageDialog(this, "Phone Number must contain only digits.", "Validation Error", JOptionPane.ERROR_MESSAGE);
+        JOptionPane.showMessageDialog(this, "Phone Number text box MUST contain only digits.", "Validation Error", JOptionPane.ERROR_MESSAGE);
         jFormattedTextField1.requestFocus();
         return;
     }
     
      if (phoneNumber.length() != 10) {
-        JOptionPane.showMessageDialog(this, "Phone Number must be exactly 10 digits.", "Validation Error", JOptionPane.ERROR_MESSAGE);
+        JOptionPane.showMessageDialog(this, "Phone Number text box MUST be exactly 10 digits.", "Validation Error", JOptionPane.ERROR_MESSAGE);
         jFormattedTextField1.requestFocus();
         return;
     }
      
       // Validate Address
     if (address.isEmpty()) {
-        JOptionPane.showMessageDialog(this, "Address cannot be empty.", "Validation Error", JOptionPane.ERROR_MESSAGE);
+        JOptionPane.showMessageDialog(this, "Address text box cannot be empty.", "Validation Error", JOptionPane.ERROR_MESSAGE);
         jTextField1.requestFocus();
         return;
     }
     
      // Validate Username
     if (username.isEmpty()) {
-        JOptionPane.showMessageDialog(this, "Username cannot be empty.", "Validation Error", JOptionPane.ERROR_MESSAGE);
+        JOptionPane.showMessageDialog(this, "Username text box cannot be empty.", "Validation Error", JOptionPane.ERROR_MESSAGE);
         jTextField2.requestFocus();
         return;
     }
     if (username.length() < 5) {
-        JOptionPane.showMessageDialog(this, "Username must be at least 5 characters long.", "Validation Error", JOptionPane.ERROR_MESSAGE);
+        JOptionPane.showMessageDialog(this, "Username text box MUST be at least 5 characters long.", "Validation Error", JOptionPane.ERROR_MESSAGE);
         jTextField2.requestFocus();
         return;
     }
     
     // Validate Password
     if (password.isEmpty()) {
-        JOptionPane.showMessageDialog(this, "Password cannot be empty.", "Validation Error", JOptionPane.ERROR_MESSAGE);
+        JOptionPane.showMessageDialog(this, "Password text box cannot be empty.", "Validation Error", JOptionPane.ERROR_MESSAGE);
         jTextField4.requestFocus();
         return;
     }
     if (password.length() < 6) {
-        JOptionPane.showMessageDialog(this, "Password must be at least 6 characters long.", "Validation Error", JOptionPane.ERROR_MESSAGE);
+        JOptionPane.showMessageDialog(this, "Password text box MUST be at least 6 characters long.", "Validation Error", JOptionPane.ERROR_MESSAGE);
         jTextField4.requestFocus();
         return;
     }
-        String newRow[] = { name, phoneNumber, address, username, password, roles};
+        String newRow[] = {ID, name, phoneNumber, address, username, password, roles};
         
         model.addRow(newRow);
+        uniqueIds.add(ID); 
+        
         clearTextField();
-        JOptionPane.showMessageDialog(this, "User registered successfully!"); 
-         saveToFile(); 
+        saveToFile();
+        JOptionPane.showMessageDialog(this, "User have registered successfully!"); 
+         
 
     }//GEN-LAST:event_jButton5ActionPerformed
 
     public void clearTextField(){
-        jTextField3.setText("");
-         jFormattedTextField1.setText("");
-         jTextField1.setText("");
-         jTextField2.setText("");
-         jTextField4.setText("");
+        
+    jTextField3.setText(""); // User ID
+    jTextField6.setText(""); // Full Name
+    jFormattedTextField1.setText(""); // Phone Number
+    jTextField1.setText(""); // Address
+    jTextField2.setText(""); // Username
+    jTextField4.setText(""); // Password
+    jComboBox1.setSelectedIndex(0); // Reset roles selection
    }
     
     private void jTextField3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField3ActionPerformed
@@ -488,46 +564,143 @@ public class Register extends javax.swing.JFrame {
     }//GEN-LAST:event_jTextField4ActionPerformed
 
     private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
-        // TODO add your handling code here:
+       
     }//GEN-LAST:event_jComboBox1ActionPerformed
 
     private void jTable2MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable2MouseReleased
         row = jTable2.getSelectedRow();
+         if (row != -1) {
+        String ID = String.valueOf(model.getValueAt(row, 0));
+        String name = String.valueOf(model.getValueAt(row, 1));
+        String phoneNumber = String.valueOf(model.getValueAt(row, 2));
+        String address = String.valueOf(model.getValueAt(row, 3));
+        String username = String.valueOf(model.getValueAt(row, 4));
+        String password = String.valueOf(model.getValueAt(row, 5));
+        String roles = String.valueOf(model.getValueAt(row, 6));
         
-        String name = String.valueOf(model.getValueAt(row, 0));
-        String phoneNumber = String.valueOf(model.getValueAt(row, 1));
-        String address = String.valueOf(model.getValueAt(row, 2));
-        String username = String.valueOf(model.getValueAt(row, 3));
-        String password = String.valueOf(model.getValueAt(row, 4));
-        String roles = String.valueOf(model.getValueAt(row, 5));
-        
-        jTextField3.setText(name);
+        jTextField3.setText(ID);
+        jTextField6.setText(name);
         jFormattedTextField1.setText(phoneNumber);
         jTextField1.setText(address);
         jTextField2.setText(username);
         jTextField4.setText(password);
         jComboBox1.setSelectedItem(roles);
+         }
     }//GEN-LAST:event_jTable2MouseReleased
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
-        String name = jTextField3.getText();
-        String phoneNumber = jFormattedTextField1.getText();
-        String address = jTextField1.getText();
-        String username = jTextField2.getText();
-        String password = jTextField4.getText();
-        String roles = jComboBox1.getSelectedItem().toString(); // Use getSelectedItem()     
         
-        model.setValueAt(name, row, 0);
-        model.setValueAt(phoneNumber, row, 1);
-        model.setValueAt(address, row, 2);
-        model.setValueAt(username, row, 3);
-        model.setValueAt(password, row, 4);
-        model.setValueAt(roles, row, 5);
+        String ID = jTextField3.getText().trim();
+        String name = jTextField6.getText().trim();
+        String phoneNumber = jFormattedTextField1.getText().trim();
+        String address = jTextField1.getText().trim();
+        String username = jTextField2.getText().trim();
+        String password = jTextField4.getText().trim();
+        String roles = jComboBox1.getSelectedItem().toString(); // Use getSelectedItem()
         
-        clearTextField();
-        JOptionPane.showMessageDialog(this, "User edited successfully!"); 
-         saveToFile(); 
+        if (ID.isEmpty() || name.isEmpty() || phoneNumber.isEmpty() || address.isEmpty()
+            || username.isEmpty() || password.isEmpty()) {
+        JOptionPane.showMessageDialog(this, "All the text box MUST be filled in . THANK YOU .", "Validation Error", JOptionPane.ERROR_MESSAGE);
+        return;
+    }
+        
+        model.setValueAt(ID, row, 0);
+        model.setValueAt(name, row, 1);
+        model.setValueAt(phoneNumber, row, 2);
+        model.setValueAt(address, row, 3);
+        model.setValueAt(username, row, 4);
+        model.setValueAt(password, row, 5);
+        model.setValueAt(roles, row, 6);
+        
+    JOptionPane.showMessageDialog(this, "User has been edited successfully!");
+    saveToFile();
+    clearTextField();
+    row = -1; // Reset row selection 
     }//GEN-LAST:event_jButton6ActionPerformed
+
+    private void jTextField6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField6ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField6ActionPerformed
+
+    private void jTextField5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField5ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField5ActionPerformed
+
+    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
+    String searchID = jTextField5.getText().trim(); // User ID to search
+    boolean found = false;
+    
+    if (searchID.isEmpty()) {
+        JOptionPane.showMessageDialog(this, "Please enter a valid ID to search in the table.", "Error", JOptionPane.ERROR_MESSAGE);
+        return;
+    }
+    // Search for the User ID in the table
+    for (int i = 0; i < model.getRowCount(); i++) {
+        if (model.getValueAt(i, 0).toString().equals(searchID)) { // Compare User ID
+            found = true;
+       // Populate the fields with the found user's data
+            jTextField3.setText(model.getValueAt(i, 0).toString()); // User ID
+            jTextField6.setText(model.getValueAt(i, 1).toString()); // Full Name
+            jFormattedTextField1.setText(model.getValueAt(i, 2).toString()); // Phone Number
+            jTextField1.setText(model.getValueAt(i, 3).toString()); // Email
+            jTextField2.setText(model.getValueAt(i, 4).toString()); // Username
+            jTextField4.setText(model.getValueAt(i, 5).toString()); // Password
+            jComboBox1.setSelectedItem(model.getValueAt(i, 6).toString()); // Role
+
+            row = i; // Set the selected row for later editing
+            break;
+        }
+    }
+      if (!found) {
+        JOptionPane.showMessageDialog(this, "ID does not exits . Please enter a valid ID. THANK YOU.", "Error", JOptionPane.ERROR_MESSAGE);
+        clearTextField(); // Clear fields if no match is found
+    }      
+    }//GEN-LAST:event_jButton7ActionPerformed
+
+    private void jComboBox3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox3ActionPerformed
+        
+        String selectedItem = (String) jComboBox3.getSelectedItem();
+        
+        switch (selectedItem) {
+            case "VIEW ITEM":
+                jComboBox3.setSelectedItem("VIEW ITEM");
+                View_Items viewItemFrame = new View_Items(); 
+                viewItemFrame.setVisible(true);
+                this.dispose(); 
+                break;
+                
+            case "VIEW PAYMENT":
+                jComboBox3.setSelectedItem("VIEW PAYMENT");
+                View_Payment viewPaymentFrame = new View_Payment(); 
+                viewPaymentFrame.setVisible(true);
+                this.dispose();
+                break;
+                
+            case "VIEW STOCK LEVEL":
+                jComboBox3.setSelectedItem("VIEW STOCK LEVEL");
+                View_Stock_Level viewStockFrame = new View_Stock_Level(); 
+                viewStockFrame.setVisible(true);
+                this.dispose();
+                break;
+                
+            case "VIEW SUPPLIERS":
+                jComboBox3.setSelectedItem("VIEW SUPPLIERS");
+                View_Suppliers viewSuppliersFrame = new View_Suppliers(); 
+                viewSuppliersFrame.setVisible(true);
+                this.dispose();
+                break;
+                
+            case "VIEW SALES REPORTS":
+                jComboBox3.setSelectedItem("VIEW SALES REPORTS");
+                View_sales_report viewSalesReportFrame = new View_sales_report(); 
+                viewSalesReportFrame.setVisible(true);
+                this.dispose();
+                break;
+            default:
+                break;
+        }
+
+    }//GEN-LAST:event_jComboBox3ActionPerformed
 
     public void saveToFile() {
     try (BufferedWriter writer = new BufferedWriter(new FileWriter("User.txt"))) {
@@ -547,16 +720,21 @@ public class Register extends javax.swing.JFrame {
     }
 }
     
-   public void loadFromFile() {
+   public final void loadFromFile() {
     try (BufferedReader reader = new BufferedReader(new FileReader("User.txt"))) {
         String line;
-        model.setRowCount(0); // Clear existing rows in the table
+        model.setRowCount(0); // Clear the table before loading
+        uniqueIds.clear();
+
         while ((line = reader.readLine()) != null) {
-            String[] rowData = line.split(","); // Split using the delimiter
-            model.addRow(rowData);
+            String[] rowData = line.split(","); // Ensure proper splitting
+            if (rowData.length == columnName.length) {
+                model.addRow(rowData);
+                uniqueIds.add(rowData[0]); // Track unique IDs
+            }
         }
-        JOptionPane.showMessageDialog(this, "Data loaded successfully!");
-    } catch (IOException e) {
+
+   } catch (IOException e) {
         JOptionPane.showMessageDialog(this, "Error loading data: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
     }
 }
@@ -605,9 +783,13 @@ public class Register extends javax.swing.JFrame {
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
+    private javax.swing.JButton jButton7;
     private javax.swing.JComboBox<String> jComboBox1;
+    private javax.swing.JComboBox<String> jComboBox3;
     private javax.swing.JFormattedTextField jFormattedTextField1;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -615,6 +797,7 @@ public class Register extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable jTable2;
@@ -622,5 +805,7 @@ public class Register extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField3;
     private javax.swing.JTextField jTextField4;
+    private javax.swing.JTextField jTextField5;
+    private javax.swing.JTextField jTextField6;
     // End of variables declaration//GEN-END:variables
 }

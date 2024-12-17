@@ -5,6 +5,8 @@ import javax.swing.table.DefaultTableModel;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 public class PurchaseOrder extends javax.swing.JFrame {
     private int row = -1;
@@ -16,9 +18,10 @@ public class PurchaseOrder extends javax.swing.JFrame {
         setSize(890, 500);
         setLocationRelativeTo(null); // Center the frame
         
-        int[] selectedColumns = {0, 1, 7, 4, 5, 6};
+        int[] selectedColumns = {0, 9, 8, 10, 6};
+        //int[] selectedColumns = {0, 8, 4, 7, 6};
         
-        String filePath = "C:/Users/Mitsu/OneDrive - Asia Pacific University/Documents/NetBeansProjects/FinanceManagerD/file.txt";
+        String filePath = "PO.txt";
         loadDataFromFile(filePath, selectedColumns);
         storeOriginalTableData();
         
@@ -66,12 +69,12 @@ public class PurchaseOrder extends javax.swing.JFrame {
 
         POmaintable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null}
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
             },
             new String [] {
-                "No.", "P.O ID", "Date", "Supplier ID", "Approved/Rejected", "Total Amount"
+                "P.O ID", "Date", "Supplier ID", "Approved/Rejected", "Total Amount"
             }
         ));
         POmaintable.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -188,22 +191,26 @@ public class PurchaseOrder extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                    .addGroup(layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(49, 49, 49)
-                                .addComponent(jButton6)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jButton11, javax.swing.GroupLayout.Alignment.TRAILING))
-                        .addGap(40, 40, 40))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel3)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 646, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(49, 49, 49)
+                                        .addComponent(jButton6)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(jButton11, javax.swing.GroupLayout.Alignment.TRAILING))
+                                .addGap(40, 40, 40))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(jLabel3)
+                                .addGap(551, 551, 551))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 634, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(26, 26, 26))))
         );
         layout.setVerticalGroup(
@@ -229,27 +236,46 @@ public class PurchaseOrder extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
         private void loadDataFromFile(String filePath, int[] selectedColumns) {
-        // Get the DefaultTableModel of the JTable
-        DefaultTableModel model = (DefaultTableModel) POmaintable.getModel();
-        model.setRowCount(0); // Clear existing rows
+    DefaultTableModel model = (DefaultTableModel) POmaintable.getModel();
+    model.setRowCount(0);  // Clear the existing rows
 
-        try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
-            String line;
-            while ((line = br.readLine()) != null) {
-                String[] allColumns = line.split(",");
-                if (allColumns.length >= selectedColumns.length) {
-                    String[] rowData = new String[selectedColumns.length];
-                    for (int i = 0; i < selectedColumns.length; i++) {
-                        rowData[i] = allColumns[selectedColumns[i]].trim();
-                    }
-                    model.addRow(rowData);
+    Map<String, PurchaseOrderClass> poDataMap = new HashMap<>();  // Map to store P.O ID and POMaintenance object
+
+    try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
+        String line;
+        br.readLine();  // Skip the first line (header or unnecessary row)
+
+        while ((line = br.readLine()) != null) {
+            String[] allColumns = line.split(",");
+            if (allColumns.length >= selectedColumns.length) {
+                String poID = allColumns[selectedColumns[0]].trim();  // P.O ID
+                String date = allColumns[selectedColumns[1]].trim();  // Date
+                String supplierId = allColumns[selectedColumns[2]].trim();  // Supplier ID
+                String approveReject = allColumns[selectedColumns[3]].trim();  // Approved/Rejected
+                double totalAmount = Double.parseDouble(allColumns[selectedColumns[4]].trim());  // Total Amount
+
+                // If P.O ID already exists, add the new amount to the existing total
+                if (poDataMap.containsKey(poID)) {
+                    PurchaseOrderClass existingPO = poDataMap.get(poID);
+                    existingPO.addToTotalAmount(totalAmount);  // Sum the total amount
+                } else {
+                    // Add new P.O ID entry
+                    PurchaseOrderClass newPO = new PurchaseOrderClass(poID, date, supplierId, approveReject, totalAmount);
+                    poDataMap.put(poID, newPO);
                 }
             }
-        } catch (IOException e) {
-            javax.swing.JOptionPane.showMessageDialog(this,
-                "Error reading the file: " + e.getMessage());
         }
+    } catch (IOException e) {
+        javax.swing.JOptionPane.showMessageDialog(this, "Error reading the file: " + e.getMessage());
+        return;
     }
+
+    // Add the combined rows to the table
+    for (PurchaseOrderClass po : poDataMap.values()) {
+        model.addRow(new Object[]{po.getPoID(), po.getDate(), po.getSupplierID(), po.getApproveReject(), po.getTotalAmount()});
+    }
+}
+
     
     private void DashboardbtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DashboardbtnActionPerformed
         // TODO add your handling code here:
@@ -300,15 +326,14 @@ public class PurchaseOrder extends javax.swing.JFrame {
             DefaultTableModel model = (DefaultTableModel) POmaintable.getModel();
 
             // Get selected row data
-            String no = model.getValueAt(selectedRow, 0).toString();
-            String poNumber = model.getValueAt(selectedRow, 1).toString();
-            String date = model.getValueAt(selectedRow, 2).toString();
-            String supplierId = model.getValueAt(selectedRow, 3).toString();
-            String approveReject = model.getValueAt(selectedRow, 4).toString();
-            String totalAmount = model.getValueAt(selectedRow, 5).toString();
+            String poNumber = model.getValueAt(selectedRow, 0).toString();
+            String date = model.getValueAt(selectedRow, 1).toString();
+            String supplierId = model.getValueAt(selectedRow, 2).toString();
+            String approveReject = model.getValueAt(selectedRow, 3).toString();
+            String totalAmount = model.getValueAt(selectedRow, 4).toString();
 
             // Pass data to the second form
-            PurchaseOrder2 detailsForm = new PurchaseOrder2(no, poNumber, date, supplierId, approveReject,totalAmount);
+            PurchaseOrder2 detailsForm = new PurchaseOrder2(poNumber, date, supplierId, approveReject,totalAmount);
             detailsForm.setVisible(true);
             this.dispose(); // Close the first form
         } else {
@@ -328,21 +353,20 @@ public class PurchaseOrder extends javax.swing.JFrame {
         String selectedFilter = jComboBox1.getSelectedItem().toString(); // Get selected item
 
         // Create a new model for the filtered data
-        DefaultTableModel filteredModel = new DefaultTableModel(new Object[]{"No.", "P.O Number", "Date", "Supplier ID", "Approved/Rejected", "Total Amount"}, 0);
+        DefaultTableModel filteredModel = new DefaultTableModel(new Object[]{ "P.O Number", "Date", "Supplier ID", "Approved/Rejected", "Total Amount"}, 0);
 
         // Loop through the original table data
         for (int i = 0; i < originalModel.getRowCount(); i++) {
-            String status = originalModel.getValueAt(i, 4).toString(); // Get Approve/Reject column value
+            String status = originalModel.getValueAt(i, 3).toString(); // Get Approve/Reject column value
 
             if (selectedFilter.equals("All") || status.equalsIgnoreCase(selectedFilter)) {
                 // Add matching rows to the filtered model
                 Object[] rowData = {
-                    originalModel.getValueAt(i, 0), // "No."
-                    originalModel.getValueAt(i, 1), // "P.O Number"
-                    originalModel.getValueAt(i, 2), // "Date"
-                    originalModel.getValueAt(i, 3), // "Supplier ID"
-                    originalModel.getValueAt(i, 4),  // "Approve/Reject"
-                    originalModel.getValueAt(i, 5)  // "Approve/Reject"    
+                    originalModel.getValueAt(i, 0), // "P.O Number"
+                    originalModel.getValueAt(i, 1), // "Date"
+                    originalModel.getValueAt(i, 2), // "Supplier ID"
+                    originalModel.getValueAt(i, 3),  // "Approve/Reject"
+                    originalModel.getValueAt(i, 4)  // "Approve/Reject"    
                 };
                 filteredModel.addRow(rowData);
             }
@@ -368,20 +392,19 @@ public class PurchaseOrder extends javax.swing.JFrame {
         }
 
         // Create a new model to hold search results
-        DefaultTableModel searchModel = new DefaultTableModel(new Object[]{"No.", "P.O Number", "Date", "Supplier ID", "Approved/Rejected", "Total Amount"}, 0);
+        DefaultTableModel searchModel = new DefaultTableModel(new Object[]{ "P.O Number", "Date", "Supplier ID", "Approved/Rejected", "Total Amount"}, 0);
 
         // Iterate through the table to find matching rows
         for (int i = 0; i < model.getRowCount(); i++) {
-            String poNumber = model.getValueAt(i, 1).toString(); // Get P.O Number column value
+            String poNumber = model.getValueAt(i, 0).toString(); // Get P.O Number column value
 
             if (poNumber.equalsIgnoreCase(searchText)) { // Check if it matches the search text
                 Object[] rowData = {
-                    model.getValueAt(i, 0), // "No."
-                    model.getValueAt(i, 1), // "P.O Number"
-                    model.getValueAt(i, 2), // "Date"
-                    model.getValueAt(i, 3), // "Supplier ID"
-                    model.getValueAt(i, 4),  // "Approve/Reject"
-                    model.getValueAt(i, 5)  // "Total amount"
+                    model.getValueAt(i, 0), // "P.O Number"
+                    model.getValueAt(i, 1), // "Date"
+                    model.getValueAt(i, 2), // "Supplier ID"
+                    model.getValueAt(i, 3),  // "Approve/Reject"
+                    model.getValueAt(i, 4)  // "Total amount"
                 };
                 searchModel.addRow(rowData); // Add matching row to search model
                 clearTextField();
