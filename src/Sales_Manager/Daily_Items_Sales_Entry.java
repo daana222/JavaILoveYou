@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package Sales_Manager;
 
 import java.io.*;
@@ -13,6 +9,11 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
 
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
+ */
+
 /**
  *
  * @author Kaushaliya
@@ -20,37 +21,14 @@ import javax.swing.table.DefaultTableModel;
 public class Daily_Items_Sales_Entry extends javax.swing.JFrame {
     private static final String DATE_FORMAT = "dd/MM/yyyy"; // Define expected date format
 
-
-
     /**
-     * Creates new form Daily_Items_Sales_Entry
+     * Creates new form Daily_Items_Sales_Entry1
      */
     public Daily_Items_Sales_Entry() {
         initComponents();
-        
-        jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
-        public void mouseClicked(java.awt.event.MouseEvent evt) {
-            tableRowClicked(evt);
-        }
-    });
+        populateComboBox(); // Ensure this is called to populate the combo box on initialization
+        addTableSelectionListener(); // To handle row selection logic
     }
-    
-    private void tableRowClicked(java.awt.event.MouseEvent evt) {
-    int selectedRow = jTable1.getSelectedRow(); // Get the index of the selected row
-
-    if (selectedRow != -1) { // Ensure a valid row is selected
-        jTextPane3.setText(jTable1.getValueAt(selectedRow, 0).toString()); // Date
-        jTextPane2.setText(jTable1.getValueAt(selectedRow, 1).toString()); // Item ID
-        jTextPane1.setText(jTable1.getValueAt(selectedRow, 2).toString()); // Item Name
-        jTextPane4.setText(jTable1.getValueAt(selectedRow, 3).toString()); // Quantity Sold
-        jTextField1.setText(jTable1.getValueAt(selectedRow, 4).toString()); // Unit Price
-        jTextField2.setText(jTable1.getValueAt(selectedRow, 6).toString()); // Current Stock
-        jTextField3.setText(jTable1.getValueAt(selectedRow, 7).toString()); // Reorder Level
-    }
-}
-
-    
-    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -76,9 +54,6 @@ public class Daily_Items_Sales_Entry extends javax.swing.JFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         jTextPane1 = new javax.swing.JTextPane();
         jLabel1 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
-        jScrollPane3 = new javax.swing.JScrollPane();
-        jTextPane2 = new javax.swing.JTextPane();
         jLabel4 = new javax.swing.JLabel();
         jScrollPane4 = new javax.swing.JScrollPane();
         jTextPane3 = new javax.swing.JTextPane();
@@ -91,10 +66,9 @@ public class Daily_Items_Sales_Entry extends javax.swing.JFrame {
         jButton12 = new javax.swing.JButton();
         jLabel6 = new javax.swing.JLabel();
         jTextField1 = new javax.swing.JTextField();
-        jLabel7 = new javax.swing.JLabel();
         jTextField2 = new javax.swing.JTextField();
-        jLabel8 = new javax.swing.JLabel();
-        jTextField3 = new javax.swing.JTextField();
+        jLabel7 = new javax.swing.JLabel();
+        jComboBox1 = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -212,7 +186,7 @@ public class Daily_Items_Sales_Entry extends javax.swing.JFrame {
                 {null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "Date", "Item ID", "Item Name", "Quantity Sold", "Unit Price", "Total Sales", "Current Stock", "Reorder Level"
+                "Date", "Item ID", "Item Name", "Quantity Sold", "Selling Price Per Unit", "Total Sales", "Current Stock", "Updated Stock"
             }
         ));
         jScrollPane1.setViewportView(jTable1);
@@ -221,11 +195,6 @@ public class Daily_Items_Sales_Entry extends javax.swing.JFrame {
         jScrollPane2.setViewportView(jTextPane1);
 
         jLabel1.setText("Item Name:");
-
-        jLabel3.setText("Item ID:");
-
-        jTextPane2.setName("txtItemCode1"); // NOI18N
-        jScrollPane3.setViewportView(jTextPane2);
 
         jLabel4.setText("Date:");
 
@@ -269,7 +238,16 @@ public class Daily_Items_Sales_Entry extends javax.swing.JFrame {
             }
         });
 
-        jLabel6.setText("Unit Price:");
+        jLabel6.setText("Selling Price Per Unit:");
+
+        jLabel7.setText("Current Stock:");
+
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item ID", " " }));
+        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBox1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -287,29 +265,30 @@ public class Daily_Items_Sales_Entry extends javax.swing.JFrame {
                             .addComponent(jButton9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jButton8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jButton12, javax.swing.GroupLayout.DEFAULT_SIZE, 90, Short.MAX_VALUE))
-                        .addGap(0, 2, Short.MAX_VALUE))
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel4)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jLabel3))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel6)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jLabel4)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(40, 40, 40)
+                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(33, 33, 33)
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel5)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane5))))
+                        .addComponent(jScrollPane5))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel6)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel7)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jTextField2)
+                        .addGap(217, 217, 217))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -317,11 +296,10 @@ public class Daily_Items_Sales_Entry extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addComponent(jLabel4))
-                    .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel1)
+                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jScrollPane4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.TRAILING)
@@ -341,56 +319,64 @@ public class Daily_Items_Sales_Entry extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel6)
-                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel7)
+                            .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(23, 23, 23)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 338, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(24, 24, 24))))
         );
-
-        jLabel7.setText("Current Stock:");
-
-        jLabel8.setText("Reorder Level:");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(378, 378, 378)
-                .addComponent(jLabel7)
-                .addGap(18, 18, 18)
-                .addComponent(jTextField2, javax.swing.GroupLayout.DEFAULT_SIZE, 104, Short.MAX_VALUE)
-                .addGap(18, 18, 18)
-                .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(27, 27, 27))
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addGap(0, 11, Short.MAX_VALUE)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 12, Short.MAX_VALUE)))
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(93, 93, 93)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel7)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel8)
-                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(384, Short.MAX_VALUE))
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addGap(0, 0, Short.MAX_VALUE)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 0, Short.MAX_VALUE)))
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void populateComboBox() {
+       jComboBox1.removeAllItems();
+    jComboBox1.addItem("Item ID"); // Placeholder
+    try (BufferedReader reader = new BufferedReader(new FileReader("items.txt"))) {
+        String line;
+        reader.readLine(); // Skip header
+        while ((line = reader.readLine()) != null) {
+            String[] parts = line.split(",");
+            if (parts.length >= 8) { // Ensure valid item row
+                jComboBox1.addItem(parts[0]); // Add Item ID
+            }
+        }
+    } catch (IOException e) {
+        JOptionPane.showMessageDialog(this, "Error loading item IDs: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+    }
+}
+    
+    private void addTableSelectionListener() {
+    jTable1.getSelectionModel().addListSelectionListener(event -> {
+        int selectedRow = jTable1.getSelectedRow();
+    if (selectedRow != -1) {
+        jTextPane3.setText(jTable1.getValueAt(selectedRow, 0).toString()); // Date
+        jComboBox1.setSelectedItem(jTable1.getValueAt(selectedRow, 1).toString()); // Item ID
+        jTextPane1.setText(jTable1.getValueAt(selectedRow, 2).toString()); // Item Name
+        jTextPane4.setText(jTable1.getValueAt(selectedRow, 3).toString()); // Quantity Sold
+        jTextField1.setText(jTable1.getValueAt(selectedRow, 4).toString()); // Selling Price Per Unit
+        jTextField2.setText(jTable1.getValueAt(selectedRow, 6).toString()); // Current Stock
+    }
+    });
+}
+
+    
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
         Main_Dashboard maindashboardFrame = new Main_Dashboard();
         maindashboardFrame.setVisible(true);
@@ -409,17 +395,17 @@ public class Daily_Items_Sales_Entry extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_jButton2ActionPerformed
 
-    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        Stock_Level stocklevelFrame = new Stock_Level();
-        stocklevelFrame.setVisible(true);
-        this.dispose();
-    }//GEN-LAST:event_jButton4ActionPerformed
-
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         Sales_Report salesreportFrame = new Sales_Report();
         salesreportFrame.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        Stock_Level stocklevelFrame = new Stock_Level();
+        stocklevelFrame.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         Create_Requisition createrequisitionFrame = new Create_Requisition();
@@ -433,67 +419,27 @@ public class Daily_Items_Sales_Entry extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_jButton6ActionPerformed
 
-    private void jButton12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton12ActionPerformed
-        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
-    model.setRowCount(0); // Clear the table
-
-    try (
-        BufferedReader salesReader = new BufferedReader(new FileReader("sales.txt"));
-        BufferedReader stockReader = new BufferedReader(new FileReader("stocklevel.txt"))
-    ) {
-        // Load stock data into a map for quick access
-        Map<String, String[]> stockDataMap = new HashMap<>();
-        String stockLine;
-
-        // Skip header in stocklevel.txt
-        stockReader.readLine(); // Skip the header
-        while ((stockLine = stockReader.readLine()) != null) {
-            String[] stockParts = stockLine.split(",");
-            if (stockParts.length >= 5) { // Ensure valid row
-                String itemId = stockParts[0];
-                stockDataMap.put(itemId, stockParts);
-            }
+        private boolean isValidDate(String date) {
+        SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT);
+        sdf.setLenient(false); // Ensures strict date parsing
+        try {
+            sdf.parse(date); // Attempt to parse the date
+            return true;
+        } catch (ParseException e) {
+            return false; // Return false if parsing fails
         }
-
-        // Read sales data and match with stock data
-        String salesLine;
-
-        // Skip header in sales.txt
-        salesReader.readLine(); // Skip the header
-        while ((salesLine = salesReader.readLine()) != null) {
-            String[] salesParts = salesLine.split(",");
-            if (salesParts.length >= 6) { // Ensure valid row
-                String date = salesParts[0];
-                String itemId = salesParts[1];
-                String itemName = salesParts[2];
-                String quantitySold = salesParts[3];
-                String unitPrice = salesParts[4];
-                String totalSales = salesParts[5];
-
-                // Get stock data for the item
-                String[] stockData = stockDataMap.get(itemId);
-                String currentStock = (stockData != null) ? stockData[2] : "N/A"; // Default to "N/A" if not found
-                String reorderLevel = (stockData != null) ? stockData[3] : "N/A";
-
-                // Add row to table
-                model.insertRow(0, new Object[]{date, itemId, itemName, quantitySold, unitPrice, totalSales, currentStock, reorderLevel});
-            }
-        }
-    } catch (IOException e) {
-        JOptionPane.showMessageDialog(this, "Error reading files: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-    }
-    }//GEN-LAST:event_jButton12ActionPerformed
+    
+}
 
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
-          String date = jTextPane3.getText().trim();
-    String itemId = jTextPane2.getText().trim();
+        String date = jTextPane3.getText().trim();
+    String itemId = (String) jComboBox1.getSelectedItem();
     String itemName = jTextPane1.getText().trim();
     String quantitySold = jTextPane4.getText().trim();
     String unitPrice = jTextField1.getText().trim();
     String currentStock = jTextField2.getText().trim();
-    String reorderLevel = jTextField3.getText().trim();
 
-    if (date.isEmpty() || itemId.isEmpty() || itemName.isEmpty() || quantitySold.isEmpty() || unitPrice.isEmpty() || currentStock.isEmpty() || reorderLevel.isEmpty()) {
+    if (date.isEmpty() || itemId.isEmpty() || itemName.isEmpty() || quantitySold.isEmpty() || unitPrice.isEmpty() || currentStock.isEmpty()) {
         JOptionPane.showMessageDialog(this, "All fields must be filled.", "Input Error", JOptionPane.WARNING_MESSAGE);
         return;
     }
@@ -505,127 +451,87 @@ public class Daily_Items_Sales_Entry extends javax.swing.JFrame {
 
     try {
         int qtySold = Integer.parseInt(quantitySold);
-        double price = Double.parseDouble(unitPrice.replace("RM", "").trim()); // Remove RM before parsing
+        double price = Double.parseDouble(unitPrice.replace("RM", "").trim());
         int stock = Integer.parseInt(currentStock);
-        int reorder = Integer.parseInt(reorderLevel);
-        double totalSales = qtySold * price;
 
-        // Reduce the current stock by the quantity sold
-        int updatedStock = stock - qtySold;
-
-        if (updatedStock < 0) {
+        if (qtySold > stock) {
             JOptionPane.showMessageDialog(this, "Quantity sold exceeds current stock.", "Input Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
 
-        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+        int updatedStock = stock - qtySold;
+        double totalSales = qtySold * price;
 
-        // Insert at the top of the table with RM formatting
-        model.insertRow(0, new Object[]{date, itemId, itemName, qtySold, "RM" + String.format("%.2f", price), "RM" + String.format("%.2f", totalSales), updatedStock, reorder});
+        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+        model.insertRow(0, new Object[]{
+            date, itemId, itemName, qtySold, "RM" + String.format("%.2f", price), "RM" + String.format("%.2f", totalSales), stock, updatedStock
+        });
 
         saveDataToFiles();
-
-        // Clear the input fields after a successful entry
-        jTextPane3.setText(""); // Clear date
-        jTextPane2.setText(""); // Clear item ID
-        jTextPane1.setText(""); // Clear item name
-        jTextPane4.setText(""); // Clear quantity sold
-        jTextField1.setText(""); // Clear unit price
-        jTextField2.setText(""); // Clear current stock
-        jTextField3.setText(""); // Clear reorder level
-
+        clearFields();
         JOptionPane.showMessageDialog(this, "Entry added successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
     } catch (NumberFormatException e) {
-        JOptionPane.showMessageDialog(this, "Invalid number format for Quantity, Unit Price, Current Stock, or Reorder Level.", "Input Error", JOptionPane.ERROR_MESSAGE);
+        JOptionPane.showMessageDialog(this, "Invalid number format for Quantity Sold, Unit Price, or Current Stock.", "Input Error", JOptionPane.ERROR_MESSAGE);
     }
+
     }//GEN-LAST:event_jButton8ActionPerformed
 
     private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
-        int selectedRow = jTable1.getSelectedRow();
+          int selectedRow = jTable1.getSelectedRow();
 
     if (selectedRow == -1) {
         JOptionPane.showMessageDialog(this, "Please select a row to edit.", "Error", JOptionPane.WARNING_MESSAGE);
         return;
     }
 
-    // Get existing values from the table
-    String originalQuantitySold = String.valueOf(jTable1.getValueAt(selectedRow, 3));
-    String originalCurrentStock = String.valueOf(jTable1.getValueAt(selectedRow, 6));
+    String date = jTextPane3.getText().trim();
+    String itemId = (String) jComboBox1.getSelectedItem();
+    String itemName = jTextPane1.getText().trim();
+    String quantitySold = jTextPane4.getText().trim();
+    String unitPrice = jTextField1.getText().trim();
+    String currentStock = jTextField2.getText().trim();
 
-    // Get new input values
-    String newDate = jTextPane3.getText().trim();
-    String newItemId = jTextPane2.getText().trim();
-    String newItemName = jTextPane1.getText().trim();
-    String newQuantitySold = jTextPane4.getText().trim();
-    String newUnitPrice = jTextField1.getText().trim();
-    String newCurrentStock = jTextField2.getText().trim();
-    String newReorderLevel = jTextField3.getText().trim();
-
-    // Validate input fields
-    if (newDate.isEmpty() || newItemId.isEmpty() || newItemName.isEmpty() || newQuantitySold.isEmpty() ||
-        newUnitPrice.isEmpty() || newCurrentStock.isEmpty() || newReorderLevel.isEmpty()) {
+    if (date.isEmpty() || itemId.isEmpty() || itemName.isEmpty() || quantitySold.isEmpty() || unitPrice.isEmpty() || currentStock.isEmpty()) {
         JOptionPane.showMessageDialog(this, "All fields must be filled.", "Input Error", JOptionPane.WARNING_MESSAGE);
         return;
     }
 
-    if (!isValidDate(newDate)) {
+    if (!isValidDate(date)) {
         JOptionPane.showMessageDialog(this, "Invalid date format. Please use dd/MM/yyyy.", "Input Error", JOptionPane.ERROR_MESSAGE);
         return;
     }
 
     try {
-        int qtySold = Integer.parseInt(newQuantitySold);
-        double price = Double.parseDouble(newUnitPrice.replace("RM", "").trim()); // Remove RM before parsing
-        int currentStock = Integer.parseInt(newCurrentStock);
-        int reorderLevel = Integer.parseInt(newReorderLevel);
+        int qtySold = Integer.parseInt(quantitySold);
+        double price = Double.parseDouble(unitPrice.replace("RM", "").trim());
+        int stock = Integer.parseInt(currentStock);
 
-        // Check if Quantity Sold or Current Stock has been changed
-        boolean isQuantitySoldModified = !newQuantitySold.equals(originalQuantitySold);
-        boolean isCurrentStockModified = !newCurrentStock.equals(originalCurrentStock);
-
-        if (isQuantitySoldModified || isCurrentStockModified) {
-            // If Quantity Sold or Current Stock is modified, validate stock level
-            if (qtySold > currentStock) {
-                JOptionPane.showMessageDialog(this, "Quantity sold exceeds current stock.", "Input Error", JOptionPane.ERROR_MESSAGE);
-                return;
-            }
-
-            // Adjust stock level only if these fields are modified
-            currentStock -= qtySold;
+        if (qtySold > stock) {
+            JOptionPane.showMessageDialog(this, "Quantity sold exceeds current stock.", "Input Error", JOptionPane.ERROR_MESSAGE);
+            return;
         }
 
+        int updatedStock = stock - qtySold;
         double totalSales = qtySold * price;
 
-        // Update table values with RM formatting
         DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
-        model.setValueAt(newDate, selectedRow, 0);
-        model.setValueAt(newItemId, selectedRow, 1);
-        model.setValueAt(newItemName, selectedRow, 2);
+        model.setValueAt(date, selectedRow, 0);
+        model.setValueAt(itemId, selectedRow, 1);
+        model.setValueAt(itemName, selectedRow, 2);
         model.setValueAt(qtySold, selectedRow, 3);
-        model.setValueAt("RM" + String.format("%.2f", price), selectedRow, 4); // Add RM format to unit price
-        model.setValueAt("RM" + String.format("%.2f", totalSales), selectedRow, 5); // Add RM format to total sales
-        model.setValueAt(currentStock, selectedRow, 6);
-        model.setValueAt(reorderLevel, selectedRow, 7);
+        model.setValueAt("RM" + String.format("%.2f", price), selectedRow, 4);
+        model.setValueAt("RM" + String.format("%.2f", totalSales), selectedRow, 5);
+        model.setValueAt(stock, selectedRow, 6); // Keep current stock level as is
+        model.setValueAt(updatedStock, selectedRow, 7); // Set updated stock value
 
-        // Save updated data to files
         saveDataToFiles();
+        clearFields();
         JOptionPane.showMessageDialog(this, "Entry edited successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
-
-        // Clear input fields
-        jTextPane3.setText("");
-        jTextPane2.setText("");
-        jTextPane1.setText("");
-        jTextPane4.setText("");
-        jTextField1.setText("");
-        jTextField2.setText("");
-        jTextField3.setText("");
-
     } catch (NumberFormatException e) {
-        JOptionPane.showMessageDialog(this, "Invalid number format for Quantity Sold, Unit Price, Current Stock, or Reorder Level.", "Input Error", JOptionPane.ERROR_MESSAGE);
+        JOptionPane.showMessageDialog(this, "Invalid number format for Quantity Sold, Unit Price, or Current Stock.", "Input Error", JOptionPane.ERROR_MESSAGE);
     }
     }//GEN-LAST:event_jButton9ActionPerformed
 
-    
     private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
         int selectedRow = jTable1.getSelectedRow();
 
@@ -635,73 +541,219 @@ public class Daily_Items_Sales_Entry extends javax.swing.JFrame {
     }
 
     DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+
+    // Retrieve the row data
+    String itemId = (String) model.getValueAt(selectedRow, 1);
+    int quantitySold = Integer.parseInt(model.getValueAt(selectedRow, 3).toString());
+    int currentStock = Integer.parseInt(model.getValueAt(selectedRow, 6).toString());
+
+    // Recalculate the stock level
+    int updatedStock = currentStock + quantitySold;
+
+    // Update items.txt to reflect the change
+    try (BufferedReader itemsReader = new BufferedReader(new FileReader("items.txt"))) {
+        StringBuilder updatedContent = new StringBuilder();
+        String line = itemsReader.readLine(); // Read and retain the header
+        updatedContent.append(line).append("\n");
+
+        while ((line = itemsReader.readLine()) != null) {
+            String[] parts = line.split(",");
+            if (parts[0].equals(itemId)) {
+                parts[3] = String.valueOf(updatedStock); // Update Current Stock Level
+                parts[7] = new SimpleDateFormat("dd/MM/yyyy").format(new java.util.Date()); // Update Last Updated Date
+            }
+            updatedContent.append(String.join(",", parts)).append("\n");
+        }
+
+        try (BufferedWriter itemsWriter = new BufferedWriter(new FileWriter("items.txt"))) {
+            itemsWriter.write(updatedContent.toString());
+        }
+    } catch (IOException e) {
+        JOptionPane.showMessageDialog(this, "Error updating items.txt: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        return;
+    }
+
+    // Remove the row from the table
     model.removeRow(selectedRow);
-
-    // Save updated data to files
-    saveDataToFiles();
+    saveSalesDataToFile();
+    clearFields();
     JOptionPane.showMessageDialog(this, "Entry deleted successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
+}
 
-    // Clear input fields
-    jTextPane3.setText("");
-    jTextPane2.setText("");
-    jTextPane1.setText("");
-    jTextPane4.setText("");
-    jTextField1.setText("");
-    jTextField2.setText("");
-    jTextField3.setText("");
-    }//GEN-LAST:event_jButton10ActionPerformed
-
-    private void saveDataToFiles() {
+private void saveSalesDataToFile() {
     DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
 
-    try (
-        BufferedWriter salesWriter = new BufferedWriter(new FileWriter("sales.txt"));
-        BufferedWriter stockWriter = new BufferedWriter(new FileWriter("stocklevel.txt"))
-    ) {
-        // Write headers to both files
-        salesWriter.write("Date,ItemID,Item Name,Quantity Sold,Unit Price,Total Sales\n");
-        stockWriter.write("ItemID,Item Name,Current Stock Level,Reorder Level,Last Updated Date\n");
+    try (BufferedWriter salesWriter = new BufferedWriter(new FileWriter("sales.txt", false))) {
+        salesWriter.write("Date,ItemID,Item Name,Quantity Sold,Selling Price Per Unit,Total Sales\n");
 
         for (int i = 0; i < model.getRowCount(); i++) {
-            Object date = model.getValueAt(i, 0);
-            Object itemId = model.getValueAt(i, 1);
-            Object itemName = model.getValueAt(i, 2);
-            Object quantitySold = model.getValueAt(i, 3);
-            Object unitPrice = model.getValueAt(i, 4);
-            Object totalSales = model.getValueAt(i, 5);
-            Object currentStock = model.getValueAt(i, 6);
-            Object reorderLevel = model.getValueAt(i, 7);
+            String date = model.getValueAt(i, 0).toString();
+            String itemId = model.getValueAt(i, 1).toString();
+            String itemName = model.getValueAt(i, 2).toString();
+            String quantitySold = model.getValueAt(i, 3).toString();
+            String unitPrice = model.getValueAt(i, 4).toString();
+            String totalSales = model.getValueAt(i, 5).toString();
 
-            // Ensure null values are not written
-            if (date != null && itemId != null && itemName != null && quantitySold != null && unitPrice != null && totalSales != null) {
-                String salesData = date + "," + itemId + "," + itemName + "," + quantitySold + "," + unitPrice + "," + totalSales;
-                salesWriter.write(salesData + "\n");
-            }
+            salesWriter.write(String.join(",", date, itemId, itemName, quantitySold, unitPrice, totalSales));
+            salesWriter.write("\n");
+        }
+    } catch (IOException e) {
+        JOptionPane.showMessageDialog(this, "Error saving to sales.txt: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+    }
+    }//GEN-LAST:event_jButton10ActionPerformed
 
-            if (itemId != null && itemName != null && currentStock != null && reorderLevel != null) {
-                String stockData = itemId + "," + itemName + "," + currentStock + "," + reorderLevel + "," + date;
-                stockWriter.write(stockData + "\n");
+    private void jButton12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton12ActionPerformed
+           DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+    model.setRowCount(0); // Clear the table to avoid duplicate entries
+
+    try (
+        BufferedReader salesReader = new BufferedReader(new FileReader("sales.txt"));
+        BufferedReader itemsReader = new BufferedReader(new FileReader("items.txt"))
+    ) {
+        // Load items.txt data into a map for quick access
+        Map<String, String[]> itemsDataMap = new HashMap<>();
+        String itemsLine;
+
+        // Read and process items.txt
+        itemsReader.readLine(); // Skip the header
+        while ((itemsLine = itemsReader.readLine()) != null) {
+            String[] itemsParts = itemsLine.split(",");
+            if (itemsParts.length >= 8) { // Ensure valid row
+                String itemId = itemsParts[0];
+                itemsDataMap.put(itemId, itemsParts); // Map ItemID to its row data
             }
         }
+
+        // Read and process sales.txt
+        String salesLine;
+        salesReader.readLine(); // Skip the header
+        while ((salesLine = salesReader.readLine()) != null) {
+            String[] salesParts = salesLine.split(",");
+            if (salesParts.length >= 6) { // Ensure valid sales row
+                String date = salesParts[0];
+                String itemId = salesParts[1];
+                String itemName = salesParts[2];
+                String quantitySold = salesParts[3];
+                String unitPrice = salesParts[4];
+                String totalSales = salesParts[5];
+
+                // Fetch Current Stock Level and Reorder Level from items.txt
+                String[] itemsData = itemsDataMap.get(itemId);
+                if (itemsData != null) {
+                    String currentStock = itemsData[3]; // Current Stock Level
+                    String reorderLevel = itemsData[4]; // Reorder Level
+
+                    // Add row to the table
+                    model.addRow(new Object[]{
+                        date, itemId, itemName, quantitySold, unitPrice, totalSales, currentStock, reorderLevel
+                    });
+                }
+            }
+        }
+
+        // Show a message if no data is loaded
+        if (model.getRowCount() == 0) {
+            JOptionPane.showMessageDialog(this, "No data available in sales.txt or items.txt.", "No Data", JOptionPane.INFORMATION_MESSAGE);
+        }
+
+    } catch (IOException e) {
+        JOptionPane.showMessageDialog(this, "Error generating data: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+    }
+    }//GEN-LAST:event_jButton12ActionPerformed
+
+    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
+         String selectedItemId = (String) jComboBox1.getSelectedItem();
+    if (selectedItemId != null && !selectedItemId.trim().isEmpty() && !selectedItemId.equals("Item ID")) {
+        try (BufferedReader reader = new BufferedReader(new FileReader("items.txt"))) {
+            String line;
+            reader.readLine(); // Skip header line
+            while ((line = reader.readLine()) != null) {
+                String[] parts = line.split(",");
+                if (parts.length >= 8 && parts[0].trim().equals(selectedItemId.trim())) {
+                    jTextPane1.setText(parts[1]); // Set Item Name
+                    jTextField1.setText("RM" + parts[6]); // Add RM format for Selling Price
+                    jTextField2.setText(parts[3]); // Set Current Stock Level
+                    break;
+                }
+            }
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(this, "Error loading item details: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    } else {
+        jTextPane1.setText("");
+        jTextField1.setText("");
+        jTextField2.setText("");
+    }
+    }//GEN-LAST:event_jComboBox1ActionPerformed
+
+    private void clearFields() {
+        jTextPane3.setText("");
+        jComboBox1.setSelectedIndex(0);
+        jTextPane1.setText("");
+        jTextPane4.setText("");
+        jTextField1.setText("");
+        jTextField2.setText("");
+
+    }
+    
+    private void saveDataToFiles() {
+         DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+    Map<String, String[]> itemsDataMap = new HashMap<>();
+
+    // Load items.txt into a map
+    try (BufferedReader itemsReader = new BufferedReader(new FileReader("items.txt"))) {
+        String line;
+        itemsReader.readLine(); // Skip header
+        while ((line = itemsReader.readLine()) != null) {
+            String[] parts = line.split(",");
+            if (parts.length >= 8) { // Ensure valid item row
+                itemsDataMap.put(parts[0], parts); // Map ItemID to its full row
+            }
+        }
+    } catch (IOException e) {
+        JOptionPane.showMessageDialog(this, "Error reading items.txt: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        return;
+    }
+
+    // Save data back to sales.txt and items.txt
+    try (BufferedWriter salesWriter = new BufferedWriter(new FileWriter("sales.txt", false));
+         BufferedWriter itemsWriter = new BufferedWriter(new FileWriter("items.txt", false))) {
+
+        // Write headers
+        salesWriter.write("Date,ItemID,Item Name,Quantity Sold,Selling Price Per Unit,Total Sales\n");
+        itemsWriter.write("itemID,item Name,Supplier ID,Current Stock Level,Reorder Level,Cost perunit,Selling Price Unit,Last Updated Date\n");
+
+        // Iterate over table rows to save data
+        for (int i = 0; i < model.getRowCount(); i++) {
+            String date = model.getValueAt(i, 0).toString();
+            String itemId = model.getValueAt(i, 1).toString();
+            String itemName = model.getValueAt(i, 2).toString();
+            String quantitySold = model.getValueAt(i, 3).toString();
+            String unitPrice = model.getValueAt(i, 4).toString().replace("RM", "").trim();
+            String totalSales = model.getValueAt(i, 5).toString();
+            String updatedStock = model.getValueAt(i, 7).toString();
+
+            // Write to sales.txt
+            salesWriter.write(date + "," + itemId + "," + itemName + "," + quantitySold + ",RM" + unitPrice + "," + totalSales + "\n");
+
+            // Update items.txt data
+            if (itemsDataMap.containsKey(itemId)) {
+                String[] itemData = itemsDataMap.get(itemId);
+                itemData[3] = updatedStock; // Update current stock level
+                itemData[7] = date;         // Update last updated date
+            }
+        }
+
+        // Write updated items data back to items.txt
+        for (String[] itemData : itemsDataMap.values()) {
+            itemsWriter.write(String.join(",", itemData) + "\n");
+        }
+
     } catch (IOException e) {
         JOptionPane.showMessageDialog(this, "Error saving data to files: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
     }
 }
-
-    
-
-    
-    private boolean isValidDate(String date) {
-    SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT);
-    sdf.setLenient(false); // Ensures strict date parsing
-    try {
-        sdf.parse(date); // Attempt to parse the date
-        return true;
-    } catch (ParseException e) {
-        return false; // Return false if parsing fails
-    }
-}
-  
+   
 
     /**
      * @param args the command line arguments
@@ -729,6 +781,7 @@ public class Daily_Items_Sales_Entry extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(Daily_Items_Sales_Entry.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
+        //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -750,28 +803,25 @@ public class Daily_Items_Sales_Entry extends javax.swing.JFrame {
     private javax.swing.JButton jButton7;
     private javax.swing.JButton jButton8;
     private javax.swing.JButton jButton9;
+    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JTable jTable1;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
     private javax.swing.JTextPane jTextPane1;
-    private javax.swing.JTextPane jTextPane2;
     private javax.swing.JTextPane jTextPane3;
     private javax.swing.JTextPane jTextPane4;
     // End of variables declaration//GEN-END:variables
-}
+
+    }

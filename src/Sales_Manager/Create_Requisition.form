@@ -73,7 +73,7 @@
                                       <Component id="jTextField8" min="-2" pref="71" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
-                              <EmptySpace pref="24" max="32767" attributes="0"/>
+                              <EmptySpace pref="21" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                   </Group>
@@ -328,7 +328,7 @@
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel10">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Unit Price:"/>
+        <Property name="text" type="java.lang.String" value="Cost Per Unit:"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="jTextField5">

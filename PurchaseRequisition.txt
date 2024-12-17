@@ -1,8 +1,3 @@
-PR ID, Item ID, Item Name, Quantity Required, Unit Price, Total Amount, Requisition Date, Supplier ID
-PR001, IT001, Mouse, 2, RM 50.00, RM 100.00, 02/12/2024, SP001
-PR002, IT003, Laptop, 2, RM 2,000.00, RM 4,000.00, 01/12/2024, SP002
-PR003, IT003, Laptop, 40, RM 2,000.00, RM 80,000.00, 02/12/2024, SP001
-PR006, IT001, Mouse, 60, RM 75.00, RM 4,500.00, 02/12/2024, SP002
-PR007, IT001, Mouse, 60, RM 75.00, RM 4,500.00, 02/12/2024, SP001
-PR004, IT003, Laptop, 2, RM 2,500.00, RM 5,000.00, 02/12/2024, SP002
-PR008, IT001, Mouse, 20, RM 80.00, RM 1,600.00, 11/12/2024, SP001
+PR ID, Item ID, Item Name, Quantity Required, Cost Per Unit, Total Amount, Requisition Date, Supplier ID, Status
+PR001, IT001, Laptop, 100, RM 2,000.00, RM 200,000.00, 15/12/2024, SP001, Pending
+PR001, IT001, car, 5, RM 3.00, RM 15.00, 14/12/2024, Sp001, Pending

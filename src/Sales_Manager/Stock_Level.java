@@ -352,69 +352,55 @@ public class Stock_Level extends javax.swing.JFrame {
     private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
         List<StockItem> stockItems = new ArrayList<>();
 
-    // File path for stocklevel.txt (adjust if needed)
-    String filePath = "stocklevel.txt";
+    // File path for items.txt
+    String filePath = "items.txt";
 
-    // Try to read the file and load data into the table
     try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
         String line;
-        while ((line = br.readLine()) != null) {
-            // Skip the header line
-            if (line.startsWith("ItemID")) continue;
+        boolean isFirstLine = true;
 
-            // Split line by commas (assuming CSV format)
-            String[] parts = line.split(",");
-            if (parts.length != 5) {
-                JOptionPane.showMessageDialog(this, "Invalid line format in stocklevel.txt.", "Error", JOptionPane.ERROR_MESSAGE);
-                continue; // Skip invalid lines
+        while ((line = br.readLine()) != null) {
+            // Skip header line
+            if (isFirstLine) {
+                isFirstLine = false;
+                continue;
             }
 
-            // Validate and parse data
+            // Split the line based on the structure of items.txt
+            String[] parts = line.split(",");
+            if (parts.length < 8) {
+                JOptionPane.showMessageDialog(this, "Invalid line format in items.txt.", "Error", JOptionPane.ERROR_MESSAGE);
+                continue;
+            }
+
+            // Extract relevant columns for the Stock Level Table
             String itemId = parts[0].trim();
             String itemName = parts[1].trim();
-            int currentStockLevel = 0;
-            int reorderLevel = 0;
-            String lastUpdatedDate = parts[4].trim();
-
-            try {
-                currentStockLevel = Integer.parseInt(parts[2].trim());
-                reorderLevel = Integer.parseInt(parts[3].trim());
-            } catch (NumberFormatException e) {
-                JOptionPane.showMessageDialog(this, "Invalid number format for stock level or reorder level in line: " + line, "Error", JOptionPane.ERROR_MESSAGE);
-                continue; // Skip this line if numbers are invalid
-            }
-
-            // Validate last updated date format (DD/MM/YYYY)
-            SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-            dateFormat.setLenient(false); // Strict parsing
-            try {
-                Date parsedDate = dateFormat.parse(lastUpdatedDate);
-            } catch (Exception e) {
-                JOptionPane.showMessageDialog(this, "Invalid date format in line: " + line + " (Expected format: DD/MM/YYYY)", "Error", JOptionPane.ERROR_MESSAGE);
-                continue; // Skip this line if date is invalid
-            }
+            int currentStockLevel = Integer.parseInt(parts[3].trim());
+            int reorderLevel = Integer.parseInt(parts[4].trim());
+            String lastUpdatedDate = parts[7].trim();
 
             // Create StockItem object
             StockItem item = new StockItem(itemId, itemName, currentStockLevel, reorderLevel, lastUpdatedDate);
-
-            // Add the item to the list
             stockItems.add(item);
         }
     } catch (IOException e) {
-        JOptionPane.showMessageDialog(this, "Error reading stocklevel.txt file.", "Error", JOptionPane.ERROR_MESSAGE);
+        JOptionPane.showMessageDialog(this, "Error reading items.txt file.", "Error", JOptionPane.ERROR_MESSAGE);
+        return;
+    } catch (NumberFormatException e) {
+        JOptionPane.showMessageDialog(this, "Invalid number format in items.txt.", "Error", JOptionPane.ERROR_MESSAGE);
         return;
     }
 
-    // Update the table model to display data
+    // Update the table model
     DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
-    model.setRowCount(0); // Clear the existing table data
+    model.setRowCount(0); // Clear the table
 
-    // Loop through the stock items and add them to the table
     for (StockItem item : stockItems) {
-        // Determine reorder alert icon (using visual signs)
-        String reorderAlert = item.getCurrentStockLevel() < item.getReorderLevel() ? "⚠️" : "✅";
+        // Determine reorder alert
+        String reorderAlert = (item.getCurrentStockLevel() < item.getReorderLevel()) ? "⚠️ Reorder Required" : "✅ Stock OK";
 
-        // Add row to table
+        // Add row to the table
         model.addRow(new Object[]{
             item.getItemId(),
             item.getItemName(),
@@ -425,7 +411,7 @@ public class Stock_Level extends javax.swing.JFrame {
         });
     }
 
-    // Make sure to refresh the table view
+    // Refresh the table view
     jTable1.repaint();
     }//GEN-LAST:event_jButton10ActionPerformed
 
