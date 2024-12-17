@@ -1,6 +1,7 @@
 
 package financemanagerd;
 
+import ThemeManager.ThemeManager;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -18,6 +19,7 @@ public class StockStatus extends javax.swing.JFrame {
      */
     public StockStatus() {
         initComponents();
+        ThemeManager.applyTheme(this);
         setSize(890, 500);
         setLocationRelativeTo(null); // Center the frame
         loadStockData();
@@ -260,7 +262,7 @@ public class StockStatus extends javax.swing.JFrame {
                 if (columns.length >= 7) { // Ensure there are enough columns
                     String itemId = columns[0].trim();        // Item ID
                     String itemName = columns[1].trim();      // Item Name
-                    String stockLevel = columns[2].trim();    // Stock Level
+                    String stockLevel = columns[3].trim();    // Stock Level
                     String reorderLevel = columns[4].trim();  // Reorder Level
                     String unitPrice = columns[5].trim();     // Unit Price
 
