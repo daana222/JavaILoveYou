@@ -12,10 +12,10 @@ public class ThemeManager {
 
     public static void applyTheme(JFrame frame) {
         // Define colours for Dark and Light modes
-        Color backgroundColor = isDarkMode ? Color.DARK_GRAY : Color.WHITE; // Background colour
-        Color inputFieldBg = isDarkMode ? Color.LIGHT_GRAY : Color.WHITE;   // Input field colour
-        Color textColor = isDarkMode ? Color.WHITE : Color.BLACK;           // Text colour
-        Color inputTextColor = Color.BLACK;                                 // Input text remains black
+        Color backgroundColor = isDarkMode ? Color.DARK_GRAY : Color.LIGHT_GRAY; // Light Gray for Light Mode
+        Color inputFieldBg = isDarkMode ? Color.LIGHT_GRAY : Color.WHITE;       // Input field colour
+        Color textColor = isDarkMode ? Color.WHITE : Color.BLACK;               // Text colour
+        Color inputTextColor = Color.BLACK;                                     // Input text remains black
 
         // Apply to the main content pane
         frame.getContentPane().setBackground(backgroundColor);
@@ -50,33 +50,32 @@ public class ThemeManager {
     }
     
     public static void updateTableTheme(JTable table) {
-    if (table == null) return;
+        if (table == null) return;
 
-    // Colours for Dark Mode
-    Color darkModeForeground = Color.WHITE;
-    Color darkModeBackground = Color.DARK_GRAY;
+        // Colours for Dark Mode
+        Color darkModeForeground = Color.WHITE;
+        Color darkModeBackground = Color.DARK_GRAY;
 
-    // Colours for Light Mode
-    Color lightModeForeground = Color.BLACK;
-    Color lightModeBackground = Color.LIGHT_GRAY;
+        // Colours for Light Mode
+        Color lightModeForeground = Color.BLACK;
+        Color lightModeBackground = Color.LIGHT_GRAY; // Light Gray for Table Background
 
-    // Check mode and apply colours
-    if (isDarkMode) {
-        table.setForeground(darkModeForeground);
-        table.setBackground(darkModeBackground);
-        table.getTableHeader().setForeground(darkModeForeground);
-        table.getTableHeader().setBackground(Color.GRAY); // Optional: Darken header
-    } else {
-        table.setForeground(lightModeForeground);
-        table.setBackground(lightModeBackground);
-        table.getTableHeader().setForeground(lightModeForeground);
-        table.getTableHeader().setBackground(Color.LIGHT_GRAY);
+        // Check mode and apply colours
+        if (isDarkMode) {
+            table.setForeground(darkModeForeground);
+            table.setBackground(darkModeBackground);
+            table.getTableHeader().setForeground(darkModeForeground);
+            table.getTableHeader().setBackground(Color.GRAY); // Optional: Darken header
+        } else {
+            table.setForeground(lightModeForeground);
+            table.setBackground(lightModeBackground);
+            table.getTableHeader().setForeground(lightModeForeground);
+            table.getTableHeader().setBackground(Color.WHITE);
+        }
+
+        // Refresh the table
+        table.repaint();
     }
-
-    // Refresh the table
-    table.repaint();
-}
-
 
     public static void toggleDarkMode() {
         isDarkMode = !isDarkMode;
