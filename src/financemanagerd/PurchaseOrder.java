@@ -1,6 +1,7 @@
 
 package financemanagerd;
 
+import ThemeManager.ThemeManager;
 import javax.swing.table.DefaultTableModel;
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -15,6 +16,7 @@ public class PurchaseOrder extends javax.swing.JFrame {
      */
     public PurchaseOrder() {
         initComponents();
+        ThemeManager.applyTheme(this);
         setSize(890, 500);
         setLocationRelativeTo(null); // Center the frame
         

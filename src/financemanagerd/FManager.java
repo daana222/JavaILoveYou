@@ -1,5 +1,6 @@
 
 package financemanagerd;
+import ThemeManager.ThemeManager;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
@@ -16,8 +17,10 @@ public class FManager extends javax.swing.JFrame {
      */
     public FManager() {
         initComponents();
+        ThemeManager.applyTheme(this);
         setSize(890, 500);
         setLocationRelativeTo(null); // Center the frame
+        
         
         JFreeChart paymentChart = createPaymentChart();
         if (paymentChart != null) {

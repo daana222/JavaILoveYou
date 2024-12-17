@@ -4,6 +4,7 @@
  */
 package financemanagerd;
 
+import ThemeManager.ThemeManager;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -24,6 +25,7 @@ public class SupplierPaymentStatus extends javax.swing.JFrame {
      */
     public SupplierPaymentStatus() {
         initComponents();
+        ThemeManager.applyTheme(this);
         setSize(890, 500);
         setLocationRelativeTo(null); // Center the frame
         populateSupplierComboBox(); // Populate combo box first

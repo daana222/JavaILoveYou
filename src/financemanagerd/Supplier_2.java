@@ -1,6 +1,7 @@
 
 package financemanagerd;
 
+import ThemeManager.ThemeManager;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import javax.swing.table.DefaultTableModel;
@@ -12,6 +13,7 @@ public class Supplier_2 extends javax.swing.JFrame {
     
     public Supplier_2(String supplierId, double balancePayment) {
         initComponents();
+        ThemeManager.applyTheme(this);
         setSize(890, 500);
         setLocationRelativeTo(null); // Center the frame
 
