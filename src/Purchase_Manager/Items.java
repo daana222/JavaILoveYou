@@ -4,18 +4,93 @@
  */
 package Purchase_Manager;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author Jiannaa
  */
 public class Items extends javax.swing.JFrame {
+   private DefaultTableModel model= new DefaultTableModel();//to create model object to be placed in jtable
+   private String[]columnName={"itemID"," item Name","Supplier ID","Current Stock Level","Reorder Level","Cost perunit","Selling Price Unit","Last Updated Date"
+};
+   private int row=-1;
+    private static final Logger LOGGER = Logger.getLogger(GeneratePurchaseOrder.class.getName()); 
+     
 
     /**
      * Creates new form Items
      */
     public Items() {
         initComponents();
+        model.setColumnIdentifiers(columnName);
+        loadDataFromFile();
+        populateComboBox();
+
     }
+    private void loadDataFromFile() {
+   String filePath = "C:\\Users\\Jiannaa\\Desktop\\items.txt";
+   File file = new File(filePath);
+   if (!file.exists()) {
+       System.out.println("Data file not found. Starting with an empty table.");
+       return; // Exit if the file does not exist
+   }
+   try {
+       FileReader fr = new FileReader(file);
+       BufferedReader br = new BufferedReader(fr);
+       // Clear existing data from the model
+       model.setRowCount(0);
+       // Skip the column headers line
+       String line = br.readLine();
+       // Read and add rows to the table
+       while ((line = br.readLine()) != null) {
+           String[] rowData = line.split(",");
+           model.addRow(rowData);
+       }
+       br.close();
+       fr.close();
+       System.out.println("Data loaded successfully from: " + filePath);
+   } catch (Exception ex) {
+       LOGGER.log(Level.SEVERE, "Error loading data from file", ex);
+       JOptionPane.showMessageDialog(this, "Error loading data: " + ex.getMessage());
+   }
+}
+
+    
+
+    private void populateComboBox() {
+    String filePath = "C:\\Users\\Jiannaa\\Desktop\\items.txt"; // Path to your file
+    File file = new File(filePath);
+    if (!file.exists()) {
+        System.out.println("Data file not found.");
+        return;
+    }
+
+    try (BufferedReader br = new BufferedReader(new FileReader(file))) {
+        String line = br.readLine(); // Skip the header line
+        jComboBox1.removeAllItems(); // Clear the combo box
+        jComboBox1.addItem("All"); // Add a default option to show all items
+        while ((line = br.readLine()) != null) {
+            String[] rowData = line.split(",");
+            if (rowData.length > 0) {
+                String PRID = rowData[0]; // Assuming Item ID is in the first column
+                jComboBox1.addItem(PRID); // Add Item ID to combo box
+            }
+        }
+    } catch (Exception ex) {
+        LOGGER.log(Level.SEVERE, "Error loading Item IDs", ex);
+        JOptionPane.showMessageDialog(this, "Error loading Item IDs: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+    }
+}
+
+
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -37,6 +112,7 @@ public class Items extends javax.swing.JFrame {
         label2 = new java.awt.Label();
         jComboBox2 = new javax.swing.JComboBox<>();
         jComboBox3 = new javax.swing.JComboBox<>();
+        jButton4 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -45,18 +121,13 @@ public class Items extends javax.swing.JFrame {
 
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item ID" }));
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
-            },
-            new String [] {
-                "ItemID", "Items Name", "Item Category", "Current Stock Level", "Reorder Level"
-            }
-        ));
+        jTable1.setModel(model);
         jTable1.setPreferredSize(new java.awt.Dimension(890, 500));
+        jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                jTable1MouseReleased(evt);
+            }
+        });
         jScrollPane1.setViewportView(jTable1);
 
         jPanel1.setBackground(new java.awt.Color(255, 51, 51));
@@ -103,39 +174,49 @@ public class Items extends javax.swing.JFrame {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(77, 77, 77)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jButton2)
-                    .addComponent(jButton1))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jComboBox3, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addComponent(label2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jButton3)))
-                .addGap(35, 35, 35))
+                    .addComponent(label2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(24, 24, 24)
+                        .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(15, 15, 15)
+                        .addComponent(jComboBox3, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(11, 11, 11))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jButton3)
+                    .addComponent(jButton1)
+                    .addComponent(jButton2))
+                .addGap(34, 34, 34))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(59, 59, 59)
                 .addComponent(label2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(29, 29, 29)
+                .addGap(28, 28, 28)
                 .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(27, 27, 27)
+                .addGap(28, 28, 28)
                 .addComponent(jButton2)
                 .addGap(35, 35, 35)
                 .addComponent(jButton3)
                 .addGap(32, 32, 32)
                 .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(30, 30, 30)
+                .addGap(18, 18, 18)
                 .addComponent(jComboBox3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(18, Short.MAX_VALUE))
         );
+
+        jButton4.setText("Search");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -143,13 +224,19 @@ public class Items extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(label1, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 566, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap())
+                    .addGroup(layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(label1, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 219, Short.MAX_VALUE)
+                        .addComponent(jButton4)
+                        .addGap(120, 120, 120))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(28, 28, 28)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 511, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -157,8 +244,10 @@ public class Items extends javax.swing.JFrame {
                 .addGap(21, 21, 21)
                 .addComponent(label1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(20, 20, 20)
-                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(29, 29, 29)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton4))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 227, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -213,6 +302,62 @@ public class Items extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jComboBox3ActionPerformed
 
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        // TODO add your handling code here:
+        String selectedItemID = (String) jComboBox1.getSelectedItem(); // Get selected Item ID
+
+    // If "All" is selected, reload all data
+    if ("All".equals(selectedItemID)) {
+        loadDataFromFile(); // Reload all data
+        return;
+    }
+
+    // Clear the table
+    model.setRowCount(0);
+
+    String filePath = "C:\\Users\\Jiannaa\\Desktop\\items.txt"; // Path to your file
+    File file = new File(filePath);
+    if (!file.exists()) {
+        System.out.println("Data file not found.");
+        return;
+    }
+
+    try (BufferedReader br = new BufferedReader(new FileReader(file))) {
+        String line = br.readLine(); // Skip the header line
+        while ((line = br.readLine()) != null) {
+            String[] rowData = line.split(",");
+            if (rowData.length > 0 && rowData[0].equals(selectedItemID)) {
+                model.addRow(rowData); // Add row if Item ID matches
+            }
+        }
+    } catch (Exception ex) {
+        LOGGER.log(Level.SEVERE, "Error filtering data", ex);
+        JOptionPane.showMessageDialog(this, "Error filtering data: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+    }
+
+        
+    }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jTable1MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseReleased
+        // TODO add your handling code here:
+        
+        row= jTable1.getSelectedRow();
+    String ItemID= String.valueOf(model.getValueAt(row,0));
+    String ItemName= String.valueOf(model.getValueAt(row,1));
+    String SupplierID= String.valueOf(model.getValueAt(row,2));
+    String Quantity= String.valueOf(model.getValueAt(row,3));
+    String CurrentStockLevel= String.valueOf(model.getValueAt(row,4));
+    String Reorderlevel= String.valueOf(model.getValueAt(row,5));
+    String CostperUnit= String.valueOf(model.getValueAt(row,6));
+    String SellingPriceperUnit= String.valueOf(model.getValueAt(row,7));
+    String LastUpdatedDate= String.valueOf(model.getValueAt(row,8));
+
+
+    
+     
+    
+    }//GEN-LAST:event_jTable1MouseReleased
+
     /**
      * @param args the command line arguments
      */
@@ -252,6 +397,7 @@ public class Items extends javax.swing.JFrame {
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton4;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JComboBox<String> jComboBox2;
     private javax.swing.JComboBox<String> jComboBox3;
