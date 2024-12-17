@@ -52,29 +52,35 @@ public class ThemeManager {
     public static void updateTableTheme(JTable table) {
         if (table == null) return;
 
-        // Colours for Dark Mode
-        Color darkModeForeground = Color.BLUE;
-        Color darkModeBackground = Color.DARK_GRAY;
+    // Colours for Dark Mode
+    Color darkModeForeground = Color.WHITE; // Table text in white
+    Color darkModeBackground = Color.DARK_GRAY; // Table background
+    Color darkModeHeaderForeground = Color.BLACK; // Header text in black
+    Color darkModeHeaderBackground = Color.LIGHT_GRAY; // Header background
 
-        // Colours for Light Mode
-        Color lightModeForeground = Color.BLACK;
-        Color lightModeBackground = Color.LIGHT_GRAY; // Light Gray for Table Background
+    // Colours for Light Mode
+    Color lightModeForeground = Color.BLACK;
+    Color lightModeBackground = Color.LIGHT_GRAY;
+    Color lightModeHeaderForeground = Color.BLACK;
+    Color lightModeHeaderBackground = Color.WHITE;
 
-        // Check mode and apply colours
-        if (isDarkMode) {
-            table.setForeground(darkModeForeground);
-            table.setBackground(darkModeBackground);
-            table.getTableHeader().setForeground(darkModeForeground);
-            table.getTableHeader().setBackground(Color.GRAY); // Optional: Darken header
-        } else {
-            table.setForeground(lightModeForeground);
-            table.setBackground(lightModeBackground);
-            table.getTableHeader().setForeground(lightModeForeground);
-            table.getTableHeader().setBackground(Color.WHITE);
-        }
+    // Check mode and apply colours
+    if (isDarkMode) {
+        table.setForeground(darkModeForeground); // Table text
+        table.setBackground(darkModeBackground); // Table background
+        table.getTableHeader().setForeground(darkModeHeaderForeground); // Header text in black
+        table.getTableHeader().setBackground(darkModeHeaderBackground); // Header background
+    } else {
+        table.setForeground(lightModeForeground);
+        table.setBackground(lightModeBackground);
+        table.getTableHeader().setForeground(lightModeHeaderForeground);
+        table.getTableHeader().setBackground(lightModeHeaderBackground);
+    }
 
-        // Refresh the table
-        table.repaint();
+    // Ensure table and header repaint properly
+    table.getTableHeader().repaint();
+    table.repaint();
+
     }
 
     public static void toggleDarkMode() {
