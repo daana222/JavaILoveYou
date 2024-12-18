@@ -4,6 +4,8 @@
  */
 package Purchase_Manager;
 
+import java.awt.Color;
+import java.awt.Component;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -24,6 +26,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -43,7 +46,7 @@ public class GeneratePurchaseOrder extends javax.swing.JFrame {
     private static final Logger LOGGER = Logger.getLogger(GeneratePurchaseOrder.class.getName());
 
     // File paths as constants
-    private static final String PR_FILE_PATH = "C:\\Users\\Jiannaa\\Desktop\\PR.txt";
+    private static final String PR_FILE_PATH = "C:\\Users\\Jiannaa\\Desktop\\PurchaseRequisition.txt";
     private static final String PO_FILE_PATH = "C:\\Users\\Jiannaa\\Desktop\\PO.txt";
 
     // Constructor
@@ -56,16 +59,61 @@ public class GeneratePurchaseOrder extends javax.swing.JFrame {
         }
     };
     model.setColumnIdentifiers(columnNames);
-
     initComponents();
     jTable2.setModel(model); // Set table model
     populateComboBox();      // Populate PR ID ComboBox
 
 btnAdd.addActionListener(evt -> btnAddActionPerformed(evt));
+setupCustomRenderer();
 
 
     }
 
+    // Abstraction: Encapsulates renderer logic using Inheritance and Polymorphism
+private void setupCustomRenderer() {
+    jTable2.setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {
+        @Override
+        public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected,
+                                                       boolean hasFocus, int row, int column) {
+            Component c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+
+            // Apply background color only to the "Status" column (index 8)
+            if (column == 10) { 
+    String status = (String) table.getValueAt(row, column);
+
+    if ("Approved".equalsIgnoreCase(status)) {
+        setText("✅ " + status); // Add green check emoji
+        c.setBackground(new Color(144, 238, 144)); // Light Green for Approved
+    } else if ("Rejected".equalsIgnoreCase(status)) {
+        setText("❌ " + status); // Add red cross emoji
+        c.setBackground(new Color(255, 182, 193)); // Light Red for Rejected
+    } else {
+        setText("⏳ " + status); // Add hourglass emoji
+        c.setBackground(new Color(255, 255, 224)); // Light Yellow for Pending
+    }
+
+    // Override selection behavior to keep custom background
+ 
+    c.setForeground(Color.BLACK); // Keep text black for all statuses
+} else {
+    // Reset non-status columns
+    if (isSelected) {
+        c.setBackground(new Color(173, 216, 230)); // Light Blue for selected rows
+        c.setForeground(Color.BLACK);
+    } else {
+        c.setBackground(Color.WHITE);
+        c.setForeground(Color.BLACK);
+    }
+}
+
+return c;
+
+        }
+    });
+}
+
+    
+    
     // Abstraction: Initializes table model with column names and read-only rules
     private void initializeTableModel() {
         model = new DefaultTableModel() {
@@ -90,7 +138,7 @@ btnAdd.addActionListener(evt -> btnAddActionPerformed(evt));
 
     // Abstraction: Populates ComboBox with Approved PR IDs
     private void populateComboBox() {
-    String filePath = "C:\\Users\\Jiannaa\\Desktop\\PR.txt"; // Path to PR.txt
+    String filePath = "C:\\Users\\Jiannaa\\Desktop\\PurchaseRequisition.txt"; // Path to PR.txt
     File file = new File(filePath);
 
     if (!file.exists()) {
@@ -570,7 +618,7 @@ btnAdd.addActionListener(evt -> btnAddActionPerformed(evt));
     }
 
     // Read PR details from PR.txt
-    String filePath = "C:\\Users\\Jiannaa\\Desktop\\PR.txt";
+    String filePath = "C:\\Users\\Jiannaa\\Desktop\\PurchaseRequisition.txt";
     File file = new File(filePath);
 
     try (BufferedReader br = new BufferedReader(new FileReader(file))) {

@@ -4,6 +4,22 @@
  */
 package Sales_Manager;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartPanel;
+import org.jfree.chart.JFreeChart;
+import org.jfree.data.category.DefaultCategoryDataset;
+import javax.swing.JDialog;
+import org.jfree.ui.ApplicationFrame; // Optional for specific JFreeChart classes
+
+
 /**
  *
  * @author Kaushaliya
@@ -15,6 +31,32 @@ public class Sales_Report extends javax.swing.JFrame {
      */
     public Sales_Report() {
         initComponents();
+        configureTableModel();
+    }
+    
+    private void configureTableModel() {
+        DefaultTableModel model = new DefaultTableModel(
+            new Object[][]{},
+            new String[]{
+                "Date", "Item ID", "Item Name", "Quantity Sold", "Selling Price Per Unit", "Total Sales"
+            }
+        ) {
+            // Override the column types
+            Class[] types = new Class[]{
+                java.lang.String.class, // Date
+                java.lang.String.class, // Item ID
+                java.lang.String.class, // Item Name
+                java.lang.Integer.class, // Quantity Sold
+                java.lang.String.class, // Unit Price (String for RM format)
+                java.lang.String.class  // Total Sales (String for RM format)
+            };
+
+            @Override
+            public Class getColumnClass(int columnIndex) {
+                return types[columnIndex];
+            }
+        };
+        jTable2.setModel(model); // Apply the updated model to the table
     }
 
     /**
@@ -66,6 +108,7 @@ public class Sales_Report extends javax.swing.JFrame {
         jButton16 = new javax.swing.JButton();
         jScrollPane6 = new javax.swing.JScrollPane();
         jTable2 = new javax.swing.JTable();
+        jButton17 = new javax.swing.JButton();
 
         jFrame1.setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -280,6 +323,11 @@ public class Sales_Report extends javax.swing.JFrame {
 
         jButton12.setText("Sales Report");
         jButton12.setName("btnSalesReport5"); // NOI18N
+        jButton12.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton12ActionPerformed(evt);
+            }
+        });
 
         jButton13.setText("Stock Level");
         jButton13.setName("btnStockLevel5"); // NOI18N
@@ -291,9 +339,19 @@ public class Sales_Report extends javax.swing.JFrame {
 
         jButton14.setText("Create Requisiton");
         jButton14.setName("btnCreateRequisition5"); // NOI18N
+        jButton14.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton14ActionPerformed(evt);
+            }
+        });
 
         jButton15.setText("List of PO");
         jButton15.setName("btnListofPO5"); // NOI18N
+        jButton15.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton15ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -359,16 +417,31 @@ public class Sales_Report extends javax.swing.JFrame {
 
         jTable2.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null}
             },
             new String [] {
-                "Date", "Item Code", "Item Name", "Quantity Sold", "Total Sales"
+                "Date", "Item ID", "Item Name", "Quantity Sold", "Selling Price Per Unit", "Total Sales"
             }
-        ));
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.Double.class, java.lang.Double.class
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+        });
         jScrollPane6.setViewportView(jTable2);
+
+        jButton17.setText("View Sales Chart");
+        jButton17.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton17ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -378,23 +451,29 @@ public class Sales_Report extends javax.swing.JFrame {
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(26, 26, 26)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(48, 48, 48)
-                                .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(62, 62, 62)
-                                .addComponent(jButton16))))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(55, 55, 55)
-                        .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 490, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(0, 65, Short.MAX_VALUE))
+                                .addGap(26, 26, 26)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(48, 48, 48)
+                                        .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(62, 62, 62)
+                                        .addComponent(jButton16))))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(36, 36, 36)
+                                .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 634, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 34, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton17)
+                        .addGap(47, 47, 47))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -412,7 +491,9 @@ public class Sales_Report extends javax.swing.JFrame {
                     .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton16))
                 .addGap(47, 47, 47)
-                .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 297, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 329, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jButton17)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -432,24 +513,180 @@ public class Sales_Report extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
-        // TODO add your handling code here:
+        Main_Dashboard maindashboardFrame = new Main_Dashboard();
+        maindashboardFrame.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_jButton9ActionPerformed
 
     private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
-        // TODO add your handling code here:
+        List_Of_Items listofitemsFrame = new List_Of_Items();
+        listofitemsFrame.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_jButton10ActionPerformed
 
     private void jButton11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton11ActionPerformed
-        // TODO add your handling code here:
+        Daily_Items_Sales_Entry dailyitemsalesentryFrame = new Daily_Items_Sales_Entry();
+        dailyitemsalesentryFrame.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_jButton11ActionPerformed
 
     private void jButton13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton13ActionPerformed
-        // TODO add your handling code here:
+        Stock_Level stocklevelFrame = new Stock_Level();
+        stocklevelFrame.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_jButton13ActionPerformed
 
     private void jButton16ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton16ActionPerformed
-        // TODO add your handling code here:
+         // Clear the existing table data
+    DefaultTableModel model = (DefaultTableModel) jTable2.getModel();
+    model.setRowCount(0);
+
+    // Read the start and end dates from the input fields
+    String startDateText = jTextPane3.getText().trim();
+    String endDateText = jTextPane4.getText().trim();
+
+    // Date format to parse and compare dates
+    SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+    sdf.setLenient(false);
+
+    Date startDate = null;
+    Date endDate = null;
+
+    try {
+        // Validate and parse start and end dates
+        if (!startDateText.isEmpty()) startDate = sdf.parse(startDateText);
+        if (!endDateText.isEmpty()) endDate = sdf.parse(endDateText);
+
+        if ((startDateText.isEmpty() && !endDateText.isEmpty()) || (!startDateText.isEmpty() && endDateText.isEmpty())) {
+            JOptionPane.showMessageDialog(this, "Please provide both start and end dates.", "Validation Error", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+    } catch (ParseException e) {
+        JOptionPane.showMessageDialog(this, "Invalid date format. Please use dd/MM/yyyy.", "Input Error", JOptionPane.ERROR_MESSAGE);
+        return;
+    }
+
+    // Read the sales.txt file
+    try (BufferedReader reader = new BufferedReader(new FileReader("sales.txt"))) {
+        String line;
+        boolean isFirstLine = true;
+
+        while ((line = reader.readLine()) != null) {
+            if (isFirstLine) {
+                isFirstLine = false; // Skip the header row
+                continue;
+            }
+
+            String[] parts = line.split(",");
+            if (parts.length >= 6) {
+                // Parse the row data
+                String date = parts[0];
+                String itemId = parts[1];
+                String itemName = parts[2];
+                int quantitySold = Integer.parseInt(parts[3]);
+                
+                // Remove "RM" prefix from Selling Price Per Unit and Total Sales
+                double sellingPricePerUnit = Double.parseDouble(parts[4].replace("RM", "").trim());
+                double totalSales = Double.parseDouble(parts[5].replace("RM", "").trim());
+
+                // Parse the date from the file
+                Date transactionDate = sdf.parse(date);
+
+                // Filter rows based on date range
+                if ((startDate != null && transactionDate.before(startDate)) ||
+                    (endDate != null && transactionDate.after(endDate))) {
+                    continue;
+                }
+
+                // Add the row to the table with "RM" formatting
+                model.addRow(new Object[]{
+                    date,
+                    itemId,
+                    itemName,
+                    quantitySold,
+                    String.format("RM%.2f", sellingPricePerUnit),
+                    String.format("RM%.2f", totalSales)
+                });
+            }
+        }
+
+        // If no data is found display this
+        if (model.getRowCount() == 0) {
+            JOptionPane.showMessageDialog(this, "No sales records found for the specified date range.", "Information", JOptionPane.INFORMATION_MESSAGE);
+        }
+
+    } catch (IOException e) {
+        JOptionPane.showMessageDialog(this, "Error reading sales.txt file: " + e.getMessage(), "File Error", JOptionPane.ERROR_MESSAGE);
+    } catch (ParseException e) {
+        JOptionPane.showMessageDialog(this, "Error parsing dates: " + e.getMessage(), "Parse Error", JOptionPane.ERROR_MESSAGE);
+    }
     }//GEN-LAST:event_jButton16ActionPerformed
+
+    private void jButton12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton12ActionPerformed
+        Sales_Report salesreportFrame = new Sales_Report();
+        salesreportFrame.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_jButton12ActionPerformed
+
+    private void jButton14ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton14ActionPerformed
+        Create_Requisition createrequisitionFrame = new Create_Requisition();
+        createrequisitionFrame.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_jButton14ActionPerformed
+
+    private void jButton15ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton15ActionPerformed
+        List_Po listpoFrame = new List_Po();
+        listpoFrame.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_jButton15ActionPerformed
+
+    private void jButton17ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton17ActionPerformed
+        DefaultTableModel model = (DefaultTableModel) jTable2.getModel();
+
+    if (model.getRowCount() == 0) {
+        JOptionPane.showMessageDialog(this, "No sales data available to generate a chart.", "No Data", JOptionPane.WARNING_MESSAGE);
+        return;
+    }
+
+    // Create dataset for the chart
+    DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+
+    // Loop through the table rows to extract data for the chart
+    for (int i = 0; i < model.getRowCount(); i++) {
+        String itemName = model.getValueAt(i, 2).toString(); // Item Name column
+        int quantitySold = Integer.parseInt(model.getValueAt(i, 3).toString()); // Quantity Sold column
+
+        dataset.addValue(quantitySold, "Quantity Sold", itemName);
+    }
+
+    // Create the chart
+    JFreeChart chart = ChartFactory.createBarChart(
+        "Sales Chart",            // Chart title
+        "Item Name",              // X-axis label
+        "Quantity Sold",          // Y-axis label
+        dataset                   // Dataset
+    );
+
+    // Display the chart in a popup window
+    ChartPanel chartPanel = new ChartPanel(chart);
+    JDialog chartDialog = new JDialog(this, "Sales Chart", true);
+    chartDialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+    chartDialog.getContentPane().add(chartPanel);
+    chartDialog.pack();
+    chartDialog.setLocationRelativeTo(this);
+    chartDialog.setVisible(true);
+    }//GEN-LAST:event_jButton17ActionPerformed
+
+    private boolean isValidDate(String date) {
+    SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+    sdf.setLenient(false); // Ensures strict date parsing
+    try {
+        sdf.parse(date); // Attempt to parse the date
+        return true; // Return true if parsing is successful
+    } catch (ParseException e) {
+        return false; // Return false if parsing fails
+    }
+}
 
     /**
      * @param args the command line arguments
@@ -495,6 +732,7 @@ public class Sales_Report extends javax.swing.JFrame {
     private javax.swing.JButton jButton14;
     private javax.swing.JButton jButton15;
     private javax.swing.JButton jButton16;
+    private javax.swing.JButton jButton17;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;

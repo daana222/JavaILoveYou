@@ -1,0 +1,4 @@
+U001,Shareen,0124539844,Shareen@gmail.com,Sha12,Ad1234,ADMIN
+P002,Daana,0124539844,Daana@gmail.com,Da12,Daa122,PURCHASE MANAGER
+F002,Why,0123456755,why@gmail.com,noo03,sexy12,FINANCE MANAGER
+S004,Kausi,0123456855,kausi@gmail.com,cow12,cowsi12,SALES MANAGER

@@ -1,0 +1,3 @@
+SupplierID,Supplier Name,Item Name, Item Decription, Supplier Date,Supplier Contact,Quantity, Supplier Email
+SP001,Kaushaliya Gunasegran,Laptop,Acer,24/02/2023,019-345-2398,2000,Kausi@gmail.com
+SP002,Shareen kaur,Computer,Levevo(Desktop),2/03/2024,014-234-6752,300,shareen@gmail.com
