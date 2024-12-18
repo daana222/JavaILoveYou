@@ -19,12 +19,14 @@ import javax.swing.JOptionPane;
  */
 public class Login extends javax.swing.JFrame {
 
+        private Object Admin;
+
     /**
      * Creates new form Login
      */
     public Login() {
         initComponents(); 
-        ThemeManager.applyTheme(this);
+        ThemeManager.applyTheme(this); // the dark mode code
         
 
     }
@@ -197,87 +199,99 @@ public class Login extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-              String username = jTextField1.getText().trim();
+
+        // Login button 
+        String username = jTextField1.getText().trim();
+
         String password = new String(jPasswordField1.getPassword()).trim();
         
+        //both must be feel or not 
         if (username.isEmpty() || password.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Username and Password text box cannot be empty.", "Validation Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
         boolean loginSuccessful = false;
-    String role = "";
+    String role = ""; // read role 
+    String ID = "";// read ID both matchs
 
-try (BufferedReader reader = new BufferedReader(new FileReader("User.txt"))) {
+try (BufferedReader reader = new BufferedReader(new FileReader("User.txt"))) { // get from file txt
     String line;
     while ((line = reader.readLine()) != null) {
-        System.out.println("File Line: " + line); // this is for Debugging: Print each line
+       // System.out.println("File Line: " + line); // this is for Debugging: Print each line
         
         String[] userDetails = line.split(",");
         if (userDetails.length >= 7) {
             String fileUsername = userDetails[4].trim();
             String filePassword = userDetails[5].trim();
 
-            System.out.println("Username: " + fileUsername + ", Password: " + filePassword); // Debugging
+           // System.out.println("Username: " + fileUsername + ", Password: " + filePassword); // Debugging thery will show dont there ,,, to be confirm only
 
-           if (username.equals(fileUsername) && password.equals(filePassword)) {
-    loginSuccessful = true;
-    role = userDetails[6].trim().toUpperCase();
-    String userId = userDetails[0]; // User ID
-    redirectToMainMenu(role);
-    break;
-}
-            
+
+           // both true = login
+            if (username.equals(fileUsername) && password.equals(filePassword)) {
+                loginSuccessful = true;
+                role = userDetails[6].trim().toUpperCase();
+                ID = userDetails[0].trim();
+                break;
+            }
+
         } else {
-            System.out.println("Invalid Line Format: " + line); // Debugging: Invalid line
+            System.out.println("Invalid Line Format: " + line); // Debugging: Invalid like where line
         }
     }
 } catch (IOException e) {
     JOptionPane.showMessageDialog(this, "Error in reading user data: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
     return;
 }
+
+// part og login         
          if (loginSuccessful) {
             JOptionPane.showMessageDialog(this, "Login Successful!");
              if (role.equalsIgnoreCase("ADMIN")) {
-            new RoleSelection().setVisible(true); // Display RoleSelection for Admin
+            new RoleSelection().setVisible(true); 
         } else {
-            redirectToMainMenu(role); // Redirect normal users based on role
+            redirectToMainMenu(role, ID); 
         }
         this.dispose();
     } else {
         JOptionPane.showMessageDialog(this, "Invalid Username or Password", "Login Failed", JOptionPane.ERROR_MESSAGE);
          }
+ 
 
+         
+         
     }//GEN-LAST:event_jButton3ActionPerformed
 
-   private void redirectToMainMenu(String role) {
+    
+    // this is like login where user go able to choose where to go .
+    private void redirectToMainMenu(String role, String ID) {
     switch (role.toUpperCase()) {
         case "ADMIN":
-            new Admin.Main_Menu().setVisible(true);
+            new Admin.Main_Menu(ID).setVisible(true);
             break;
         case "SALES MANAGER":
-            new Sales_Manager.Main_Dashboard().setVisible(true);
+          //  new Sales_Manager.Main_Dashboard(ID).setVisible(true);
             break;
         case "PURCHASE MANAGER":
-            new Purchase_Manager.PM().setVisible(true);
+            new Purchase_Manager.PM(ID).setVisible(true);
             break;
         case "FINANCE MANAGER":
-            new financemanagerd.FManager().setVisible(true);
+         new financemanagerd.FManager(ID).setVisible(true);
             break;
         default:
-            JOptionPane.showMessageDialog(this, "Unknown role: " + role, "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Does not exits : " + role, "Error. Please choose propely", JOptionPane.ERROR_MESSAGE);
             break;
     }
-    this.dispose();
+    this.dispose(); // Close the Login window
 }
 
-
-    
+    // the buttons all in admin = to choose where to go
     public class RoleSelection extends JFrame {
 
     public RoleSelection() {
-        setTitle("Select Role");
+        setTitle("Select a Role");
         setSize(400, 300);
-        setLayout(new GridLayout(5, 1, 10, 10)); 
+        setLayout(new GridLayout(5, 1, 10, 10));
 
         // Buttons for roles
         JButton btnSalesManager = new JButton("SALES MANAGER");
@@ -293,36 +307,60 @@ try (BufferedReader reader = new BufferedReader(new FileReader("User.txt"))) {
         add(btnFinanceManager);
         add(btnAdmin);
 
-        // Button Actions
-        btnSalesManager.addActionListener(e -> new Sales_Manager.Main_Dashboard().setVisible(true));
-       // btnInventoryManager.addActionListener(e -> new Inventory_Manager.InventoryMainMenu().setVisible(true));
-        btnPurchaseManager.addActionListener(e -> new Purchase_Manager.PM().setVisible(true));
-        btnFinanceManager.addActionListener(e -> new financemanagerd.FManager().setVisible(true));
-        btnAdmin.addActionListener(e -> new Admin.Main_Menu().setVisible(true));
+       
+        
+        btnSalesManager.addActionListener(e -> {
+            //new Sales_Manager.Main_Dashboard("S004").setVisible(true);
+            this.dispose(); // Close RoleSelection window
+        });
+
+        btnInventoryManager.addActionListener(e -> {
+            //JOptionPane.showMessageDialog(this, "Inventory Manager not implemented!", "Error", JOptionPane.ERROR_MESSAGE);
+            this.dispose(); // Close RoleSelection window even if not implemented
+        });
+
+        btnPurchaseManager.addActionListener(e -> {
+           // new Purchase_Manager.PM("P002").setVisible(true);
+            this.dispose(); // Close RoleSelection window
+        });
+
+        btnFinanceManager.addActionListener(e -> {
+
+
+           new financemanagerd.FManager("F002").setVisible(true);
+
+            this.dispose(); // Close RoleSelection window
+        });
+
+        // will lead to admin page
+        btnAdmin.addActionListener(e -> {
+            new Admin.Main_Menu("U001").setVisible(true);
+            this.dispose(); // Close RoleSelection window
+        });
+
 
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setVisible(true);
-        this.dispose(); 
     }
 }
-   
+ 
     
 
 
     
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-       
+       // clear text button usernmae
                 jTextField1.setText("");
 
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jPasswordField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jPasswordField1ActionPerformed
-        
+        // validation for password
          String password = new String(jPasswordField1.getPassword());
          
          if (password.isEmpty()) {
-        JOptionPane.showMessageDialog(this, "Password cannot be empty", "Validation Error", JOptionPane.ERROR_MESSAGE);
+        JOptionPane.showMessageDialog(this, "Password text box cannot be empty", "Validation Error", JOptionPane.ERROR_MESSAGE);
         return;
     }
           if (password.length() < 10) {
@@ -332,11 +370,12 @@ try (BufferedReader reader = new BufferedReader(new FileReader("User.txt"))) {
     }//GEN-LAST:event_jPasswordField1ActionPerformed
 
     private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
-            String username = jTextField1.getText();
+        // validation for username   
+        String username = jTextField1.getText();
             
             
      if (username.isEmpty()) {
-        JOptionPane.showMessageDialog(this, "Username cannot be empty", "Validation Error", JOptionPane.ERROR_MESSAGE);
+        JOptionPane.showMessageDialog(this, "Username text box cannot be empty", "Validation Error", JOptionPane.ERROR_MESSAGE);
         return;
     }
          if (username.length() < 5) {
@@ -346,22 +385,22 @@ try (BufferedReader reader = new BufferedReader(new FileReader("User.txt"))) {
     }//GEN-LAST:event_jTextField1ActionPerformed
 
     private void jCheckBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox1ActionPerformed
-        // TODO add your handling code here:
+        // the show check box thing
         if (jCheckBox1.isSelected()) {
-        jPasswordField1.setEchoChar((char) 0); // Show password
+        jPasswordField1.setEchoChar((char) 0); // Show
     } else {
-        jPasswordField1.setEchoChar('*'); // Hide password
+        jPasswordField1.setEchoChar('*'); // Hide
     }
     }//GEN-LAST:event_jCheckBox1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        
+        // clear text button password
                 jPasswordField1.setText("");
 
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jToggleButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton1ActionPerformed
-       
+       // the dark mode light mode thing 
     ThemeManager.toggleDarkMode(); // Toggle the theme state
     ThemeManager.applyTheme(this); // Apply the updated theme to the current frame
     
@@ -397,6 +436,7 @@ try (BufferedReader reader = new BufferedReader(new FileReader("User.txt"))) {
      * @param args the command line arguments
      */
     public static void main(String args[]) {
+        java.awt.EventQueue.invokeLater(() -> new Login().setVisible(true));
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.

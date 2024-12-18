@@ -19,8 +19,6 @@ public class PM extends javax.swing.JFrame {
         
     }
 
-    
-    
 
     /**
      * This method is called from within the constructor to initialize the form.

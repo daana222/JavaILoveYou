@@ -46,7 +46,7 @@ public class CreateRequisition extends javax.swing.JFrame {
     private DefaultTableModel model = new DefaultTableModel();
     private String[] columnName = {"PR ID", "Item ID", "Item Name", "Quantity Required", "Cost Per Unit", "Total Amount", "Requisition Date", "Supplier ID", "Status"};
     private int row = -1;
-    private static final String FILE_PATH = "C:\\Users\\Jiannaa\\Desktop\\PR.txt";
+    private static final String FILE_PATH = "C:\\Users\\Jiannaa\\Desktop\\PurchaseRequisition.txt";
         private List<String[]> requisitions = new ArrayList<>();
             private int selectedRow = -1;
 
@@ -74,7 +74,6 @@ public class CreateRequisition extends javax.swing.JFrame {
     }
     
 // Abstraction: Encapsulates renderer logic using Inheritance and Polymorphism
-// Abstraction: Encapsulates renderer logic using Inheritance and Polymorphism
 private void setupCustomRenderer() {
     jTable1.setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {
         @Override
@@ -98,8 +97,7 @@ private void setupCustomRenderer() {
     }
 
     // Override selection behavior to keep custom background
-    
-
+ 
     c.setForeground(Color.BLACK); // Keep text black for all statuses
 } else {
     // Reset non-status columns
@@ -510,7 +508,7 @@ String prID = (String) cbPRID.getSelectedItem();
     
     
 private void populateComboBox() {
-    String filePath = "C:\\Users\\Jiannaa\\Desktop\\PR.txt"; // Path to PR.txt
+    String filePath = "C:\\Users\\Jiannaa\\Desktop\\PurchaseRequisition.txt"; // Path to PR.txt
     File file = new File(filePath);
 
     if (!file.exists()) {
