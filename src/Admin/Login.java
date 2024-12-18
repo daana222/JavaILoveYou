@@ -261,11 +261,7 @@ try (BufferedReader reader = new BufferedReader(new FileReader("User.txt"))) { /
     private void redirectToMainMenu(String role, String ID) {
     switch (role.toUpperCase()) {
         case "ADMIN":
-            if (ID != null && !ID.isEmpty()) {
-    new Admin.Main_Menu(ID).setVisible(true);
-} else {
-    JOptionPane.showMessageDialog(this, "Invalid User ID. Cannot redirect.", "Error", JOptionPane.ERROR_MESSAGE);
-}
+            new Admin.Main_Menu(ID).setVisible(true); // Pass the dynamic ID here
             break;
         case "SALES MANAGER":
           //  new Sales_Manager.Main_Dashboard(ID).setVisible(true);
@@ -285,8 +281,10 @@ try (BufferedReader reader = new BufferedReader(new FileReader("User.txt"))) { /
 
     // the buttons all in admin = to choose where to go
     public class RoleSelection extends JFrame {
+        private String ID;
 
     public RoleSelection() {
+        this.ID = ID; // Assign the correct ID
         setTitle("Select a Role");
         setSize(400, 300);
         setLayout(new GridLayout(5, 1, 10, 10));
@@ -318,7 +316,7 @@ try (BufferedReader reader = new BufferedReader(new FileReader("User.txt"))) { /
         });
 
         btnPurchaseManager.addActionListener(e -> {
-           // new Purchase_Manager.PM("P002").setVisible(true);
+            new Purchase_Manager.PM("P002").setVisible(true);
             this.dispose(); // Close RoleSelection window
         });
 
@@ -332,7 +330,7 @@ try (BufferedReader reader = new BufferedReader(new FileReader("User.txt"))) { /
 
         // will lead to admin page
         btnAdmin.addActionListener(e -> {
-            new Admin.Main_Menu("U001").setVisible(true);
+            new Admin.Main_Menu(ID).setVisible(true);
             this.dispose(); // Close RoleSelection window
         });
 

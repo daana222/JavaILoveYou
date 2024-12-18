@@ -401,24 +401,16 @@
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" attributes="0">
+                  <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Group type="102" alignment="0" attributes="0">
-                          <EmptySpace max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="0" attributes="0">
-                              <Group type="103" alignment="0" groupAlignment="0" max="-2" attributes="0">
-                                  <Component id="jButton2" alignment="0" pref="200" max="32767" attributes="0"/>
-                                  <Component id="jButton1" alignment="0" pref="200" max="32767" attributes="0"/>
-                                  <Component id="jButton4" alignment="0" pref="200" max="32767" attributes="0"/>
-                                  <Component id="jComboBox3" alignment="0" pref="0" max="32767" attributes="0"/>
-                              </Group>
-                              <Component id="jButton8" alignment="0" min="-2" pref="200" max="-2" attributes="0"/>
-                              <Component id="jButton11" alignment="0" min="-2" pref="200" max="-2" attributes="0"/>
-                          </Group>
+                      <Group type="103" alignment="0" groupAlignment="0" max="-2" attributes="0">
+                          <Component id="jButton2" alignment="0" pref="200" max="32767" attributes="0"/>
+                          <Component id="jButton1" alignment="0" pref="200" max="32767" attributes="0"/>
+                          <Component id="jButton4" alignment="0" pref="200" max="32767" attributes="0"/>
+                          <Component id="jComboBox3" alignment="0" pref="0" max="32767" attributes="0"/>
                       </Group>
-                      <Group type="102" alignment="0" attributes="0">
-                          <EmptySpace min="-2" pref="69" max="-2" attributes="0"/>
-                          <Component id="UserID" min="-2" pref="66" max="-2" attributes="0"/>
-                      </Group>
+                      <Component id="jButton8" alignment="0" min="-2" pref="200" max="-2" attributes="0"/>
+                      <Component id="jButton11" alignment="0" min="-2" pref="200" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace pref="12" max="32767" attributes="0"/>
               </Group>
@@ -428,8 +420,6 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace max="32767" attributes="0"/>
-                  <Component id="UserID" min="-2" pref="12" max="-2" attributes="0"/>
-                  <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Component id="jButton11" min="-2" pref="54" max="-2" attributes="0"/>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Component id="jButton8" min="-2" pref="43" max="-2" attributes="0"/>
@@ -523,11 +513,6 @@
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton11ActionPerformed"/>
           </Events>
-        </Component>
-        <Component class="javax.swing.JLabel" name="UserID">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="U001"/>
-          </Properties>
         </Component>
       </SubComponents>
     </Container>

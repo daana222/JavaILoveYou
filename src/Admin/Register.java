@@ -5,6 +5,7 @@
 package Admin;
 
 import ThemeManager.ThemeManager;
+import java.awt.FlowLayout;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileReader;
@@ -34,22 +35,44 @@ public class Register extends javax.swing.JFrame {
      * Creates new form Register
      */
     public Register(String ID) {
-         this.ID = ID;
+    
     model.setColumnIdentifiers(columnName);
     initComponents();
-    jPanel1.setName("sidePanel");
+
     
-    // Set UserID Label
-    UserID.setText(ID);
-    
-    setTitle("Register - User ID: " + ID);
+ jPanel1.setName("sidePanel");
+        this.ID = ID;
+       
+        
+  // Create a new panel for the welcome and ID labels
+    javax.swing.JPanel topPanel = new javax.swing.JPanel();
+    topPanel.setBackground(new java.awt.Color(255, 255, 255));
+    topPanel.setLayout(new java.awt.FlowLayout(FlowLayout.CENTER));
+
+    // Welcome Label
+    JLabel welcomeLabel = new JLabel("Welcome to the Admin", SwingConstants.CENTER);
+    welcomeLabel.setFont(new java.awt.Font("Segoe UI", java.awt.Font.BOLD, 20));
+    welcomeLabel.setForeground(java.awt.Color.BLACK);
+
+    // ID Label
+    JLabel idLabel = new JLabel("User ID: " + ID, SwingConstants.CENTER);
+    idLabel.setFont(new java.awt.Font("Segoe UI", java.awt.Font.PLAIN, 16));
+    idLabel.setForeground(java.awt.Color.BLACK);
+
+    // Add labels to the new panel
+    topPanel.add(welcomeLabel);
+    topPanel.add(idLabel);
+
+    // Add the top panel to the main content pane
+    getContentPane().add(topPanel, java.awt.BorderLayout.NORTH);
+
+    // Theme and frame settings
+    ThemeManager.applyTheme(this);
+    setTitle("Admin Main Menu - User ID: " + ID);
     setSize(890, 600);
     setLocationRelativeTo(null);
-    setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    ThemeManager.applyTheme(this);
-    ThemeManager.updateTableTheme(jTable2);
-    loadFromFile();
-    setVisible(true); // Only call this once
+    setVisible(true);
+
     }
 
     private Register() {
@@ -100,7 +123,6 @@ public class Register extends javax.swing.JFrame {
         jComboBox3 = new javax.swing.JComboBox<>();
         jButton8 = new javax.swing.JButton();
         jButton11 = new javax.swing.JButton();
-        UserID = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -273,35 +295,26 @@ public class Register extends javax.swing.JFrame {
             }
         });
 
-        UserID.setText("U001");
-
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
-                                .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
-                                .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
-                                .addComponent(jComboBox3, 0, 0, Short.MAX_VALUE))
-                            .addComponent(jButton8, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton11, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(69, 69, 69)
-                        .addComponent(UserID, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
+                        .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
+                        .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
+                        .addComponent(jComboBox3, 0, 0, Short.MAX_VALUE))
+                    .addComponent(jButton8, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton11, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(12, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(UserID, javax.swing.GroupLayout.PREFERRED_SIZE, 12, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
                 .addComponent(jButton11, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jButton8, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -841,7 +854,6 @@ public class Register extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel UserID;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton11;
