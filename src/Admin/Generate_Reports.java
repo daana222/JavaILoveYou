@@ -81,7 +81,7 @@ private void addPanelsToLayout() {
 }
 
     private void displaySalesChart() {
-    DefaultPieDataset dataset = new DefaultPieDataset();
+     DefaultPieDataset dataset = new DefaultPieDataset();
     try (BufferedReader br = new BufferedReader(new FileReader("sales.txt"))) {
         String line;
         boolean isFirstLine = true;
@@ -100,13 +100,15 @@ private void addPanelsToLayout() {
     } catch (Exception e) {
         e.printStackTrace();
     }
+
     JFreeChart chart = ChartFactory.createPieChart("Sales Distribution", dataset, true, true, false);
     ChartPanel panel = new ChartPanel(chart);
-    panel.setPreferredSize(new java.awt.Dimension(350, 300));
+    panel.setPreferredSize(new java.awt.Dimension(300, 250)); //size
     salesChartPanel.removeAll();
     salesChartPanel.add(panel);
     salesChartPanel.revalidate();
     salesChartPanel.repaint();
+
 }
     
     private void displayUserChart() {
@@ -121,7 +123,7 @@ private void addPanelsToLayout() {
             }
             String[] data = line.split(",");
             if (data.length >= 7) {
-                String role = data[6]; // Job Role
+                String role = data[6];
                 dataset.addValue(1, "Count", role);
             }
         }
@@ -129,9 +131,11 @@ private void addPanelsToLayout() {
         e.printStackTrace();
     }
 
-    JFreeChart chart = ChartFactory.createBarChart("User Roles Count", "Roles", "Count", dataset);
+    JFreeChart chart = ChartFactory.createLineChart(
+            "User Roles Distribution", "Roles", "Count", dataset);
+    chart.setBackgroundPaint(new java.awt.Color(240, 240, 240));
+    chart.getTitle().setPaint(new java.awt.Color(0, 102, 204));
     ChartPanel panel = new ChartPanel(chart);
-    panel.setPreferredSize(new java.awt.Dimension(350, 300));
     userChartPanel.removeAll();
     userChartPanel.add(panel);
     userChartPanel.revalidate();
@@ -139,7 +143,7 @@ private void addPanelsToLayout() {
 }
 
 private void displayPaymentChart() {
-    DefaultPieDataset dataset = new DefaultPieDataset();
+     DefaultPieDataset dataset = new DefaultPieDataset();
     try (BufferedReader br = new BufferedReader(new FileReader("payment.txt"))) {
         String line;
         boolean isFirstLine = true;
@@ -150,7 +154,7 @@ private void displayPaymentChart() {
             }
             String[] data = line.split(",");
             if (data.length >= 4) {
-                String status = data[2]; // Payment Status
+                String status = data[2];
                 dataset.setValue(status, dataset.getValue(status) == null ? 1 : dataset.getValue(status).doubleValue() + 1);
             }
         }
@@ -158,9 +162,11 @@ private void displayPaymentChart() {
         e.printStackTrace();
     }
 
-    JFreeChart chart = ChartFactory.createPieChart("Payment Status", dataset, true, true, false);
+    JFreeChart chart = ChartFactory.createPieChart(
+            "Payment Status Distribution", dataset, true, true, false);
+    chart.setBackgroundPaint(new java.awt.Color(240, 240, 240));
+    chart.getTitle().setPaint(new java.awt.Color(0, 102, 204));
     ChartPanel panel = new ChartPanel(chart);
-    panel.setPreferredSize(new java.awt.Dimension(350, 300));
     paymentChartPanel.removeAll();
     paymentChartPanel.add(panel);
     paymentChartPanel.revalidate();
@@ -187,9 +193,11 @@ private void displayPOChart() {
         e.printStackTrace();
     }
 
-    JFreeChart chart = ChartFactory.createBarChart("PO Status Count", "Status", "Count", dataset);
+    JFreeChart chart = ChartFactory.createBarChart(
+            "Purchase Order Status", "Status", "Count", dataset);
+    chart.setBackgroundPaint(new java.awt.Color(240, 240, 240));
+    chart.getTitle().setPaint(new java.awt.Color(0, 102, 204));
     ChartPanel panel = new ChartPanel(chart);
-    panel.setPreferredSize(new java.awt.Dimension(350, 300));
     poChartPanel.removeAll();
     poChartPanel.add(panel);
     poChartPanel.revalidate();

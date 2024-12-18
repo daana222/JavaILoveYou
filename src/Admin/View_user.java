@@ -52,6 +52,7 @@ public class View_user extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTable2 = new javax.swing.JTable();
+        jLabel12 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
@@ -59,7 +60,6 @@ public class View_user extends javax.swing.JFrame {
         jComboBox1 = new javax.swing.JComboBox<>();
         jButton11 = new javax.swing.JButton();
         jButton10 = new javax.swing.JButton();
-        jLabel12 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -69,6 +69,8 @@ public class View_user extends javax.swing.JFrame {
 
         jTable2.setModel(model);
         jScrollPane2.setViewportView(jTable2);
+
+        jLabel12.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Admin/IconsA/admin (1).png"))); // NOI18N
 
         jPanel1.setBackground(new java.awt.Color(153, 153, 255));
         jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
@@ -157,37 +159,35 @@ public class View_user extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        jLabel12.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Admin/IconsA/admin (1).png"))); // NOI18N
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 560, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(161, 161, 161)
+                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 273, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(136, 136, 136)
-                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 273, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(23, Short.MAX_VALUE))
+                        .addGap(18, 18, 18)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 560, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(48, 48, 48))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addGap(367, 367, 367)
                     .addComponent(jLabel12)
-                    .addContainerGap(460, Short.MAX_VALUE)))
+                    .addContainerGap(485, Short.MAX_VALUE)))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(16, 16, 16)
+                .addGap(28, 28, 28)
                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(29, 29, 29)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 319, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                .addGap(28, 28, 28))
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 453, Short.MAX_VALUE)
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
@@ -223,40 +223,36 @@ public class View_user extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_jButton4ActionPerformed
 
-   private String previousSelection = "";
-   
     private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
-             String selectedItem = ((String) jComboBox1.getSelectedItem()).trim();
-        
-        
 
-    if ("VIEW ITEM".equalsIgnoreCase(selectedItem)) {
-        //if (!(this instanceof View_Items)) { // Avoid reopening the same frame
-            View_Items viewItemFrame = new View_Items();
-            viewItemFrame.setVisible(true);
-            this.dispose();
-        
-    } 
-    else if ("VIEW PAYMENT".equalsIgnoreCase(selectedItem)) {
-        View_Payment viewPaymentFrame = new View_Payment();
-        viewPaymentFrame.setVisible(true);
-        this.dispose();
-    } 
-    else if ("VIEW SUPPLIERS".equalsIgnoreCase(selectedItem)) {
-        View_Suppliers viewSuppliersFrame = new View_Suppliers();
-        viewSuppliersFrame.setVisible(true);
-        this.dispose();
-    } 
-    else if ("VIEW SALES REPORTS".equalsIgnoreCase(selectedItem)) {
-        View_sales_report viewSalesReportFrame = new View_sales_report();
-        viewSalesReportFrame.setVisible(true);
-        this.dispose();
-    } 
-    else {
-        JOptionPane.showMessageDialog(this, "Invalid selection!", "Error", JOptionPane.ERROR_MESSAGE);
-    }
+        String selectedItem = ((String) jComboBox1.getSelectedItem()).trim();
 
-    
+        if ("VIEW ITEM".equalsIgnoreCase(selectedItem)) {
+            //if (!(this instanceof View_Items)) { // Avoid reopening the same frame
+                View_Items viewItemFrame = new View_Items();
+                viewItemFrame.setVisible(true);
+                this.dispose();
+
+            }
+            else if ("VIEW PAYMENT".equalsIgnoreCase(selectedItem)) {
+                View_Payment viewPaymentFrame = new View_Payment();
+                viewPaymentFrame.setVisible(true);
+                this.dispose();
+            }
+            else if ("VIEW SUPPLIERS".equalsIgnoreCase(selectedItem)) {
+                View_Suppliers viewSuppliersFrame = new View_Suppliers();
+                viewSuppliersFrame.setVisible(true);
+                this.dispose();
+            }
+            else if ("VIEW SALES REPORTS".equalsIgnoreCase(selectedItem)) {
+                View_sales_report viewSalesReportFrame = new View_sales_report();
+                viewSalesReportFrame.setVisible(true);
+                this.dispose();
+            }
+            else {
+                JOptionPane.showMessageDialog(this, "Invalid selection!", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+
     }//GEN-LAST:event_jComboBox1ActionPerformed
 
     private void jButton11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton11ActionPerformed
@@ -273,22 +269,27 @@ public class View_user extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_jButton10ActionPerformed
 
+ 
+   
    public final void loadFromFile() {
+       
+       
     model.setRowCount(0); 
 
-        try (BufferedReader reader = new BufferedReader(new FileReader("User.txt"))) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                String[] rowData = line.split(",");
-                if (rowData.length == 7) {
-                    model.addRow(rowData);
-                } else {
-                    System.out.println("Invalid data format: " + line);
-                }
+       try (BufferedReader reader = new BufferedReader(new FileReader("src/Admin/User.txt"))) {
+        String line;
+        while ((line = reader.readLine()) != null) {
+            String[] rowData = line.split(",");
+            if (rowData.length == 7) { // Validate correct columns
+                model.addRow(rowData);
+            } else {
+                System.out.println("Skipping invalid line: " + line);
             }
-        } catch (IOException e) {
-            JOptionPane.showMessageDialog(this, "Error loading data: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
+    } catch (IOException e) {
+        JOptionPane.showMessageDialog(this, "Error loading data: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+    }
+
     }
     /**
      * @param args the command line arguments
