@@ -269,7 +269,7 @@ public class View_Items extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         //
-        Register registerFrame = new Register();
+        Register registerFrame = new Register(ID);
 
         registerFrame.setVisible(true);
         this.dispose();

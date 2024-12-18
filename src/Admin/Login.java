@@ -261,7 +261,11 @@ try (BufferedReader reader = new BufferedReader(new FileReader("User.txt"))) { /
     private void redirectToMainMenu(String role, String ID) {
     switch (role.toUpperCase()) {
         case "ADMIN":
-            new Admin.Main_Menu(ID).setVisible(true);
+            if (ID != null && !ID.isEmpty()) {
+    new Admin.Main_Menu(ID).setVisible(true);
+} else {
+    JOptionPane.showMessageDialog(this, "Invalid User ID. Cannot redirect.", "Error", JOptionPane.ERROR_MESSAGE);
+}
             break;
         case "SALES MANAGER":
           //  new Sales_Manager.Main_Dashboard(ID).setVisible(true);
