@@ -20,6 +20,7 @@ import javax.swing.table.DefaultTableModel;
  * @author HP
  */
 public class View_Items extends javax.swing.JFrame {
+    private String ID;
    
 
     private final DefaultTableModel model;
@@ -260,8 +261,8 @@ public class View_Items extends javax.swing.JFrame {
                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(37, Short.MAX_VALUE))
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 518, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 487, Short.MAX_VALUE)
         );
 
         pack();
@@ -330,9 +331,10 @@ public class View_Items extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-        Main_Menu mainMenuFrame = new Main_Menu();
-
-        mainMenuFrame.setVisible(true);
+        // Main_Menu mainMenuFrame = new Main_Menu();
+       // mainMenuFrame.setVisible(true); - old code
+       // display the id thing
+        new Main_Menu(ID).setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jButton5ActionPerformed
 

@@ -5,6 +5,7 @@
 package Admin;
 
 import ThemeManager.ThemeManager;
+import financemanagerd.FManager;
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import javax.swing.JFrame;
@@ -12,7 +13,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
 import javax.swing.text.html.HTML;
-import static org.jfree.ui.UIUtilities.setupUI;
+
 
 /**
  *
@@ -26,53 +27,74 @@ public class Main_Menu extends javax.swing.JFrame {
      */
     public Main_Menu(String ID) {
         // get the id to display
-        this.ID = ID;
+        this.ID = (ID == null || ID.isEmpty()) ? "Unknown ID" : ID;
         initComponents();
-         setupUI(); 
-        //the top panel display 
-    setTitle("Admin Main Menu - User ID: " + ID);
+        displayWelcomeMessage();
+        
+
+         
+         // Display the User ID
+   // JLabel idLabel = new JLabel("ID: " + ID, SwingConstants.CENTER);
+   // idLabel.setFont(new java.awt.Font("Segoe UI", java.awt.Font.PLAIN, 16));
+   // jPanel1.add(idLabel);
   
 // jplanel thing
-    JLabel welcomeLabel = new JLabel("Welcome Admin", SwingConstants.CENTER);
-    welcomeLabel.setFont(new java.awt.Font("Segoe UI", java.awt.Font.BOLD, 20));
-    welcomeLabel.setForeground(java.awt.Color.BLACK);
+   // JLabel welcomeLabel = new JLabel("Welcome Admin", SwingConstants.CENTER);
+  // welcomeLabel.setFont(new java.awt.Font("Segoe UI", java.awt.Font.BOLD, 20));
+  //  welcomeLabel.setForeground(java.awt.Color.BLACK);
 
      // ID Label
-    JLabel idLabel = new JLabel("ID: " + ID, SwingConstants.CENTER);
-    idLabel.setFont(new java.awt.Font("Segoe UI", java.awt.Font.PLAIN, 16));
-    idLabel.setForeground(java.awt.Color.BLACK);
+   // JLabel idLabel = new JLabel("ID: " + ID, SwingConstants.CENTER);
+  //  idLabel.setFont(new java.awt.Font("Segoe UI", java.awt.Font.PLAIN, 16));
+   // idLabel.setForeground(java.awt.Color.BLACK);
 
-    // Set the layout /positions
-    jPanel1.setLayout(null);
+     //Set the layout /positions
+    //jPanel1.setLayout(null);
 
     // Add Welcome, the top
-    welcomeLabel.setBounds(10, 10, jPanel1.getWidth() - 20, 30);
-    jPanel1.add(welcomeLabel);
+  // welcomeLabel.setBounds(10, 10, jPanel1.getWidth() - 20, 30);
+   // jPanel1.add(welcomeLabel);
 
     // Add ID below Welcome
-    idLabel.setBounds(10, 45, jPanel1.getWidth() - 20, 30);
-    jPanel1.add(idLabel);
+   //idLabel.setBounds(10, 45, jPanel1.getWidth() - 20, 30);
+   // jPanel1.add(idLabel);
 
     // Ensure the labels are brought to the front
-    jPanel1.setComponentZOrder(welcomeLabel, 0);
-    jPanel1.setComponentZOrder(idLabel, 0);
+  // jPanel1.setComponentZOrder(welcomeLabel, 0);
+   // jPanel1.setComponentZOrder(idLabel, 0);
 
     // Frame settings
-    setSize(890, 600); 
-    setLocationRelativeTo(null); // Center the frame on the screen
-    setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+   //setSize(890, 600); 
+   // setLocationRelativeTo(null); // Center the frame on the screen
+   // setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     jPanel1.setName("sidePanel");
     ThemeManager.applyTheme(this);
     setVisible(true);
 }   
-     public Main_Menu() {
-        this("ID not found"); // Default to "Unknown" ID if no ID is provided
-    }
 
-    Main_Menu(HTML.Attribute ID) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
 
+        private void displayWelcomeMessage() {
+    JLabel welcomeLabel = new JLabel("Welcome Admin", SwingConstants.CENTER);
+    welcomeLabel.setFont(new java.awt.Font("Segoe UI", java.awt.Font.BOLD, 20));
+    
+    
+    
+
+    JLabel idLabel = new JLabel("ID: " + this.ID, SwingConstants.CENTER);
+    idLabel.setFont(new java.awt.Font("Segoe UI", java.awt.Font.PLAIN, 16));
+    
+    jPanel1.setLayout(null);
+    welcomeLabel.setBounds(10, 10, jPanel1.getWidth() - 20, 30);
+    idLabel.setBounds(10, 45, jPanel1.getWidth() - 20, 30);
+    
+    jPanel1.add(welcomeLabel);
+    jPanel1.add(idLabel);
+    jPanel1.revalidate();
+    jPanel1.repaint();
+    
+    
+}
+   
       
     /**
      * This method is called from within the constructor to initialize the form.
@@ -308,10 +330,23 @@ public class Main_Menu extends javax.swing.JFrame {
      * @param args the command line arguments
      */
     public static void main(String args[]) {
+        try {
+        for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+            if ("Nimbus".equals(info.getName())) {
+                javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                break;
+            }
+        }
+    } catch (Exception ex) {
+        java.util.logging.Logger.getLogger(FManager.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+    }
+        
+      
     
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Main_Menu("A001").setVisible(true);// Test with a dummy ID
+                String dummyID = "F001";
+                new Main_Menu(dummyID).setVisible(true);// Test with a dummy ID
             }
         });
     }

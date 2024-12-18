@@ -12,7 +12,7 @@ import java.io.IOException;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import static javax.swing.text.html.HTML.Attribute.ID;
+
 
 /**
  *
@@ -214,6 +214,8 @@ public class Login extends javax.swing.JFrame {
         boolean loginSuccessful = false;
     String role = ""; // read role 
     String ID = "";// read ID both matchs
+    
+    
 
 try (BufferedReader reader = new BufferedReader(new FileReader("User.txt"))) { // get from file txt
     String line;
@@ -274,7 +276,7 @@ try (BufferedReader reader = new BufferedReader(new FileReader("User.txt"))) { /
           //  new Sales_Manager.Main_Dashboard(ID).setVisible(true);
             break;
         case "PURCHASE MANAGER":
-            new Purchase_Manager.PM(ID).setVisible(true);
+//            new Purchase_Manager.PM(ID).setVisible(true);
             break;
         case "FINANCE MANAGER":
          new financemanagerd.FManager(ID).setVisible(true);
@@ -323,7 +325,7 @@ try (BufferedReader reader = new BufferedReader(new FileReader("User.txt"))) { /
         });
 
         btnPurchaseManager.addActionListener(e -> {
-            new Purchase_Manager.PM("P002").setVisible(true);
+           // new Purchase_Manager.PM("").setVisible(true);
             this.dispose(); // Close RoleSelection window
         });
 
@@ -336,11 +338,12 @@ try (BufferedReader reader = new BufferedReader(new FileReader("User.txt"))) { /
         });
 
         // will lead to admin page
-        btnAdmin.addActionListener(e -> {
-            
-            new Admin.Main_Menu("U001").setVisible(true);
-            this.dispose(); // Close RoleSelection window
-        });
+       btnAdmin.addActionListener(e -> {
+           
+    new Admin.Main_Menu("U001").setVisible(true);  
+// Pass the correct ID dynamically
+    this.dispose();
+});
 
 
         setLocationRelativeTo(null);
@@ -440,7 +443,8 @@ try (BufferedReader reader = new BufferedReader(new FileReader("User.txt"))) { /
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        java.awt.EventQueue.invokeLater(() -> new Login().setVisible(true));
+        java.awt.EventQueue.invokeLater(() -> 
+                new Login().setVisible(true));
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.

@@ -535,10 +535,18 @@ public class Register extends javax.swing.JFrame {
         jTextField4.requestFocus();
         return;
     }
-        String newRow[] = {ID, name, phoneNumber, address, username, password, role};
-        
-        model.addRow(newRow);
-        uniqueIds.add(ID); 
+        User user = new User(ID, name, phoneNumber, address, username, password, role);
+
+model.addRow(new Object[]{
+    user.getId(),
+    user.getFullName(),
+    user.getPhoneNumber(),
+    user.getAddress(),
+    user.getUsername(),
+    user.getPassword(),
+    user.getRole()
+});
+uniqueIds.add(user.getId());
         
         clearTextField();
         saveToFile();
@@ -616,13 +624,15 @@ public class Register extends javax.swing.JFrame {
         return;
     }
         
-        model.setValueAt(ID, row, 0);
-        model.setValueAt(name, row, 1);
-        model.setValueAt(phoneNumber, row, 2);
-        model.setValueAt(address, row, 3);
-        model.setValueAt(username, row, 4);
-        model.setValueAt(password, row, 5);
-        model.setValueAt(role, row, 6);
+        User user = new User(ID, name, phoneNumber, address, username, password, role);
+
+model.setValueAt(user.getId(), row, 0);
+model.setValueAt(user.getFullName(), row, 1);
+model.setValueAt(user.getPhoneNumber(), row, 2);
+model.setValueAt(user.getAddress(), row, 3);
+model.setValueAt(user.getUsername(), row, 4);
+model.setValueAt(user.getPassword(), row, 5);
+model.setValueAt(user.getRole(), row, 6);
         
     JOptionPane.showMessageDialog(this, "User has been edited successfully!");
     saveToFile();
@@ -749,14 +759,18 @@ public class Register extends javax.swing.JFrame {
     public void saveToFile() {
     try (BufferedWriter writer = new BufferedWriter(new FileWriter("User.txt"))) {
         for (int i = 0; i < model.getRowCount(); i++) {
-            for (int j = 0; j < model.getColumnCount(); j++) {
-                writer.write(model.getValueAt(i, j).toString());
-                if (j < model.getColumnCount() - 1) {
-                    writer.write(","); 
-                }
-            }
-            writer.newLine();
-        }
+    User user = new User(
+        model.getValueAt(i, 0).toString(), // ID
+        model.getValueAt(i, 1).toString(), // Full Name
+        model.getValueAt(i, 2).toString(), // Phone Number
+        model.getValueAt(i, 3).toString(), // Address
+        model.getValueAt(i, 4).toString(), // Username
+        model.getValueAt(i, 5).toString(), // Password
+        model.getValueAt(i, 6).toString()  // Role
+    );
+    writer.write(user.toString());
+    writer.newLine();
+}
         writer.flush();
         JOptionPane.showMessageDialog(this, "Data saved successfully!");
     } catch (IOException e) {
@@ -771,12 +785,22 @@ public class Register extends javax.swing.JFrame {
         uniqueIds.clear();
 
         while ((line = reader.readLine()) != null) {
-            String[] rowData = line.split(","); // Ensure proper splitting
-            if (rowData.length == columnName.length) {
-                model.addRow(rowData);
-                uniqueIds.add(rowData[0]); 
-            }
-        }
+    String[] rowData = line.split(",");
+    if (rowData.length == columnName.length) {
+        User user = new User(rowData[0], rowData[1], rowData[2], rowData[3], 
+                            rowData[4], rowData[5], rowData[6]);
+        model.addRow(new Object[]{
+            user.getId(),
+            user.getFullName(),
+            user.getPhoneNumber(),
+            user.getAddress(),
+            user.getUsername(),
+            user.getPassword(),
+            user.getRole()
+        });
+        uniqueIds.add(user.getId());
+    }
+}
 
    } catch (IOException e) {
         JOptionPane.showMessageDialog(this, "Error loading data: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
