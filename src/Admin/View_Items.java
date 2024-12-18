@@ -20,6 +20,7 @@ import javax.swing.table.DefaultTableModel;
  * @author HP
  */
 public class View_Items extends javax.swing.JFrame {
+    private String ID;
 
     private final DefaultTableModel model;
     /**

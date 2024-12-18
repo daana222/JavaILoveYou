@@ -16,6 +16,7 @@ import javax.swing.table.DefaultTableModel;
  * @author HP
  */
 public class View_sales_report extends javax.swing.JFrame {
+    private String ID;
    private final DefaultTableModel model;
     /**
      * Creates new form View_sales_report
