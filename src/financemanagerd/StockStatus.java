@@ -61,13 +61,13 @@ public class StockStatus extends javax.swing.JFrame {
 
         stockStatusTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null}
             },
             new String [] {
-                "Item ID", "Item Name", "Stock level", "Reorder", "Unit price"
+                "Item ID", "Item Name", "Stock level", "Reorder", "Unit price", "Last Updated Date"
             }
         ));
         jScrollPane2.setViewportView(stockStatusTable);
@@ -268,9 +268,10 @@ public class StockStatus extends javax.swing.JFrame {
                     String stockLevel = columns[3].trim();    // Stock Level
                     String reorderLevel = columns[4].trim();  // Reorder Level
                     String unitPrice = columns[5].trim();     // Unit Price
+                    String updatedDate = columns[7].trim();     // Unit Price
 
                     // Add the row to the table
-                    model.addRow(new Object[]{itemId, itemName, stockLevel, reorderLevel, unitPrice});
+                    model.addRow(new Object[]{itemId, itemName, stockLevel, reorderLevel, unitPrice,updatedDate});
                 }
             }
         } catch (IOException e) {
@@ -288,7 +289,7 @@ public class StockStatus extends javax.swing.JFrame {
 
         DefaultTableModel model = (DefaultTableModel) stockStatusTable.getModel();
         DefaultTableModel filteredModel = new DefaultTableModel(
-            new String[]{"Item ID", "Item Name", "Stock level", "Reorder", "Unit price"}, 0
+            new String[]{"Item ID", "Item Name", "Stock level", "Reorder", "Unit price","Last updated date"}, 0
         );
 
         for (int i = 0; i < model.getRowCount(); i++) {

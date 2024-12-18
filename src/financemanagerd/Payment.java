@@ -6,7 +6,9 @@ import java.io.BufferedWriter;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
@@ -648,6 +650,9 @@ public class Payment extends javax.swing.JFrame {
 
             // Step 2: Read and update items.txt
             java.util.List<String> updatedLines = new java.util.ArrayList<>();
+            SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+            String currentDate = dateFormat.format(new Date());
+
             try (BufferedReader itemsReader = new BufferedReader(new FileReader(itemsFilePath))) {
                 String line;
                 boolean isFirstLine = true;
@@ -671,12 +676,15 @@ public class Payment extends javax.swing.JFrame {
                             int newReorderLevel = reorderLevel - quantityToAdd; // Decrease reorder level
                             if (newReorderLevel < 0) newReorderLevel = 0; // Avoid negative reorder level
 
+                            // Update Last Updated Date
+                            columns[7] = currentDate; // Update the last updated date
+
                             // Apply updates
                             columns[3] = String.valueOf(newStockLevel); // Update stock level
                             columns[4] = String.valueOf(newReorderLevel); // Update reorder level
 
                             // Debugging: Log updates
-                            System.out.println("Updated Item ID: " + itemId + " | New Stock: " + newStockLevel + " | New Reorder Level: " + newReorderLevel);
+                            System.out.println("Updated Item ID: " + itemId + " | New Stock: " + newStockLevel + " | New Reorder Level: " + newReorderLevel + " | Last Updated: " + currentDate);
                         }
                     }
                     updatedLines.add(String.join(",", columns)); // Add updated or unchanged line
