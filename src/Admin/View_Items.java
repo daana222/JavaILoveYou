@@ -5,10 +5,14 @@
 package Admin;
 
 import ThemeManager.ThemeManager;
+import java.awt.Component;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -21,21 +25,63 @@ public class View_Items extends javax.swing.JFrame {
     /**
      * Creates new form View_Items
      */
-    public View_Items() {
-        model = new DefaultTableModel(new String[]{
-            "Item ID", "Item Name", "Supplier ID", "Stock Level", 
-            "Reorder Level", "Cost per Unit", "Selling Price", "Last Updated"
-        }, 0) {
-            @Override
-            public boolean isCellEditable(int row, int column) {
-                return false; // Disable editing for all cells
+    
+    class EmojiRenderer extends DefaultTableCellRenderer {
+
+    @Override
+    public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected,
+            boolean hasFocus, int row, int column) {
+        JLabel label = new JLabel();
+        label.setOpaque(true);
+        
+        // Determine the emoji/icon based on value
+        if (value != null) {
+            String itemName = value.toString().toLowerCase();
+
+            // Example conditions for different emojis
+            if (itemName.contains("laptop")) {
+                label.setText("💻 Laptop");
+            } else if (itemName.contains("phone")) {
+                label.setText("📱 Phone");
+            } else if (itemName.contains("chair")) {
+                label.setText("🪑 Chair");
+            } else if (itemName.contains("food")) {
+                label.setText("🍔 Food");
+            } else {
+                 label.setText("📦 " + value); // Default emoji
             }
-        };
+        }
+        
+        // Highlight selection
+        if (isSelected) {
+            label.setBackground(table.getSelectionBackground());
+            label.setForeground(table.getSelectionForeground());
+        } else {
+            label.setBackground(table.getBackground());
+            label.setForeground(table.getForeground());
+        }
+        
+        return label;
+    }
+}
+    public View_Items() {
+       model = new DefaultTableModel(new String[]{
+        "Item ID", "Item Name", "Supplier ID", "Stock Level", 
+        "Reorder Level", "Cost per Unit", "Selling Price", "Last Updated"
+    }, 0) {
+        @Override
+        public boolean isCellEditable(int row, int column) {
+            return false; // Disable editing for all cells
+        }
+    };
         
         initComponents();
         jPanel1.setName("sidePanel");
         ThemeManager.applyTheme(this);
         ThemeManager.updateTableTheme(jTable1);
+        
+         // Apply emoji renderer to the "Item Name" column (index 1)
+        jTable1.getColumnModel().getColumn(1).setCellRenderer(new EmojiRenderer());
         
         loadItemsFromFile();
     }
@@ -93,7 +139,6 @@ public class View_Items extends javax.swing.JFrame {
         jComboBox1 = new javax.swing.JComboBox<>();
         jButton3 = new javax.swing.JButton();
         jButton5 = new javax.swing.JButton();
-        jLabel12 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -157,35 +202,26 @@ public class View_Items extends javax.swing.JFrame {
             }
         });
 
-        jLabel12.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Admin/IconsA/admin (1).png"))); // NOI18N
-
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
-                                .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
-                                .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
-                                .addComponent(jComboBox1, 0, 0, Short.MAX_VALUE))
-                            .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(45, 45, 45)
-                        .addComponent(jLabel12)))
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
+                        .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
+                        .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
+                        .addComponent(jComboBox1, 0, 0, Short.MAX_VALUE))
+                    .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(12, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel12)
-                .addGap(18, 18, 18)
                 .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -342,7 +378,6 @@ public class View_Items extends javax.swing.JFrame {
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     private javax.swing.JComboBox<String> jComboBox1;
-    private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;

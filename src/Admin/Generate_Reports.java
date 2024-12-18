@@ -7,7 +7,6 @@ package Admin;
 import ThemeManager.ThemeManager;
 import java.io.BufferedReader;
 import java.io.FileReader;
-import java.io.IOException;
 import javax.swing.JOptionPane;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
@@ -28,83 +27,174 @@ public class Generate_Reports extends javax.swing.JFrame {
         initComponents();
         jPanel1.setName("sidePanel");
         ThemeManager.applyTheme(this);
-        displayPieChart();
-        displayBarChart();
         
+        // Dynamically create chart panels
+    salesChartPanel = new javax.swing.JPanel();
+    userChartPanel = new javax.swing.JPanel();
+    paymentChartPanel = new javax.swing.JPanel();
+    poChartPanel = new javax.swing.JPanel();
+      
+    
+    addPanelsToLayout();
+
+    displaySalesChart();
+    displayUserChart();
+    displayPaymentChart();
+    displayPOChart();
+    
+    
+    
     }
     
+private javax.swing.JPanel salesChartPanel;
+private javax.swing.JPanel userChartPanel;
+private javax.swing.JPanel paymentChartPanel;
+private javax.swing.JPanel poChartPanel;
 
-    private javax.swing.JPanel jPanelPie;
-private javax.swing.JPanel jPanelBar;
 
-    private void displayPieChart() {
+private void addPanelsToLayout() {
+    javax.swing.GroupLayout layout = (javax.swing.GroupLayout) getContentPane().getLayout();
+
+    layout.setHorizontalGroup(
+        layout.createSequentialGroup()
+            .addGap(220) // Space for jPanel1
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addComponent(salesChartPanel, 350, 350, 350)
+                .addComponent(paymentChartPanel, 350, 350, 350))
+            .addGap(20)
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addComponent(userChartPanel, 350, 350, 350)
+                .addComponent(poChartPanel, 350, 350, 350))
+    );
+
+    layout.setVerticalGroup(
+        layout.createSequentialGroup()
+            .addGap(80) // Space for title
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addComponent(salesChartPanel, 300, 300, 300)
+                .addComponent(userChartPanel, 300, 300, 300))
+            .addGap(20)
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addComponent(paymentChartPanel, 300, 300, 300)
+                .addComponent(poChartPanel, 300, 300, 300))
+    );
+}
+
+    private void displaySalesChart() {
     DefaultPieDataset dataset = new DefaultPieDataset();
-
-    try (BufferedReader salesReader = new BufferedReader(new FileReader("sales.txt"))) {
+    try (BufferedReader br = new BufferedReader(new FileReader("sales.txt"))) {
         String line;
-        boolean isFirstLine = true; // To skip the header line
-
-        while ((line = salesReader.readLine()) != null) {
-            if (isFirstLine) { // Skip the first line
+        boolean isFirstLine = true;
+        while ((line = br.readLine()) != null) {
+            if (isFirstLine) {
                 isFirstLine = false;
                 continue;
             }
-
-            String[] salesData = line.split(",");
-            if (salesData.length >= 6) {
-                String itemName = salesData[2]; // Item Name
-                double totalSales = Double.parseDouble(salesData[5].replace("RM", ""));
+            String[] data = line.split(",");
+            if (data.length >= 6) {
+                String itemName = data[2];
+                double totalSales = Double.parseDouble(data[5].replace("RM", ""));
                 dataset.setValue(itemName, totalSales);
             }
         }
-    } catch (IOException | NumberFormatException e) {
-        JOptionPane.showMessageDialog(this, "Error loading pie chart: " + e.getMessage(),
-                "Error", JOptionPane.ERROR_MESSAGE);
+    } catch (Exception e) {
+        e.printStackTrace();
     }
-
-    JFreeChart pieChart = ChartFactory.createPieChart(
-            "Sales Distribution by Item", dataset, true, true, false);
-
-    ChartPanel pieChartPanel = new ChartPanel(pieChart);
-    pieChartPanel.setPreferredSize(new java.awt.Dimension(350, 300));
-    jPanelPie.removeAll();
-    jPanelPie.add(pieChartPanel);
-    jPanelPie.revalidate();
-    jPanelPie.repaint();
-
-    }
+    JFreeChart chart = ChartFactory.createPieChart("Sales Distribution", dataset, true, true, false);
+    ChartPanel panel = new ChartPanel(chart);
+    panel.setPreferredSize(new java.awt.Dimension(350, 300));
+    salesChartPanel.removeAll();
+    salesChartPanel.add(panel);
+    salesChartPanel.revalidate();
+    salesChartPanel.repaint();
+}
     
-    private void displayBarChart() {
-        DefaultCategoryDataset dataset = new DefaultCategoryDataset();
-
-        try (BufferedReader paymentReader = new BufferedReader(new FileReader("Payment.txt"))) {
-            String line;
-            while ((line = paymentReader.readLine()) != null) {
-                String[] paymentData = line.split(",");
-                if (paymentData.length >= 4) {
-                    String supplierID = paymentData[5];   // Supplier ID
-                    String paymentStatus = paymentData[2]; // Payment Status
-                    int totalItems = Integer.parseInt(paymentData[6]); // Total Items
-                    dataset.addValue(totalItems, paymentStatus, supplierID);
-                }
+    private void displayUserChart() {
+         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+    try (BufferedReader br = new BufferedReader(new FileReader("user.txt"))) {
+        String line;
+        boolean isFirstLine = true;
+        while ((line = br.readLine()) != null) {
+            if (isFirstLine) {
+                isFirstLine = false;
+                continue;
             }
-        } catch (IOException | NumberFormatException e) {
-            JOptionPane.showMessageDialog(this, "Error loading bar chart: " + e.getMessage(),
-                    "Error", JOptionPane.ERROR_MESSAGE);
+            String[] data = line.split(",");
+            if (data.length >= 7) {
+                String role = data[6]; // Job Role
+                dataset.addValue(1, "Count", role);
+            }
         }
-
-        JFreeChart barChart = ChartFactory.createBarChart(
-                "Payment Status by Supplier", "Supplier ID", "Total Items", dataset);
-
-        ChartPanel barChartPanel = new ChartPanel(barChart);
-        barChartPanel.setPreferredSize(new java.awt.Dimension(350, 300));
-        jPanelBar.removeAll();
-        jPanelBar.add(barChartPanel);
-        jPanelBar.revalidate();
-        jPanelBar.repaint();
+    } catch (Exception e) {
+        e.printStackTrace();
     }
 
+    JFreeChart chart = ChartFactory.createBarChart("User Roles Count", "Roles", "Count", dataset);
+    ChartPanel panel = new ChartPanel(chart);
+    panel.setPreferredSize(new java.awt.Dimension(350, 300));
+    userChartPanel.removeAll();
+    userChartPanel.add(panel);
+    userChartPanel.revalidate();
+    userChartPanel.repaint();
+}
 
+private void displayPaymentChart() {
+    DefaultPieDataset dataset = new DefaultPieDataset();
+    try (BufferedReader br = new BufferedReader(new FileReader("payment.txt"))) {
+        String line;
+        boolean isFirstLine = true;
+        while ((line = br.readLine()) != null) {
+            if (isFirstLine) {
+                isFirstLine = false;
+                continue;
+            }
+            String[] data = line.split(",");
+            if (data.length >= 4) {
+                String status = data[2]; // Payment Status
+                dataset.setValue(status, dataset.getValue(status) == null ? 1 : dataset.getValue(status).doubleValue() + 1);
+            }
+        }
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+
+    JFreeChart chart = ChartFactory.createPieChart("Payment Status", dataset, true, true, false);
+    ChartPanel panel = new ChartPanel(chart);
+    panel.setPreferredSize(new java.awt.Dimension(350, 300));
+    paymentChartPanel.removeAll();
+    paymentChartPanel.add(panel);
+    paymentChartPanel.revalidate();
+    paymentChartPanel.repaint();
+}
+
+private void displayPOChart() {
+    DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+    try (BufferedReader br = new BufferedReader(new FileReader("PO.txt"))) {
+        String line;
+        boolean isFirstLine = true;
+        while ((line = br.readLine()) != null) {
+            if (isFirstLine) {
+                isFirstLine = false;
+                continue;
+            }
+            String[] data = line.split(",");
+            if (data.length >= 11) {
+                String status = data[10];
+                dataset.addValue(1, "Count", status);
+            }
+        }
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+
+    JFreeChart chart = ChartFactory.createBarChart("PO Status Count", "Status", "Count", dataset);
+    ChartPanel panel = new ChartPanel(chart);
+    panel.setPreferredSize(new java.awt.Dimension(350, 300));
+    poChartPanel.removeAll();
+    poChartPanel.add(panel);
+    poChartPanel.revalidate();
+    poChartPanel.repaint();
+}
     
     /**
      * This method is called from within the constructor to initialize the form.
@@ -123,7 +213,6 @@ private javax.swing.JPanel jPanelBar;
         jComboBox1 = new javax.swing.JComboBox<>();
         jButton11 = new javax.swing.JButton();
         jButton10 = new javax.swing.JButton();
-        jLabel13 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -184,35 +273,26 @@ private javax.swing.JPanel jPanelBar;
             }
         });
 
-        jLabel13.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Admin/IconsA/admin (1).png"))); // NOI18N
-
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
-                                .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
-                                .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
-                                .addComponent(jComboBox1, 0, 0, Short.MAX_VALUE))
-                            .addComponent(jButton11, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton10, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(39, 39, 39)
-                        .addComponent(jLabel13)))
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
+                        .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
+                        .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
+                        .addComponent(jComboBox1, 0, 0, Short.MAX_VALUE))
+                    .addComponent(jButton11, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton10, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(12, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel13)
-                .addGap(33, 33, 33)
                 .addComponent(jButton10, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jButton11, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -364,7 +444,6 @@ private javax.swing.JPanel jPanelBar;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton4;
     private javax.swing.JComboBox<String> jComboBox1;
-    private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     // End of variables declaration//GEN-END:variables
