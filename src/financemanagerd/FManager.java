@@ -23,6 +23,7 @@ public class FManager extends javax.swing.JFrame {
     public FManager(String ID) {
         this.ID = ID;
         initComponents();
+        jPanel1.setName("sidePanel");
 // Create a new panel for the welcome and ID labels
 javax.swing.JPanel topPanel = new javax.swing.JPanel();
 topPanel.setBackground(new java.awt.Color(255, 255, 255));
@@ -52,7 +53,7 @@ setSize(890, 600);
 setLocationRelativeTo(null);
 setVisible(true);
 
-jPanel1.setName("sidePanel");
+
 
         ThemeManager.applyTheme(this);
         setSize(890, 500);
@@ -480,7 +481,7 @@ jPanel1.setName("sidePanel");
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new FManager().setVisible(true);
+                new FManager("").setVisible(true);
             }
         });
     }

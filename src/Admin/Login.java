@@ -12,6 +12,7 @@ import java.io.IOException;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import static javax.swing.text.html.parser.DTDConstants.ID;
 
 
 /**
@@ -217,48 +218,50 @@ public class Login extends javax.swing.JFrame {
     
     
 
-try (BufferedReader reader = new BufferedReader(new FileReader("User.txt"))) { // get from file txt
+try (BufferedReader reader = new BufferedReader(new FileReader("User.txt"))) {
     String line;
     while ((line = reader.readLine()) != null) {
-       // System.out.println("File Line: " + line); // this is for Debugging: Print each line
-        
+        // Split the line to get user details
         String[] userDetails = line.split(",");
-        if (userDetails.length >= 7) {
-            String fileUsername = userDetails[4].trim();
-            String filePassword = userDetails[5].trim();
+        
+        if (userDetails.length >= 7) { // Ensure all fields exist
+            User user = new User(
+                userDetails[0].trim(), // ID
+                userDetails[1].trim(), // Full Name
+                userDetails[2].trim(), // Phone Number
+                userDetails[3].trim(), // Address (Email here)
+                userDetails[4].trim(), // Username
+                userDetails[5].trim(), // Password
+                userDetails[6].trim()  // Role
+            );
 
-           // System.out.println("Username: " + fileUsername + ", Password: " + filePassword); // Debugging thery will show dont there ,,, to be confirm only
-
-
-           // both true = login
-            if (username.equals(fileUsername) && password.equals(filePassword)) {
+            // Match username and password
+            if (username.equals(user.getUsername()) && password.equals(user.getPassword())) {
                 loginSuccessful = true;
-                role = userDetails[6].trim().toUpperCase();
-                ID = userDetails[0].trim();
+                role = user.getRole();
+                ID = user.getId(); // Get the user ID from the User object
                 break;
             }
-
-        } else {
-            System.out.println("Invalid Line Format: " + line); // Debugging: Invalid like where line
         }
     }
 } catch (IOException e) {
-    JOptionPane.showMessageDialog(this, "Error in reading user data: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+    JOptionPane.showMessageDialog(this, "Error reading user data: " + e.getMessage(), "File Error", JOptionPane.ERROR_MESSAGE);
     return;
 }
 
 // part og login         
-         if (loginSuccessful) {
-            JOptionPane.showMessageDialog(this, "Login Successful!");
-             if (role.equalsIgnoreCase("ADMIN")) {
-            new RoleSelection().setVisible(true); 
-        } else {
-            redirectToMainMenu(role, ID); 
-        }
-        this.dispose();
+       if (loginSuccessful) {
+    JOptionPane.showMessageDialog(this, "Login Successful!");
+
+    if (role.equalsIgnoreCase("ADMIN")) {
+        new Admin.Main_Menu(ID).setVisible(true); // Pass the User ID
     } else {
-        JOptionPane.showMessageDialog(this, "Invalid Username or Password", "Login Failed", JOptionPane.ERROR_MESSAGE);
-         }
+        redirectToMainMenu(role, ID);
+    }
+    this.dispose();
+} else {
+    JOptionPane.showMessageDialog(this, "Invalid Username or Password", "Login Failed", JOptionPane.ERROR_MESSAGE);
+}
  
 
          
@@ -338,11 +341,10 @@ try (BufferedReader reader = new BufferedReader(new FileReader("User.txt"))) { /
         });
 
         // will lead to admin page
-       btnAdmin.addActionListener(e -> {
-           
-    new Admin.Main_Menu("U001").setVisible(true);  
-// Pass the correct ID dynamically
+     btnAdmin.addActionListener(e -> {
+    new Admin.Main_Menu(String.valueOf(ID)).setVisible(true);
     this.dispose();
+
 });
 
 
