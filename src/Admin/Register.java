@@ -20,6 +20,7 @@ import java.util.HashSet;
  * @author HP
  */
 public class Register extends javax.swing.JFrame {
+    private String ID;
     
     private final DefaultTableModel model = new DefaultTableModel();// to create model obj to placed in table
     private final String[] columnName = {"ID","Full Name","Phone Number","Address","Username","Password","Job Roles"};// an array / colum name
@@ -689,35 +690,38 @@ public class Register extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jComboBox2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox2ActionPerformed
-             String selectedItem = ((String) jComboBox1.getSelectedItem()).trim();
+           String selectedItem = ((String) jComboBox1.getSelectedItem()).trim();
         
-        
-
     if ("VIEW ITEM".equalsIgnoreCase(selectedItem)) {
         //if (!(this instanceof View_Items)) { // Avoid reopening the same frame
             View_Items viewItemFrame = new View_Items();
             viewItemFrame.setVisible(true);
+            
             this.dispose();
         
     } 
     else if ("VIEW PAYMENT".equalsIgnoreCase(selectedItem)) {
-        View_Payment viewPaymentFrame = new View_Payment();
+       View_Payment viewPaymentFrame = new View_Payment();
         viewPaymentFrame.setVisible(true);
+       
         this.dispose();
     } 
     else if ("VIEW SUPPLIERS".equalsIgnoreCase(selectedItem)) {
-        View_Suppliers viewSuppliersFrame = new View_Suppliers();
-        viewSuppliersFrame.setVisible(true);
+       View_Suppliers viewSuppliersFrame = new View_Suppliers();
+       viewSuppliersFrame.setVisible(true);
+        
         this.dispose();
     } 
     else if ("VIEW SALES REPORTS".equalsIgnoreCase(selectedItem)) {
-        View_sales_report viewSalesReportFrame = new View_sales_report();
+       View_sales_report viewSalesReportFrame = new View_sales_report();
         viewSalesReportFrame.setVisible(true);
+        
         this.dispose();
     } 
     else {
-        JOptionPane.showMessageDialog(this, "Invalid selection!", "Error", JOptionPane.ERROR_MESSAGE);
+        JOptionPane.showMessageDialog(this, "Invalid selection!. Plese choose one of this 4. Thank you", "Error", JOptionPane.ERROR_MESSAGE);
     }
+
 
     
 
@@ -731,9 +735,11 @@ public class Register extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton9ActionPerformed
 
     private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
-        Main_Menu mainMenuFrame = new Main_Menu();
+//        Main_Menu mainMenuFrame = new Main_Menu();
 
-        mainMenuFrame.setVisible(true);
+     //   mainMenuFrame.setVisible(true);
+     new Main_Menu(ID).setVisible(true);
+        this.dispose();        
         this.dispose();
     }//GEN-LAST:event_jButton10ActionPerformed
 
