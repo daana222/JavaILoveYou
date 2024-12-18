@@ -19,6 +19,7 @@ import org.jfree.data.general.DefaultPieDataset;
  * @author HP
  */
 public class Generate_Reports extends javax.swing.JFrame {
+    private String ID;
 
     /**
      * Creates new form Generate_Reports
@@ -219,8 +220,8 @@ private void displayPOChart() {
         jButton2 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
         jComboBox1 = new javax.swing.JComboBox<>();
-        jButton11 = new javax.swing.JButton();
-        jButton10 = new javax.swing.JButton();
+        jButton3 = new javax.swing.JButton();
+        jButton5 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -265,19 +266,19 @@ private void displayPOChart() {
             }
         });
 
-        jButton11.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jButton11.setText("GENERATE REPORTS");
-        jButton11.addActionListener(new java.awt.event.ActionListener() {
+        jButton3.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jButton3.setText("GENERATE REPORTS");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton11ActionPerformed(evt);
+                jButton3ActionPerformed(evt);
             }
         });
 
-        jButton10.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jButton10.setText("MAIN MENU");
-        jButton10.addActionListener(new java.awt.event.ActionListener() {
+        jButton5.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jButton5.setText("MAIN MENU");
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton10ActionPerformed(evt);
+                jButton5ActionPerformed(evt);
             }
         });
 
@@ -293,17 +294,17 @@ private void displayPOChart() {
                         .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
                         .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
                         .addComponent(jComboBox1, 0, 0, Short.MAX_VALUE))
-                    .addComponent(jButton11, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton10, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(12, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton10, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jButton11, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
@@ -338,76 +339,85 @@ private void displayPOChart() {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        //
+        // res buton
         Register registerFrame = new Register();
 
         registerFrame.setVisible(true);
+
         this.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        //viewU button
         View_user viewUserFrame = new View_user();
 
         viewUserFrame.setVisible(true);
+
         this.dispose();
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        // TODO add your handling code here:
+        // out to login = log out
         Login loginPage = new Login();
+
         loginPage.setVisible(true);
 
         this.dispose();
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
-              String selectedItem = ((String) jComboBox1.getSelectedItem()).trim();
-        
-        
+        // combobox
 
-    if ("VIEW ITEM".equalsIgnoreCase(selectedItem)) {
-        //if (!(this instanceof View_Items)) { // Avoid reopening the same frame
-            View_Items viewItemFrame = new View_Items();
-            viewItemFrame.setVisible(true);
-            this.dispose();
-        
-    } 
-    else if ("VIEW PAYMENT".equalsIgnoreCase(selectedItem)) {
-        View_Payment viewPaymentFrame = new View_Payment();
-        viewPaymentFrame.setVisible(true);
-        this.dispose();
-    } 
-    else if ("VIEW SUPPLIERS".equalsIgnoreCase(selectedItem)) {
-        View_Suppliers viewSuppliersFrame = new View_Suppliers();
-        viewSuppliersFrame.setVisible(true);
-        this.dispose();
-    } 
-    else if ("VIEW SALES REPORTS".equalsIgnoreCase(selectedItem)) {
-        View_sales_report viewSalesReportFrame = new View_sales_report();
-        viewSalesReportFrame.setVisible(true);
-        this.dispose();
-    } 
-    else {
-        JOptionPane.showMessageDialog(this, "Invalid selection!", "Error", JOptionPane.ERROR_MESSAGE);
-    }
+        String selectedItem = ((String) jComboBox1.getSelectedItem()).trim();
 
-    
+        if ("VIEW ITEM".equalsIgnoreCase(selectedItem)) {
+            //if (!(this instanceof View_Items)) { // Avoid reopening the same frame
+                View_Items viewItemFrame = new View_Items();
+                viewItemFrame.setVisible(true);
+
+                this.dispose();
+
+            }
+            else if ("VIEW PAYMENT".equalsIgnoreCase(selectedItem)) {
+                View_Payment viewPaymentFrame = new View_Payment();
+                viewPaymentFrame.setVisible(true);
+
+                this.dispose();
+            }
+            else if ("VIEW SUPPLIERS".equalsIgnoreCase(selectedItem)) {
+                View_Suppliers viewSuppliersFrame = new View_Suppliers();
+                viewSuppliersFrame.setVisible(true);
+
+                this.dispose();
+            }
+            else if ("VIEW SALES REPORTS".equalsIgnoreCase(selectedItem)) {
+                View_sales_report viewSalesReportFrame = new View_sales_report();
+                viewSalesReportFrame.setVisible(true);
+
+                this.dispose();
+            }
+            else {
+                JOptionPane.showMessageDialog(this, "Invalid selection!. Plese choose one of this 4. Thank you", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+
     }//GEN-LAST:event_jComboBox1ActionPerformed
 
-    private void jButton11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton11ActionPerformed
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // gr buuton
         Generate_Reports generateReportsFrame = new Generate_Reports();
 
         generateReportsFrame.setVisible(true);
         this.dispose();        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton11ActionPerformed
+    }//GEN-LAST:event_jButton3ActionPerformed
 
-    private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
-        Main_Menu mainMenuFrame = new Main_Menu();
-
-        mainMenuFrame.setVisible(true);
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        // Main_Menu mainMenuFrame = new Main_Menu();
+        // mainMenuFrame.setVisible(true); - old code
+        // display the id thing
+        new Main_Menu(ID).setVisible(true);
         this.dispose();
-    }//GEN-LAST:event_jButton10ActionPerformed
+    }//GEN-LAST:event_jButton5ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -447,10 +457,10 @@ private void displayPOChart() {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton10;
-    private javax.swing.JButton jButton11;
     private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
+    private javax.swing.JButton jButton5;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;

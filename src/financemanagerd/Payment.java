@@ -11,12 +11,15 @@ import javax.swing.table.DefaultTableModel;
 
 
 public class Payment extends javax.swing.JFrame {
+    private String ID;
 
     private java.util.List<Object[]> originalTableData;
     
     public Payment() {
         initComponents();
+        jPanel1.setName("sidePanel");
         ThemeManager.applyTheme(this);
+        ThemeManager.updateTableTheme(paymentTable);
         setSize(890, 500);
         setLocationRelativeTo(null); // Center the frame
         
@@ -258,7 +261,7 @@ public class Payment extends javax.swing.JFrame {
 
     private void DashboardbtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DashboardbtnActionPerformed
         // TODO add your handling code here:
-        FManager dashboard = new FManager();
+        FManager dashboard = new FManager(ID);
         dashboard.setVisible(true);
         dispose();
     }//GEN-LAST:event_DashboardbtnActionPerformed
