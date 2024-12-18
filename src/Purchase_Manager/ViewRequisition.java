@@ -5,13 +5,21 @@ package Purchase_Manager;
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 
+import java.awt.Color;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.table.DefaultTableModel;
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartPanel;
+import org.jfree.chart.JFreeChart;
+import org.jfree.chart.plot.CategoryPlot;
+import org.jfree.chart.renderer.category.BarRenderer;
+import org.jfree.data.category.DefaultCategoryDataset;
 
 /**
  *
@@ -19,9 +27,10 @@ import javax.swing.table.DefaultTableModel;
  */
 public class ViewRequisition extends javax.swing.JFrame {
     private DefaultTableModel model= new DefaultTableModel();//to create model object to be placed in jtable
-    private String[]columnName={"PR ID","Item ID","Quantity","Supplier ID","Unit Per Price","Total Amount"};
+    private String[]columnName={"PR ID", "Item ID", "Item Name", "Quantity Required", "Cost Per Unit", "Total Amount", "Requisition Date", "Supplier ID", "Status"};
     private int row=-1;
     private static final Logger LOGGER = Logger.getLogger(ViewRequisition.class.getName()); 
+    private javax.swing.JButton jButtonShowChart;
 
 
     /**
@@ -35,9 +44,53 @@ public class ViewRequisition extends javax.swing.JFrame {
 
         
     }
+    
+   
+
+private void showStatusChart() {
+    // Count statuses
+    int approvedCount = 0, rejectedCount = 0, pendingCount = 0;
+    for (int i = 0; i < model.getRowCount(); i++) {
+        String status = (String) model.getValueAt(i, 8); // Index 8 for 'Status' column
+        if ("Approved".equalsIgnoreCase(status)) {
+            approvedCount++;
+        } else if ("Rejected".equalsIgnoreCase(status)) {
+            rejectedCount++;
+        } else if ("Pending".equalsIgnoreCase(status)) {
+            pendingCount++;
+        }
+    }
+
+    // Create dataset for the bar chart (add each status as its own series)
+    DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+    dataset.addValue(approvedCount, "Approved", "Approved");
+    dataset.addValue(rejectedCount, "Rejected", "Rejected");
+    dataset.addValue(pendingCount, "Pending", "Pending");
+
+    // Create the bar chart
+    JFreeChart chart = ChartFactory.createBarChart(
+            "Requisition Status Distribution", // Chart Title
+            "Status",                         // X-Axis Label
+            "Count",                          // Y-Axis Label
+            dataset                           // Dataset
+    );
+
+    // Customize the bar colors
+    CategoryPlot plot = chart.getCategoryPlot(); // Get the plot from the chart
+    BarRenderer renderer = (BarRenderer) plot.getRenderer(); // Get the bar renderer
+
+    // Set colors for each status
+    renderer.setSeriesPaint(0, new Color(144, 238, 144)); // Approved = Light Green
+    renderer.setSeriesPaint(1, new Color(255, 102, 102)); // Rejected = Light Red
+    renderer.setSeriesPaint(2, new Color(255, 255, 102)); // Pending = Light Yellow
+
+    // Show the chart in a JPanel inside a JOptionPane
+    JPanel chartPanel = new ChartPanel(chart);
+    JOptionPane.showMessageDialog(this, chartPanel, "Status Distribution", JOptionPane.PLAIN_MESSAGE);
+}
 
     private void loadDataFromFile() {
-   String filePath = "C:\\Users\\Jiannaa\\Desktop\\PR.txt";
+   String filePath = "C:\\Users\\Jiannaa\\Desktop\\PurchaseRequisition.txt";
    File file = new File(filePath);
    if (!file.exists()) {
        System.out.println("Data file not found. Starting with an empty table.");
@@ -65,7 +118,7 @@ public class ViewRequisition extends javax.swing.JFrame {
     }
 
 private void populateComboBox() {
-    String filePath = "C:\\Users\\Jiannaa\\Desktop\\PR.txt"; // Path to your file
+    String filePath = "C:\\Users\\Jiannaa\\Desktop\\PurchaseRequisition.txt"; // Path to your file
     File file = new File(filePath);
     if (!file.exists()) {
         System.out.println("Data file not found.");
@@ -229,6 +282,11 @@ private void populateComboBox() {
         );
 
         jButton4.setText("Create");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
 
         jButton5.setText("Search");
         jButton5.addActionListener(new java.awt.event.ActionListener() {
@@ -329,7 +387,7 @@ String selectedOption = (String) jComboBox2.getSelectedItem();
     // Clear the table
     model.setRowCount(0);
 
-    String filePath = "C:\\Users\\Jiannaa\\Desktop\\PR.txt"; // Path to your file
+    String filePath = "C:\\Users\\Jiannaa\\Desktop\\PurchaseRequisition.txt"; // Path to your file
     File file = new File(filePath);
     if (!file.exists()) {
         System.out.println("Data file not found.");
@@ -385,6 +443,11 @@ String selectedOption = (String) jComboBox2.getSelectedItem();
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton6ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        // TODO add your handling code here:
+        showStatusChart();
+    }//GEN-LAST:event_jButton4ActionPerformed
 
     /**
      * @param args the command line arguments

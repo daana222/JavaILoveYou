@@ -4,13 +4,21 @@
  */
 package Purchase_Manager;
 
+import java.awt.Color;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.table.DefaultTableModel;
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartPanel;
+import org.jfree.chart.JFreeChart;
+import org.jfree.chart.plot.CategoryPlot;
+import org.jfree.chart.renderer.category.BarRenderer;
+import org.jfree.data.category.DefaultCategoryDataset;
 
 /**
  *
@@ -18,7 +26,8 @@ import javax.swing.table.DefaultTableModel;
  */
 public class ViewPurchaseOrder extends javax.swing.JFrame {
 private DefaultTableModel model= new DefaultTableModel();//to create model object to be placed in jtable
-    private String[]columnName={"PO ID","PR ID","Item ID","Quantity","Supplier ID","Unit Per Price","Total Amount","Status","OrderDate"};
+    private String[]columnName={"PO ID", "PR ID", "Item ID", "Item Name", "Quantity Required",
+            "Cost Per Unit", "Total Amount", "Requisition Date", "Supplier ID", "OrderDate", "Status"};
     private int row=-1;
     private static final Logger LOGGER = Logger.getLogger(ViewRequisition.class.getName()); 
     /**
@@ -31,6 +40,51 @@ private DefaultTableModel model= new DefaultTableModel();//to create model objec
         populateComboBox();
         loadDataFromFile();
     }
+    
+    
+    
+
+private void showStatusChart() {
+    // Count statuses
+    int approvedCount = 0, rejectedCount = 0, pendingCount = 0;
+    for (int i = 0; i < model.getRowCount(); i++) {
+        String status = ((String) model.getValueAt(i, 10)).trim(); // Index 7: Status
+        if ("Approved".equalsIgnoreCase(status)) approvedCount++;
+        else if ("Rejected".equalsIgnoreCase(status)) rejectedCount++;
+        else if ("Pending".equalsIgnoreCase(status)) pendingCount++;
+    }
+
+    // Debug to confirm counts
+    System.out.println("Approved: " + approvedCount + ", Rejected: " + rejectedCount + ", Pending: " + pendingCount);
+
+    // Create dataset
+    DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+    dataset.addValue(approvedCount, "Approved", "Approved");
+    dataset.addValue(rejectedCount, "Rejected", "Rejected");
+    dataset.addValue(pendingCount, "Pending", "Pending");
+
+    // Create chart
+    JFreeChart chart = ChartFactory.createBarChart(
+            "Purchase Order Status Distribution", // Chart Title
+            "Status",                             // X-Axis Label
+            "Count",                              // Y-Axis Label
+            dataset                               // Dataset
+    );
+
+    // Customize bar colors
+    CategoryPlot plot = chart.getCategoryPlot();
+    BarRenderer renderer = (BarRenderer) plot.getRenderer();
+
+    // Set colors for each series
+    renderer.setSeriesPaint(0, new Color(144, 238, 144)); // Green for Approved
+    renderer.setSeriesPaint(1, new Color(255, 102, 102)); // Red for Rejected
+    renderer.setSeriesPaint(2, new Color(255, 255, 102)); // Yellow for Pending
+
+    // Display the chart
+    JPanel chartPanel = new ChartPanel(chart);
+    JOptionPane.showMessageDialog(this, chartPanel, "Status Distribution", JOptionPane.PLAIN_MESSAGE);
+}
+
     
     // load data from the PO file 
 private void loadDataFromFile() {
@@ -109,6 +163,7 @@ private void populateComboBox() {
         label1 = new java.awt.Label();
         jComboBox1 = new javax.swing.JComboBox<>();
         jButton4 = new javax.swing.JButton();
+        jButton6 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -224,26 +279,39 @@ private void populateComboBox() {
             }
         });
 
+        jButton6.setText("Create");
+        jButton6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton6ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(34, 34, 34)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(label1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jScrollPane1)
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                .addGap(10, 10, 10)
-                                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 538, Short.MAX_VALUE)
-                                .addComponent(jButton4)))
-                        .addGap(76, 76, 76))))
+                        .addGap(34, 34, 34)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(label1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jScrollPane1)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                        .addGap(10, 10, 10)
+                                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 538, Short.MAX_VALUE)
+                                        .addComponent(jButton4)))
+                                .addGap(76, 76, 76))))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton6)
+                        .addGap(115, 115, 115))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -257,6 +325,8 @@ private void populateComboBox() {
                     .addComponent(jButton4))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 227, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(36, 36, 36)
+                .addComponent(jButton6)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -363,6 +433,11 @@ private void populateComboBox() {
         }
     }//GEN-LAST:event_jComboBox3ActionPerformed
 
+    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+        // TODO add your handling code here:
+        showStatusChart();
+    }//GEN-LAST:event_jButton6ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -404,6 +479,7 @@ private void populateComboBox() {
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
+    private javax.swing.JButton jButton6;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JComboBox<String> jComboBox2;
     private javax.swing.JComboBox<String> jComboBox3;
