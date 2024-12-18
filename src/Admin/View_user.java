@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package Admin;
 
 import ThemeManager.ThemeManager;
@@ -276,7 +272,7 @@ public class View_user extends javax.swing.JFrame {
        
     model.setRowCount(0); 
 
-       try (BufferedReader reader = new BufferedReader(new FileReader("src/Admin/User.txt"))) {
+       try (BufferedReader reader = new BufferedReader(new FileReader("User.txt"))) {
         String line;
         while ((line = reader.readLine()) != null) {
             String[] rowData = line.split(",");

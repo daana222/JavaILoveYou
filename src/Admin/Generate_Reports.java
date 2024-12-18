@@ -26,95 +26,129 @@ public class Generate_Reports extends javax.swing.JFrame {
      */
     public Generate_Reports() {
         initComponents();
+
         jPanel1.setName("sidePanel");
         ThemeManager.applyTheme(this);
-        
+
         // Dynamically create chart panels
-    salesChartPanel = new javax.swing.JPanel();
-    userChartPanel = new javax.swing.JPanel();
-    paymentChartPanel = new javax.swing.JPanel();
-    poChartPanel = new javax.swing.JPanel();
-      
-    
-    addPanelsToLayout();
+        salesChartPanel = new javax.swing.JPanel();
+        poChartPanel = new javax.swing.JPanel();
+        userRolesChartPanel = new javax.swing.JPanel();
 
-    displaySalesChart();
-    displayUserChart();
-    displayPaymentChart();
-    displayPOChart();
-    
-    
-    
+        addPanelsToLayout();
+
+        displaySalesChart();
+        displayPOChart();
+        displayUserRolesChart();
+
     }
-    
-private javax.swing.JPanel salesChartPanel;
-private javax.swing.JPanel userChartPanel;
-private javax.swing.JPanel paymentChartPanel;
-private javax.swing.JPanel poChartPanel;
 
+    private javax.swing.JPanel salesChartPanel;
+    private javax.swing.JPanel poChartPanel;
+    private javax.swing.JPanel userRolesChartPanel;
 
-private void addPanelsToLayout() {
-    javax.swing.GroupLayout layout = (javax.swing.GroupLayout) getContentPane().getLayout();
+    private void addPanelsToLayout() {
+    // Ensure all panels are initialized
+    if (userRolesChartPanel == null) {
+        userRolesChartPanel = new javax.swing.JPanel();
+    }
+    if (salesChartPanel == null) {
+        salesChartPanel = new javax.swing.JPanel();
+    }
+    if (poChartPanel == null) {
+        poChartPanel = new javax.swing.JPanel();
+    }
+
+    // Set up the layout
+    javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+    getContentPane().setLayout(layout);
 
     layout.setHorizontalGroup(
         layout.createSequentialGroup()
             .addGap(220) // Space for jPanel1
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addComponent(salesChartPanel, 350, 350, 350)
-                .addComponent(paymentChartPanel, 350, 350, 350))
-            .addGap(20)
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addComponent(userChartPanel, 350, 350, 350)
-                .addComponent(poChartPanel, 350, 350, 350))
+                .addComponent(salesChartPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(userRolesChartPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(poChartPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE))
     );
 
     layout.setVerticalGroup(
         layout.createSequentialGroup()
             .addGap(80) // Space for title
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addComponent(salesChartPanel, 300, 300, 300)
-                .addComponent(userChartPanel, 300, 300, 300))
+            .addComponent(salesChartPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
             .addGap(20)
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addComponent(paymentChartPanel, 300, 300, 300)
-                .addComponent(poChartPanel, 300, 300, 300))
+            .addComponent(userRolesChartPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGap(20)
+            .addComponent(poChartPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
     );
+
 }
+
 
     private void displaySalesChart() {
-     DefaultPieDataset dataset = new DefaultPieDataset();
-    try (BufferedReader br = new BufferedReader(new FileReader("sales.txt"))) {
-        String line;
-        boolean isFirstLine = true;
-        while ((line = br.readLine()) != null) {
-            if (isFirstLine) {
-                isFirstLine = false;
-                continue;
+        DefaultPieDataset dataset = new DefaultPieDataset();
+        try (BufferedReader br = new BufferedReader(new FileReader("sales.txt"))) {
+            String line;
+            boolean isFirstLine = true;
+            while ((line = br.readLine()) != null) {
+                if (isFirstLine) {
+                    isFirstLine = false;
+                    continue;
+                }
+                String[] data = line.split(",");
+                if (data.length >= 6) {
+                    String itemName = data[2];
+                    double totalSales = Double.parseDouble(data[5].replace("RM", ""));
+                    dataset.setValue(itemName, totalSales);
+                }
             }
-            String[] data = line.split(",");
-            if (data.length >= 6) {
-                String itemName = data[2];
-                double totalSales = Double.parseDouble(data[5].replace("RM", ""));
-                dataset.setValue(itemName, totalSales);
-            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-    } catch (Exception e) {
-        e.printStackTrace();
+
+        JFreeChart chart = ChartFactory.createPieChart("Sales Distribution", dataset, true, true, false);
+        ChartPanel panel = new ChartPanel(chart);
+        panel.setPreferredSize(new java.awt.Dimension(300, 250)); //size
+        salesChartPanel.removeAll();
+        salesChartPanel.add(panel);
+        salesChartPanel.revalidate();
+        salesChartPanel.repaint();
     }
 
-    JFreeChart chart = ChartFactory.createPieChart("Sales Distribution", dataset, true, true, false);
-    ChartPanel panel = new ChartPanel(chart);
-    panel.setPreferredSize(new java.awt.Dimension(300, 250)); //size
-    salesChartPanel.removeAll();
-    salesChartPanel.add(panel);
-    salesChartPanel.revalidate();
-    salesChartPanel.repaint();
+    private void displayPOChart() {
+        DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+        try (BufferedReader br = new BufferedReader(new FileReader("PO.txt"))) {
+            String line;
+            boolean isFirstLine = true;
+            while ((line = br.readLine()) != null) {
+                if (isFirstLine) {
+                    isFirstLine = false;
+                    continue;
+                }
+                String[] data = line.split(",");
+                if (data.length >= 11) {
+                    String status = data[10];
+                    dataset.addValue(1, "Count", status);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
-}
-    
-    private void displayUserChart() {
-         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
-    try (BufferedReader br = new BufferedReader(new FileReader("user.txt"))) {
+        JFreeChart chart = ChartFactory.createBarChart(
+                "Purchase Order Status", "Status", "Count", dataset);
+        chart.setBackgroundPaint(new java.awt.Color(240, 240, 240));
+        chart.getTitle().setPaint(new java.awt.Color(0, 102, 204));
+        ChartPanel panel = new ChartPanel(chart);
+        poChartPanel.removeAll();
+        poChartPanel.add(panel);
+        poChartPanel.revalidate();
+        poChartPanel.repaint();
+    }
+
+    private void displayUserRolesChart() {
+    DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+    try (BufferedReader br = new BufferedReader(new FileReader("User.txt"))) {
         String line;
         boolean isFirstLine = true;
         while ((line = br.readLine()) != null) {
@@ -125,69 +159,7 @@ private void addPanelsToLayout() {
             String[] data = line.split(",");
             if (data.length >= 7) {
                 String role = data[6];
-                dataset.addValue(1, "Count", role);
-            }
-        }
-    } catch (Exception e) {
-        e.printStackTrace();
-    }
-
-    JFreeChart chart = ChartFactory.createLineChart(
-            "User Roles Distribution", "Roles", "Count", dataset);
-    chart.setBackgroundPaint(new java.awt.Color(240, 240, 240));
-    chart.getTitle().setPaint(new java.awt.Color(0, 102, 204));
-    ChartPanel panel = new ChartPanel(chart);
-    userChartPanel.removeAll();
-    userChartPanel.add(panel);
-    userChartPanel.revalidate();
-    userChartPanel.repaint();
-}
-
-private void displayPaymentChart() {
-     DefaultPieDataset dataset = new DefaultPieDataset();
-    try (BufferedReader br = new BufferedReader(new FileReader("payment.txt"))) {
-        String line;
-        boolean isFirstLine = true;
-        while ((line = br.readLine()) != null) {
-            if (isFirstLine) {
-                isFirstLine = false;
-                continue;
-            }
-            String[] data = line.split(",");
-            if (data.length >= 4) {
-                String status = data[2];
-                dataset.setValue(status, dataset.getValue(status) == null ? 1 : dataset.getValue(status).doubleValue() + 1);
-            }
-        }
-    } catch (Exception e) {
-        e.printStackTrace();
-    }
-
-    JFreeChart chart = ChartFactory.createPieChart(
-            "Payment Status Distribution", dataset, true, true, false);
-    chart.setBackgroundPaint(new java.awt.Color(240, 240, 240));
-    chart.getTitle().setPaint(new java.awt.Color(0, 102, 204));
-    ChartPanel panel = new ChartPanel(chart);
-    paymentChartPanel.removeAll();
-    paymentChartPanel.add(panel);
-    paymentChartPanel.revalidate();
-    paymentChartPanel.repaint();
-}
-
-private void displayPOChart() {
-    DefaultCategoryDataset dataset = new DefaultCategoryDataset();
-    try (BufferedReader br = new BufferedReader(new FileReader("PO.txt"))) {
-        String line;
-        boolean isFirstLine = true;
-        while ((line = br.readLine()) != null) {
-            if (isFirstLine) {
-                isFirstLine = false;
-                continue;
-            }
-            String[] data = line.split(",");
-            if (data.length >= 11) {
-                String status = data[10];
-                dataset.addValue(1, "Count", status);
+                dataset.incrementValue(1, "Count", role); // Update count for each role
             }
         }
     } catch (Exception e) {
@@ -195,15 +167,18 @@ private void displayPOChart() {
     }
 
     JFreeChart chart = ChartFactory.createBarChart(
-            "Purchase Order Status", "Status", "Count", dataset);
+            "User Roles Distribution", "Role", "Count", dataset);
     chart.setBackgroundPaint(new java.awt.Color(240, 240, 240));
     chart.getTitle().setPaint(new java.awt.Color(0, 102, 204));
     ChartPanel panel = new ChartPanel(chart);
-    poChartPanel.removeAll();
-    poChartPanel.add(panel);
-    poChartPanel.revalidate();
-    poChartPanel.repaint();
+    userRolesChartPanel.removeAll();
+    userRolesChartPanel.add(panel);
+    userRolesChartPanel.revalidate();
+    userRolesChartPanel.repaint();
 }
+
+
+
     
     /**
      * This method is called from within the constructor to initialize the form.
@@ -222,6 +197,8 @@ private void displayPOChart() {
         jComboBox1 = new javax.swing.JComboBox<>();
         jButton3 = new javax.swing.JButton();
         jButton5 = new javax.swing.JButton();
+        jPanel2 = new javax.swing.JPanel();
+        jPanel3 = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -301,7 +278,7 @@ private void displayPOChart() {
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(195, Short.MAX_VALUE)
                 .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -316,22 +293,56 @@ private void displayPOChart() {
                 .addContainerGap())
         );
 
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 240, Short.MAX_VALUE)
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 250, Short.MAX_VALUE)
+        );
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 267, Short.MAX_VALUE)
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 229, Short.MAX_VALUE)
-                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 228, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(213, 213, 213))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 228, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(213, 213, 213))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(55, 55, 55)
+                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(32, 32, 32)
+                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(76, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(20, 20, 20)
                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(470, Short.MAX_VALUE))
+                .addGap(80, 80, 80)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 540, Short.MAX_VALUE)
         );
 
@@ -464,5 +475,7 @@ private void displayPOChart() {
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
     // End of variables declaration//GEN-END:variables
 }

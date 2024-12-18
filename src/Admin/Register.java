@@ -692,10 +692,10 @@ public class Register extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jComboBox3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox3ActionPerformed
-        // combobox
-
-        String selectedItem = ((String) jComboBox1.getSelectedItem()).trim();
-
+       // combobox 
+    
+      String selectedItem = ((String) jComboBox1.getSelectedItem()).trim();
+        
         if ("VIEW ITEM".equalsIgnoreCase(selectedItem)) {
             //if (!(this instanceof View_Items)) { // Avoid reopening the same frame
                 View_Items viewItemFrame = new View_Items();
@@ -703,29 +703,30 @@ public class Register extends javax.swing.JFrame {
 
                 this.dispose();
 
-            }
-            else if ("VIEW PAYMENT".equalsIgnoreCase(selectedItem)) {
-                View_Payment viewPaymentFrame = new View_Payment();
-                viewPaymentFrame.setVisible(true);
+        } 
+        else if ("VIEW PAYMENT".equalsIgnoreCase(selectedItem)) {
+           View_Payment viewPaymentFrame = new View_Payment();
+            viewPaymentFrame.setVisible(true);
 
-                this.dispose();
-            }
-            else if ("VIEW SUPPLIERS".equalsIgnoreCase(selectedItem)) {
-                View_Suppliers viewSuppliersFrame = new View_Suppliers();
-                viewSuppliersFrame.setVisible(true);
+            this.dispose();
+        } 
+        else if ("VIEW SUPPLIERS".equalsIgnoreCase(selectedItem)) {
+           View_Suppliers viewSuppliersFrame = new View_Suppliers();
+           viewSuppliersFrame.setVisible(true);
 
-                this.dispose();
-            }
-            else if ("VIEW SALES REPORTS".equalsIgnoreCase(selectedItem)) {
-                View_sales_report viewSalesReportFrame = new View_sales_report();
-                viewSalesReportFrame.setVisible(true);
+            this.dispose();
+        } 
+        else if ("VIEW SALES REPORTS".equalsIgnoreCase(selectedItem)) {
+           View_sales_report viewSalesReportFrame = new View_sales_report();
+            viewSalesReportFrame.setVisible(true);
 
-                this.dispose();
-            }
-            else {
-                JOptionPane.showMessageDialog(this, "Invalid selection!. Plese choose one of this 4. Thank you", "Error", JOptionPane.ERROR_MESSAGE);
-            }
+            this.dispose();
+        } 
+        else {
+            JOptionPane.showMessageDialog(this, "Invalid selection!. Plese choose one of this 4. Thank you", "Error", JOptionPane.ERROR_MESSAGE);
+        }
 
+    
     }//GEN-LAST:event_jComboBox3ActionPerformed
 
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
