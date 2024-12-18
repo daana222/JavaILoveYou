@@ -12,6 +12,13 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartPanel;
+import org.jfree.chart.JFreeChart;
+import org.jfree.data.category.DefaultCategoryDataset;
+import javax.swing.JDialog;
+import org.jfree.ui.ApplicationFrame; // Optional for specific JFreeChart classes
+
 
 /**
  *
@@ -28,7 +35,6 @@ public class Sales_Report extends javax.swing.JFrame {
     }
     
     private void configureTableModel() {
-        // Re-define the table model to set Unit Price and Total Sales as Strings
         DefaultTableModel model = new DefaultTableModel(
             new Object[][]{},
             new String[]{
@@ -102,6 +108,7 @@ public class Sales_Report extends javax.swing.JFrame {
         jButton16 = new javax.swing.JButton();
         jScrollPane6 = new javax.swing.JScrollPane();
         jTable2 = new javax.swing.JTable();
+        jButton17 = new javax.swing.JButton();
 
         jFrame1.setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -429,6 +436,13 @@ public class Sales_Report extends javax.swing.JFrame {
         });
         jScrollPane6.setViewportView(jTable2);
 
+        jButton17.setText("View Sales Chart");
+        jButton17.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton17ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -437,23 +451,29 @@ public class Sales_Report extends javax.swing.JFrame {
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(26, 26, 26)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(48, 48, 48)
-                                .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(62, 62, 62)
-                                .addComponent(jButton16))))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(36, 36, 36)
-                        .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 634, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(0, 34, Short.MAX_VALUE))
+                                .addGap(26, 26, 26)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(48, 48, 48)
+                                        .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(62, 62, 62)
+                                        .addComponent(jButton16))))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(36, 36, 36)
+                                .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 634, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 34, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton17)
+                        .addGap(47, 47, 47))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -472,6 +492,8 @@ public class Sales_Report extends javax.swing.JFrame {
                     .addComponent(jButton16))
                 .addGap(47, 47, 47)
                 .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 329, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jButton17)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -588,7 +610,7 @@ public class Sales_Report extends javax.swing.JFrame {
             }
         }
 
-        // If no data is found within the specified range
+        // If no data is found display this
         if (model.getRowCount() == 0) {
             JOptionPane.showMessageDialog(this, "No sales records found for the specified date range.", "Information", JOptionPane.INFORMATION_MESSAGE);
         }
@@ -617,6 +639,43 @@ public class Sales_Report extends javax.swing.JFrame {
         listpoFrame.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jButton15ActionPerformed
+
+    private void jButton17ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton17ActionPerformed
+        DefaultTableModel model = (DefaultTableModel) jTable2.getModel();
+
+    if (model.getRowCount() == 0) {
+        JOptionPane.showMessageDialog(this, "No sales data available to generate a chart.", "No Data", JOptionPane.WARNING_MESSAGE);
+        return;
+    }
+
+    // Create dataset for the chart
+    DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+
+    // Loop through the table rows to extract data for the chart
+    for (int i = 0; i < model.getRowCount(); i++) {
+        String itemName = model.getValueAt(i, 2).toString(); // Item Name column
+        int quantitySold = Integer.parseInt(model.getValueAt(i, 3).toString()); // Quantity Sold column
+
+        dataset.addValue(quantitySold, "Quantity Sold", itemName);
+    }
+
+    // Create the chart
+    JFreeChart chart = ChartFactory.createBarChart(
+        "Sales Chart",            // Chart title
+        "Item Name",              // X-axis label
+        "Quantity Sold",          // Y-axis label
+        dataset                   // Dataset
+    );
+
+    // Display the chart in a popup window
+    ChartPanel chartPanel = new ChartPanel(chart);
+    JDialog chartDialog = new JDialog(this, "Sales Chart", true);
+    chartDialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+    chartDialog.getContentPane().add(chartPanel);
+    chartDialog.pack();
+    chartDialog.setLocationRelativeTo(this);
+    chartDialog.setVisible(true);
+    }//GEN-LAST:event_jButton17ActionPerformed
 
     private boolean isValidDate(String date) {
     SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
@@ -673,6 +732,7 @@ public class Sales_Report extends javax.swing.JFrame {
     private javax.swing.JButton jButton14;
     private javax.swing.JButton jButton15;
     private javax.swing.JButton jButton16;
+    private javax.swing.JButton jButton17;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
