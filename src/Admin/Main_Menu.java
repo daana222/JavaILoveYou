@@ -21,10 +21,11 @@ public class Main_Menu extends javax.swing.JFrame {
     /**
      * Creates new form Main_Menu
      */
-    public Main_Menu(String ID) {
-       this.ID = ID; // Store the User ID passed from Login
+    public Main_Menu() {
+      
       
         initComponents();
+         String ID = Session.getID();
     // Display the User ID dynamically on the label
     jLabel5.setText("USER ID: " + ID);
     
@@ -284,17 +285,17 @@ public class Main_Menu extends javax.swing.JFrame {
     // Main_Menu mainMenuFrame = new Main_Menu();
        // mainMenuFrame.setVisible(true); - old code
        // display the id thing
-        new Main_Menu(ID).setVisible(true);
-        this.dispose();        
+        new Main_Menu().setVisible(true);
+        this.dispose();       
     }//GEN-LAST:event_jButton5ActionPerformed
-public Main_Menu() {
-    this("DefaultID"); // Provide a default placeholder ID
-}
+//public Main_Menu() {
+ //   this("DefaultID"); // Provide a default placeholder ID
+
     /**
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-         java.awt.EventQueue.invokeLater(() -> new Main_Menu("DefaultID").setVisible(true));
+      //   java.awt.EventQueue.invokeLater(() -> new Main_Menu("DefaultID").setVisible(true));
         
       
     
