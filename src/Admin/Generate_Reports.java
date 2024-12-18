@@ -32,6 +32,8 @@ public class Generate_Reports extends javax.swing.JFrame {
         displayBarChart();
         
     }
+    
+
     private javax.swing.JPanel jPanelPie;
 private javax.swing.JPanel jPanelBar;
 
