@@ -1,6 +1,7 @@
 
 package financemanagerd;
 
+import ThemeManager.ThemeManager;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import javax.swing.table.DefaultTableModel;
@@ -8,10 +9,13 @@ import java.io.IOException;
 
 
 public class Supplier_2 extends javax.swing.JFrame {
-
+private String ID;
     
     public Supplier_2(String supplierId, double balancePayment) {
         initComponents();
+        jPanel1.setName("sidePanel");
+        ThemeManager.applyTheme(this);
+        ThemeManager.updateTableTheme(supplierPayment2table);
         setSize(890, 500);
         setLocationRelativeTo(null); // Center the frame
 
@@ -250,7 +254,7 @@ public class Supplier_2 extends javax.swing.JFrame {
 
     private void DashboardbtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DashboardbtnActionPerformed
         // TODO add your handling code here:
-        FManager dashboard = new FManager();
+        FManager dashboard = new FManager(ID);
         dashboard.setVisible(true);
         dispose();
     }//GEN-LAST:event_DashboardbtnActionPerformed

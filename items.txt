@@ -1,4 +1,5 @@
-itemID, item Name,Supplier ID,Current Stock Level,Reorder Level,Cost per unit,Selling Price Unit,Last Updated Date
-IT001,car,Sp001,34,27,3.0,3.0,2024-12-16
-IT002,tag,Sp001,34,27,3.0,3.0,2024-12-16
-IT003,tag,Sp001,34,27,6.0,6.0,2024-12-16
+itemID,item Name,Supplier ID,Current Stock Level,Reorder Level,Cost perunit,Selling Price Unit,Last Updated Date
+IT003,tag,Sp001,32,27,6.0,6.0,16/12/2024
+IT002,tag,Sp001,27,27,3.0,3.0,17/12/2024
+IT001,car,Sp001,27,27,3.0,3.0,11/12/2024
+
