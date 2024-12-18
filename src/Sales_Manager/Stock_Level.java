@@ -350,7 +350,7 @@ public class Stock_Level extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton6ActionPerformed
 
     private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
-        List<StockItem> stockItems = new ArrayList<>();
+         List<StockItem> stockItems = new ArrayList<>();
 
     // File path for items.txt
     String filePath = "items.txt";
@@ -366,29 +366,39 @@ public class Stock_Level extends javax.swing.JFrame {
                 continue;
             }
 
-            // Split the line based on the structure of items.txt
-            String[] parts = line.split(",");
-            if (parts.length < 8) {
-                JOptionPane.showMessageDialog(this, "Invalid line format in items.txt.", "Error", JOptionPane.ERROR_MESSAGE);
+            // Trim line to remove extra spaces
+            line = line.trim();
+            if (line.isEmpty()) {
+                // Skip blank lines
                 continue;
             }
 
-            // Extract relevant columns for the Stock Level Table
-            String itemId = parts[0].trim();
-            String itemName = parts[1].trim();
-            int currentStockLevel = Integer.parseInt(parts[3].trim());
-            int reorderLevel = Integer.parseInt(parts[4].trim());
-            String lastUpdatedDate = parts[7].trim();
+            // Split the line based on the structure of items.txt
+            String[] parts = line.split(",");
+            if (parts.length != 8) { // Ensure there are exactly 8 fields
+                System.err.println("Skipping invalid line: " + line); // Print to console for debugging
+                continue; // Skip the invalid line
+            }
 
-            // Create StockItem object
-            StockItem item = new StockItem(itemId, itemName, currentStockLevel, reorderLevel, lastUpdatedDate);
-            stockItems.add(item);
+            try {
+                // Extract relevant columns for the Stock Level Table
+                String itemId = parts[0].trim();
+                String itemName = parts[1].trim();
+                int currentStockLevel = Integer.parseInt(parts[3].trim());
+                int reorderLevel = Integer.parseInt(parts[4].trim());
+                String lastUpdatedDate = parts[7].trim();
+
+                // Create StockItem object
+                StockItem item = new StockItem(itemId, itemName, currentStockLevel, reorderLevel, lastUpdatedDate);
+                stockItems.add(item);
+            } catch (NumberFormatException ex) {
+                // Handle invalid numbers gracefully
+                System.err.println("Invalid number format in line: " + line);
+                JOptionPane.showMessageDialog(this, "Invalid data format in items.txt.", "Error", JOptionPane.ERROR_MESSAGE);
+            }
         }
     } catch (IOException e) {
         JOptionPane.showMessageDialog(this, "Error reading items.txt file.", "Error", JOptionPane.ERROR_MESSAGE);
-        return;
-    } catch (NumberFormatException e) {
-        JOptionPane.showMessageDialog(this, "Invalid number format in items.txt.", "Error", JOptionPane.ERROR_MESSAGE);
         return;
     }
 

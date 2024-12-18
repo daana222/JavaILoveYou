@@ -17,6 +17,7 @@ public class FManager extends javax.swing.JFrame {
      */
     public FManager() {
         initComponents();
+        
         ThemeManager.applyTheme(this);
         setSize(890, 500);
         setLocationRelativeTo(null); // Center the frame
@@ -43,6 +44,7 @@ public class FManager extends javax.swing.JFrame {
         }
     }
 
+   
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always

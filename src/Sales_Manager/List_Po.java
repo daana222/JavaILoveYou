@@ -22,6 +22,7 @@ public class List_Po extends javax.swing.JFrame {
      */
     public List_Po() {
         initComponents();
+        
     }
 
     /**
@@ -330,19 +331,21 @@ public class List_Po extends javax.swing.JFrame {
             }
 
             String[] parts = line.split(",");
+
             // Validate row integrity (11 columns required)
             if (parts.length < 11) {
-                JOptionPane.showMessageDialog(this, "Invalid row detected. Skipping malformed data.", "Data Error", JOptionPane.WARNING_MESSAGE);
+                System.err.println("Invalid row detected and skipped: " + line); // Log the issue silently
                 continue;
             }
 
+            // Extract and clean up data
             String poId = parts[0].trim();          // PO ID
             String prId = parts[1].trim();          // PR ID
             String itemId = parts[2].trim();        // Item ID
             String itemName = parts[3].trim();      // Item Name
             String quantity = parts[4].trim();      // Quantity
-            String costPerUnit = "RM " + parts[5].trim(); // Cost Per Unit in RM format
-            String totalAmount = "RM " + parts[6].trim(); // Total Amount in RM format
+            String costPerUnit = "RM " + parts[5].trim(); // Cost Per Unit
+            String totalAmount = "RM " + parts[6].trim(); // Total Amount
             String requisitionDate = parts[7].trim();     // Requisition Date
             String supplierId = parts[8].trim();          // Supplier ID
             String orderDate = parts[9].trim();           // Order Date
@@ -358,18 +361,18 @@ public class List_Po extends javax.swing.JFrame {
             }
         }
 
-        // Validation: No records matching the selected filter
+        reader.close();
+
+        // Check if no matching records found
         if (!hasData) {
             JOptionPane.showMessageDialog(this, "No records found for the selected status: " + selectedStatus, 
                                           "No Data", JOptionPane.INFORMATION_MESSAGE);
         }
 
-        reader.close();
-
     } catch (IOException e) {
-        JOptionPane.showMessageDialog(this, "Error reading po1.txt file: " + e.getMessage(), "File Error", JOptionPane.ERROR_MESSAGE);
+        JOptionPane.showMessageDialog(this, "Error reading " + filePath + ": " + e.getMessage(), "File Error", JOptionPane.ERROR_MESSAGE);
     } catch (NumberFormatException e) {
-        JOptionPane.showMessageDialog(this, "Invalid number format detected: " + e.getMessage(), "Parsing Error", JOptionPane.ERROR_MESSAGE);
+        JOptionPane.showMessageDialog(this, "Invalid number format detected in file.", "Parsing Error", JOptionPane.ERROR_MESSAGE);
     }
     }//GEN-LAST:event_jButton8ActionPerformed
 

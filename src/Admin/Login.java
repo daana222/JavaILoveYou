@@ -197,7 +197,7 @@ public class Login extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        String username = jTextField1.getText().trim();
+              String username = jTextField1.getText().trim();
         String password = new String(jPasswordField1.getPassword()).trim();
         
         if (username.isEmpty() || password.isEmpty()) {
@@ -219,11 +219,14 @@ try (BufferedReader reader = new BufferedReader(new FileReader("User.txt"))) {
 
             System.out.println("Username: " + fileUsername + ", Password: " + filePassword); // Debugging
 
-            if (username.equals(fileUsername) && password.equals(filePassword)) {
-                loginSuccessful = true;
-                role = userDetails[6].trim().toUpperCase();
-                break;
-            }
+           if (username.equals(fileUsername) && password.equals(filePassword)) {
+    loginSuccessful = true;
+    role = userDetails[6].trim().toUpperCase();
+    String userId = userDetails[0]; // User ID
+    redirectToMainMenu(role);
+    break;
+}
+            
         } else {
             System.out.println("Invalid Line Format: " + line); // Debugging: Invalid line
         }
@@ -243,35 +246,30 @@ try (BufferedReader reader = new BufferedReader(new FileReader("User.txt"))) {
     } else {
         JOptionPane.showMessageDialog(this, "Invalid Username or Password", "Login Failed", JOptionPane.ERROR_MESSAGE);
          }
+
     }//GEN-LAST:event_jButton3ActionPerformed
 
-    private void redirectToMainMenu(String role) {
-    switch (role.toUpperCase()) { // Convert to uppercase for case-insensitive matching
+   private void redirectToMainMenu(String role) {
+    switch (role.toUpperCase()) {
         case "ADMIN":
-            JOptionPane.showMessageDialog(this, "Admin Panel...");
-            new Admin.Main_Menu().setVisible(true); 
+            new Admin.Main_Menu().setVisible(true);
             break;
         case "SALES MANAGER":
-            JOptionPane.showMessageDialog(this, "Sales Manager Dashboard...");
-            new Sales_Manager.Main_Dashboard().setVisible(true); 
-            break;
-        case "INVENTORY MANAGER":
-            JOptionPane.showMessageDialog(this, "Inventory Manager Dashboard...");
-            //new Inventory_Manager.InventoryMainMenu().setVisible(true); 
+            new Sales_Manager.Main_Dashboard().setVisible(true);
             break;
         case "PURCHASE MANAGER":
-            JOptionPane.showMessageDialog(this, "Purchase Manager Dashboard...");
-            new Purchase_Manager.PM().setVisible(true); 
+            new Purchase_Manager.PM().setVisible(true);
             break;
         case "FINANCE MANAGER":
-            JOptionPane.showMessageDialog(this, "Finance Manager Dashboard...");
             new financemanagerd.FManager().setVisible(true);
             break;
         default:
-            JOptionPane.showMessageDialog(this, "Unknown role is been choosen: " + role, "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Unknown role: " + role, "Error", JOptionPane.ERROR_MESSAGE);
             break;
     }
+    this.dispose();
 }
+
 
     
     public class RoleSelection extends JFrame {
