@@ -15,13 +15,16 @@ import javax.swing.table.DefaultTableModel;
  * @author Mitsu
  */
 public class PurchaseOrder2 extends javax.swing.JFrame {
+    private String ID;
 
     /**
      * Creates new form PurchaseOrder2
      */
     public PurchaseOrder2(String poNumber, String date, String supplierId, String approveReject, String totalAmount) {
         initComponents();
+        jPanel1.setName("sidePanel");
         ThemeManager.applyTheme(this);
+        ThemeManager.updateTableTheme(Po2table);
         setSize(890, 500);
         setLocationRelativeTo(null); // Center the frame
         loadTableData(poNumber);
@@ -323,7 +326,7 @@ public class PurchaseOrder2 extends javax.swing.JFrame {
 
     private void DashboardbtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DashboardbtnActionPerformed
         // TODO add your handling code here:
-        FManager dashboard = new FManager();
+        FManager dashboard = new FManager(ID);
         dashboard.setVisible(true);
         dispose();
     }//GEN-LAST:event_DashboardbtnActionPerformed
