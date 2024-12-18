@@ -7,73 +7,194 @@ package Admin;
 import ThemeManager.ThemeManager;
 import java.io.BufferedReader;
 import java.io.FileReader;
-import java.io.IOException;
 import javax.swing.JOptionPane;
-import javax.swing.table.DefaultTableModel;
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartPanel;
+import org.jfree.chart.JFreeChart;
+import org.jfree.data.category.DefaultCategoryDataset;
+import org.jfree.data.general.DefaultPieDataset;
 
 /**
  *
  * @author HP
  */
-public class View_sales_report extends javax.swing.JFrame {
-   private final DefaultTableModel model;
+public class Generate_Reports extends javax.swing.JFrame {
+
     /**
-     * Creates new form View_sales_report
+     * Creates new form Generate_Reports
      */
-    public View_sales_report() {
-        
-        model = new DefaultTableModel(new String[]{
-            "Date", "Item ID", "Item Name", "Quantity Sold", 
-            "Selling Price Per Unit", "Total Sales"
-        }, 0) {
-            @Override
-            public boolean isCellEditable(int row, int column) {
-                return false; 
-            }
-        };
-        
+    public Generate_Reports() {
         initComponents();
-         jPanel1.setName("sidePanel");
+        jPanel1.setName("sidePanel");
         ThemeManager.applyTheme(this);
-          ThemeManager.updateTableTheme(jTable1);
-       
-        jTable1.setModel(model);
-        loadSalesDataFromFile(); 
+        
+        // Dynamically create chart panels
+    salesChartPanel = new javax.swing.JPanel();
+    userChartPanel = new javax.swing.JPanel();
+    paymentChartPanel = new javax.swing.JPanel();
+    poChartPanel = new javax.swing.JPanel();
+      
+    
+    addPanelsToLayout();
+
+    displaySalesChart();
+    displayUserChart();
+    displayPaymentChart();
+    displayPOChart();
+    
+    
+    
     }
+    
+private javax.swing.JPanel salesChartPanel;
+private javax.swing.JPanel userChartPanel;
+private javax.swing.JPanel paymentChartPanel;
+private javax.swing.JPanel poChartPanel;
 
-    private void loadSalesDataFromFile() {
-        try (BufferedReader reader = new BufferedReader(new FileReader("sales.txt"))) {
-            String line;
-            boolean skipHeader = true;
 
-            while ((line = reader.readLine()) != null) {
-                if (skipHeader) {
-                    skipHeader = false; 
-                    continue;
-                }
+private void addPanelsToLayout() {
+    javax.swing.GroupLayout layout = (javax.swing.GroupLayout) getContentPane().getLayout();
 
-                String[] rowData = line.split(",");
-                if (rowData.length == 6) { 
-                    model.addRow(new Object[]{
-                        rowData[0].trim(), // Date
-                        rowData[1].trim(), // Item ID
-                        rowData[2].trim(), // Item Name
-                        rowData[3].trim(), // Quantity Sold
-                        rowData[4].trim(), // Selling Price Per Unit
-                        rowData[5].trim()  // Total Sales
-                    });
-                } else {
-                    System.out.println("Invalid data: " + line); 
-                }
+    layout.setHorizontalGroup(
+        layout.createSequentialGroup()
+            .addGap(220) // Space for jPanel1
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addComponent(salesChartPanel, 350, 350, 350)
+                .addComponent(paymentChartPanel, 350, 350, 350))
+            .addGap(20)
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addComponent(userChartPanel, 350, 350, 350)
+                .addComponent(poChartPanel, 350, 350, 350))
+    );
+
+    layout.setVerticalGroup(
+        layout.createSequentialGroup()
+            .addGap(80) // Space for title
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addComponent(salesChartPanel, 300, 300, 300)
+                .addComponent(userChartPanel, 300, 300, 300))
+            .addGap(20)
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addComponent(paymentChartPanel, 300, 300, 300)
+                .addComponent(poChartPanel, 300, 300, 300))
+    );
+}
+
+    private void displaySalesChart() {
+    DefaultPieDataset dataset = new DefaultPieDataset();
+    try (BufferedReader br = new BufferedReader(new FileReader("sales.txt"))) {
+        String line;
+        boolean isFirstLine = true;
+        while ((line = br.readLine()) != null) {
+            if (isFirstLine) {
+                isFirstLine = false;
+                continue;
             }
-        } catch (IOException e) {
-            JOptionPane.showMessageDialog(this,
-                    "Error loading sales data: " + e.getMessage(),
-                    "File Error", JOptionPane.ERROR_MESSAGE);
+            String[] data = line.split(",");
+            if (data.length >= 6) {
+                String itemName = data[2];
+                double totalSales = Double.parseDouble(data[5].replace("RM", ""));
+                dataset.setValue(itemName, totalSales);
+            }
         }
+    } catch (Exception e) {
+        e.printStackTrace();
     }
+    JFreeChart chart = ChartFactory.createPieChart("Sales Distribution", dataset, true, true, false);
+    ChartPanel panel = new ChartPanel(chart);
+    panel.setPreferredSize(new java.awt.Dimension(350, 300));
+    salesChartPanel.removeAll();
+    salesChartPanel.add(panel);
+    salesChartPanel.revalidate();
+    salesChartPanel.repaint();
+}
     
-    
+    private void displayUserChart() {
+         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+    try (BufferedReader br = new BufferedReader(new FileReader("user.txt"))) {
+        String line;
+        boolean isFirstLine = true;
+        while ((line = br.readLine()) != null) {
+            if (isFirstLine) {
+                isFirstLine = false;
+                continue;
+            }
+            String[] data = line.split(",");
+            if (data.length >= 7) {
+                String role = data[6]; // Job Role
+                dataset.addValue(1, "Count", role);
+            }
+        }
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+
+    JFreeChart chart = ChartFactory.createBarChart("User Roles Count", "Roles", "Count", dataset);
+    ChartPanel panel = new ChartPanel(chart);
+    panel.setPreferredSize(new java.awt.Dimension(350, 300));
+    userChartPanel.removeAll();
+    userChartPanel.add(panel);
+    userChartPanel.revalidate();
+    userChartPanel.repaint();
+}
+
+private void displayPaymentChart() {
+    DefaultPieDataset dataset = new DefaultPieDataset();
+    try (BufferedReader br = new BufferedReader(new FileReader("payment.txt"))) {
+        String line;
+        boolean isFirstLine = true;
+        while ((line = br.readLine()) != null) {
+            if (isFirstLine) {
+                isFirstLine = false;
+                continue;
+            }
+            String[] data = line.split(",");
+            if (data.length >= 4) {
+                String status = data[2]; // Payment Status
+                dataset.setValue(status, dataset.getValue(status) == null ? 1 : dataset.getValue(status).doubleValue() + 1);
+            }
+        }
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+
+    JFreeChart chart = ChartFactory.createPieChart("Payment Status", dataset, true, true, false);
+    ChartPanel panel = new ChartPanel(chart);
+    panel.setPreferredSize(new java.awt.Dimension(350, 300));
+    paymentChartPanel.removeAll();
+    paymentChartPanel.add(panel);
+    paymentChartPanel.revalidate();
+    paymentChartPanel.repaint();
+}
+
+private void displayPOChart() {
+    DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+    try (BufferedReader br = new BufferedReader(new FileReader("PO.txt"))) {
+        String line;
+        boolean isFirstLine = true;
+        while ((line = br.readLine()) != null) {
+            if (isFirstLine) {
+                isFirstLine = false;
+                continue;
+            }
+            String[] data = line.split(",");
+            if (data.length >= 11) {
+                String status = data[10];
+                dataset.addValue(1, "Count", status);
+            }
+        }
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+
+    JFreeChart chart = ChartFactory.createBarChart("PO Status Count", "Status", "Count", dataset);
+    ChartPanel panel = new ChartPanel(chart);
+    panel.setPreferredSize(new java.awt.Dimension(350, 300));
+    poChartPanel.removeAll();
+    poChartPanel.add(panel);
+    poChartPanel.revalidate();
+    poChartPanel.repaint();
+}
     
     /**
      * This method is called from within the constructor to initialize the form.
@@ -85,8 +206,6 @@ public class View_sales_report extends javax.swing.JFrame {
     private void initComponents() {
 
         jLabel2 = new javax.swing.JLabel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
         jPanel1 = new javax.swing.JPanel();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
@@ -98,11 +217,8 @@ public class View_sales_report extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 36)); // NOI18N
-        jLabel2.setText("    VIEW SALES REPORTS");
+        jLabel2.setText("    REPORTS");
         jLabel2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
-
-        jTable1.setModel(model);
-        jScrollPane1.setViewportView(jTable1);
 
         jPanel1.setBackground(new java.awt.Color(153, 153, 255));
         jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
@@ -197,24 +313,17 @@ public class View_sales_report extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 98, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 425, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(105, 105, 105))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(92, 92, 92))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 229, Short.MAX_VALUE)
+                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 228, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(213, 213, 213))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(20, 20, 20)
                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(43, Short.MAX_VALUE))
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 521, Short.MAX_VALUE)
+                .addContainerGap(470, Short.MAX_VALUE))
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 540, Short.MAX_VALUE)
         );
 
         pack();
@@ -245,8 +354,7 @@ public class View_sales_report extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
-        
-        String selectedItem = ((String) jComboBox1.getSelectedItem()).trim();
+              String selectedItem = ((String) jComboBox1.getSelectedItem()).trim();
         
         
 
@@ -277,7 +385,6 @@ public class View_sales_report extends javax.swing.JFrame {
     }
 
     
-
     }//GEN-LAST:event_jComboBox1ActionPerformed
 
     private void jButton11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton11ActionPerformed
@@ -298,7 +405,7 @@ public class View_sales_report extends javax.swing.JFrame {
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        java.awt.EventQueue.invokeLater(() -> new View_sales_report().setVisible(true));
+          java.awt.EventQueue.invokeLater(() -> new Generate_Reports().setVisible(true));
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
@@ -312,20 +419,20 @@ public class View_sales_report extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(View_sales_report.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Generate_Reports.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(View_sales_report.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Generate_Reports.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(View_sales_report.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Generate_Reports.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(View_sales_report.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Generate_Reports.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new View_sales_report().setVisible(true);
+                new Generate_Reports().setVisible(true);
             }
         });
     }
@@ -339,7 +446,5 @@ public class View_sales_report extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
     // End of variables declaration//GEN-END:variables
 }

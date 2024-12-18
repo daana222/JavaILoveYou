@@ -20,23 +20,28 @@ import java.util.HashSet;
  * @author HP
  */
 public class Register extends javax.swing.JFrame {
+    
     private final DefaultTableModel model = new DefaultTableModel();// to create model obj to placed in table
     private final String[] columnName = {"ID","Full Name","Phone Number","Address","Username","Password","Job Roles"};// an array / colum name
     private int row = -1;
-    private final HashSet<String> uniqueIds = new HashSet<>(); // Track unique IDs
+    private final HashSet<String> uniqueIds = new HashSet<>(); // Track unique IDs = no repeating
 
     /**
      * Creates new form Register
      */
     public Register() {
-        //checkAndCreateFile(); // Ensure the file exists
-        model.setColumnIdentifiers(columnName);// assignet name for table
+        
+        
+        model.setColumnIdentifiers(columnName);
         initComponents();
+        
         jPanel1.setName("sidePanel");
         ThemeManager.applyTheme(this);
         ThemeManager.updateTableTheme(jTable2);
-        loadFromFile(); // Load data from file when the application starts
+        loadFromFile(); 
     }
+
+ 
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -50,12 +55,6 @@ public class Register extends javax.swing.JFrame {
         buttonGroup1 = new javax.swing.ButtonGroup();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
-        jPanel1 = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
-        jComboBox3 = new javax.swing.JComboBox<>();
-        jButton8 = new javax.swing.JButton();
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         jButton5 = new javax.swing.JButton();
@@ -79,6 +78,13 @@ public class Register extends javax.swing.JFrame {
         jTextField6 = new javax.swing.JTextField();
         jLabel11 = new javax.swing.JLabel();
         jButton7 = new javax.swing.JButton();
+        jPanel1 = new javax.swing.JPanel();
+        jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
+        jButton4 = new javax.swing.JButton();
+        jComboBox2 = new javax.swing.JComboBox<>();
+        jButton9 = new javax.swing.JButton();
+        jButton10 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -87,83 +93,6 @@ public class Register extends javax.swing.JFrame {
 
         jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel5.setText("USERNAME :");
-
-        jPanel1.setBackground(new java.awt.Color(0, 0, 102));
-        jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        jPanel1.setForeground(new java.awt.Color(0, 0, 102));
-        jPanel1.setPreferredSize(new java.awt.Dimension(890, 500));
-
-        jButton1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jButton1.setText("REGISTER USER");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
-
-        jButton2.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jButton2.setText("VIEW USER");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
-            }
-        });
-
-        jButton4.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jButton4.setText("LOG OUT");
-        jButton4.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton4ActionPerformed(evt);
-            }
-        });
-
-        jComboBox3.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jComboBox3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "VIEW ITEM ", "VIEW PAYMENT", "VIEW STOCK LEVEL", "VIEW SUPPLIERS", "VIEW SALES REPORTS" }));
-        jComboBox3.setToolTipText("");
-        jComboBox3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBox3ActionPerformed(evt);
-            }
-        });
-
-        jButton8.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jButton8.setText("GENERATE REPORTS");
-        jButton8.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton8ActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addComponent(jComboBox3, 0, 0, Short.MAX_VALUE)
-                        .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
-                        .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
-                        .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE))
-                    .addComponent(jButton8, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(12, Short.MAX_VALUE))
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton8, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jComboBox3, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(7, 7, 7)
-                .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(17, 17, 17))
-        );
 
         jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel6.setText("PASSWORD :");
@@ -275,6 +204,93 @@ public class Register extends javax.swing.JFrame {
             }
         });
 
+        jPanel1.setBackground(new java.awt.Color(153, 153, 255));
+        jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        jPanel1.setPreferredSize(new java.awt.Dimension(890, 500));
+
+        jButton1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jButton1.setText("REGISTER USER");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        jButton2.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jButton2.setText("VIEW USER");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
+        jButton4.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jButton4.setText("LOG OUT");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
+
+        jComboBox2.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "VIEW ITEM ", "VIEW PAYMENT", "VIEW SUPPLIERS", "VIEW SALES REPORTS" }));
+        jComboBox2.setToolTipText("");
+        jComboBox2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBox2ActionPerformed(evt);
+            }
+        });
+
+        jButton9.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jButton9.setText("GENERATE REPORTS");
+        jButton9.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton9ActionPerformed(evt);
+            }
+        });
+
+        jButton10.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jButton10.setText("MAIN MENU");
+        jButton10.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton10ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
+                        .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
+                        .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
+                        .addComponent(jComboBox2, 0, 0, Short.MAX_VALUE))
+                    .addComponent(jButton9, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton10, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(12, Short.MAX_VALUE))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButton10, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jButton9, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -321,10 +337,9 @@ public class Register extends javax.swing.JFrame {
                                     .addComponent(jTextField6, javax.swing.GroupLayout.DEFAULT_SIZE, 235, Short.MAX_VALUE)
                                     .addComponent(jFormattedTextField1)
                                     .addComponent(jTextField3))))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 476, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
                         .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
@@ -336,13 +351,16 @@ public class Register extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButton7)))))
-                .addContainerGap(30, Short.MAX_VALUE))
+                                .addComponent(jButton7)))
+                        .addContainerGap(63, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 476, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(27, 27, 27))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 522, Short.MAX_VALUE)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+            .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(0, 59, Short.MAX_VALUE)
@@ -392,47 +410,13 @@ public class Register extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(14, 14, 14))
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 516, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
- //  public final void checkAndCreateFile() {
-  //  try {
-   //     File file = new File("User.txt");
-    //    System.out.println("File absolute path: " + file.getAbsolutePath()); // Prints the full path
-      //  if (!file.exists()) {
-      //      if (file.createNewFile()) {
-       //         System.out.println("User.txt file created successfully.");
-       //         System.out.println("Failed to create User.txt file.");
-       //     }
-       // }
-   // } catch (IOException e) {
-   //     JOptionPane.showMessageDialog(this, "Error creating file: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-   // }
-//}
-    
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        Register registerFrame = new Register();
-
-        registerFrame.setVisible(true); 
-        this.dispose(); 
-    }//GEN-LAST:event_jButton1ActionPerformed
-
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        View_user viewUserFrame = new View_user();
-
-        viewUserFrame.setVisible(true);
-this.dispose();         
-    }//GEN-LAST:event_jButton2ActionPerformed
-
-    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        Login loginPage = new Login(); // Replace "Login" with the actual class name of your login frame
-        loginPage.setVisible(true);    // Show the login frame
-
-        // Close the current frame (Main Menu frame)
-        this.dispose();        
-    }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jFormattedTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jFormattedTextField1ActionPerformed
        
@@ -560,7 +544,7 @@ this.dispose();
 
     public void clearTextField(){
         
-    jTextField3.setText(""); // User ID
+    jTextField3.setText(""); // ID
     jTextField6.setText(""); // Full Name
     jFormattedTextField1.setText(""); // Phone Number
     jTextField1.setText(""); // Address
@@ -586,7 +570,11 @@ this.dispose();
        
     }//GEN-LAST:event_jComboBox1ActionPerformed
 
+    
+    
     private void jTable2MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable2MouseReleased
+      
+
         row = jTable2.getSelectedRow();
          if (row != -1) {
         String ID = String.valueOf(model.getValueAt(row, 0));
@@ -615,7 +603,7 @@ this.dispose();
         String address = jTextField1.getText().trim();
         String username = jTextField2.getText().trim();
         String password = jTextField4.getText().trim();
-        String role = jComboBox1.getSelectedItem().toString(); // Use getSelectedItem()
+        String role = jComboBox1.getSelectedItem().toString(); 
         
         if (ID.isEmpty() || name.isEmpty() || phoneNumber.isEmpty() || address.isEmpty()
             || username.isEmpty() || password.isEmpty()) {
@@ -646,7 +634,7 @@ this.dispose();
     }//GEN-LAST:event_jTextField5ActionPerformed
 
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
-    String searchID = jTextField5.getText().trim(); // User ID to search
+    String searchID = jTextField5.getText().trim(); 
     boolean found = false;
     
     if (searchID.isEmpty()) {
@@ -655,18 +643,18 @@ this.dispose();
     }
     // Search for the User ID in the table
     for (int i = 0; i < model.getRowCount(); i++) {
-        if (model.getValueAt(i, 0).toString().equals(searchID)) { // Compare User ID
+        if (model.getValueAt(i, 0).toString().equals(searchID)) { // Compare ID with beloww
             found = true;
        // Populate the fields with the found user's data
-            jTextField3.setText(model.getValueAt(i, 0).toString()); // User ID
-            jTextField6.setText(model.getValueAt(i, 1).toString()); // Full Name
-            jFormattedTextField1.setText(model.getValueAt(i, 2).toString()); // Phone Number
+            jTextField3.setText(model.getValueAt(i, 0).toString()); // ID
+            jTextField6.setText(model.getValueAt(i, 1).toString()); // Name
+            jFormattedTextField1.setText(model.getValueAt(i, 2).toString()); // Number
             jTextField1.setText(model.getValueAt(i, 3).toString()); // Email
             jTextField2.setText(model.getValueAt(i, 4).toString()); // Username
             jTextField4.setText(model.getValueAt(i, 5).toString()); // Password
             jComboBox1.setSelectedItem(model.getValueAt(i, 6).toString()); // Role
 
-            row = i; // Set the selected row for later editing
+            row = i; //  editing
             break;
         }
     }
@@ -676,49 +664,78 @@ this.dispose();
     }      
     }//GEN-LAST:event_jButton7ActionPerformed
 
-    private void jComboBox3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox3ActionPerformed
-        
-        String selectedItem = (String) jComboBox3.getSelectedItem();
-        
-        switch (selectedItem) {
-            case "VIEW ITEM":
-                jComboBox3.setSelectedItem("VIEW ITEM");
-                View_Items viewItemFrame = new View_Items(); 
-                viewItemFrame.setVisible(true);
-                this.dispose(); 
-                break;
-                
-            case "VIEW PAYMENT":
-                jComboBox3.setSelectedItem("VIEW PAYMENT");
-                View_Payment viewPaymentFrame = new View_Payment(); 
-                viewPaymentFrame.setVisible(true);
-                this.dispose();
-                break;
-                
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        //
+        Register registerFrame = new Register();
 
-                
-            case "VIEW SUPPLIERS":
-                jComboBox3.setSelectedItem("VIEW SUPPLIERS");
-                View_Suppliers viewSuppliersFrame = new View_Suppliers(); 
-                viewSuppliersFrame.setVisible(true);
-                this.dispose();
-                break;
-                
-            case "VIEW SALES REPORTS":
-                jComboBox3.setSelectedItem("VIEW SALES REPORTS");
-                View_sales_report viewSalesReportFrame = new View_sales_report(); 
-                viewSalesReportFrame.setVisible(true);
-                this.dispose();
-                break;
-            default:
-                break;
-        }
+        registerFrame.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_jButton1ActionPerformed
 
-    }//GEN-LAST:event_jComboBox3ActionPerformed
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        View_user viewUserFrame = new View_user();
 
-    private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
+        viewUserFrame.setVisible(true);
+        this.dispose();
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton8ActionPerformed
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        // TODO add your handling code here:
+        Login loginPage = new Login();
+        loginPage.setVisible(true);
+
+        this.dispose();
+    }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jComboBox2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox2ActionPerformed
+             String selectedItem = ((String) jComboBox1.getSelectedItem()).trim();
+        
+        
+
+    if ("VIEW ITEM".equalsIgnoreCase(selectedItem)) {
+        //if (!(this instanceof View_Items)) { // Avoid reopening the same frame
+            View_Items viewItemFrame = new View_Items();
+            viewItemFrame.setVisible(true);
+            this.dispose();
+        
+    } 
+    else if ("VIEW PAYMENT".equalsIgnoreCase(selectedItem)) {
+        View_Payment viewPaymentFrame = new View_Payment();
+        viewPaymentFrame.setVisible(true);
+        this.dispose();
+    } 
+    else if ("VIEW SUPPLIERS".equalsIgnoreCase(selectedItem)) {
+        View_Suppliers viewSuppliersFrame = new View_Suppliers();
+        viewSuppliersFrame.setVisible(true);
+        this.dispose();
+    } 
+    else if ("VIEW SALES REPORTS".equalsIgnoreCase(selectedItem)) {
+        View_sales_report viewSalesReportFrame = new View_sales_report();
+        viewSalesReportFrame.setVisible(true);
+        this.dispose();
+    } 
+    else {
+        JOptionPane.showMessageDialog(this, "Invalid selection!", "Error", JOptionPane.ERROR_MESSAGE);
+    }
+
+    
+
+    }//GEN-LAST:event_jComboBox2ActionPerformed
+
+    private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
+        Generate_Reports generateReportsFrame = new Generate_Reports();
+
+        generateReportsFrame.setVisible(true);
+        this.dispose();        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton9ActionPerformed
+
+    private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
+        Main_Menu mainMenuFrame = new Main_Menu();
+
+        mainMenuFrame.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_jButton10ActionPerformed
 
     public void saveToFile() {
     try (BufferedWriter writer = new BufferedWriter(new FileWriter("User.txt"))) {
@@ -726,7 +743,7 @@ this.dispose();
             for (int j = 0; j < model.getColumnCount(); j++) {
                 writer.write(model.getValueAt(i, j).toString());
                 if (j < model.getColumnCount() - 1) {
-                    writer.write(","); // Use comma as delimiter
+                    writer.write(","); 
                 }
             }
             writer.newLine();
@@ -741,14 +758,14 @@ this.dispose();
    public final void loadFromFile() {
     try (BufferedReader reader = new BufferedReader(new FileReader("User.txt"))) {
         String line;
-        model.setRowCount(0); // Clear the table before loading
+        model.setRowCount(0); 
         uniqueIds.clear();
 
         while ((line = reader.readLine()) != null) {
             String[] rowData = line.split(","); // Ensure proper splitting
             if (rowData.length == columnName.length) {
                 model.addRow(rowData);
-                uniqueIds.add(rowData[0]); // Track unique IDs
+                uniqueIds.add(rowData[0]); 
             }
         }
 
@@ -796,15 +813,16 @@ this.dispose();
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton10;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton7;
-    private javax.swing.JButton jButton8;
+    private javax.swing.JButton jButton9;
     private javax.swing.JComboBox<String> jComboBox1;
-    private javax.swing.JComboBox<String> jComboBox3;
+    private javax.swing.JComboBox<String> jComboBox2;
     private javax.swing.JFormattedTextField jFormattedTextField1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
