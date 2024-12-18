@@ -13,13 +13,16 @@ import javax.swing.table.DefaultTableModel;
  * @author Mitsu
  */
 public class StockStatus extends javax.swing.JFrame {
+    private String ID;
 
     /**
      * Creates new form StockStatus
      */
     public StockStatus() {
         initComponents();
+        jPanel1.setName("sidePanel");
         ThemeManager.applyTheme(this);
+        ThemeManager.updateTableTheme(stockStatusTable);
         setSize(890, 500);
         setLocationRelativeTo(null); // Center the frame
         loadStockData();
@@ -206,7 +209,7 @@ public class StockStatus extends javax.swing.JFrame {
 
     private void DashboardbtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DashboardbtnActionPerformed
         // TODO add your handling code here:
-        FManager dashboard = new FManager();
+        FManager dashboard = new FManager(ID);
         dashboard.setVisible(true);
         dispose();
     }//GEN-LAST:event_DashboardbtnActionPerformed

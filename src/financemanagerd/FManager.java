@@ -1,6 +1,7 @@
 
 package financemanagerd;
 import ThemeManager.ThemeManager;
+import java.awt.FlowLayout;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
@@ -9,14 +10,52 @@ import org.jfree.data.general.DefaultPieDataset;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.SwingConstants;
 
 public class FManager extends javax.swing.JFrame {
+    private String ID;
 
     /**
      * Creates new form FManager
      */
-    public FManager() {
+    public FManager(String ID) {
+        this.ID = ID;
         initComponents();
+        
+  // Create a new panel for the welcome and ID labels
+    javax.swing.JPanel topPanel = new javax.swing.JPanel();
+    topPanel.setBackground(new java.awt.Color(255, 255, 255));
+    topPanel.setLayout(new java.awt.FlowLayout(FlowLayout.CENTER));
+
+    // Welcome Label
+    JLabel welcomeLabel = new JLabel("Welcome", SwingConstants.CENTER);
+    welcomeLabel.setFont(new java.awt.Font("Segoe UI", java.awt.Font.BOLD, 20));
+    welcomeLabel.setForeground(java.awt.Color.BLACK);
+
+    // ID Label
+    JLabel idLabel = new JLabel("User ID: " + ID, SwingConstants.CENTER);
+    idLabel.setFont(new java.awt.Font("Segoe UI", java.awt.Font.PLAIN, 16));
+    idLabel.setForeground(java.awt.Color.BLACK);
+
+    // Add labels to the new panel
+    topPanel.add(welcomeLabel);
+    topPanel.add(idLabel);
+
+    // Add the top panel to the main content pane
+    getContentPane().add(topPanel, java.awt.BorderLayout.NORTH);
+
+    // Theme and frame settings
+    ThemeManager.applyTheme(this);
+    setTitle("Finance Main Menu - User ID: " + ID);
+    setSize(890, 600);
+    setLocationRelativeTo(null);
+    setVisible(true);
+
+
+        
+        jPanel1.setName("sidePanel");
         ThemeManager.applyTheme(this);
         setSize(890, 500);
         setLocationRelativeTo(null); // Center the frame
@@ -42,6 +81,10 @@ public class FManager extends javax.swing.JFrame {
             secondChartPanel.add(poChartPanel, java.awt.BorderLayout.CENTER);
             secondChartPanel.validate();
         }
+    }
+
+    private FManager() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     
@@ -72,7 +115,7 @@ public class FManager extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setPreferredSize(new java.awt.Dimension(890, 500));
 
-        jPanel1.setBackground(new java.awt.Color(0, 0, 102));
+        jPanel1.setBackground(new java.awt.Color(153, 153, 255));
 
         Dashboardbtn.setBackground(new java.awt.Color(255, 255, 204));
         Dashboardbtn.setText("Dashboard");
@@ -248,7 +291,7 @@ public class FManager extends javax.swing.JFrame {
 
     private void DashboardbtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DashboardbtnActionPerformed
         // TODO add your handling code here:
-        FManager dashboard = new FManager();
+        FManager dashboard = new FManager(ID);
         dashboard.setVisible(true);
         dispose();
     }//GEN-LAST:event_DashboardbtnActionPerformed
@@ -402,6 +445,22 @@ public class FManager extends javax.swing.JFrame {
     
     
     public static void main(String args[]) {
+        try {
+        for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+            if ("Nimbus".equals(info.getName())) {
+                javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                break;
+            }
+        }
+    } catch (Exception ex) {
+        java.util.logging.Logger.getLogger(FManager.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+    }
+
+    /* Create and display the form */
+    java.awt.EventQueue.invokeLater(() -> {
+        String dummyID = "F001"; // Placeholder ID for testing purposes
+        new FManager(dummyID).setVisible(true);
+    });
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.

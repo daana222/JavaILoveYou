@@ -10,13 +10,16 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class PurchaseOrder extends javax.swing.JFrame {
+    private String ID;
     private int row = -1;
     /**
      * Creates new form PurchaseOrder
      */
     public PurchaseOrder() {
         initComponents();
+        jPanel1.setName("sidePanel");
         ThemeManager.applyTheme(this);
+        ThemeManager.updateTableTheme(POmaintable);
         setSize(890, 500);
         setLocationRelativeTo(null); // Center the frame
         
@@ -281,7 +284,7 @@ public class PurchaseOrder extends javax.swing.JFrame {
     
     private void DashboardbtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DashboardbtnActionPerformed
         // TODO add your handling code here:
-        FManager dashboard = new FManager();
+        FManager dashboard = new FManager(ID);
         dashboard.setVisible(true);
         dispose();
     }//GEN-LAST:event_DashboardbtnActionPerformed

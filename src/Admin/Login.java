@@ -240,9 +240,9 @@ try (BufferedReader reader = new BufferedReader(new FileReader("User.txt"))) { /
     return;
 }
 
-// admin part og login         
+// part og login         
          if (loginSuccessful) {
-            JOptionPane.showMessageDialog(this, "Login Successful as Admin!");
+            JOptionPane.showMessageDialog(this, "Login Successful!");
              if (role.equalsIgnoreCase("ADMIN")) {
             new RoleSelection().setVisible(true); 
         } else {
@@ -270,7 +270,7 @@ try (BufferedReader reader = new BufferedReader(new FileReader("User.txt"))) { /
             new Purchase_Manager.PM(ID).setVisible(true);
             break;
         case "FINANCE MANAGER":
-         //   new financemanagerd.FManager(ID).setVisible(true);
+         new financemanagerd.FManager(ID).setVisible(true);
             break;
         default:
             JOptionPane.showMessageDialog(this, "Does not exits : " + role, "Error. Please choose propely", JOptionPane.ERROR_MESSAGE);
@@ -319,7 +319,7 @@ try (BufferedReader reader = new BufferedReader(new FileReader("User.txt"))) { /
         });
 
         btnFinanceManager.addActionListener(e -> {
-          //  new financemanagerd.FManager("F002").setVisible(true);
+           new financemanagerd.FManager("F002").setVisible(true);
             this.dispose(); // Close RoleSelection window
         });
 
@@ -427,6 +427,7 @@ try (BufferedReader reader = new BufferedReader(new FileReader("User.txt"))) { /
      * @param args the command line arguments
      */
     public static void main(String args[]) {
+        java.awt.EventQueue.invokeLater(() -> new Login().setVisible(true));
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
