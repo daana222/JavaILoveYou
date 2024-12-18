@@ -11,6 +11,8 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
+import javax.swing.text.html.HTML;
+import static org.jfree.ui.UIUtilities.setupUI;
 
 /**
  *
@@ -26,24 +28,49 @@ public class Main_Menu extends javax.swing.JFrame {
         // get the id to display
         this.ID = ID;
         initComponents();
-        jPanel1.setName("sidePanel");
-        
-        // Create and add the reusable top panel
-    AdminTopPanel topPanel = new AdminTopPanel(ID);
-    getContentPane().add(topPanel, BorderLayout.NORTH);
-
-    // Theme and frame settings
-    ThemeManager.applyTheme(this);
+         setupUI(); 
+        //the top panel display 
     setTitle("Admin Main Menu - User ID: " + ID);
-    setSize(890, 600);
-    setLocationRelativeTo(null);
+  
+// jplanel thing
+    JLabel welcomeLabel = new JLabel("Welcome Admin", SwingConstants.CENTER);
+    welcomeLabel.setFont(new java.awt.Font("Segoe UI", java.awt.Font.BOLD, 20));
+    welcomeLabel.setForeground(java.awt.Color.BLACK);
+
+     // ID Label
+    JLabel idLabel = new JLabel("ID: " + ID, SwingConstants.CENTER);
+    idLabel.setFont(new java.awt.Font("Segoe UI", java.awt.Font.PLAIN, 16));
+    idLabel.setForeground(java.awt.Color.BLACK);
+
+    // Set the layout /positions
+    jPanel1.setLayout(null);
+
+    // Add Welcome, the top
+    welcomeLabel.setBounds(10, 10, jPanel1.getWidth() - 20, 30);
+    jPanel1.add(welcomeLabel);
+
+    // Add ID below Welcome
+    idLabel.setBounds(10, 45, jPanel1.getWidth() - 20, 30);
+    jPanel1.add(idLabel);
+
+    // Ensure the labels are brought to the front
+    jPanel1.setComponentZOrder(welcomeLabel, 0);
+    jPanel1.setComponentZOrder(idLabel, 0);
+
+    // Frame settings
+    setSize(890, 600); 
+    setLocationRelativeTo(null); // Center the frame on the screen
+    setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    jPanel1.setName("sidePanel");
+    ThemeManager.applyTheme(this);
     setVisible(true);
-        
-
-
 }   
      public Main_Menu() {
         this("ID not found"); // Default to "Unknown" ID if no ID is provided
+    }
+
+    Main_Menu(HTML.Attribute ID) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
       
@@ -195,7 +222,8 @@ public class Main_Menu extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
       // res buton
-       Register registerFrame = new Register(ID);
+       // res buton
+       Register registerFrame = new Register();
         
         registerFrame.setVisible(true);
         
@@ -283,7 +311,7 @@ public class Main_Menu extends javax.swing.JFrame {
     
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Main_Menu().setVisible(true);
+                new Main_Menu("A001").setVisible(true);// Test with a dummy ID
             }
         });
     }

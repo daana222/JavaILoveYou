@@ -20,7 +20,7 @@ import javax.swing.table.DefaultTableModel;
  * @author HP
  */
 public class View_Items extends javax.swing.JFrame {
-    private String ID;
+   
 
     private final DefaultTableModel model;
     /**
@@ -269,7 +269,7 @@ public class View_Items extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         //
-        Register registerFrame = new Register(ID);
+        Register registerFrame = new Register();
 
         registerFrame.setVisible(true);
         this.dispose();

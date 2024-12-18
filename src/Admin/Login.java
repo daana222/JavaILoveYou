@@ -12,6 +12,7 @@ import java.io.IOException;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import static javax.swing.text.html.HTML.Attribute.ID;
 
 /**
  *
@@ -281,10 +282,10 @@ try (BufferedReader reader = new BufferedReader(new FileReader("User.txt"))) { /
 
     // the buttons all in admin = to choose where to go
     public class RoleSelection extends JFrame {
-        private String ID;
+       
 
     public RoleSelection() {
-        this.ID = ID; // Assign the correct ID
+        
         setTitle("Select a Role");
         setSize(400, 300);
         setLayout(new GridLayout(5, 1, 10, 10));
@@ -330,7 +331,8 @@ try (BufferedReader reader = new BufferedReader(new FileReader("User.txt"))) { /
 
         // will lead to admin page
         btnAdmin.addActionListener(e -> {
-            new Admin.Main_Menu(ID).setVisible(true);
+            
+            new Admin.Main_Menu("U001").setVisible(true);
             this.dispose(); // Close RoleSelection window
         });
 

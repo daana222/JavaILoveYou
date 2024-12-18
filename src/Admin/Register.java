@@ -34,50 +34,19 @@ public class Register extends javax.swing.JFrame {
     /**
      * Creates new form Register
      */
-    public Register(String ID) {
+    public Register() {
     
     model.setColumnIdentifiers(columnName);
     initComponents();
-
     
  jPanel1.setName("sidePanel");
-        this.ID = ID;
+       ThemeManager.applyTheme(this);
+        ThemeManager.updateTableTheme(jTable2);
+        loadFromFile(); 
        
         
-  // Create a new panel for the welcome and ID labels
-    javax.swing.JPanel topPanel = new javax.swing.JPanel();
-    topPanel.setBackground(new java.awt.Color(255, 255, 255));
-    topPanel.setLayout(new java.awt.FlowLayout(FlowLayout.CENTER));
-
-    // Welcome Label
-    JLabel welcomeLabel = new JLabel("Welcome to the Admin", SwingConstants.CENTER);
-    welcomeLabel.setFont(new java.awt.Font("Segoe UI", java.awt.Font.BOLD, 20));
-    welcomeLabel.setForeground(java.awt.Color.BLACK);
-
-    // ID Label
-    JLabel idLabel = new JLabel("User ID: " + ID, SwingConstants.CENTER);
-    idLabel.setFont(new java.awt.Font("Segoe UI", java.awt.Font.PLAIN, 16));
-    idLabel.setForeground(java.awt.Color.BLACK);
-
-    // Add labels to the new panel
-    topPanel.add(welcomeLabel);
-    topPanel.add(idLabel);
-
-    // Add the top panel to the main content pane
-    getContentPane().add(topPanel, java.awt.BorderLayout.NORTH);
-
-    // Theme and frame settings
-    ThemeManager.applyTheme(this);
-    setTitle("Admin Main Menu - User ID: " + ID);
-    setSize(890, 600);
-    setLocationRelativeTo(null);
-    setVisible(true);
-
     }
 
-    private Register() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
 
  
 
@@ -702,7 +671,7 @@ public class Register extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // res buton
-        Register registerFrame = new Register(ID);
+        Register registerFrame = new Register();
 
         registerFrame.setVisible(true);
 
@@ -819,9 +788,8 @@ public class Register extends javax.swing.JFrame {
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        java.awt.EventQueue.invokeLater(() -> {
-        new Register("U001").setVisible(true); // Provide a sample User ID
-    });
+   
+
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
