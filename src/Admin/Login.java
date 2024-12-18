@@ -319,7 +319,7 @@ try (BufferedReader reader = new BufferedReader(new FileReader("User.txt"))) { /
         });
 
         btnFinanceManager.addActionListener(e -> {
-          //  new financemanagerd.FManager("F002").setVisible(true);
+          //new financemanagerd.FManager("F002").setVisible(true);
             this.dispose(); // Close RoleSelection window
         });
 

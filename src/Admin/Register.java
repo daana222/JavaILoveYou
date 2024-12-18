@@ -83,9 +83,9 @@ public class Register extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
-        jComboBox2 = new javax.swing.JComboBox<>();
-        jButton9 = new javax.swing.JButton();
-        jButton10 = new javax.swing.JButton();
+        jComboBox3 = new javax.swing.JComboBox<>();
+        jButton8 = new javax.swing.JButton();
+        jButton11 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -233,28 +233,28 @@ public class Register extends javax.swing.JFrame {
             }
         });
 
-        jComboBox2.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "VIEW ITEM ", "VIEW PAYMENT", "VIEW SUPPLIERS", "VIEW SALES REPORTS" }));
-        jComboBox2.setToolTipText("");
-        jComboBox2.addActionListener(new java.awt.event.ActionListener() {
+        jComboBox3.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jComboBox3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "VIEW ITEM ", "VIEW PAYMENT", "VIEW SUPPLIERS", "VIEW SALES REPORTS" }));
+        jComboBox3.setToolTipText("");
+        jComboBox3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBox2ActionPerformed(evt);
+                jComboBox3ActionPerformed(evt);
             }
         });
 
-        jButton9.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jButton9.setText("GENERATE REPORTS");
-        jButton9.addActionListener(new java.awt.event.ActionListener() {
+        jButton8.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jButton8.setText("GENERATE REPORTS");
+        jButton8.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton9ActionPerformed(evt);
+                jButton8ActionPerformed(evt);
             }
         });
 
-        jButton10.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jButton10.setText("MAIN MENU");
-        jButton10.addActionListener(new java.awt.event.ActionListener() {
+        jButton11.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jButton11.setText("MAIN MENU");
+        jButton11.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton10ActionPerformed(evt);
+                jButton11ActionPerformed(evt);
             }
         });
 
@@ -269,24 +269,24 @@ public class Register extends javax.swing.JFrame {
                         .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
                         .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
                         .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
-                        .addComponent(jComboBox2, 0, 0, Short.MAX_VALUE))
-                    .addComponent(jButton9, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton10, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jComboBox3, 0, 0, Short.MAX_VALUE))
+                    .addComponent(jButton8, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton11, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(12, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton10, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jButton11, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jButton9, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jButton8, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jComboBox3, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -409,11 +409,9 @@ public class Register extends javax.swing.JFrame {
                             .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 508, Short.MAX_VALUE))
                 .addGap(14, 14, 14))
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 516, Short.MAX_VALUE)
-                .addContainerGap())
         );
 
         pack();
@@ -666,82 +664,85 @@ public class Register extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton7ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        //
+        // res buton
         Register registerFrame = new Register();
 
         registerFrame.setVisible(true);
+
         this.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        //viewU button
         View_user viewUserFrame = new View_user();
 
         viewUserFrame.setVisible(true);
+
         this.dispose();
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        // TODO add your handling code here:
+        // out to login = log out
         Login loginPage = new Login();
+
         loginPage.setVisible(true);
 
         this.dispose();
     }//GEN-LAST:event_jButton4ActionPerformed
 
-    private void jComboBox2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox2ActionPerformed
-           String selectedItem = ((String) jComboBox1.getSelectedItem()).trim();
-        
-    if ("VIEW ITEM".equalsIgnoreCase(selectedItem)) {
-        //if (!(this instanceof View_Items)) { // Avoid reopening the same frame
-            View_Items viewItemFrame = new View_Items();
-            viewItemFrame.setVisible(true);
-            
-            this.dispose();
-        
-    } 
-    else if ("VIEW PAYMENT".equalsIgnoreCase(selectedItem)) {
-       View_Payment viewPaymentFrame = new View_Payment();
-        viewPaymentFrame.setVisible(true);
-       
-        this.dispose();
-    } 
-    else if ("VIEW SUPPLIERS".equalsIgnoreCase(selectedItem)) {
-       View_Suppliers viewSuppliersFrame = new View_Suppliers();
-       viewSuppliersFrame.setVisible(true);
-        
-        this.dispose();
-    } 
-    else if ("VIEW SALES REPORTS".equalsIgnoreCase(selectedItem)) {
-       View_sales_report viewSalesReportFrame = new View_sales_report();
-        viewSalesReportFrame.setVisible(true);
-        
-        this.dispose();
-    } 
-    else {
-        JOptionPane.showMessageDialog(this, "Invalid selection!. Plese choose one of this 4. Thank you", "Error", JOptionPane.ERROR_MESSAGE);
-    }
+    private void jComboBox3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox3ActionPerformed
+        // combobox
 
+        String selectedItem = ((String) jComboBox1.getSelectedItem()).trim();
 
-    
+        if ("VIEW ITEM".equalsIgnoreCase(selectedItem)) {
+            //if (!(this instanceof View_Items)) { // Avoid reopening the same frame
+                View_Items viewItemFrame = new View_Items();
+                viewItemFrame.setVisible(true);
 
-    }//GEN-LAST:event_jComboBox2ActionPerformed
+                this.dispose();
 
-    private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
+            }
+            else if ("VIEW PAYMENT".equalsIgnoreCase(selectedItem)) {
+                View_Payment viewPaymentFrame = new View_Payment();
+                viewPaymentFrame.setVisible(true);
+
+                this.dispose();
+            }
+            else if ("VIEW SUPPLIERS".equalsIgnoreCase(selectedItem)) {
+                View_Suppliers viewSuppliersFrame = new View_Suppliers();
+                viewSuppliersFrame.setVisible(true);
+
+                this.dispose();
+            }
+            else if ("VIEW SALES REPORTS".equalsIgnoreCase(selectedItem)) {
+                View_sales_report viewSalesReportFrame = new View_sales_report();
+                viewSalesReportFrame.setVisible(true);
+
+                this.dispose();
+            }
+            else {
+                JOptionPane.showMessageDialog(this, "Invalid selection!. Plese choose one of this 4. Thank you", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+
+    }//GEN-LAST:event_jComboBox3ActionPerformed
+
+    private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
+        // gr buuton
         Generate_Reports generateReportsFrame = new Generate_Reports();
 
         generateReportsFrame.setVisible(true);
         this.dispose();        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton9ActionPerformed
+    }//GEN-LAST:event_jButton8ActionPerformed
 
-    private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
-//        Main_Menu mainMenuFrame = new Main_Menu();
-
-     //   mainMenuFrame.setVisible(true);
-     new Main_Menu(ID).setVisible(true);
-        this.dispose();        
+    private void jButton11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton11ActionPerformed
+        // Main_Menu mainMenuFrame = new Main_Menu();
+        // mainMenuFrame.setVisible(true); - old code
+        // display the id thing
+        new Main_Menu(ID).setVisible(true);
         this.dispose();
-    }//GEN-LAST:event_jButton10ActionPerformed
+    }//GEN-LAST:event_jButton11ActionPerformed
 
     public void saveToFile() {
     try (BufferedWriter writer = new BufferedWriter(new FileWriter("User.txt"))) {
@@ -819,16 +820,16 @@ public class Register extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton10;
+    private javax.swing.JButton jButton11;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton7;
-    private javax.swing.JButton jButton9;
+    private javax.swing.JButton jButton8;
     private javax.swing.JComboBox<String> jComboBox1;
-    private javax.swing.JComboBox<String> jComboBox2;
+    private javax.swing.JComboBox<String> jComboBox3;
     private javax.swing.JFormattedTextField jFormattedTextField1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
