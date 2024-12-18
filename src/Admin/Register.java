@@ -5,6 +5,7 @@
 package Admin;
 
 import ThemeManager.ThemeManager;
+import java.awt.FlowLayout;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileReader;
@@ -13,6 +14,9 @@ import java.io.IOException;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import java.util.HashSet;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.SwingConstants;
 
 
 /**
@@ -31,16 +35,18 @@ public class Register extends javax.swing.JFrame {
      * Creates new form Register
      */
     public Register() {
-        
-        
-        model.setColumnIdentifiers(columnName);
-        initComponents();
-        
-        jPanel1.setName("sidePanel");
-        ThemeManager.applyTheme(this);
+    
+    model.setColumnIdentifiers(columnName);
+    initComponents();
+    
+ jPanel1.setName("sidePanel");
+       ThemeManager.applyTheme(this);
         ThemeManager.updateTableTheme(jTable2);
         loadFromFile(); 
+       
+        
     }
+
 
  
 
@@ -694,37 +700,32 @@ public class Register extends javax.swing.JFrame {
     private void jComboBox3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox3ActionPerformed
        // combobox 
     
-      String selectedItem = ((String) jComboBox1.getSelectedItem()).trim();
-        
-        if ("VIEW ITEM".equalsIgnoreCase(selectedItem)) {
-            //if (!(this instanceof View_Items)) { // Avoid reopening the same frame
-                View_Items viewItemFrame = new View_Items();
-                viewItemFrame.setVisible(true);
+                                             
+    String selectedItem = ((String) jComboBox3.getSelectedItem()).trim();
 
-                this.dispose();
-
-        } 
-        else if ("VIEW PAYMENT".equalsIgnoreCase(selectedItem)) {
-           View_Payment viewPaymentFrame = new View_Payment();
-            viewPaymentFrame.setVisible(true);
-
-            this.dispose();
-        } 
-        else if ("VIEW SUPPLIERS".equalsIgnoreCase(selectedItem)) {
-           View_Suppliers viewSuppliersFrame = new View_Suppliers();
-           viewSuppliersFrame.setVisible(true);
-
-            this.dispose();
-        } 
-        else if ("VIEW SALES REPORTS".equalsIgnoreCase(selectedItem)) {
-           View_sales_report viewSalesReportFrame = new View_sales_report();
-            viewSalesReportFrame.setVisible(true);
-
-            this.dispose();
-        } 
-        else {
-            JOptionPane.showMessageDialog(this, "Invalid selection!. Plese choose one of this 4. Thank you", "Error", JOptionPane.ERROR_MESSAGE);
-        }
+    if ("VIEW ITEM".equalsIgnoreCase(selectedItem)) {
+        View_Items viewItemFrame = new View_Items();
+        viewItemFrame.setVisible(true);
+        this.dispose();
+    } 
+    else if ("VIEW PAYMENT".equalsIgnoreCase(selectedItem)) {
+        View_Payment viewPaymentFrame = new View_Payment();
+        viewPaymentFrame.setVisible(true);
+        this.dispose();
+    } 
+    else if ("VIEW SUPPLIERS".equalsIgnoreCase(selectedItem)) {
+        View_Suppliers viewSuppliersFrame = new View_Suppliers();
+        viewSuppliersFrame.setVisible(true);
+        this.dispose();
+    } 
+    else if ("VIEW SALES REPORTS".equalsIgnoreCase(selectedItem)) {
+        View_sales_report viewSalesReportFrame = new View_sales_report();
+        viewSalesReportFrame.setVisible(true);
+        this.dispose();
+    } 
+    else {
+        JOptionPane.showMessageDialog(this, "Invalid selection! Please choose one of the options.", "Error", JOptionPane.ERROR_MESSAGE);
+    }
 
     
     }//GEN-LAST:event_jComboBox3ActionPerformed
@@ -787,6 +788,8 @@ public class Register extends javax.swing.JFrame {
      * @param args the command line arguments
      */
     public static void main(String args[]) {
+   
+
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.

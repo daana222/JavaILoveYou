@@ -5,10 +5,14 @@
 package Admin;
 
 import ThemeManager.ThemeManager;
+import java.awt.BorderLayout;
+import java.awt.FlowLayout;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
+import javax.swing.text.html.HTML;
+import static org.jfree.ui.UIUtilities.setupUI;
 
 /**
  *
@@ -24,7 +28,7 @@ public class Main_Menu extends javax.swing.JFrame {
         // get the id to display
         this.ID = ID;
         initComponents();
-     
+         setupUI(); 
         //the top panel display 
     setTitle("Admin Main Menu - User ID: " + ID);
   
@@ -63,6 +67,10 @@ public class Main_Menu extends javax.swing.JFrame {
 }   
      public Main_Menu() {
         this("ID not found"); // Default to "Unknown" ID if no ID is provided
+    }
+
+    Main_Menu(HTML.Attribute ID) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
       
@@ -214,6 +222,7 @@ public class Main_Menu extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
       // res buton
+       // res buton
        Register registerFrame = new Register();
         
         registerFrame.setVisible(true);
@@ -302,7 +311,7 @@ public class Main_Menu extends javax.swing.JFrame {
     
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Main_Menu().setVisible(true);
+                new Main_Menu("A001").setVisible(true);// Test with a dummy ID
             }
         });
     }

@@ -12,6 +12,7 @@ import java.io.IOException;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import static javax.swing.text.html.HTML.Attribute.ID;
 
 /**
  *
@@ -267,7 +268,7 @@ try (BufferedReader reader = new BufferedReader(new FileReader("User.txt"))) { /
     private void redirectToMainMenu(String role, String ID) {
     switch (role.toUpperCase()) {
         case "ADMIN":
-            new Admin.Main_Menu(ID).setVisible(true);
+            new Admin.Main_Menu(ID).setVisible(true); // Pass the dynamic ID here
             break;
         case "SALES MANAGER":
           //  new Sales_Manager.Main_Dashboard(ID).setVisible(true);
@@ -287,8 +288,10 @@ try (BufferedReader reader = new BufferedReader(new FileReader("User.txt"))) { /
 
     // the buttons all in admin = to choose where to go
     public class RoleSelection extends JFrame {
+       
 
     public RoleSelection() {
+        
         setTitle("Select a Role");
         setSize(400, 300);
         setLayout(new GridLayout(5, 1, 10, 10));
@@ -320,7 +323,7 @@ try (BufferedReader reader = new BufferedReader(new FileReader("User.txt"))) { /
         });
 
         btnPurchaseManager.addActionListener(e -> {
-           // new Purchase_Manager.PM("P002").setVisible(true);
+            new Purchase_Manager.PM("P002").setVisible(true);
             this.dispose(); // Close RoleSelection window
         });
 
@@ -334,6 +337,7 @@ try (BufferedReader reader = new BufferedReader(new FileReader("User.txt"))) { /
 
         // will lead to admin page
         btnAdmin.addActionListener(e -> {
+            
             new Admin.Main_Menu("U001").setVisible(true);
             this.dispose(); // Close RoleSelection window
         });
