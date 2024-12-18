@@ -199,8 +199,10 @@ public class Login extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+
         // Login button 
         String username = jTextField1.getText().trim();
+
         String password = new String(jPasswordField1.getPassword()).trim();
         
         //both must be feel or not 
@@ -224,6 +226,7 @@ try (BufferedReader reader = new BufferedReader(new FileReader("User.txt"))) { /
 
            // System.out.println("Username: " + fileUsername + ", Password: " + filePassword); // Debugging thery will show dont there ,,, to be confirm only
 
+
            // both true = login
             if (username.equals(fileUsername) && password.equals(filePassword)) {
                 loginSuccessful = true;
@@ -231,6 +234,7 @@ try (BufferedReader reader = new BufferedReader(new FileReader("User.txt"))) { /
                 ID = userDetails[0].trim();
                 break;
             }
+
         } else {
             System.out.println("Invalid Line Format: " + line); // Debugging: Invalid like where line
         }
@@ -252,6 +256,8 @@ try (BufferedReader reader = new BufferedReader(new FileReader("User.txt"))) { /
     } else {
         JOptionPane.showMessageDialog(this, "Invalid Username or Password", "Login Failed", JOptionPane.ERROR_MESSAGE);
          }
+ 
+
          
          
     }//GEN-LAST:event_jButton3ActionPerformed

@@ -23,39 +23,37 @@ public class FManager extends javax.swing.JFrame {
     public FManager(String ID) {
         this.ID = ID;
         initComponents();
-        
-  // Create a new panel for the welcome and ID labels
-    javax.swing.JPanel topPanel = new javax.swing.JPanel();
-    topPanel.setBackground(new java.awt.Color(255, 255, 255));
-    topPanel.setLayout(new java.awt.FlowLayout(FlowLayout.CENTER));
+// Create a new panel for the welcome and ID labels
+javax.swing.JPanel topPanel = new javax.swing.JPanel();
+topPanel.setBackground(new java.awt.Color(255, 255, 255));
+topPanel.setLayout(new java.awt.FlowLayout(FlowLayout.CENTER));
 
-    // Welcome Label
-    JLabel welcomeLabel = new JLabel("Welcome", SwingConstants.CENTER);
-    welcomeLabel.setFont(new java.awt.Font("Segoe UI", java.awt.Font.BOLD, 20));
-    welcomeLabel.setForeground(java.awt.Color.BLACK);
+// Welcome Label
+JLabel welcomeLabel = new JLabel("Welcome", SwingConstants.CENTER);
+welcomeLabel.setFont(new java.awt.Font("Segoe UI", java.awt.Font.BOLD, 20));
+welcomeLabel.setForeground(java.awt.Color.BLACK);
 
-    // ID Label
-    JLabel idLabel = new JLabel("User ID: " + ID, SwingConstants.CENTER);
-    idLabel.setFont(new java.awt.Font("Segoe UI", java.awt.Font.PLAIN, 16));
-    idLabel.setForeground(java.awt.Color.BLACK);
+// ID Label
+JLabel idLabel = new JLabel("User ID: " + ID, SwingConstants.CENTER);
+idLabel.setFont(new java.awt.Font("Segoe UI", java.awt.Font.PLAIN, 16));
+idLabel.setForeground(java.awt.Color.BLACK);
 
-    // Add labels to the new panel
-    topPanel.add(welcomeLabel);
-    topPanel.add(idLabel);
+// Add labels to the new panel
+topPanel.add(welcomeLabel);
+topPanel.add(idLabel);
 
-    // Add the top panel to the main content pane
-    getContentPane().add(topPanel, java.awt.BorderLayout.NORTH);
+// Add the top panel to the main content pane
+getContentPane().add(topPanel, java.awt.BorderLayout.NORTH);
 
-    // Theme and frame settings
-    ThemeManager.applyTheme(this);
-    setTitle("Finance Main Menu - User ID: " + ID);
-    setSize(890, 600);
-    setLocationRelativeTo(null);
-    setVisible(true);
+// Theme and frame settings
+ThemeManager.applyTheme(this);
+setTitle("Finance Main Menu - User ID: " + ID);
+setSize(890, 600);
+setLocationRelativeTo(null);
+setVisible(true);
 
+jPanel1.setName("sidePanel");
 
-        
-        jPanel1.setName("sidePanel");
         ThemeManager.applyTheme(this);
         setSize(890, 500);
         setLocationRelativeTo(null); // Center the frame
@@ -83,11 +81,6 @@ public class FManager extends javax.swing.JFrame {
         }
     }
 
-    private FManager() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    
 
     /**
      * This method is called from within the constructor to initialize the form.
