@@ -1,5 +1,6 @@
 package Sales_Manager;
 
+import ThemeManager.ThemeManager;
 import java.io.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -28,6 +29,9 @@ public class Daily_Items_Sales_Entry extends javax.swing.JFrame {
         initComponents();
         populateComboBox(); // Ensure this is called to populate the combo box on initialization
         addTableSelectionListener(); // To handle row selection logic
+        jPanel1.setName("sidePanel");
+        ThemeManager.applyTheme(this);
+        ThemeManager.updateTableTheme(jTable1);
     }
 
     /**

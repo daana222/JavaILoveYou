@@ -4,6 +4,7 @@
  */
 package Sales_Manager;
 
+import ThemeManager.ThemeManager;
 import java.io.*;
 import java.text.*;
 import java.util.*;
@@ -25,6 +26,8 @@ public class Create_Requisition extends javax.swing.JFrame {
      */
     public Create_Requisition() {
         initComponents();
+        jPanel2.setName("sidePanel");
+        ThemeManager.applyTheme(this);
     }
     
    

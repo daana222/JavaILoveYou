@@ -4,6 +4,7 @@
  */
 package Sales_Manager;
 
+import ThemeManager.ThemeManager;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.io.BufferedReader;
@@ -20,6 +21,9 @@ public class List_Of_Items extends javax.swing.JFrame {
      */
     public List_Of_Items() {
         initComponents();
+        jPanel1.setName("sidePanel");
+        ThemeManager.applyTheme(this);
+        ThemeManager.updateTableTheme(jTable1);
     }
 
     /**

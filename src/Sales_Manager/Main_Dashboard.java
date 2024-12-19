@@ -4,6 +4,8 @@
  */
 package Sales_Manager;
 
+import ThemeManager.ThemeManager;
+
 /**
  *
  * @author Kaushaliya
@@ -18,6 +20,8 @@ public class Main_Dashboard extends javax.swing.JFrame {
     public Main_Dashboard() {
         
         initComponents();
+        jPanel1.setName("sidePanel");
+        ThemeManager.applyTheme(this);
   
 
     }
