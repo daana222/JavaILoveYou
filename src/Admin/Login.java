@@ -12,7 +12,6 @@ import java.io.IOException;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import static javax.swing.text.html.parser.DTDConstants.ID;
 
 
 /**
@@ -281,6 +280,9 @@ try (BufferedReader reader = new BufferedReader(new FileReader("User.txt"))) {
         case "PURCHASE MANAGER":
 //            new Purchase_Manager.PM(ID).setVisible(true);
             break;
+        case "INVENTORY MANAGER":
+//            new Purchase_Manager.PM(ID).setVisible(true);
+            break;
         case "FINANCE MANAGER":
          new financemanagerd.FManager(ID).setVisible(true);
             break;
@@ -318,7 +320,7 @@ try (BufferedReader reader = new BufferedReader(new FileReader("User.txt"))) {
        
         
         btnSalesManager.addActionListener(e -> {
-            //new Sales_Manager.Main_Dashboard("S004").setVisible(true);
+            //new Sales_Manager.Main_Dashboard(String.valueOf(ID)).setVisible(true);
             this.dispose(); // Close RoleSelection window
         });
 
@@ -328,14 +330,14 @@ try (BufferedReader reader = new BufferedReader(new FileReader("User.txt"))) {
         });
 
         btnPurchaseManager.addActionListener(e -> {
-           // new Purchase_Manager.PM("").setVisible(true);
+           // new Purchase_Manager.PM(String.valueOf(ID)).setVisible(true);
             this.dispose(); // Close RoleSelection window
         });
 
         btnFinanceManager.addActionListener(e -> {
 
 
-           new financemanagerd.FManager("F002").setVisible(true);
+           new financemanagerd.FManager(String.valueOf(ID)).setVisible(true);
 
             this.dispose(); // Close RoleSelection window
         });
