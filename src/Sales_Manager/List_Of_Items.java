@@ -4,6 +4,11 @@
  */
 package Sales_Manager;
 
+import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 /**
  *
  * @author Kaushaliya
@@ -152,20 +157,28 @@ public class List_Of_Items extends javax.swing.JFrame {
                 .addComponent(jButton6)
                 .addGap(30, 30, 30)
                 .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(29, Short.MAX_VALUE))
+                .addContainerGap(42, Short.MAX_VALUE))
         );
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null}
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "Item Code", "Item Name", "Quantity in Stock", "Reorder Level", "Suppplier ID", "Reorder Alert"
+                "Item ID", "Item Name", "Current Stock Level", "Suppplier ID", "Reorder Level", "Reorder Alert", "Cost Per Unit", "Selling Price Per Unit", "Last Updated Date"
             }
-        ));
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.String.class, java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+        });
         jTable1.setEditingColumn(5);
         jTable1.setEnabled(false);
         jTable1.setFocusCycleRoot(true);
@@ -173,6 +186,11 @@ public class List_Of_Items extends javax.swing.JFrame {
 
         jButton8.setText("Search");
         jButton8.setName("btnSearch1"); // NOI18N
+        jButton8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton8ActionPerformed(evt);
+            }
+        });
 
         jTextPane1.setName("txtSearch"); // NOI18N
         jScrollPane2.setViewportView(jTextPane1);
@@ -182,6 +200,11 @@ public class List_Of_Items extends javax.swing.JFrame {
 
         jButton9.setText("Generate");
         jButton9.setName("btnGenerate"); // NOI18N
+        jButton9.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton9ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -193,7 +216,7 @@ public class List_Of_Items extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 165, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jButton9)
                         .addGap(18, 18, 18)
                         .addComponent(jButton8)
@@ -201,8 +224,8 @@ public class List_Of_Items extends javax.swing.JFrame {
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(72, 72, 72))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 598, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 656, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(18, Short.MAX_VALUE))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -229,21 +252,21 @@ public class List_Of_Items extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 890, Short.MAX_VALUE)
+            .addGap(0, 936, Short.MAX_VALUE)
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addGap(0, 0, Short.MAX_VALUE)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 0, Short.MAX_VALUE)))
+                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 924, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 500, Short.MAX_VALUE)
+            .addGap(0, 525, Short.MAX_VALUE)
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addGap(0, 0, Short.MAX_VALUE)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 0, Short.MAX_VALUE)))
+                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 513, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
 
         pack();
@@ -290,6 +313,120 @@ public class List_Of_Items extends javax.swing.JFrame {
         listpoFrame.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jButton6ActionPerformed
+
+    private String formatCurrency(String value) {
+    try {
+        double amount = Double.parseDouble(value);
+        return String.format("RM %.2f", amount);
+    } catch (NumberFormatException e) {
+        return "RM 0.00"; // Return default RM value if parsing fails
+    }
+}
+    
+    private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
+         DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+    model.setRowCount(0); // Clear the table before populating
+
+    try (BufferedReader reader = new BufferedReader(new FileReader("items.txt"))) {
+        String line;
+        boolean isFirstLine = true;
+
+        while ((line = reader.readLine()) != null) {
+            if (isFirstLine) {
+                isFirstLine = false; // Skip the header line
+                continue;
+            }
+
+            String[] parts = line.split(",");
+
+            if (parts.length < 8) {
+                continue; // Skip invalid rows
+            }
+
+            // Correct column mapping from items.txt
+            String itemId = parts[0].trim();                // Item ID
+            String itemName = parts[1].trim();              // Item Name
+            String supplierId = parts[2].trim();            // Supplier ID
+            int currentStockLevel = Integer.parseInt(parts[3].trim()); // Current Stock Level
+            int reorderLevel = Integer.parseInt(parts[4].trim());      // Reorder Level
+            String costPerUnit = formatCurrency(parts[5].trim());      // Cost Per Unit (formatted)
+            String sellingPricePerUnit = formatCurrency(parts[6].trim()); // Selling Price Per Unit (formatted)
+            String lastUpdatedDate = parts[7].trim();       // Last Updated Date
+
+            // Determine reorder alert
+            String reorderAlert = (currentStockLevel < reorderLevel) ? "⚠️ Below Reorder Level" : "✅ Stock OK";
+
+            // Add data to the table
+            model.addRow(new Object[]{
+                itemId, itemName, currentStockLevel, supplierId,
+                reorderLevel, reorderAlert, costPerUnit,
+                sellingPricePerUnit, lastUpdatedDate
+            });
+        }
+
+    } catch (IOException e) {
+        JOptionPane.showMessageDialog(this, "Error reading items.txt file: " + e.getMessage(), "File Error", JOptionPane.ERROR_MESSAGE);
+    } catch (NumberFormatException e) {
+        JOptionPane.showMessageDialog(this, "Error parsing number in items.txt: " + e.getMessage(), "Parsing Error", JOptionPane.ERROR_MESSAGE);
+    }
+    }//GEN-LAST:event_jButton9ActionPerformed
+
+    private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
+        String searchId = jTextPane1.getText().trim();
+
+    if (searchId.isEmpty()) {
+        JOptionPane.showMessageDialog(this, "Please enter an Item ID to search.", "Input Error", JOptionPane.WARNING_MESSAGE);
+        return;
+    }
+
+    DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+    model.setRowCount(0); // Clear the table before populating
+
+    try (BufferedReader reader = new BufferedReader(new FileReader("items.txt"))) {
+        String line;
+        boolean isFirstLine = true;
+
+        while ((line = reader.readLine()) != null) {
+            if (isFirstLine) {
+                isFirstLine = false; // Skip header line
+                continue;
+            }
+
+            String[] parts = line.split(",");
+
+            if (parts.length < 8) {
+                continue; // Skip invalid rows
+            }
+
+            // Correct column mapping from items.txt
+            String itemId = parts[0].trim();                // Item ID
+            String itemName = parts[1].trim();              // Item Name
+            String supplierId = parts[2].trim();            // Supplier ID
+            int currentStockLevel = Integer.parseInt(parts[3].trim()); // Current Stock Level
+            int reorderLevel = Integer.parseInt(parts[4].trim());      // Reorder Level
+            String costPerUnit = formatCurrency(parts[5].trim());      // Cost Per Unit (formatted)
+            String sellingPricePerUnit = formatCurrency(parts[6].trim()); // Selling Price Per Unit (formatted)
+            String lastUpdatedDate = parts[7].trim();       // Last Updated Date
+
+            if (itemId.equalsIgnoreCase(searchId)) {
+                // Determine reorder alert
+                String reorderAlert = (currentStockLevel < reorderLevel) ? "⚠️ Below Reorder Level" : "✅ Stock OK";
+
+                // Add matching row to the table
+                model.addRow(new Object[]{
+                    itemId, itemName, currentStockLevel, supplierId,
+                    reorderLevel, reorderAlert, costPerUnit,
+                    sellingPricePerUnit, lastUpdatedDate
+                });
+            }
+        }
+
+    } catch (IOException e) {
+        JOptionPane.showMessageDialog(this, "Error reading items.txt file: " + e.getMessage(), "File Error", JOptionPane.ERROR_MESSAGE);
+    } catch (NumberFormatException e) {
+        JOptionPane.showMessageDialog(this, "Error parsing number in items.txt: " + e.getMessage(), "Parsing Error", JOptionPane.ERROR_MESSAGE);
+    }
+    }//GEN-LAST:event_jButton8ActionPerformed
 
     /**
      * @param args the command line arguments

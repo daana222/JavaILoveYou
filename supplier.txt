@@ -1,0 +1,9 @@
+Supplier ID,Supplier Name,Supplier Registration Date,Supplier Contact,Supplier Email
+SP001,dv,2024-12-12,019345098,dv@gmail.com
+SP002,kausi,2024-12-12,019345098,dv@gmail.com
+SP003,jayana,2024-12-12,019345098,dv@gmail.com
+SP004,dana,2024-12-12,019345098,dv@gmail.com
+SP005,shareen,2024-12-12,019345098,dv@gmail.com
+SP006,kausi and jayana married,2024-12-12,019345098,kaji@gmail.com
+SP007,kausi love jayana,2024-12-12,019345098,kaji@gmail.com
+SP008,kausi is enggaged to jayana,2024-12-12,019345098,dv@gmail.com

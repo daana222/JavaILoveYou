@@ -1,22 +1,31 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
+
 package financemanagerd;
+
+import ThemeManager.ThemeManager;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
  * @author Mitsu
  */
 public class StockStatus extends javax.swing.JFrame {
+    private String ID;
 
     /**
      * Creates new form StockStatus
      */
     public StockStatus() {
         initComponents();
+        jPanel1.setName("sidePanel");
+        ThemeManager.applyTheme(this);
+        ThemeManager.updateTableTheme(stockStatusTable);
         setSize(890, 500);
         setLocationRelativeTo(null); // Center the frame
+        loadStockData();
     }
 
     /**
@@ -30,7 +39,7 @@ public class StockStatus extends javax.swing.JFrame {
 
         jLabel4 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTable2 = new javax.swing.JTable();
+        stockStatusTable = new javax.swing.JTable();
         jButton7 = new javax.swing.JButton();
         jTextField2 = new javax.swing.JTextField();
         jPanel1 = new javax.swing.JPanel();
@@ -50,20 +59,25 @@ public class StockStatus extends javax.swing.JFrame {
 
         jScrollPane2.setBackground(new java.awt.Color(255, 255, 255));
 
-        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+        stockStatusTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null}
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
             },
             new String [] {
-                "Item ID", "Item Name", "Description", "Stock level", "Reorder", "Last Updated"
+                "Item ID", "Item Name", "Stock level", "Reorder", "Unit price"
             }
         ));
-        jScrollPane2.setViewportView(jTable2);
+        jScrollPane2.setViewportView(stockStatusTable);
 
         jButton7.setText("Search");
+        jButton7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton7ActionPerformed(evt);
+            }
+        });
 
         jPanel1.setBackground(new java.awt.Color(0, 0, 102));
 
@@ -169,14 +183,14 @@ public class StockStatus extends javax.swing.JFrame {
                             .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 627, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(52, 52, 52))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(57, 57, 57)
+                        .addGap(40, 40, 40)
                         .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap())))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(32, 32, 32)
+                .addGap(25, 25, 25)
                 .addComponent(jLabel4)
                 .addGap(29, 29, 29)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -195,7 +209,7 @@ public class StockStatus extends javax.swing.JFrame {
 
     private void DashboardbtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DashboardbtnActionPerformed
         // TODO add your handling code here:
-        FManager dashboard = new FManager();
+        FManager dashboard = new FManager(ID);
         dashboard.setVisible(true);
         dispose();
     }//GEN-LAST:event_DashboardbtnActionPerformed
@@ -228,6 +242,93 @@ public class StockStatus extends javax.swing.JFrame {
         dispose();
     }//GEN-LAST:event_SupplierbtnActionPerformed
 
+    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
+        searchStockTable();
+    }//GEN-LAST:event_jButton7ActionPerformed
+
+    private void loadStockData() {
+        String itemsFilePath = "items.txt"; // Adjust the path to your file
+        DefaultTableModel model = (DefaultTableModel) stockStatusTable.getModel();
+        model.setRowCount(0); // Clear any existing rows in the table
+
+        try (BufferedReader reader = new BufferedReader(new FileReader(itemsFilePath))) {
+            String line;
+            boolean isFirstLine = true; // Flag to identify the first line (header)
+
+            while ((line = reader.readLine()) != null) {
+                if (isFirstLine) {
+                    isFirstLine = false; // Skip the header line
+                    continue;
+                }
+
+                String[] columns = line.split(","); // Split the line by comma
+                if (columns.length >= 7) { // Ensure there are enough columns
+                    String itemId = columns[0].trim();        // Item ID
+                    String itemName = columns[1].trim();      // Item Name
+                    String stockLevel = columns[3].trim();    // Stock Level
+                    String reorderLevel = columns[4].trim();  // Reorder Level
+                    String unitPrice = columns[5].trim();     // Unit Price
+
+                    // Add the row to the table
+                    model.addRow(new Object[]{itemId, itemName, stockLevel, reorderLevel, unitPrice});
+                }
+            }
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(this, "Error loading stock data: " + e.getMessage());
+        }
+    }
+    
+    private void searchStockTable() {
+        String searchText = jTextField2.getText().trim().toLowerCase();
+
+        if (searchText.isEmpty()) {
+            loadStockData(); // Reload the original data
+            return;
+        }
+
+        DefaultTableModel model = (DefaultTableModel) stockStatusTable.getModel();
+        DefaultTableModel filteredModel = new DefaultTableModel(
+            new String[]{"Item ID", "Item Name", "Stock level", "Reorder", "Unit price"}, 0
+        );
+
+        for (int i = 0; i < model.getRowCount(); i++) {
+            boolean match = false;
+            for (int j = 0; j < model.getColumnCount(); j++) {
+                Object value = model.getValueAt(i, j);
+                if (value != null && value.toString().toLowerCase().contains(searchText)) {
+                    match = true;
+                    break;
+                }
+            }
+            if (match) {
+                Object[] row = new Object[model.getColumnCount()];
+                for (int j = 0; j < model.getColumnCount(); j++) {
+                    row[j] = model.getValueAt(i, j);
+                }
+                filteredModel.addRow(row);
+            }
+        }
+
+        if (filteredModel.getRowCount() == 0) {
+            JOptionPane.showMessageDialog(this, "No matching data found!", "Search Results", JOptionPane.INFORMATION_MESSAGE);
+            loadStockData(); // Reload the original data if no match is found
+        } else {
+            stockStatusTable.setModel(filteredModel); // Update the table with the filtered data
+        }
+    }
+
+
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     /**
      * @param args the command line arguments
      */
@@ -275,7 +376,7 @@ public class StockStatus extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTable jTable2;
     private javax.swing.JTextField jTextField2;
+    private javax.swing.JTable stockStatusTable;
     // End of variables declaration//GEN-END:variables
 }

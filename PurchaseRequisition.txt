@@ -1,0 +1,3 @@
+PR ID, Item ID, Item Name, Quantity Required, Cost Per Unit, Total Amount, Requisition Date, Supplier ID, Status
+PR001, IT001, Laptop, 100, RM 2,000.00, RM 200,000.00, 15/12/2024, SP001, Pending
+PR001, IT001, car, 5, RM 3.00, RM 15.00, 14/12/2024, Sp001, Pending
