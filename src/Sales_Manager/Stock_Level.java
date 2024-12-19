@@ -10,6 +10,9 @@ import java.io.*;  // For BufferedReader, FileReader, etc.
 import java.text.SimpleDateFormat;  // For date formatting and parsing
 import java.util.Date;  // For the Date object
 import java.util.*;  // For ArrayList, List, etc.
+import Sales_Manager.StockItem;
+import ThemeManager.ThemeManager;
+
 
 
 
@@ -27,43 +30,11 @@ public class Stock_Level extends javax.swing.JFrame {
      */
     public Stock_Level() {
         initComponents();
+        jPanel1.setName("sidePanel");
+        ThemeManager.applyTheme(this);
+        ThemeManager.updateTableTheme(jTable1);
     }
     
-    public class StockItem {
-    private String itemId;
-    private String itemName;
-    private int currentStockLevel;
-    private int reorderLevel;
-    private String lastUpdatedDate;
-
-    public StockItem(String itemId, String itemName, int currentStockLevel, int reorderLevel, String lastUpdatedDate) {
-        this.itemId = itemId;
-        this.itemName = itemName;
-        this.currentStockLevel = currentStockLevel;
-        this.reorderLevel = reorderLevel;
-        this.lastUpdatedDate = lastUpdatedDate;
-    }
-
-    public String getItemId() {
-        return itemId;
-    }
-
-    public String getItemName() {
-        return itemName;
-    }
-
-    public int getCurrentStockLevel() {
-        return currentStockLevel;
-    }
-
-    public int getReorderLevel() {
-        return reorderLevel;
-    }
-
-    public String getLastUpdatedDate() {
-        return lastUpdatedDate;
-    }
-}
     
     // Form component initialization (Button, Table, etc.)
     

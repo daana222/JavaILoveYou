@@ -20,6 +20,7 @@ import org.jfree.data.general.DefaultPieDataset;
  */
 public class Generate_Reports extends javax.swing.JFrame {
     private String ID;
+    private javax.swing.JPanel salesChartPanel;
 
     /**
      * Creates new form Generate_Reports
@@ -30,60 +31,42 @@ public class Generate_Reports extends javax.swing.JFrame {
         jPanel1.setName("sidePanel");
         ThemeManager.applyTheme(this);
 
-        // Dynamically create chart panels
+        // Create and configure the sales chart panel
         salesChartPanel = new javax.swing.JPanel();
-        poChartPanel = new javax.swing.JPanel();
-        userRolesChartPanel = new javax.swing.JPanel();
+        salesChartPanel.setPreferredSize(new java.awt.Dimension(400, 300));
 
-        addPanelsToLayout();
+        // Add the sales chart panel to the layout
+        addSalesPanelToLayout();
 
+        // Display the sales chart
         displaySalesChart();
-        displayPOChart();
-        displayUserRolesChart();
 
     }
 
-    private javax.swing.JPanel salesChartPanel;
-    private javax.swing.JPanel poChartPanel;
-    private javax.swing.JPanel userRolesChartPanel;
+ private void addSalesPanelToLayout() {
+        // Set up layout with only the sales chart panel
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+ // Use a BorderLayout to centre the sales chart panel
+    getContentPane().setLayout(new java.awt.BorderLayout());
+    salesChartPanel.setLayout(new java.awt.GridBagLayout());
 
-    private void addPanelsToLayout() {
-    // Ensure all panels are initialized
-    if (userRolesChartPanel == null) {
-        userRolesChartPanel = new javax.swing.JPanel();
+    getContentPane().add(salesChartPanel, java.awt.BorderLayout.CENTER);
+        layout.setHorizontalGroup(
+            layout.createSequentialGroup()
+                .addGap(40)
+                .addComponent(salesChartPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 400, javax.swing.GroupLayout.PREFERRED_SIZE)
+        );
+
+        
+        layout.setVerticalGroup(
+            layout.createSequentialGroup()
+                .addGap(40)
+                .addComponent(salesChartPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
+        );
     }
-    if (salesChartPanel == null) {
-        salesChartPanel = new javax.swing.JPanel();
-    }
-    if (poChartPanel == null) {
-        poChartPanel = new javax.swing.JPanel();
-    }
 
-    // Set up the layout
-    javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-    getContentPane().setLayout(layout);
-
-    layout.setHorizontalGroup(
-        layout.createSequentialGroup()
-            .addGap(220) // Space for jPanel1
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addComponent(salesChartPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addComponent(userRolesChartPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addComponent(poChartPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE))
-    );
-
-    layout.setVerticalGroup(
-        layout.createSequentialGroup()
-            .addGap(80) // Space for title
-            .addComponent(salesChartPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addGap(20)
-            .addComponent(userRolesChartPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addGap(20)
-            .addComponent(poChartPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
-    );
-
-}
-
+  
 
     private void displaySalesChart() {
         DefaultPieDataset dataset = new DefaultPieDataset();
@@ -93,7 +76,7 @@ public class Generate_Reports extends javax.swing.JFrame {
             while ((line = br.readLine()) != null) {
                 if (isFirstLine) {
                     isFirstLine = false;
-                    continue;
+                    continue; // Skip header line
                 }
                 String[] data = line.split(",");
                 if (data.length >= 6) {
@@ -103,79 +86,19 @@ public class Generate_Reports extends javax.swing.JFrame {
                 }
             }
         } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Error loading sales data.", "Error", JOptionPane.ERROR_MESSAGE);
             e.printStackTrace();
         }
 
         JFreeChart chart = ChartFactory.createPieChart("Sales Distribution", dataset, true, true, false);
         ChartPanel panel = new ChartPanel(chart);
-        panel.setPreferredSize(new java.awt.Dimension(300, 250)); //size
+        panel.setPreferredSize(new java.awt.Dimension(400, 300));
         salesChartPanel.removeAll();
         salesChartPanel.add(panel);
         salesChartPanel.revalidate();
         salesChartPanel.repaint();
     }
 
-    private void displayPOChart() {
-        DefaultCategoryDataset dataset = new DefaultCategoryDataset();
-        try (BufferedReader br = new BufferedReader(new FileReader("PO.txt"))) {
-            String line;
-            boolean isFirstLine = true;
-            while ((line = br.readLine()) != null) {
-                if (isFirstLine) {
-                    isFirstLine = false;
-                    continue;
-                }
-                String[] data = line.split(",");
-                if (data.length >= 11) {
-                    String status = data[10];
-                    dataset.addValue(1, "Count", status);
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        JFreeChart chart = ChartFactory.createBarChart(
-                "Purchase Order Status", "Status", "Count", dataset);
-        chart.setBackgroundPaint(new java.awt.Color(240, 240, 240));
-        chart.getTitle().setPaint(new java.awt.Color(0, 102, 204));
-        ChartPanel panel = new ChartPanel(chart);
-        poChartPanel.removeAll();
-        poChartPanel.add(panel);
-        poChartPanel.revalidate();
-        poChartPanel.repaint();
-    }
-
-    private void displayUserRolesChart() {
-    DefaultCategoryDataset dataset = new DefaultCategoryDataset();
-    try (BufferedReader br = new BufferedReader(new FileReader("User.txt"))) {
-        String line;
-        boolean isFirstLine = true;
-        while ((line = br.readLine()) != null) {
-            if (isFirstLine) {
-                isFirstLine = false;
-                continue;
-            }
-            String[] data = line.split(",");
-            if (data.length >= 7) {
-                String role = data[6];
-                dataset.incrementValue(1, "Count", role); // Update count for each role
-            }
-        }
-    } catch (Exception e) {
-        e.printStackTrace();
-    }
-
-    JFreeChart chart = ChartFactory.createBarChart(
-            "User Roles Distribution", "Role", "Count", dataset);
-    chart.setBackgroundPaint(new java.awt.Color(240, 240, 240));
-    chart.getTitle().setPaint(new java.awt.Color(0, 102, 204));
-    ChartPanel panel = new ChartPanel(chart);
-    userRolesChartPanel.removeAll();
-    userRolesChartPanel.add(panel);
-    userRolesChartPanel.revalidate();
-    userRolesChartPanel.repaint();
-}
 
 
 
@@ -197,8 +120,8 @@ public class Generate_Reports extends javax.swing.JFrame {
         jComboBox1 = new javax.swing.JComboBox<>();
         jButton3 = new javax.swing.JButton();
         jButton5 = new javax.swing.JButton();
+        jLabel12 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
-        jPanel3 = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -259,60 +182,58 @@ public class Generate_Reports extends javax.swing.JFrame {
             }
         });
 
+        jLabel12.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel12.setText("ADMIN");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
-                        .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
-                        .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
-                        .addComponent(jComboBox1, 0, 0, Short.MAX_VALUE))
-                    .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jButton5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButton3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButton1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButton2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jComboBox1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButton4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(69, 69, 69)
+                        .addComponent(jLabel12)))
                 .addContainerGap(12, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap(195, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addGap(41, 41, 41)
+                .addComponent(jLabel12)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addGap(41, 41, 41))
         );
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 240, Short.MAX_VALUE)
+            .addGap(0, 479, Short.MAX_VALUE)
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 250, Short.MAX_VALUE)
-        );
-
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 267, Short.MAX_VALUE)
-        );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGap(0, 357, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -321,29 +242,24 @@ public class Generate_Reports extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 228, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(213, 213, 213))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(55, 55, 55)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(32, 32, 32)
-                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(76, Short.MAX_VALUE))))
+                        .addGap(98, 98, 98))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(20, 20, 20)
                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(80, 80, 80)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(41, 41, 41)
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 540, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 474, Short.MAX_VALUE)
         );
 
         pack();
@@ -351,10 +267,12 @@ public class Generate_Reports extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // res buton
-        Register registerFrame = new Register();
-
-        registerFrame.setVisible(true);
-
+//        Register registerFrame = new Register();
+//
+//        registerFrame.setVisible(true);
+//
+//        this.dispose();
+new Register(ID).setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -426,8 +344,8 @@ public class Generate_Reports extends javax.swing.JFrame {
         // Main_Menu mainMenuFrame = new Main_Menu();
         // mainMenuFrame.setVisible(true); - old code
         // display the id thing
-        new Main_Menu(ID).setVisible(true);
-        this.dispose();
+new Main_Menu().setVisible(true);
+this.dispose();
     }//GEN-LAST:event_jButton5ActionPerformed
 
     /**
@@ -473,9 +391,9 @@ public class Generate_Reports extends javax.swing.JFrame {
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     private javax.swing.JComboBox<String> jComboBox1;
+    private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
     // End of variables declaration//GEN-END:variables
 }

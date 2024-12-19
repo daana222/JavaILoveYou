@@ -6,6 +6,10 @@ import java.io.BufferedWriter;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
@@ -261,7 +265,7 @@ public class Payment extends javax.swing.JFrame {
 
     private void DashboardbtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DashboardbtnActionPerformed
         // TODO add your handling code here:
-        FManager dashboard = new FManager(ID);
+        FManager dashboard = new FManager();
         dashboard.setVisible(true);
         dispose();
     }//GEN-LAST:event_DashboardbtnActionPerformed
@@ -338,33 +342,44 @@ public class Payment extends javax.swing.JFrame {
 
         try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
             String line;
-            boolean isFirstLine = true; // Skip the header row
+            boolean isFirstLine = true;
 
             while ((line = br.readLine()) != null) {
                 if (isFirstLine) {
                     isFirstLine = false;
-                    continue; // Skip the header line
+                    continue; // Skip header line
                 }
 
-                String[] allColumns = line.split(",");
-                if (allColumns.length >= 8) { // Ensure there are enough columns in the row
-                    String paymentId = allColumns[0].trim();
-                    String poId = allColumns[1].trim();
-                    String paymentStatus = allColumns[2].trim();
-                    String paymentDate = allColumns[3].trim();
-                    String dueDate = allColumns[4].trim();
-                    String supplierId = allColumns[5].trim();
-                    String totalItems = allColumns[6].trim();
-                    String totalAmount = allColumns[7].trim();
+                String[] columns = line.split(",");
+                if (columns.length >= 8) {
+                    PaymentClass payment = new PaymentClass(
+                        columns[0].trim(), // paymentId
+                        columns[1].trim(), // poId
+                        columns[5].trim(), // supplierId
+                        columns[6].trim(), // totalItems
+                        columns[7].trim(), // totalAmount
+                        columns[2].trim(), // paymentStatus
+                        columns[4].trim(), // dueDate
+                        columns[3].trim()  // paymentDate
+                    );
 
-                    // Add row to the table
-                    model.addRow(new Object[]{poId, supplierId, totalItems, totalAmount, paymentStatus, dueDate, paymentDate, paymentId});
+                    model.addRow(new Object[] {
+                        payment.getPoId(),
+                        payment.getSupplierId(),
+                        payment.getTotalItems(),
+                        payment.getTotalAmount(),
+                        payment.getPaymentStatus(),
+                        payment.getDueDate(),
+                        payment.getPaymentDate(),
+                        payment.getPaymentId()
+                    });
                 }
             }
         } catch (IOException e) {
             javax.swing.JOptionPane.showMessageDialog(this, "Error loading Payment.txt: " + e.getMessage());
         }
     }
+
 
 
 
@@ -400,48 +415,48 @@ public class Payment extends javax.swing.JFrame {
         }
 
         DefaultTableModel model = (DefaultTableModel) paymentTable.getModel();
-        String status = model.getValueAt(selectedRow, 4).toString(); // Assuming "Payment Status" is in column 4
 
-        if (status.equalsIgnoreCase("Paid") || status.equalsIgnoreCase("Late")) {
+        // Retrieve row details
+        String poNumber = model.getValueAt(selectedRow, 0).toString();
+        String supplierId = model.getValueAt(selectedRow, 1).toString();
+        String totalItems = model.getValueAt(selectedRow, 2).toString();
+        String totalAmount = model.getValueAt(selectedRow, 3).toString();
+        String dueDate = model.getValueAt(selectedRow, 5).toString();
+        String paymentStatus = model.getValueAt(selectedRow, 4).toString();
+
+        if (paymentStatus.equalsIgnoreCase("Paid") || paymentStatus.equalsIgnoreCase("Late")) {
             javax.swing.JOptionPane.showMessageDialog(this, "Payment is already made.");
             return;
         }
 
-        // Retrieve row details
-        String poNumber = model.getValueAt(selectedRow, 0).toString(); // PO ID
-        String supplierId = model.getValueAt(selectedRow, 1).toString(); // Supplier ID
-        String totalAmount = model.getValueAt(selectedRow, 3).toString(); // Total Amount
-        String dueDateStr = model.getValueAt(selectedRow, 5).toString(); // Due Date
-
+        // Generate payment details
         java.text.SimpleDateFormat dateFormat = new java.text.SimpleDateFormat("yyyy-MM-dd");
         String paymentDate = dateFormat.format(new java.util.Date());
         String paymentId = generatePaymentId(model);
 
-        try {
-            java.util.Date dueDate = dateFormat.parse(dueDateStr);
-            java.util.Date currentDate = new java.util.Date();
+        PaymentClass payment = new PaymentClass(
+            paymentId, poNumber, supplierId, totalItems, totalAmount, paymentStatus, dueDate, paymentDate
+        );
 
-            if (currentDate.after(dueDate)) {
-                model.setValueAt("Late", selectedRow, 4); // Set status to "Late"
-            } else {
-                model.setValueAt("Paid", selectedRow, 4); // Set status to "Paid"
-            }
+        // Update Payment Status
+        payment.updatePaymentStatus();
 
-            // Update the table and file
-            updatePaymentDetails(poNumber, model.getValueAt(selectedRow, 4).toString(), paymentDate, paymentId);
+        // Reflect changes in the table
+        model.setValueAt(payment.getPaymentStatus(), selectedRow, 4);
+        model.setValueAt(payment.getPaymentDate(), selectedRow, 6);
+        model.setValueAt(payment.getPaymentId(), selectedRow, 7);
 
-            // Call updateItemsFromPO here to update stock and reorder levels
-            updateItemsFromPO(poNumber);
+        // Update file
+        updatePaymentDetails(payment);
 
-            // Refresh table data
-            loadDataFromFile("Payment.txt");
+        // Update Stock
+        updateItemsFromPO(poNumber);
 
-            // Generate Receipt
-            generateTextReceipt(supplierId, poNumber, totalAmount, dueDateStr, paymentDate, paymentId);
+        // Refresh table data
+        loadDataFromFile("Payment.txt");
 
-        } catch (java.text.ParseException e) {
-            javax.swing.JOptionPane.showMessageDialog(this, "Error parsing due date: " + e.getMessage());
-        }
+        // Generate Receipt
+        generateTextReceipt(supplierId, poNumber, totalAmount, dueDate, payment.getPaymentDate(), payment.getPaymentId());
     }//GEN-LAST:event_makePaymentbtnActionPerformed
 
     
@@ -510,37 +525,35 @@ public class Payment extends javax.swing.JFrame {
     }//GEN-LAST:event_SearchbtnActionPerformed
     
     
-    private void updatePaymentDetails(String poNumber, String newStatus, String paymentDate, String paymentId) {
+    private void updatePaymentDetails(PaymentClass payment) {
         String filePath = "Payment.txt";
 
         try {
-            java.util.List<String> lines = new java.util.ArrayList<>();
+            List<String> lines = new ArrayList<>();
             try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
                 String line;
                 while ((line = reader.readLine()) != null) {
                     String[] columns = line.split(",");
-                    if (columns.length >= 8 && columns[1].trim().equals(poNumber)) {
-                        // Match the PO ID and update columns
-                        columns[2] = newStatus; // Payment Status
-                        columns[3] = paymentDate; // Payment Date
-                        columns[0] = paymentId; // Payment ID
+                    if (columns.length >= 8 && columns[1].trim().equals(payment.getPoId())) {
+                        lines.add(payment.toString()); // Replace with updated payment details
+                    } else {
+                        lines.add(line);
                     }
-                    lines.add(String.join(",", columns)); // Add the updated or unchanged line
                 }
             }
 
-            // Write back updated lines to the file
             try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
                 for (String updatedLine : lines) {
                     writer.write(updatedLine);
                     writer.newLine();
                 }
             }
-            javax.swing.JOptionPane.showMessageDialog(this, "Payment details successfully updated in Payment.txt!");
+            javax.swing.JOptionPane.showMessageDialog(this, "Payment details updated successfully!");
         } catch (IOException e) {
             javax.swing.JOptionPane.showMessageDialog(this, "Error updating Payment.txt: " + e.getMessage());
         }
     }
+
 
 
 
@@ -637,6 +650,9 @@ public class Payment extends javax.swing.JFrame {
 
             // Step 2: Read and update items.txt
             java.util.List<String> updatedLines = new java.util.ArrayList<>();
+            SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+            String currentDate = dateFormat.format(new Date());
+
             try (BufferedReader itemsReader = new BufferedReader(new FileReader(itemsFilePath))) {
                 String line;
                 boolean isFirstLine = true;
@@ -648,10 +664,10 @@ public class Payment extends javax.swing.JFrame {
                     }
 
                     String[] columns = line.split(",");
-                    if (columns.length >= 7) { // Ensure correct structure
+                    if (columns.length >= 8) { // Ensure correct structure
                         String itemId = columns[0].trim(); // Item ID
                         if (itemsToUpdate.containsKey(itemId)) { // Check if this item needs to be updated
-                            int currentStock = Integer.parseInt(columns[2].trim()); // Stock level
+                            int currentStock = Integer.parseInt(columns[3].trim()); // Stock level
                             int reorderLevel = Integer.parseInt(columns[4].trim()); // Reorder level
                             int quantityToAdd = itemsToUpdate.get(itemId);
 
@@ -660,12 +676,15 @@ public class Payment extends javax.swing.JFrame {
                             int newReorderLevel = reorderLevel - quantityToAdd; // Decrease reorder level
                             if (newReorderLevel < 0) newReorderLevel = 0; // Avoid negative reorder level
 
+                            // Update Last Updated Date
+                            columns[7] = currentDate; // Update the last updated date
+
                             // Apply updates
-                            columns[2] = String.valueOf(newStockLevel); // Update stock level
+                            columns[3] = String.valueOf(newStockLevel); // Update stock level
                             columns[4] = String.valueOf(newReorderLevel); // Update reorder level
 
                             // Debugging: Log updates
-                            System.out.println("Updated Item ID: " + itemId + " | New Stock: " + newStockLevel + " | New Reorder Level: " + newReorderLevel);
+                            System.out.println("Updated Item ID: " + itemId + " | New Stock: " + newStockLevel + " | New Reorder Level: " + newReorderLevel + " | Last Updated: " + currentDate);
                         }
                     }
                     updatedLines.add(String.join(",", columns)); // Add updated or unchanged line
