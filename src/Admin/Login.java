@@ -15,7 +15,6 @@ import javax.swing.JOptionPane;
 
 
 
-
 /**
  *
  * @author HP
@@ -281,11 +280,6 @@ try (BufferedReader reader = new BufferedReader(new FileReader("User.txt"))) {
             break;
         case "PURCHASE MANAGER":
 //            new Purchase_Manager.PM(ID).setVisible(true);
-
-            break;
-        case "INVENTORY MANAGER":
-//            new Purchase_Manager.PM(ID).setVisible(true);
-
             break;
         case "FINANCE MANAGER":
          new financemanagerd.FManager(ID).setVisible(true);
@@ -324,7 +318,7 @@ try (BufferedReader reader = new BufferedReader(new FileReader("User.txt"))) {
        
         
         btnSalesManager.addActionListener(e -> {
-            //new Sales_Manager.Main_Dashboard(String.valueOf(ID)).setVisible(true);
+            //new Sales_Manager.Main_Dashboard("S004").setVisible(true);
             this.dispose(); // Close RoleSelection window
         });
 
@@ -334,17 +328,14 @@ try (BufferedReader reader = new BufferedReader(new FileReader("User.txt"))) {
         });
 
         btnPurchaseManager.addActionListener(e -> {
-
-           // new Purchase_Manager.PM(String.valueOf(ID)).setVisible(true);
-
-
+           // new Purchase_Manager.PM("").setVisible(true);
             this.dispose(); // Close RoleSelection window
         });
 
         btnFinanceManager.addActionListener(e -> {
 
 
-           new financemanagerd.FManager(String.valueOf(ID)).setVisible(true);
+           new financemanagerd.FManager("F002").setVisible(true);
 
             this.dispose(); // Close RoleSelection window
         });
