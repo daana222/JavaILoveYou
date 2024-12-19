@@ -4,6 +4,7 @@
  */
 package Sales_Manager;
 
+import ThemeManager.ThemeManager;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import java.io.BufferedReader;
@@ -22,6 +23,9 @@ public class List_Po extends javax.swing.JFrame {
      */
     public List_Po() {
         initComponents();
+        jPanel1.setName("sidePanel");
+        ThemeManager.applyTheme(this);
+        ThemeManager.updateTableTheme(jTable1);
         
     }
 
