@@ -74,7 +74,7 @@ public class FManager extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jPanel1.setBackground(new java.awt.Color(0, 0, 102));
+        jPanel1.setBackground(new java.awt.Color(204, 153, 255));
 
         Dashboardbtn.setBackground(new java.awt.Color(255, 255, 204));
         Dashboardbtn.setText("Dashboard");
@@ -161,6 +161,8 @@ public class FManager extends javax.swing.JFrame {
                 .addGap(28, 28, 28))
         );
 
+        chartPanel.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+
         javax.swing.GroupLayout chartPanelLayout = new javax.swing.GroupLayout(chartPanel);
         chartPanel.setLayout(chartPanelLayout);
         chartPanelLayout.setHorizontalGroup(
@@ -171,6 +173,8 @@ public class FManager extends javax.swing.JFrame {
             chartPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 238, Short.MAX_VALUE)
         );
+
+        secondChartPanel.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
         javax.swing.GroupLayout secondChartPanelLayout = new javax.swing.GroupLayout(secondChartPanel);
         secondChartPanel.setLayout(secondChartPanelLayout);
@@ -183,7 +187,11 @@ public class FManager extends javax.swing.JFrame {
             .addGap(0, 0, Short.MAX_VALUE)
         );
 
-        jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        jPanel4.setBackground(new java.awt.Color(51, 0, 102));
+
+        jLabel2.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setText("Welcome to Finance Manager Dashboard");
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
@@ -211,7 +219,7 @@ public class FManager extends javax.swing.JFrame {
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 64, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 56, Short.MAX_VALUE)
                         .addComponent(chartPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(secondChartPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
