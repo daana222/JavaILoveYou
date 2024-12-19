@@ -768,8 +768,8 @@ model.setValueAt(user.getRole(), row, 6);
         // Main_Menu mainMenuFrame = new Main_Menu();
         // mainMenuFrame.setVisible(true); - old code
         // display the id thing
-       new Main_Menu().setVisible(true);
-this.dispose();
+       new Main_Menu(ID).setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_jButton11ActionPerformed
 
     public void saveToFile() {

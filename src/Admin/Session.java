@@ -9,16 +9,16 @@ package Admin;
  * @author HP
  */
 public class Session {
-     private static String ID;
+     private static String userID;
 
     // Setter for userID
     public static void setID(String ID) {
-        ID = ID;
+        userID = ID;
     }
 
     // Getter for userID
     public static String getID() {
-        return ID;
+        return userID;
     }
 }
 
