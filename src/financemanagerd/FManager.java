@@ -23,6 +23,8 @@ public class FManager extends javax.swing.JFrame {
      */
     public FManager() {
         initComponents();
+
+
         ThemeManager.applyTheme(this);
         setSize(890, 500);
         setLocationRelativeTo(null); // Center the frame
@@ -412,7 +414,7 @@ public class FManager extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new FManager().setVisible(true);
+                new FManager("").setVisible(true);
             }
         });
     }
