@@ -5,14 +5,11 @@
 package Admin;
 
 import ThemeManager.ThemeManager;
-import java.awt.BorderLayout;
-import java.awt.FlowLayout;
-import javax.swing.JFrame;
+import financemanagerd.FManager;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
-import javax.swing.text.html.HTML;
-import static org.jfree.ui.UIUtilities.setupUI;
+
 
 /**
  *
@@ -24,54 +21,18 @@ public class Main_Menu extends javax.swing.JFrame {
     /**
      * Creates new form Main_Menu
      */
-    public Main_Menu(String ID) {
-        // get the id to display
-        this.ID = ID;
+    public Main_Menu() {
+      
+      
         initComponents();
-         setupUI(); 
-        //the top panel display 
-    setTitle("Admin Main Menu - User ID: " + ID);
-  
-// jplanel thing
-    JLabel welcomeLabel = new JLabel("Welcome Admin", SwingConstants.CENTER);
-    welcomeLabel.setFont(new java.awt.Font("Segoe UI", java.awt.Font.BOLD, 20));
-    welcomeLabel.setForeground(java.awt.Color.BLACK);
-
-     // ID Label
-    JLabel idLabel = new JLabel("ID: " + ID, SwingConstants.CENTER);
-    idLabel.setFont(new java.awt.Font("Segoe UI", java.awt.Font.PLAIN, 16));
-    idLabel.setForeground(java.awt.Color.BLACK);
-
-    // Set the layout /positions
-    jPanel1.setLayout(null);
-
-    // Add Welcome, the top
-    welcomeLabel.setBounds(10, 10, jPanel1.getWidth() - 20, 30);
-    jPanel1.add(welcomeLabel);
-
-    // Add ID below Welcome
-    idLabel.setBounds(10, 45, jPanel1.getWidth() - 20, 30);
-    jPanel1.add(idLabel);
-
-    // Ensure the labels are brought to the front
-    jPanel1.setComponentZOrder(welcomeLabel, 0);
-    jPanel1.setComponentZOrder(idLabel, 0);
-
-    // Frame settings
-    setSize(890, 600); 
-    setLocationRelativeTo(null); // Center the frame on the screen
-    setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+         String ID = Session.getID();
+    // Display the User ID dynamically on the label
+    jLabel5.setText("USER ID: " + ID);
+    
     jPanel1.setName("sidePanel");
     ThemeManager.applyTheme(this);
     setVisible(true);
 }   
-     public Main_Menu() {
-        this("ID not found"); // Default to "Unknown" ID if no ID is provided
-    }
-
-    Main_Menu(HTML.Attribute ID) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
 
       
     /**
@@ -92,6 +53,8 @@ public class Main_Menu extends javax.swing.JFrame {
         jComboBox1 = new javax.swing.JComboBox<>();
         jButton3 = new javax.swing.JButton();
         jButton5 = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
 
@@ -150,26 +113,44 @@ public class Main_Menu extends javax.swing.JFrame {
             }
         });
 
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel1.setText("ADMIN");
+
+        jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jLabel5.setText("USER ID :");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
-                        .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
-                        .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
-                        .addComponent(jComboBox1, 0, 0, Short.MAX_VALUE))
-                    .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
+                                .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
+                                .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
+                                .addComponent(jComboBox1, 0, 0, Short.MAX_VALUE))
+                            .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(47, 47, 47)
+                        .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(66, 66, 66)
+                        .addComponent(jLabel1)))
                 .addContainerGap(12, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -185,7 +166,7 @@ public class Main_Menu extends javax.swing.JFrame {
         );
 
         jLabel3.setBackground(new java.awt.Color(0, 0, 153));
-        jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 34)); // NOI18N
+        jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 30)); // NOI18N
         jLabel3.setText("  WELCOME TO NEXUS SDN BHD (NSB)");
         jLabel3.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
 
@@ -197,24 +178,26 @@ public class Main_Menu extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(80, 80, 80)
+                        .addGap(64, 64, 64)
                         .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 493, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 646, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 569, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(23, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 505, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 468, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
                 .addGap(28, 28, 28)
                 .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(41, 41, 41)
+                .addGap(18, 18, 18)
                 .addComponent(jLabel4)
-                .addContainerGap(43, Short.MAX_VALUE))
+                .addContainerGap(29, Short.MAX_VALUE))
         );
 
         pack();
@@ -223,11 +206,13 @@ public class Main_Menu extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
       // res buton
        // res buton
-       Register registerFrame = new Register();
+      // Register registerFrame = new Register();
         
-        registerFrame.setVisible(true);
-        
+       // registerFrame.setVisible(true);
+        new Register(ID).setVisible(true);
         this.dispose();
+        
+       
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
@@ -300,18 +285,24 @@ public class Main_Menu extends javax.swing.JFrame {
     // Main_Menu mainMenuFrame = new Main_Menu();
        // mainMenuFrame.setVisible(true); - old code
        // display the id thing
-        new Main_Menu(ID).setVisible(true);
-        this.dispose();        
+        new Main_Menu().setVisible(true);
+        this.dispose();       
     }//GEN-LAST:event_jButton5ActionPerformed
+//public Main_Menu() {
+ //   this("DefaultID"); // Provide a default placeholder ID
 
     /**
      * @param args the command line arguments
      */
     public static void main(String args[]) {
+      //   java.awt.EventQueue.invokeLater(() -> new Main_Menu("DefaultID").setVisible(true));
+        
+      
     
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Main_Menu("A001").setVisible(true);// Test with a dummy ID
+                
+                new Main_Menu().setVisible(true);// Test with a dummy ID
             }
         });
     }
@@ -323,8 +314,10 @@ public class Main_Menu extends javax.swing.JFrame {
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     private javax.swing.JComboBox<String> jComboBox1;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
     // End of variables declaration//GEN-END:variables
 }
