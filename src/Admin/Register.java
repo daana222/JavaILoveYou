@@ -39,7 +39,7 @@ public class Register extends javax.swing.JFrame {
     
     model.setColumnIdentifiers(columnName);
     initComponents();
-    jLabel5.setText("USER ID: " + ID);
+  //  jLabel5.setText("USER ID: " + ID);
     
  jPanel1.setName("sidePanel");
        ThemeManager.applyTheme(this);
