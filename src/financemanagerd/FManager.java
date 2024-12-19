@@ -23,6 +23,7 @@ public class FManager extends javax.swing.JFrame {
     public FManager(String ID) {
         this.ID = ID;
         initComponents();
+
 //// Create a new panel for the welcome and ID labels
 //javax.swing.JPanel topPanel = new javax.swing.JPanel();
 //topPanel.setBackground(new java.awt.Color(255, 255, 255));
@@ -53,6 +54,7 @@ public class FManager extends javax.swing.JFrame {
 //setVisible(true);
 //
 //jPanel1.setName("sidePanel");
+
 
         ThemeManager.applyTheme(this);
         setSize(890, 500);
@@ -100,6 +102,7 @@ public class FManager extends javax.swing.JFrame {
         jLabel7 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         LogoutBtn = new javax.swing.JButton();
+        jLabel2 = new javax.swing.JLabel();
         chartPanel = new javax.swing.JPanel();
         secondChartPanel = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
@@ -160,6 +163,8 @@ public class FManager extends javax.swing.JFrame {
         LogoutBtn.setForeground(new java.awt.Color(255, 255, 255));
         LogoutBtn.setText("Logout");
 
+        jLabel2.setText("User ID");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -169,6 +174,7 @@ public class FManager extends javax.swing.JFrame {
             .addComponent(Stockbtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(Paymentbtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(Dashboardbtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(LogoutBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
@@ -176,9 +182,11 @@ public class FManager extends javax.swing.JFrame {
                         .addComponent(jLabel7))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(44, 44, 44)
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(55, 55, 55)
+                        .addComponent(jLabel2)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addComponent(LogoutBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -187,7 +195,9 @@ public class FManager extends javax.swing.JFrame {
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel7)
-                .addGap(61, 61, 61)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel2)
+                .addGap(39, 39, 39)
                 .addComponent(PObtn)
                 .addGap(18, 18, 18)
                 .addComponent(Stockbtn)
@@ -480,7 +490,7 @@ public class FManager extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new FManager().setVisible(true);
+                new FManager("").setVisible(true);
             }
         });
     }
@@ -494,6 +504,7 @@ public class FManager extends javax.swing.JFrame {
     private javax.swing.JButton Supplierbtn;
     private javax.swing.JPanel chartPanel;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;

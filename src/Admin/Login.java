@@ -12,7 +12,8 @@ import java.io.IOException;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import static javax.swing.text.html.HTML.Attribute.ID;
+import static javax.swing.text.html.parser.DTDConstants.ID;
+
 
 /**
  *
@@ -214,49 +215,53 @@ public class Login extends javax.swing.JFrame {
         boolean loginSuccessful = false;
     String role = ""; // read role 
     String ID = "";// read ID both matchs
+    
+    
 
-try (BufferedReader reader = new BufferedReader(new FileReader("User.txt"))) { // get from file txt
+try (BufferedReader reader = new BufferedReader(new FileReader("User.txt"))) {
     String line;
     while ((line = reader.readLine()) != null) {
-       // System.out.println("File Line: " + line); // this is for Debugging: Print each line
-        
+        // Split the line to get user details
         String[] userDetails = line.split(",");
-        if (userDetails.length >= 7) {
-            String fileUsername = userDetails[4].trim();
-            String filePassword = userDetails[5].trim();
+        
+        if (userDetails.length >= 7) { // Ensure all fields exist
+            User user = new User(
+                userDetails[0].trim(), // ID
+                userDetails[1].trim(), // Full Name
+                userDetails[2].trim(), // Phone Number
+                userDetails[3].trim(), // Address (Email here)
+                userDetails[4].trim(), // Username
+                userDetails[5].trim(), // Password
+                userDetails[6].trim()  // Role
+            );
 
-           // System.out.println("Username: " + fileUsername + ", Password: " + filePassword); // Debugging thery will show dont there ,,, to be confirm only
-
-
-           // both true = login
-            if (username.equals(fileUsername) && password.equals(filePassword)) {
+            // Match username and password
+            if (username.equals(user.getUsername()) && password.equals(user.getPassword())) {
                 loginSuccessful = true;
-                role = userDetails[6].trim().toUpperCase();
-                ID = userDetails[0].trim();
+                role = user.getRole();
+                ID = user.getId(); // Get the user ID from the User object
                 break;
             }
-
-        } else {
-            System.out.println("Invalid Line Format: " + line); // Debugging: Invalid like where line
         }
     }
 } catch (IOException e) {
-    JOptionPane.showMessageDialog(this, "Error in reading user data: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+    JOptionPane.showMessageDialog(this, "Error reading user data: " + e.getMessage(), "File Error", JOptionPane.ERROR_MESSAGE);
     return;
 }
 
 // part og login         
-         if (loginSuccessful) {
-            JOptionPane.showMessageDialog(this, "Login Successful!");
-             if (role.equalsIgnoreCase("ADMIN")) {
-            new RoleSelection().setVisible(true); 
-        } else {
-            redirectToMainMenu(role, ID); 
-        }
-        this.dispose();
-    } else {
-        JOptionPane.showMessageDialog(this, "Invalid Username or Password", "Login Failed", JOptionPane.ERROR_MESSAGE);
-         }
+       if (loginSuccessful) {
+    JOptionPane.showMessageDialog(this, "Login Successful!");
+
+    if (role.equalsIgnoreCase("ADMIN")) {
+    new RoleSelection(ID).setVisible(true); // Open RoleSelection for the Admin
+} else {
+    redirectToMainMenu(role, ID); // For other roles, direct to respective main menus
+}
+    this.dispose();
+} else {
+    JOptionPane.showMessageDialog(this, "Invalid Username or Password", "Login Failed", JOptionPane.ERROR_MESSAGE);
+}
  
 
          
@@ -274,7 +279,7 @@ try (BufferedReader reader = new BufferedReader(new FileReader("User.txt"))) { /
           //  new Sales_Manager.Main_Dashboard(ID).setVisible(true);
             break;
         case "PURCHASE MANAGER":
-            new Purchase_Manager.PM(ID).setVisible(true);
+//            new Purchase_Manager.PM(ID).setVisible(true);
             break;
         case "FINANCE MANAGER":
          new financemanagerd.FManager(ID).setVisible(true);
@@ -288,10 +293,10 @@ try (BufferedReader reader = new BufferedReader(new FileReader("User.txt"))) { /
 
     // the buttons all in admin = to choose where to go
     public class RoleSelection extends JFrame {
-       
+       private String ID;
 
-    public RoleSelection() {
-        
+    public RoleSelection(String ID) {
+        this.ID = ID;
         setTitle("Select a Role");
         setSize(400, 300);
         setLayout(new GridLayout(5, 1, 10, 10));
@@ -323,7 +328,7 @@ try (BufferedReader reader = new BufferedReader(new FileReader("User.txt"))) { /
         });
 
         btnPurchaseManager.addActionListener(e -> {
-            new Purchase_Manager.PM("P002").setVisible(true);
+           // new Purchase_Manager.PM("").setVisible(true);
             this.dispose(); // Close RoleSelection window
         });
 
@@ -336,11 +341,11 @@ try (BufferedReader reader = new BufferedReader(new FileReader("User.txt"))) { /
         });
 
         // will lead to admin page
-        btnAdmin.addActionListener(e -> {
-            
-            new Admin.Main_Menu("U001").setVisible(true);
-            this.dispose(); // Close RoleSelection window
-        });
+     btnAdmin.addActionListener(e -> {
+    new Admin.Main_Menu(String.valueOf(ID)).setVisible(true);
+    this.dispose();
+
+});
 
 
         setLocationRelativeTo(null);
@@ -440,7 +445,8 @@ try (BufferedReader reader = new BufferedReader(new FileReader("User.txt"))) { /
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        java.awt.EventQueue.invokeLater(() -> new Login().setVisible(true));
+        java.awt.EventQueue.invokeLater(() -> 
+                new Login().setVisible(true));
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
