@@ -12,6 +12,8 @@ import java.io.IOException;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+=======
+
 
 
 /**
@@ -279,9 +281,11 @@ try (BufferedReader reader = new BufferedReader(new FileReader("User.txt"))) {
             break;
         case "PURCHASE MANAGER":
 //            new Purchase_Manager.PM(ID).setVisible(true);
+
             break;
         case "INVENTORY MANAGER":
 //            new Purchase_Manager.PM(ID).setVisible(true);
+
             break;
         case "FINANCE MANAGER":
          new financemanagerd.FManager(ID).setVisible(true);
@@ -330,7 +334,10 @@ try (BufferedReader reader = new BufferedReader(new FileReader("User.txt"))) {
         });
 
         btnPurchaseManager.addActionListener(e -> {
+
            // new Purchase_Manager.PM(String.valueOf(ID)).setVisible(true);
+
+
             this.dispose(); // Close RoleSelection window
         });
 

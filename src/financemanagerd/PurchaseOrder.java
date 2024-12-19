@@ -284,7 +284,7 @@ public class PurchaseOrder extends javax.swing.JFrame {
     
     private void DashboardbtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DashboardbtnActionPerformed
         // TODO add your handling code here:
-        FManager dashboard = new FManager(ID);
+        FManager dashboard = new FManager();
         dashboard.setVisible(true);
         dispose();
     }//GEN-LAST:event_DashboardbtnActionPerformed
