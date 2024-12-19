@@ -253,8 +253,6 @@ try (BufferedReader reader = new BufferedReader(new FileReader("User.txt"))) {
        if (loginSuccessful) {
     JOptionPane.showMessageDialog(this, "Login Successful!");
 
-     Session.setID(ID);
-     
     if (role.equalsIgnoreCase("ADMIN")) {
     new RoleSelection(ID).setVisible(true); // Open RoleSelection for the Admin
 } else {
@@ -275,7 +273,7 @@ try (BufferedReader reader = new BufferedReader(new FileReader("User.txt"))) {
     private void redirectToMainMenu(String role, String ID) {
     switch (role.toUpperCase()) {
         case "ADMIN":
-            new Admin.Main_Menu().setVisible(true); // Pass the dynamic ID here
+            new Admin.Main_Menu(ID).setVisible(true); // Pass the dynamic ID here
             break;
         case "SALES MANAGER":
           //  new Sales_Manager.Main_Dashboard(ID).setVisible(true);
@@ -299,7 +297,7 @@ try (BufferedReader reader = new BufferedReader(new FileReader("User.txt"))) {
 
     public RoleSelection(String ID) {
         this.ID = ID;
-       setTitle("Select a Role");
+        setTitle("Select a Role");
         setSize(400, 300);
         setLayout(new GridLayout(5, 1, 10, 10));
 
@@ -317,34 +315,38 @@ try (BufferedReader reader = new BufferedReader(new FileReader("User.txt"))) {
         add(btnFinanceManager);
         add(btnAdmin);
 
-        // Actions for each role
+       
+        
         btnSalesManager.addActionListener(e -> {
-            // Open Sales Manager dashboard
-            // new Sales_Manager.Main_Dashboard(ID).setVisible(true);
-            this.dispose();
+            //new Sales_Manager.Main_Dashboard("S004").setVisible(true);
+            this.dispose(); // Close RoleSelection window
         });
 
         btnInventoryManager.addActionListener(e -> {
-            // Open Inventory Manager dashboard
-            JOptionPane.showMessageDialog(this, "Inventory Manager not implemented yet!");
-            this.dispose();
+            //JOptionPane.showMessageDialog(this, "Inventory Manager not implemented!", "Error", JOptionPane.ERROR_MESSAGE);
+            this.dispose(); // Close RoleSelection window even if not implemented
         });
 
         btnPurchaseManager.addActionListener(e -> {
-            // Open Purchase Manager dashboard
-            // new Purchase_Manager.PM(ID).setVisible(true);
-            this.dispose();
+           // new Purchase_Manager.PM("").setVisible(true);
+            this.dispose(); // Close RoleSelection window
         });
 
         btnFinanceManager.addActionListener(e -> {
-            new financemanagerd.FManager(ID).setVisible(true); // Pass ID to Finance Manager
-            this.dispose();
+
+
+           new financemanagerd.FManager("F002").setVisible(true);
+
+            this.dispose(); // Close RoleSelection window
         });
 
-        btnAdmin.addActionListener(e -> {
-            new Admin.Main_Menu().setVisible(true); // Admin Main Menu
-            this.dispose();
-        });
+        // will lead to admin page
+     btnAdmin.addActionListener(e -> {
+    new Admin.Main_Menu(String.valueOf(ID)).setVisible(true);
+    this.dispose();
+
+});
+
 
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
