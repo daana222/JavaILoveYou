@@ -282,7 +282,7 @@ try (BufferedReader reader = new BufferedReader(new FileReader("User.txt"))) {
 //            new Purchase_Manager.PM(ID).setVisible(true);
             break;
         case "FINANCE MANAGER":
-         new financemanagerd.FManager(ID).setVisible(true);
+//         new financemanagerd.FManager(ID).setVisible(true);
             break;
         default:
             JOptionPane.showMessageDialog(this, "Does not exits : " + role, "Error. Please choose propely", JOptionPane.ERROR_MESSAGE);
@@ -334,9 +334,9 @@ try (BufferedReader reader = new BufferedReader(new FileReader("User.txt"))) {
 
         btnFinanceManager.addActionListener(e -> {
 
-
-           new financemanagerd.FManager("F002").setVisible(true);
-
+//      
+//           new financemanagerd.FManager("F002").setVisible(true);
+//
             this.dispose(); // Close RoleSelection window
         });
 
